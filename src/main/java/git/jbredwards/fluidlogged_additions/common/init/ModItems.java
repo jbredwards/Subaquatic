@@ -2,6 +2,7 @@ package git.jbredwards.fluidlogged_additions.common.init;
 
 import git.jbredwards.fluidlogged_additions.util.Constants;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,8 @@ public enum ModItems
     //item init
     public static final List<Item> INIT = new ArrayList<>();
 
-    public static final Item NAUTILUS_SHELL = register("nautilus_shell", new Item());
+    //item-blocks
+    public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(ModBlocks.NAUTILUS_SHELL));
 
     //prepares the item for registration
     public static <I extends Item> I register(String name, I item) {

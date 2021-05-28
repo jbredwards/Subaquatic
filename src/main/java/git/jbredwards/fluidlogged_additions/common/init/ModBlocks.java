@@ -1,6 +1,8 @@
 package git.jbredwards.fluidlogged_additions.common.init;
 
 import git.jbredwards.fluidlogged_additions.common.block.BlockCoralFull;
+import git.jbredwards.fluidlogged_additions.common.block.BlockNautilusShell;
+import git.jbredwards.fluidlogged_additions.common.block.Properties;
 import git.jbredwards.fluidlogged_additions.util.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -34,16 +36,22 @@ public enum ModBlocks
     public static final BlockCoralFull DEAD_FIRE_CORAL_BLOCK =   register("dead_fire_coral_block", BlockCoralFull.class, new ItemBlock(new BlockCoralFull(null, Material.PLANTS, MapColor.RED)));
     public static final BlockCoralFull DEAD_HORN_CORAL_BLOCK =   register("dead_horn_coral_block", BlockCoralFull.class, new ItemBlock(new BlockCoralFull(null, Material.PLANTS, MapColor.YELLOW)));
 */
-    //prepares the item-block for registration
-    public static <B extends Block> B register(String name, Class<B> returnType, ItemBlock item) {
-        ModItems.register(name, item);
-        return register(name, (B)item.getBlock());
-    }
+    public static final BlockNautilusShell NAUTILUS_SHELL = register("nautilus_shell", new BlockNautilusShell(Material.CORAL, MapColor.BROWN));
 
     //prepares the block for registration
     public static <B extends Block> B register(String name, B block) {
         block.setRegistryName(name).setUnlocalizedName(Constants.MODID + "." + name).setCreativeTab(CreativeTab.INSTANCE);
         INIT.add(block);
+
+        return block;
+    }
+
+    //for setting up blocks
+    public static <B extends Block> B setup(Properties prop, B block) {
+        block.setHarvestLevel(prop.tool, prop.level);
+        block.setHardness(prop.hardness);
+        block.setResistance(prop.resistance);
+        block.setLightLevel(prop.lightLevel);
 
         return block;
     }

@@ -17,13 +17,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Objects;
 
+import static git.jbredwards.fluidlogged_additions.util.Constants.MODID;
+
 /**
  *
  * @author jbred
  *
  */
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = Constants.MODID)
+@Mod.EventBusSubscriber(modid = MODID)
 public final class RegistryHandler
 {
     @SubscribeEvent
@@ -33,7 +35,7 @@ public final class RegistryHandler
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        //event.getRegistry().registerAll(ModBlocks.INIT.toArray(new Block[0]));
+        event.getRegistry().registerAll(ModBlocks.INIT.toArray(new Block[0]));
     }
 
     @SideOnly(Side.CLIENT)
