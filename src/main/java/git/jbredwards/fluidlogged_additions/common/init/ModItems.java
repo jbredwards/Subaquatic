@@ -19,7 +19,21 @@ public enum ModItems
     //item init
     public static final List<Item> INIT = new ArrayList<>();
 
-    //item-blocks
+    //coral
+    public static final ItemBlock TUBE_CORAL_BLOCK =   register("tube_coral_block",   new ItemBlock(ModBlocks.TUBE_CORAL_BLOCK));
+    public static final ItemBlock BRAIN_CORAL_BLOCK =  register("brain_coral_block",  new ItemBlock(ModBlocks.BRAIN_CORAL_BLOCK));
+    public static final ItemBlock BUBBLE_CORAL_BLOCK = register("bubble_coral_block", new ItemBlock(ModBlocks.BUBBLE_CORAL_BLOCK));
+    public static final ItemBlock FIRE_CORAL_BLOCK =   register("fire_coral_block",   new ItemBlock(ModBlocks.FIRE_CORAL_BLOCK));
+    public static final ItemBlock HORN_CORAL_BLOCK =   register("horn_coral_block",   new ItemBlock(ModBlocks.HORN_CORAL_BLOCK));
+    public static final ItemBlock DEAD_TUBE_CORAL_BLOCK =   register("dead_tube_coral_block",   new ItemBlock(ModBlocks.DEAD_TUBE_CORAL_BLOCK));
+    public static final ItemBlock DEAD_BRAIN_CORAL_BLOCK =  register("dead_brain_coral_block",  new ItemBlock(ModBlocks.DEAD_BRAIN_CORAL_BLOCK));
+    public static final ItemBlock DEAD_BUBBLE_CORAL_BLOCK = register("dead_bubble_coral_block", new ItemBlock(ModBlocks.DEAD_BUBBLE_CORAL_BLOCK));
+    public static final ItemBlock DEAD_FIRE_CORAL_BLOCK =   register("dead_fire_coral_block",   new ItemBlock(ModBlocks.DEAD_FIRE_CORAL_BLOCK));
+    public static final ItemBlock DEAD_HORN_CORAL_BLOCK =   register("dead_horn_coral_block",   new ItemBlock(ModBlocks.DEAD_HORN_CORAL_BLOCK));
+
+    //blocks
+
+    //misc item-blocks
     public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(ModBlocks.NAUTILUS_SHELL));
 
     //prepares the item for registration

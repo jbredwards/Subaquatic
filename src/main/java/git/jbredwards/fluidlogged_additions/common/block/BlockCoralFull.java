@@ -27,7 +27,7 @@ public class BlockCoralFull extends Block implements IGrowable
     //null if this block is dead
     @Nullable public final Fluid fluid;
     //the block that corresponds to this
-    @Nonnull public BlockCoralFull corresponding;
+    @Nonnull public BlockCoralFull corresponding = this;
 
     public BlockCoralFull(@Nullable Fluid fluid, Material blockMaterialIn, MapColor blockMapColorIn) {
         super(blockMaterialIn, blockMapColorIn);
@@ -46,12 +46,18 @@ public class BlockCoralFull extends Block implements IGrowable
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         //makes this dead if no fluid is around
-        if(fluid != null && !isUnderwater(worldIn, pos)) {
+        if(!isDead(worldIn, pos, state) && !isUnderwater(worldIn, pos)) {
             worldIn.setBlockState(pos, corresponding.getDefaultState());
         }
     }
 
-    protected boolean isUnderwater(World world, BlockPos pos) {
+    //should be called for each block using this class
+    public void setCorresponding(BlockCoralFull correspondingIn) {
+        this.corresponding = correspondingIn;
+        correspondingIn.corresponding = this;
+    }
+
+    public boolean isUnderwater(@Nonnull World world, @Nonnull BlockPos pos) {
         //checks sides
         for(EnumFacing facing : EnumFacing.values()) {
             IBlockState state = world.getBlockState(pos.offset(facing));
@@ -62,9 +68,13 @@ public class BlockCoralFull extends Block implements IGrowable
         return false;
     }
 
+    public boolean isDead(World world, BlockPos pos, IBlockState state) {
+        return fluid == null;
+    }
+
     @Override
     public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
-        return fluid == null && isUnderwater(worldIn, pos);
+        return isDead(worldIn, pos, state) && isUnderwater(worldIn, pos);
     }
 
     @Override

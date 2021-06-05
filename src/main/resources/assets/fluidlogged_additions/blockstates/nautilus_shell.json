@@ -1,11 +1,10 @@
 { 
    "forge_marker":1,
    "defaults":{ 
-      "model":"waterlily",
+      "model":"fluidlogged_additions:nautilus_shell",
       "textures":{ 
          "layer0":"fluidlogged_additions:items/nautilus_shell",
-         "texture":"#layer0",
-         "particle":"#layer0"
+         "texture":"#layer0"
       }
    },
    "variants":{ 
@@ -15,10 +14,10 @@
          "90":  { "y": 270 },
          "180": { },
          "270": { "y": 90 },
-         "45":  { "model":"fluidlogged_additions:waterlily_45", "y": 270 },
-         "135": { "model":"fluidlogged_additions:waterlily_45" },
-         "225": { "model":"fluidlogged_additions:waterlily_45", "y": 90 },
-         "315": { "model":"fluidlogged_additions:waterlily_45", "y": 180 }
+         "45":  { "model":"fluidlogged_additions:nautilus_shell_45", "y": 270 },
+         "135": { "model":"fluidlogged_additions:nautilus_shell_45" },
+         "225": { "model":"fluidlogged_additions:nautilus_shell_45", "y": 90 },
+         "315": { "model":"fluidlogged_additions:nautilus_shell_45", "y": 180 }
       }
    }
 }

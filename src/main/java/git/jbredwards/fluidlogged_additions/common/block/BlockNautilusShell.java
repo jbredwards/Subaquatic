@@ -11,14 +11,11 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,17 +33,16 @@ public class BlockNautilusShell extends Block implements IFluidloggable
 {
     public static final PropertyEnum<Rot> ROTATION = PropertyEnum.create("rotation", Rot.class);
     public static final AxisAlignedBB AABB = new AxisAlignedBB(0.0625, 0, 0.0625, 0.9375, 0.09375, 0.9375);
-    public static final SoundType SOUND = new SoundType(1, 1, SoundEvents.ENTITY_ITEM_PICKUP, SoundEvents.BLOCK_STONE_STEP, SoundEvents.ENTITY_ITEM_PICKUP, SoundEvents.BLOCK_STONE_HIT, SoundEvents.BLOCK_STONE_FALL);
 
     public BlockNautilusShell(Material blockMaterialIn, MapColor blockMapColorIn) {
         super(blockMaterialIn, blockMapColorIn);
-        setSoundType(SOUND);
+        setSoundType(SoundType.STONE);
         setDefaultState(getDefaultState().withProperty(ROTATION, Rot.DEG_0));
     }
 
     public BlockNautilusShell(Material materialIn) {
         super(materialIn);
-        setSoundType(SOUND);
+        setSoundType(SoundType.STONE);
         setDefaultState(getDefaultState().withProperty(ROTATION, Rot.DEG_0));
     }
 
@@ -101,18 +97,6 @@ public class BlockNautilusShell extends Block implements IFluidloggable
     @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
-        return !Minecraft.getMinecraft().player.isCreative();
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
-        return !Minecraft.getMinecraft().player.isCreative();
     }
 
     @SideOnly(Side.CLIENT)

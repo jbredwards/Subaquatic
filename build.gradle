@@ -61,3 +61,11 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+//asm
+jar {
+    manifest {
+        attributes(
+            "FMLAT": "fluidlogged_additions_at.cfg"
+        )
+    }
+}
