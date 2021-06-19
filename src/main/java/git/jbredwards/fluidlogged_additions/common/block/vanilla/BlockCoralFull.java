@@ -1,4 +1,4 @@
-package git.jbredwards.fluidlogged_additions.common.block;
+package git.jbredwards.fluidlogged_additions.common.block.vanilla;
 
 import git.jbredwards.fluidlogged_api.util.FluidloggedUtils;
 import net.minecraft.block.Block;
@@ -61,14 +61,21 @@ public class BlockCoralFull extends Block implements IGrowable
         //checks sides
         for(EnumFacing facing : EnumFacing.values()) {
             IBlockState state = world.getBlockState(pos.offset(facing));
-            if(FluidloggedUtils.getFluidFromBlock(state.getBlock())== fluid) return true;
+            Fluid fluid = FluidloggedUtils.getFluidFromBlock(state.getBlock());
+            boolean isDead = isDead(world, pos, null);
+
+            //dead
+            if(isDead && fluid == corresponding.fluid) return true;
+            //alive
+            else if(!isDead && fluid == this.fluid) return true;
         }
 
         //default
         return false;
     }
 
-    public boolean isDead(World world, BlockPos pos, IBlockState state) {
+    @SuppressWarnings("unused")
+    public boolean isDead(@Nullable World world, @Nullable BlockPos pos, @Nullable IBlockState state) {
         return fluid == null;
     }
 

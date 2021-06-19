@@ -71,7 +71,7 @@ public final class Properties<B extends Block>
     }
 
     //call void at the same line as the constructor
-    public Properties<B> run(Consumer<B> func) {
+    public Properties<B> func(Consumer<B> func) {
         this.func = func;
         return this;
     }

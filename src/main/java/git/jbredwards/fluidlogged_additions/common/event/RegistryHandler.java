@@ -28,6 +28,7 @@ public final class RegistryHandler
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(ModItems.INIT.toArray(new Item[0]));
+        ModItems.registerOreDict();
     }
 
     @SuppressWarnings("unused")
