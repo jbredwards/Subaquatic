@@ -1,6 +1,6 @@
 package git.jbredwards.fluidlogged_additions.common.block;
 
-import git.jbredwards.fluidlogged.common.block.AbstractFluidloggedBlock;
+import git.jbredwards.fluidlogged_api.common.block.AbstractFluidloggedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;

@@ -18,10 +18,7 @@ import static git.jbredwards.fluidlogged_additions.util.Constants.*;
 public final class Main
 {
     public static final Logger logger = LogManager.getFormatterLogger(MODID);
-
-    public static void print(Object toPrint) {
-        logger.info(toPrint);
-    }
+    public static void print(Object toPrint) { logger.info(toPrint); }
 
     @SuppressWarnings("unused")
     @Mod.EventHandler

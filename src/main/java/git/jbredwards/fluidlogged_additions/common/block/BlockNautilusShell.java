@@ -1,7 +1,7 @@
 package git.jbredwards.fluidlogged_additions.common.block;
 
-import git.jbredwards.fluidlogged.common.block.IFluidloggable;
-import git.jbredwards.fluidlogged.util.FluidloggedUtils;
+import git.jbredwards.fluidlogged_api.common.block.IFluidloggable;
+import git.jbredwards.fluidlogged_api.util.FluidloggedUtils;
 import git.jbredwards.fluidlogged_additions.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

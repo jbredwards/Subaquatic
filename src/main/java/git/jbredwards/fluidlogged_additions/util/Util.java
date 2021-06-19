@@ -1,9 +1,5 @@
 package git.jbredwards.fluidlogged_additions.util;
 
-import git.jbredwards.fluidlogged_additions.Main;
-
-import javax.annotation.Nonnull;
-
 /**
  * helpful misc functions
  * @author jbred

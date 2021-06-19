@@ -1,6 +1,6 @@
 package git.jbredwards.fluidlogged_additions.common.block;
 
-import git.jbredwards.fluidlogged.common.event.FluidloggedEvents;
+import git.jbredwards.fluidlogged_api.util.FluidloggedUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.MapColor;
@@ -61,7 +61,7 @@ public class BlockCoralFull extends Block implements IGrowable
         //checks sides
         for(EnumFacing facing : EnumFacing.values()) {
             IBlockState state = world.getBlockState(pos.offset(facing));
-            if(FluidloggedEvents.getFluid(state) == fluid) return true;
+            if(FluidloggedUtils.getFluidFromBlock(state.getBlock())== fluid) return true;
         }
 
         //default
