@@ -1,0 +1,23 @@
+{ 
+   "forge_marker":1,
+   "defaults":{ 
+      "model":"subaquatic:nautilus_shell",
+      "textures":{ 
+         "layer0":"subaquatic:items/nautilus_shell",
+         "texture":"#layer0"
+      }
+   },
+   "variants":{ 
+      "inventory":[{ "model":"subaquatic:generated" }],
+      "rotation": {
+         "0":   { "y": 180 },
+         "90":  { "y": 270 },
+         "180": { },
+         "270": { "y": 90 },
+         "45":  { "model":"subaquatic:nautilus_shell_45", "y": 270 },
+         "135": { "model":"subaquatic:nautilus_shell_45" },
+         "225": { "model":"subaquatic:nautilus_shell_45", "y": 90 },
+         "315": { "model":"subaquatic:nautilus_shell_45", "y": 180 }
+      }
+   }
+}

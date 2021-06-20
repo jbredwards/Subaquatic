@@ -1,0 +1,22 @@
+{
+    "blocks.coral.step":{
+        "category":"blocks",
+        "sounds":[
+           "subaquatic:blocks/coral/step1",
+           "subaquatic:blocks/coral/step2",
+           "subaquatic:blocks/coral/step3",
+           "subaquatic:blocks/coral/step4",
+           "subaquatic:blocks/coral/step5",
+           "subaquatic:blocks/coral/step6"
+        ]
+     },
+     "blocks.coral.break":{
+        "category":"blocks",
+        "sounds":[
+           "subaquatic:blocks/coral/break1",
+           "subaquatic:blocks/coral/break2",
+           "subaquatic:blocks/coral/break3",
+           "subaquatic:blocks/coral/break4"
+        ]
+     }
+}

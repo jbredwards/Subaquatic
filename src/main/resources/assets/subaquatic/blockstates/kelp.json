@@ -1,0 +1,43 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"ambientocclusion": false,
+		"uvlock": true,
+		"model": "forge:multi-layer"
+	},
+	"variants": {
+		"inventory": [{
+			"model":"subaquatic:generated",
+			"textures":{
+                "layer0":"subaquatic:items/kelp"
+            }
+        }],
+		"normal": [{}],
+		"grown=false": [{
+			"custom": {
+				"base": "subaquatic:kelp#top",
+				"Cutout": "subaquatic:kelp#top",
+				"Translucent": "fluidlogged_api:waterlogged_te#fluid"
+			}
+		}],
+		"grown=true": [{
+			"custom": {
+				"base": "subaquatic:kelp#middle",
+				"Cutout": "subaquatic:kelp#middle",
+				"Translucent": "fluidlogged_api:waterlogged_te#fluid"
+			}
+		}],
+		"top": [{
+			"model":"cross",
+			"textures":{ 
+				"cross":"subaquatic:blocks/kelp"
+			}
+		}],
+		"middle": [{
+			"model":"cross",
+			"textures":{ 
+				"cross":"subaquatic:blocks/kelp_plant"
+			}
+		}]
+	}
+}
