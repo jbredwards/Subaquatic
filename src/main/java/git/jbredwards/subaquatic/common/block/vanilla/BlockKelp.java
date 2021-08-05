@@ -1,24 +1,18 @@
 package git.jbredwards.subaquatic.common.block.vanilla;
 
-import git.jbredwards.subaquatic.client.util.IModelProperties;
 import git.jbredwards.subaquatic.common.block.BlockFluidloggedPlant;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -29,7 +23,7 @@ import java.util.Random;
  *
  */
 @SuppressWarnings("NullableProblems")
-public class BlockKelp extends BlockFluidloggedPlant implements IModelProperties.IModelBlockProperties
+public class BlockKelp extends BlockFluidloggedPlant
 {
     public static final PropertyBool GROWN = PropertyBool.create("grown");
     public static final AxisAlignedBB[] AABB = { new AxisAlignedBB(0, 0, 0, 1, (10.0f / 16), 1), FULL_BLOCK_AABB };
@@ -56,14 +50,10 @@ public class BlockKelp extends BlockFluidloggedPlant implements IModelProperties
 
     @Nonnull
     @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(GROWN, meta != 0);
-    }
+    public IBlockState getStateFromMeta(int meta) { return getDefaultState().withProperty(GROWN, meta != 0); }
 
     @Override
-    public int getMetaFromState(@Nonnull IBlockState state) {
-        return state.getValue(GROWN) ? 1 : 0;
-    }
+    public int getMetaFromState(@Nonnull IBlockState state) { return state.getValue(GROWN) ? 1 : 0; }
 
     @SuppressWarnings("deprecation")
     @Override
@@ -86,11 +76,5 @@ public class BlockKelp extends BlockFluidloggedPlant implements IModelProperties
     @Override
     public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
         worldIn.setBlockState(pos.up(), getDefaultState());
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void setupModel(@Nonnull Block block) {
-        ModelLoader.setCustomStateMapper(this, new StateMap.Builder().ignore(LEVEL).build());
     }
 }

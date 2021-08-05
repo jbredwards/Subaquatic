@@ -24,10 +24,12 @@ public class ItemFoodAdvanced extends ItemFood
 
     public ItemFoodAdvanced(int amount, float saturation, boolean isWolfFood) {
         super(amount, saturation, isWolfFood);
+        setMaxItemUseDuration(32);
     }
 
     public ItemFoodAdvanced(int amount, boolean isWolfFood) {
         super(amount, isWolfFood);
+        setMaxItemUseDuration(32);
     }
 
     @Override

@@ -10,9 +10,9 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = "1.0"
+version = "v1.0-mc1.12.2"
 group = "git.jbredwards.subaquatic" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "subaquatic"
+archivesBaseName = "Subaquatic"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
@@ -26,8 +26,8 @@ minecraft {
 }
 
 dependencies {
-    provided 'com.github.jbredwards:Fluidlogged-API:5f90082a9e'
-    compile 'com.github.jbredwards:Fluidlogged-API:5f90082a9e'
+    provided 'com.github.jbredwards:Fluidlogged-API:d3c10a0c5c'
+    compile 'com.github.jbredwards:Fluidlogged-API:d3c10a0c5c'
 }
 
 repositories {

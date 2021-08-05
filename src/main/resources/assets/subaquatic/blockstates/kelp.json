@@ -17,14 +17,14 @@
 			"custom": {
 				"base": "subaquatic:kelp#top",
 				"Cutout": "subaquatic:kelp#top",
-				"Translucent": "fluidlogged_api:waterlogged_te#fluid"
+				"Translucent": "water#fluid"
 			}
 		}],
 		"grown=true": [{
 			"custom": {
 				"base": "subaquatic:kelp#middle",
 				"Cutout": "subaquatic:kelp#middle",
-				"Translucent": "fluidlogged_api:waterlogged_te#fluid"
+				"Translucent": "water#fluid"
 			}
 		}],
 		"top": [{
