@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = "v1.0-mc1.12.2"
+version = "v1.0.0-mc1.12.2"
 group = "git.jbredwards.subaquatic" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Subaquatic"
 
@@ -22,16 +22,28 @@ compileJava {
 minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
-    mappings = "snapshot_20171003"
+    mappings = "stable_39"
 }
 
 dependencies {
-    provided 'com.github.jbredwards:Fluidlogged-API:d3c10a0c5c'
-    compile 'com.github.jbredwards:Fluidlogged-API:d3c10a0c5c'
+    deobfCompile "com.cleanroommc:assetmover:${assetmover_version}"
+    deobfCompile "com.github.jbredwards:fluidlogged-api:${fluidlogged_api_version}"
+    deobfCompile "mezz.jei:jei_1.12.2:${jei_version}"
 }
 
 repositories {
     maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.cleanroommc.com' }
+    maven {
+        //location of the maven that hosts JEI files
+        name = 'Progwml6 maven'
+        url = 'http://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        //location of a maven mirror for JEI files, as a fallback
+        name = 'ModMaven'
+        url = 'modmaven.k-4u.nl'
+    }
 }
 
 processResources {
@@ -52,11 +64,6 @@ processResources {
         exclude 'mcmod.info'
     }
 }
-//asm
-jar {
-    manifest {
-        attributes(
-            "FMLAT": "subaquatic_at.cfg"
-        )
-    }
-}
+
+//AT
+jar{manifest{attributes('FMLAT':'subaquatic_at.cfg')}}

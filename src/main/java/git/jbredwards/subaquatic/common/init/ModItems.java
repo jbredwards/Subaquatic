@@ -2,8 +2,7 @@ package git.jbredwards.subaquatic.common.init;
 
 import com.google.common.collect.ImmutableList;
 import git.jbredwards.subaquatic.common.block.vanilla.BlockCoralFull;
-import git.jbredwards.subaquatic.common.item.ItemFoodAdvanced;
-import git.jbredwards.subaquatic.util.Constants;
+import git.jbredwards.subaquatic.common.item.ItemDurationFood;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
@@ -46,7 +45,7 @@ public enum ModItems
     //items
 
     //food
-    public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemFoodAdvanced(1, false).setMaxItemUseDuration(16));
+    public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false).setMaxItemUseDuration(16));
 
     //prepares the item for registration
     public static <I extends Item> I register(String name, I item) {

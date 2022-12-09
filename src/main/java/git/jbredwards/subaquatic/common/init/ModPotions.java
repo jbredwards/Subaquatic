@@ -1,33 +1,37 @@
 package git.jbredwards.subaquatic.common.init;
 
+import git.jbredwards.subaquatic.Subaquatic;
 import git.jbredwards.subaquatic.common.potion.PotionBase;
-import git.jbredwards.subaquatic.util.Constants;
+import net.minecraft.potion.Potion;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * stores all of this mod's potion effects
  * @author jbred
  *
  */
-public enum ModPotions
+public final class ModPotions
 {
-    ;
-
     //potion init
-    public static final List<PotionBase> INIT = new ArrayList<>();
+    @Nonnull public static final List<Potion> INIT = new ArrayList<>();
 
     //potions
-    public static final PotionBase CONDUIT = register("conduit", new PotionBase(false, 1950417));
+    @Nonnull public static final PotionBase CONDUIT = register("conduit", new PotionBase(false, 1950417));
 
-    //prepares the potion for registry
-    public static <P extends PotionBase> P register(String name, P potion) {
-        INIT.add(potion);
-        potion.setRegistryName(name).setPotionName(Constants.MODID + ".effects." + name);
-        potion.setIconIndex((INIT.size() - 1) % 14, (INIT.size() - 1) % 3);
-        if(!potion.isBadEffect()) potion.setBeneficial();
+    @Nonnull
+    static <T extends PotionBase> T register(@Nonnull String name, boolean isBadEffect, int liquidColor, @Nonnull PotionSupplier<T> supplier) {
+        return register(name, isBadEffect, liquidColor, supplier, potion -> {});
+    }
 
+    @Nonnull
+    static <T extends PotionBase> T register(@Nonnull String name, boolean isBadEffect, int liquidColor, @Nonnull PotionSupplier<T> supplier, @Nonnull Consumer<T> consumer) {
+        final T potion = supplier.get(new ResourceLocation(Constants.MODID, String.format("textures/potions/%s.png", name)), isBadEffect, liquidColor);
+        INIT.add(potion.setRegistryName(Constants.MODID, name).setPotionName(String.format("%s.effect.%s", Constants.MODID, name)));
+        consumer.accept(potion);
         return potion;
     }
 }

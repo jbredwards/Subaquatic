@@ -1,10 +1,11 @@
 package git.jbredwards.subaquatic.common.init;
 
-import git.jbredwards.subaquatic.util.Constants;
+import git.jbredwards.subaquatic.Subaquatic;
 import net.minecraft.block.SoundType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,27 +14,25 @@ import java.util.List;
  * @author jbred
  *
  */
-public enum ModSounds
+public final class ModSounds
 {
-    ;
-
     //sound init
-    public static final List<SoundEvent> INIT = new ArrayList<>();
+    @Nonnull public static final List<SoundEvent> INIT = new ArrayList<>();
 
     //sound types
-    public static final SoundType CORAL = registerType(1, 1, "coral");
+    @Nonnull public static final SoundType CORAL = registerType("coral", 1, 1);
 
-    public static SoundEvent register(String name) {
-        final SoundEvent sound = new SoundEvent(new ResourceLocation(Constants.MODID, name)).setRegistryName(name);
-        INIT.add(sound);
-
+    @Nonnull
+    public static SoundEvent register(@Nonnull String name) {
+        final SoundEvent sound = new SoundEvent(new ResourceLocation(Subaquatic.MODID, name));
+        INIT.add(sound.setRegistryName(Subaquatic.MODID, name));
         return sound;
     }
 
-    public static SoundType registerType(float volume, float pitch, String name) {
+    @Nonnull
+    public static SoundType registerType(@Nonnull String name, float volume, float pitch) {
         final SoundEvent soundBreak = register("blocks." + name + ".break");
         final SoundEvent soundStep = register("blocks." + name + ".step");
-
         return new SoundType(volume, pitch, soundBreak, soundStep, soundBreak, soundStep, soundStep);
     }
 }

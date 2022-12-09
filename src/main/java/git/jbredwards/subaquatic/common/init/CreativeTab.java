@@ -1,6 +1,5 @@
 package git.jbredwards.subaquatic.common.init;
 
-import git.jbredwards.subaquatic.util.Constants;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;

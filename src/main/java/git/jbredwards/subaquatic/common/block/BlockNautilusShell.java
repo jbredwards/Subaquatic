@@ -1,10 +1,8 @@
 package git.jbredwards.subaquatic.common.block;
 
-import git.jbredwards.fluidlogged_api.common.block.IFluidloggable;
-import git.jbredwards.fluidlogged_api.util.FluidloggedUtils;
-import git.jbredwards.subaquatic.util.Util;
+import git.jbredwards.fluidlogged_api.api.block.IFluidloggable;
+import git.jbredwards.subaquatic.common.block.state.Rotation45;
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -21,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -28,205 +27,93 @@ import javax.annotation.Nullable;
  * @author jbred
  *
  */
-@SuppressWarnings("NullableProblems")
+@SuppressWarnings("deprecation")
 public class BlockNautilusShell extends Block implements IFluidloggable
 {
-    public static final PropertyEnum<Rot> ROTATION = PropertyEnum.create("rotation", Rot.class);
-    public static final AxisAlignedBB AABB = new AxisAlignedBB(0.0625, 0, 0.0625, 0.9375, 0.09375, 0.9375);
+    @Nonnull public static final PropertyEnum<Rotation45> ROTATION = PropertyEnum.create("rotation", Rotation45.class);
+    @Nonnull public static final AxisAlignedBB AABB = new AxisAlignedBB(0.0625, 0, 0.0625, 0.9375, 0.09375, 0.9375);
 
-    public BlockNautilusShell(Material blockMaterialIn, MapColor blockMapColorIn) {
-        super(blockMaterialIn, blockMapColorIn);
-        setSoundType(SoundType.STONE);
-        setDefaultState(getDefaultState().withProperty(ROTATION, Rot.DEG_0));
+    public BlockNautilusShell(@Nonnull Material materialIn) { this(materialIn, materialIn.getMaterialMapColor()); }
+    public BlockNautilusShell(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn) {
+        super(materialIn, mapColorIn);
     }
 
-    public BlockNautilusShell(Material materialIn) {
-        super(materialIn);
-        setSoundType(SoundType.STONE);
-        setDefaultState(getDefaultState().withProperty(ROTATION, Rot.DEG_0));
-    }
-
+    @Nonnull
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer.Builder(this).add(ROTATION).build();
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(@Nonnull IBlockState state) {
         return state.getValue(ROTATION).ordinal();
     }
 
-    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(ROTATION, Rot.values()[Math.min(meta, 7)]);
+        return getDefaultState().withProperty(ROTATION, Rotation45.values()[meta % Rotation45.values().length]);
     }
 
-    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(@Nonnull IBlockState state, @Nonnull IBlockAccess source, @Nonnull BlockPos pos) {
         return AABB;
     }
 
-    @SuppressWarnings("deprecation")
     @Nullable
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(@Nonnull IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
         return NULL_AABB;
     }
 
-    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-    public IBlockState withRotation(IBlockState state, Rotation rot) {
+    public IBlockState withRotation(@Nonnull IBlockState state, @Nonnull Rotation rot) {
         return state.withProperty(ROTATION, state.getValue(ROTATION).rotate(rot));
     }
 
-    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-    public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+    public IBlockState withMirror(@Nonnull IBlockState state, @Nonnull Mirror mirrorIn) {
         return state.withProperty(ROTATION, state.getValue(ROTATION).mirror(mirrorIn));
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
+    public boolean isFullCube(@Nonnull IBlockState state) { return false; }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
+    public boolean isOpaqueCube(@Nonnull IBlockState state) { return false; }
 
+    @Nonnull
     @SideOnly(Side.CLIENT)
     @Override
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }
+    public BlockRenderLayer getRenderLayer() { return BlockRenderLayer.CUTOUT; }
 
-    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(@Nonnull IBlockAccess worldIn, @Nonnull IBlockState state, @Nonnull BlockPos pos, @Nonnull EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void neighborChanged(@Nonnull IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Block blockIn, @Nonnull BlockPos fromPos) {
         if(!canPlaceBlockAt(worldIn, pos)) {
             worldIn.playSound(null, pos, SoundEvents.ENTITY_ITEMFRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1, 1);
-            FluidloggedUtils.setStoredOrReal(worldIn, pos, state, null, true);
             dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockToAir(pos);
         }
     }
 
     @Override
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+    public boolean canPlaceBlockAt(@Nonnull World worldIn, @Nonnull BlockPos pos) {
         return worldIn.getBlockState(pos.down()).getBlockFaceShape(worldIn, pos.down(), EnumFacing.UP) == BlockFaceShape.SOLID;
     }
 
+    @Nonnull
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-        if(placer.isSneaking()) return getDefaultState().withProperty(ROTATION, Rot.fromRotation(placer.rotationYawHead + 180));
-        else return getDefaultState().withProperty(ROTATION, Rot.fromRotation(placer.rotationYawHead));
-    }
-
-    public enum Rot implements IStringSerializable
-    {
-        DEG_0  ("0",   0),
-        DEG_45 ("45",  45),
-        DEG_90 ("90",  90),
-        DEG_135("135", 135),
-        DEG_180("180", 180),
-        DEG_225("225", 225),
-        DEG_270("270", 270),
-        DEG_315("315", 315);
-
-        public final String name;
-        public final int angle;
-
-        Rot(String name, int angle) {
-            this.name = name;
-            this.angle = angle;
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        public Rot rotate(Rotation rot) {
-            return rotate(fromRotation(rot));
-        }
-
-        public Rot rotate(Rot rot) {
-            return rotate(rot.angle);
-        }
-
-        public Rot rotate(float rot) {
-            return fromRotation(angle + rot);
-        }
-
-        //gets the Rot from entity rotation
-        public static Rot fromRotation(float rot) {
-            //angle must be between 0 - 360.
-            if(rot > 360) return fromRotation(rot - 360);
-            else if(rot < 0) return fromRotation(rot + 360);
-
-            //gets the closest value
-            final int closest = (int)Util.closest(rot, 0, 45, 90, 135, 180, 225, 270, 315, 360);
-
-            //gets the Rot from the closest
-            switch(closest) {
-                case 45:  return DEG_45;
-                case 90:  return DEG_90;
-                case 135: return DEG_135;
-                case 180: return DEG_180;
-                case 225: return DEG_225;
-                case 270: return DEG_270;
-                case 315: return DEG_315;
-                default:  return DEG_0;
-            }
-        }
-
-        //converts from Rotation to Rot
-        public static Rot fromRotation(Rotation rot) {
-            switch(rot) {
-                case CLOCKWISE_90:        return DEG_90;
-                case CLOCKWISE_180:       return DEG_180;
-                case COUNTERCLOCKWISE_90: return DEG_270;
-                default:                  return DEG_0;
-            }
-        }
-
-        //mirrors the rot
-        public Rot mirror(Mirror mirror) {
-            switch(mirror) {
-                case LEFT_RIGHT: {
-                    switch(this) {
-                        case DEG_45:  return DEG_315;
-                        case DEG_90:  return DEG_270;
-                        case DEG_135: return DEG_225;
-                        case DEG_225: return DEG_135;
-                        case DEG_315: return DEG_45;
-                        default:      return this;
-                    }
-                }
-                case FRONT_BACK: {
-                    switch(this) {
-                        case DEG_0:   return DEG_180;
-                        case DEG_45:  return DEG_135;
-                        case DEG_135: return DEG_45;
-                        case DEG_180: return DEG_0;
-                        case DEG_225: return DEG_315;
-                        case DEG_315: return DEG_225;
-                        default:      return this;
-                    }
-                }
-                //no mirror
-                default: return this;
-            }
-        }
+    public IBlockState getStateForPlacement(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer) {
+        if(placer.isSneaking()) return getDefaultState().withProperty(ROTATION, Rotation45.fromRotation(placer.rotationYawHead + 180));
+        else return getDefaultState().withProperty(ROTATION, Rotation45.fromRotation(placer.rotationYawHead));
     }
 }

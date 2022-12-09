@@ -3,25 +3,24 @@ package git.jbredwards.subaquatic.common.init;
 import git.jbredwards.subaquatic.common.block.*;
 import git.jbredwards.subaquatic.common.block.vanilla.BlockCoralFull;
 import git.jbredwards.subaquatic.common.block.vanilla.BlockKelp;
-import git.jbredwards.subaquatic.util.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.FluidRegistry;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * stores all of this mod's blocks
  * @author jbred
  *
  */
-public enum ModBlocks
+public final class ModBlocks
 {
-    ;
-
     //block init
     public static final List<Block> INIT = new ArrayList<>();
 
@@ -44,25 +43,25 @@ public enum ModBlocks
     public static final BlockKelp KELP =                    register("kelp"          , new BlockKelp(FluidRegistry.WATER, Material.WATER));
     public static final BlockNautilusShell NAUTILUS_SHELL = register("nautilus_shell", new BlockNautilusShell(Material.CORAL, MapColor.BROWN));
 
-    //prepares the block for registration
-    public static <B extends Block> B register(String name, B block) {
-        block.setRegistryName(name).setUnlocalizedName(Constants.MODID + "." + name).setCreativeTab(CreativeTab.INSTANCE);
-        INIT.add(block);
-
+    //registry
+    @Nonnull static <T extends Block> T register(@Nonnull String name, @Nonnull T block) { return register(name, block, b -> {}); }
+    @Nonnull static <T extends Block> T register(@Nonnull String name, @Nonnull T block, @Nonnull Consumer<T> properties) {
+        INIT.add(block.setRegistryName(Constants.MODID, name).setTranslationKey(Constants.MODID + "." + name));
+        block.setCreativeTab(CreativeTab.INSTANCE);
+        properties.accept(block);
         return block;
     }
 
-    //another way of preparing blocks for registration
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static <B extends Block> B register(String name, Properties prop, B block) {
-        block.setHardness(prop.hardness);
-        block.setResistance(prop.resistance);
-        block.setLightLevel(prop.lightLevel);
-        block.setSoundType(prop.sound);
+    //copy properties from parent prior to registration
+    @Nonnull static <T extends Block> T register(@Nonnull String name, @Nonnull T block, @Nonnull Block parent) { return register(name, block, parent, b -> {}); }
+    @SuppressWarnings("ConstantConditions")
+    @Nonnull static <T extends Block> T register(@Nonnull String name, @Nonnull T block, @Nonnull Block parent, @Nonnull Consumer<T> properties) {
+        block.setResistance(parent.getExplosionResistance(null) * 5 / 3)
+                .setHardness(parent.getDefaultState().getBlockHardness(null, null))
+                .setLightLevel(parent.getDefaultState().getLightValue() / 15f)
+                .setSoundType(parent.getSoundType())
+                .setHarvestLevel(parent.getHarvestTool(parent.getDefaultState()), parent.getHarvestLevel(parent.getDefaultState()));
 
-        if(prop.tool != null) block.setHarvestLevel(prop.tool, prop.level);
-        if(prop.func != null) prop.func.accept(block);
-
-        return register(name, block);
+        return register(name, block, properties);
     }
 }
