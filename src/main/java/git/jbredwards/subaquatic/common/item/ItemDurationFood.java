@@ -23,9 +23,7 @@ public class ItemDurationFood extends ItemFood
     public int maxUseDuration = 32;
 
     public ItemDurationFood(int amount, boolean isWolfFood) { super(amount, isWolfFood); }
-    public ItemDurationFood(int amount, float saturation, boolean isWolfFood) {
-        super(amount, saturation, isWolfFood);
-    }
+    public ItemDurationFood(int amount, float saturation, boolean isWolfFood) { super(amount, saturation, isWolfFood); }
 
     @Override
     protected void onFoodEaten(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull EntityPlayer player) {

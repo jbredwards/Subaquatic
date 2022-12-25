@@ -17,24 +17,26 @@ import javax.annotation.Nonnull;
  */
 public class PotionBase extends Potion
 {
-    @Nonnull
-    protected final ResourceLocation texture;
-    public PotionBase(@Nonnull ResourceLocation textureIn, boolean isBadEffectIn, int liquidColorIn) {
+    public PotionBase(boolean isBadEffectIn, int liquidColorIn) {
         super(isBadEffectIn, liquidColorIn);
-        texture = textureIn;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public void renderInventoryEffect(int x, int y, @Nonnull PotionEffect effect, @Nonnull Minecraft mc) {
-        mc.getTextureManager().bindTexture(texture);
+        mc.getTextureManager().bindTexture(getTexture());
         Gui.drawModalRectWithCustomSizedTexture(x + 6, y + 7, 0, 0, 18, 18, 18, 18);
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public void renderHUDEffect(int x, int y, @Nonnull PotionEffect effect, @Nonnull Minecraft mc, float alpha) {
-        mc.getTextureManager().bindTexture(texture);
+        mc.getTextureManager().bindTexture(getTexture());
         Gui.drawModalRectWithCustomSizedTexture(x + 3, y + 3, 0, 0, 18, 18, 18, 18);
+    }
+
+    @Nonnull
+    protected ResourceLocation getTexture() {
+        return new ResourceLocation(delegate.name().getPath(), String.format("textures/potions/%s.png", delegate.name().getNamespace()));
     }
 }

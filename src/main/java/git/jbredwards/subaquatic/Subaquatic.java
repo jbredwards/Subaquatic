@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.0", dependencies = "required-after:fluidlogged_api[1.9.0.4)")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.0", dependencies = "required-after:fluidlogged_api[1.9.0.5)")
 public final class Subaquatic
 {
     @Nonnull

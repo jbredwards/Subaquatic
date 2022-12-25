@@ -23,14 +23,13 @@ public final class ModPotions
     @Nonnull public static final PotionBase CONDUIT = register("conduit", new PotionBase(false, 1950417));
 
     @Nonnull
-    static <T extends PotionBase> T register(@Nonnull String name, boolean isBadEffect, int liquidColor, @Nonnull PotionSupplier<T> supplier) {
-        return register(name, isBadEffect, liquidColor, supplier, potion -> {});
+    static <T extends Potion> T register(@Nonnull String name, @Nonnull T potion) {
+        return register(name, potion, potionIn -> {});
     }
 
     @Nonnull
-    static <T extends PotionBase> T register(@Nonnull String name, boolean isBadEffect, int liquidColor, @Nonnull PotionSupplier<T> supplier, @Nonnull Consumer<T> consumer) {
-        final T potion = supplier.get(new ResourceLocation(Constants.MODID, String.format("textures/potions/%s.png", name)), isBadEffect, liquidColor);
-        INIT.add(potion.setRegistryName(Constants.MODID, name).setPotionName(String.format("%s.effect.%s", Constants.MODID, name)));
+    static <T extends Potion> T register(@Nonnull String name, @Nonnull T potion, @Nonnull Consumer<T> consumer) {
+        INIT.add(potion.setRegistryName(Subaquatic.MODID, name).setPotionName(String.format("%s.effect.%s", Subaquatic.MODID, name)));
         consumer.accept(potion);
         return potion;
     }

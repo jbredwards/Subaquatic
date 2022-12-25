@@ -45,9 +45,7 @@ public class BlockNautilusShell extends Block implements IFluidloggable
     }
 
     @Override
-    public int getMetaFromState(@Nonnull IBlockState state) {
-        return state.getValue(ROTATION).ordinal();
-    }
+    public int getMetaFromState(@Nonnull IBlockState state) { return state.getValue(ROTATION).ordinal(); }
 
     @Nonnull
     @Override
