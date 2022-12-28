@@ -1,28 +1,26 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url = "https://files.minecraftforge.net/maven" }
+        maven { url 'https://files.minecraftforge.net/maven' }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'maven-publish'
 
-version = "v1.0.0-mc1.12.2"
-group = "git.jbredwards.subaquatic" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "Subaquatic"
-
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
+version = 'v1.0-mc1.12.2'
+group = 'git.jbredwards.subaquatic'
+archivesBaseName = 'Subaquatic'
+sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
     mappings = "stable_39"
+    makeObfSourceJar = false
 }
 
 dependencies {
@@ -65,5 +63,17 @@ processResources {
     }
 }
 
-//AT
-jar{manifest{attributes('FMLAT':'subaquatic_at.cfg')}}
+//for applying asm outside dev environment
+jar {
+    manifest {
+        attributes(
+                'FMLCorePlugin': 'git.jbredwards.subaquatic.mod.asm.ASMHandler',
+                'FMLCorePluginContainsFMLMod': 'true',
+                'FMLAT': 'subaquatic_at.cfg'
+        )
+    }
+}
+
+//for applying asm with intellij
+runClient { jvmArgs '-Dfml.coreMods.load=git.jbredwards.subaquatic.mod.asm.ASMHandler' }
+runServer { jvmArgs '-Dfml.coreMods.load=git.jbredwards.subaquatic.mod.asm.ASMHandler' }

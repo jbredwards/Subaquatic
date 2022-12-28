@@ -1,13 +1,10 @@
 { 
    "forge_marker":1,
-   "defaults":{ 
-      "model":"cube_all",
-      "textures":{ 
-         "all":"subaquatic:blocks/bubble_coral_block"
-      }
+   "defaults":{
+      "model":"cube_all"
    },
-   "variants":{ 
-      "inventory":[{}],
-      "normal":[{}]
+   "variants":{
+      "alive=false":[{"textures":{"all":"subaquatic:blocks/dead_bubble_coral_block"}}],
+      "alive=true":[{"textures":{"all":"subaquatic:blocks/bubble_coral_block"}}]
    }
 }
