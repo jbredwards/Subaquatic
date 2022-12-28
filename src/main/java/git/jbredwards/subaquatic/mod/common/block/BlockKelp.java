@@ -71,7 +71,7 @@ public class BlockKelp extends BlockWaterloggedPlant
         final int age = state.getValue(AGE);
         if(age < 15) {
             final Fluid upFluid = FluidloggedUtils.getFluidFromState(worldIn.getBlockState(pos.up()));
-            if(upFluid != null && isFluidValid(state, worldIn, pos.up(), upFluid))
+            if(upFluid != null && isFluidValid(state, worldIn, pos.up(), upFluid) && rand.nextDouble() < 0.14)
                 worldIn.setBlockState(pos.up(), state.withProperty(AGE, age + 1));
         }
     }

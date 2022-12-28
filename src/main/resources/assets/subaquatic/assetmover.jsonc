@@ -46,7 +46,6 @@
     ["1.18.2", "assets/minecraft/textures/block/water_overlay.png", "assets/subaquatic/textures/blocks/water_overlay.png"],
 
     //item textures
-    ["1.18.2", "assets/minecraft/textures/item/dried_kelp.png", "assets/subaquatic/textures/items/dried_kelp.png"],
     ["1.18.2", "assets/minecraft/textures/item/kelp.png", "assets/subaquatic/textures/items/kelp.png"],
     ["1.18.2", "assets/minecraft/textures/item/nautilus_shell.png", "assets/subaquatic/textures/items/nautilus_shell.png"]
 ]
