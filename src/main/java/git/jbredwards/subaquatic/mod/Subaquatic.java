@@ -3,11 +3,29 @@ package git.jbredwards.subaquatic.mod;
 import com.cleanroommc.assetmover.AssetMoverAPI;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.api.biome.IOceanBiome;
+import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
+import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.*;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,5 +63,32 @@ public final class Subaquatic
             ProgressManager.pop(progressBar);
             LOGGER.info("Success!");
         }
+    }
+
+    @Mod.EventHandler
+    static void preInit(@Nonnull FMLPreInitializationEvent event) {
+        CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
+        MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
+    }
+
+    @Mod.EventHandler
+    static void init(@Nonnull FMLInitializationEvent event) {
+        if(event.getSide() == Side.CLIENT) overrideParticles();
+        //automatically add all IOceanBiome instances to the Forge ocean biomes list
+        ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
+    }
+
+    @SideOnly(Side.CLIENT)
+    static void overrideParticles() {
+        //override some vanilla particle factories to allow for custom coloring
+        final ParticleManager manager = Minecraft.getMinecraft().effectRenderer;
+        manager.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleDrip.WaterFactory()));
+        manager.registerParticle(EnumParticleTypes.WATER_DROP.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleRain.Factory()));
+        manager.registerParticle(EnumParticleTypes.WATER_SPLASH.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleSplash.Factory()));
+        manager.registerParticle(EnumParticleTypes.WATER_WAKE.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleWaterWake.Factory()));
+        //fix bubble particles spawning in illegal blocks (like cauldrons)
+        final IParticleFactory bubbleFactory = manager.particleTypes.get(EnumParticleTypes.WATER_BUBBLE.getParticleID());
+        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (int particleID, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, int... args) ->
+                FluidloggedUtils.getFluidOrReal(world, new BlockPos(x, y, z)).getMaterial() == Material.WATER ? bubbleFactory.createParticle(particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args) : null);
     }
 }

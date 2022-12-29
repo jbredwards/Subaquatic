@@ -108,5 +108,37 @@
          "subaquatic:blocks/wet_grass/step5",
          "subaquatic:blocks/wet_grass/step6"
       ]
+   },
+   "blocks.bubble_column.up.inside":{
+      "category":"blocks",
+      "sounds":["subaquatic:blocks/bubble_column/upwards_inside"],
+      "subtitle":"subtitles.subaquatic.block.bubble_column.up.inside"
+   },
+   "blocks.bubble_column.down.inside":{
+      "category":"blocks",
+      "sounds":["subaquatic:blocks/bubble_column/whirlpool_inside"],
+      "subtitle":"subtitles.subaquatic.block.bubble_column.down.inside"
+   },
+   "blocks.bubble_column.up.ambient":{
+      "category":"blocks",
+      "sounds":[
+         "subaquatic:blocks/bubble_column/upwards_ambient1",
+         "subaquatic:blocks/bubble_column/upwards_ambient2",
+         "subaquatic:blocks/bubble_column/upwards_ambient3",
+         "subaquatic:blocks/bubble_column/upwards_ambient4",
+         "subaquatic:blocks/bubble_column/upwards_ambient5"
+      ],
+      "subtitle":"subtitles.subaquatic.block.bubble_column.up.ambient"
+   },
+   "blocks.bubble_column.down.ambient":{
+      "category":"blocks",
+      "sounds":[
+         "subaquatic:blocks/bubble_column/whirlpool_ambient1",
+         "subaquatic:blocks/bubble_column/whirlpool_ambient2",
+         "subaquatic:blocks/bubble_column/whirlpool_ambient3",
+         "subaquatic:blocks/bubble_column/whirlpool_ambient4",
+         "subaquatic:blocks/bubble_column/whirlpool_ambient5"
+      ],
+      "subtitle":"subtitles.subaquatic.block.bubble_column.down.ambient"
    }
 }

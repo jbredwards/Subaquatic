@@ -27,8 +27,6 @@ public final class ModItems
 
     //item blocks
     @Nonnull public static final ItemBlock DRIED_KELP_BLOCK = register("dried_kelp_block", new ItemBlock(ModBlocks.DRIED_KELP_BLOCK));
-    @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(ModBlocks.KELP));
-    @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(ModBlocks.NAUTILUS_SHELL));
     @Nonnull public static final ItemBlock TUBE_CORAL_BLOCK = register("tube_coral_block", new ItemBlockMeta(ModBlocks.TUBE_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlock BRAIN_CORAL_BLOCK = register("brain_coral_block", new ItemBlockMeta(ModBlocks.BRAIN_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlock BUBBLE_CORAL_BLOCK = register("bubble_coral_block", new ItemBlockMeta(ModBlocks.BUBBLE_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
@@ -36,7 +34,14 @@ public final class ModItems
     @Nonnull public static final ItemBlock HORN_CORAL_BLOCK = register("horn_coral_block", new ItemBlockMeta(ModBlocks.HORN_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
 
     //items
-    public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.maxUseDuration = 16);
+    @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(ModBlocks.NAUTILUS_SHELL));
+    @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(ModBlocks.KELP));
+    @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.maxUseDuration = 16);
+
+    //ore dict registration
+    public static void registerOreDictionary() {
+        OreDictionary.registerOre("shellNautilus", NAUTILUS_SHELL);
+    }
 
     @Nonnull
     static <I extends Item> I register(@Nonnull String name, @Nonnull I item) {
@@ -48,10 +53,5 @@ public final class ModItems
         INIT.add(item.setRegistryName(Subaquatic.MODID, name).setTranslationKey(Subaquatic.MODID + "." + name).setCreativeTab(CreativeTab.INSTANCE));
         consumer.accept(item);
         return item;
-    }
-
-    //ore dict registration
-    public static void registerOreDict() {
-        OreDictionary.registerOre("shellNautilus", NAUTILUS_SHELL);
     }
 }

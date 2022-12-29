@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.common.block;
 
 import git.jbredwards.fluidlogged_api.api.block.BlockWaterloggedPlant;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -16,8 +17,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -25,7 +29,7 @@ import java.util.Random;
  * @author jbred
  *
  */
-public class BlockKelp extends BlockWaterloggedPlant
+public class BlockKelp extends BlockWaterloggedPlant implements IGrowable
 {
     @Nonnull public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
     @Nonnull public static final PropertyBool TOP = PropertyBool.create("top");
@@ -66,6 +70,13 @@ public class BlockKelp extends BlockWaterloggedPlant
         return isKelpTop(source, pos) ? KELP_TOP_BB : FULL_BLOCK_AABB;
     }
 
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    @Override
+    public AxisAlignedBB getSelectedBoundingBox(@Nonnull IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos) {
+        return state.getBoundingBox(worldIn, pos).offset(pos).offset(state.getOffset(worldIn, pos));
+    }
+
     @Override
     public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
         final int age = state.getValue(AGE);
@@ -91,7 +102,35 @@ public class BlockKelp extends BlockWaterloggedPlant
         return !isEqualTo(world.getBlockState(pos.up()).getBlock(), this);
     }
 
+    @Nullable
+    public BlockPos getTop(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState kelp, @Nonnull IBlockState here) {
+        while(isEqualTo(here.getBlock(), this)) {
+            pos = pos.up();
+            here = world.getBlockState(pos);
+        }
+
+        final Fluid fluid = FluidloggedUtils.getFluidFromState(here);
+        return fluid != null && isFluidValid(kelp, world, pos, fluid) ? pos : null;
+    }
+
     @Nonnull
     @Override
     public EnumOffsetType getOffsetType() { return EnumOffsetType.XZ; }
+
+    @Override
+    public boolean canGrow(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
+        return getTop(worldIn, pos, state, state) != null;
+    }
+
+    @Override
+    public boolean canUseBonemeal(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        final BlockPos posToPlant = getTop(worldIn, pos, state, state);
+        if(posToPlant != null) worldIn.setBlockState(posToPlant, state.withProperty(AGE,
+                worldIn.getBlockState(posToPlant.down()).getValue(AGE)));
+    }
 }

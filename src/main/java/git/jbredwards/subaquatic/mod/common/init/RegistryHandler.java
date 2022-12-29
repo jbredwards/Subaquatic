@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -20,14 +21,21 @@ import javax.annotation.Nonnull;
 final class RegistryHandler
 {
     @SubscribeEvent
-    static void registerItems(@Nonnull RegistryEvent.Register<Item> event) {
-        ModItems.INIT.forEach(event.getRegistry()::register);
-        ModItems.registerOreDict();
+    static void registerBiomes(@Nonnull RegistryEvent.Register<Biome> event) {
+        ModBiomes.INIT.forEach(event.getRegistry()::register);
+        ModBiomes.registerBiomeDictionary();
     }
 
     @SubscribeEvent
     static void registerBlocks(@Nonnull RegistryEvent.Register<Block> event) {
         ModBlocks.INIT.forEach(event.getRegistry()::register);
+        ModBlocks.registerBurnables();
+    }
+
+    @SubscribeEvent
+    static void registerItems(@Nonnull RegistryEvent.Register<Item> event) {
+        ModItems.INIT.forEach(event.getRegistry()::register);
+        ModItems.registerOreDictionary();
     }
 
     @SubscribeEvent

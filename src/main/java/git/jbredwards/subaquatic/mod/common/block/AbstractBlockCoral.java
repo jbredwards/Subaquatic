@@ -39,6 +39,9 @@ public abstract class AbstractBlockCoral extends Block implements IGrowable
         setTickRandomly(true);
     }
 
+    @Override
+    public int damageDropped(@Nonnull IBlockState state) { return state.getValue(ALIVE) ? 0 : 1; }
+
     @Nonnull
     @Override
     public SoundType getSoundType(@Nonnull IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nullable Entity entity) {

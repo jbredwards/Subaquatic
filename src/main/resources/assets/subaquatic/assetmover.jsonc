@@ -1,5 +1,17 @@
 [
     //sounds
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient1.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient2.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient2.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient3.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient3.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient4.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient4.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient5.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient5.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient1.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient2.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient2.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient3.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient3.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient4.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient4.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient5.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient5.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_inside.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_inside.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_inside.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_inside.ogg"],
     ["1.18.2", "assets/minecraft/sounds/dig/coral1.ogg", "assets/subaquatic/sounds/blocks/coral/break1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/dig/coral2.ogg", "assets/subaquatic/sounds/blocks/coral/break2.ogg"],
     ["1.18.2", "assets/minecraft/sounds/dig/coral3.ogg", "assets/subaquatic/sounds/blocks/coral/break3.ogg"],

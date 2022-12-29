@@ -36,6 +36,7 @@ public class BlockNautilusShell extends Block implements IFluidloggable
     public BlockNautilusShell(@Nonnull Material materialIn) { this(materialIn, materialIn.getMaterialMapColor()); }
     public BlockNautilusShell(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn) {
         super(materialIn, mapColorIn);
+        useNeighborBrightness = true;
     }
 
     @Nonnull

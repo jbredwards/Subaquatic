@@ -19,6 +19,12 @@ public final class ModSounds
     //sound init
     @Nonnull public static final List<SoundEvent> INIT = new ArrayList<>();
 
+    //sounds
+    @Nonnull public static final SoundEvent BUBBLE_COLUMN_UP_AMBIENT = register("blocks.bubble_column.up.ambient");
+    @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_AMBIENT = register("blocks.bubble_column.down.ambient");
+    @Nonnull public static final SoundEvent BUBBLE_COLUMN_UP_INSIDE = register("blocks.bubble_column.up.inside");
+    @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_INSIDE = register("blocks.bubble_column.down.inside");
+
     //sound types
     @Nonnull public static final SoundType CORAL = registerType("coral", 1, 1);
     @Nonnull public static final SoundType WET_GRASS = registerType("wet_grass", 1, 1);
