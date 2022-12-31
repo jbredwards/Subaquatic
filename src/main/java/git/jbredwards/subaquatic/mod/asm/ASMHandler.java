@@ -2,7 +2,8 @@ package git.jbredwards.subaquatic.mod.asm;
 
 import git.jbredwards.fluidlogged_api.api.asm.AbstractClassTransformer;
 import git.jbredwards.fluidlogged_api.api.asm.BasicLoadingPlugin;
-import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world.PluginGenLayerDeepOcean;
+import git.jbredwards.subaquatic.mod.asm.plugin.forge.*;
+import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.*;
 
 import javax.annotation.Nonnull;
 
@@ -20,8 +21,18 @@ public final class ASMHandler implements BasicLoadingPlugin
     public static final class Transformer extends AbstractClassTransformer
     {
         public Transformer() {
+            //forge
+            plugins.put("net.minecraftforge.fluids.FluidRegistry", new PluginFluidRegistry()); //Changes the water textures to allow for better coloring
             //vanilla
-            plugins.put("net.minecraft.world.gen.layer.GenLayerDeepOcean", new PluginGenLayerDeepOcean());
+            plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
+            plugins.put("net.minecraft.client.particle.ParticleDrip", new PluginParticleDrip()); //Water droplet particles keep the color set by this mod
+            plugins.put("net.minecraft.client.renderer.entity.RenderEntityItem", new PluginRenderEntityItem()); //Don't render item bobbing while in water
+            plugins.put("net.minecraft.client.renderer.ItemRenderer", new PluginItemRenderer()); //Apply biome colors to underwater overlay
+            plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
+            plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityItem()); //XP orbs float while in water
+            plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
+            plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config
+            plugins.put("net.minecraft.world.gen.layer.GenLayerDeepOcean", new PluginGenLayerDeepOcean()); //Generate correct deep ocean biomes
         }
 
         @Nonnull

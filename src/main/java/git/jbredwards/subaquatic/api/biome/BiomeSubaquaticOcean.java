@@ -20,12 +20,12 @@ public class BiomeSubaquaticOcean extends BiomeOcean implements IOceanBiome
     public BiomeSubaquaticOcean(@Nullable Biome deepOceanBiomeIn, @Nonnull BiomeProperties propertiesIn) {
         super(propertiesIn);
         deepOceanBiome = deepOceanBiomeIn;
+        topBlock = GRAVEL;
     }
 
     @Override
     public int getDeepOceanBiomeId() {
-        if(deepOceanBiome == null) return -1;
-        else if(deepOceanBiomeIdCache != 0) return deepOceanBiomeIdCache;
-        else return deepOceanBiomeIdCache = Biome.getIdForBiome(deepOceanBiome);
+        if(deepOceanBiomeIdCache != 0) return deepOceanBiomeIdCache;
+        else return deepOceanBiomeIdCache = deepOceanBiome != null ? getIdForBiome(deepOceanBiome) : -1;
     }
 }

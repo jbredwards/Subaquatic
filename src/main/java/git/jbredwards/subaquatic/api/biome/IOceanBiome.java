@@ -6,7 +6,15 @@ import net.minecraft.world.biome.Biome;
 import javax.annotation.Nullable;
 
 /**
- * Biomes that implement this will be automatically added to Forge's ocean biomes list
+ * Custom ocean biomes don't have to implement this, but it's heavily recommended. Some reasons to implement this are:
+ * <p></p>
+ * -biomes that implement this will be automatically added to Forge's ocean biomes list
+ * <p>
+ * -biomes that implement this will have their corresponding deep ocean biome generate where it makes sense
+ * <p>
+ * -biomes that implement this can have a custom surface block (other than gravel)
+ * <p></p>
+ *
  * @author jbred
  *
  */

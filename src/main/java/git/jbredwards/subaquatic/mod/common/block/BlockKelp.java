@@ -33,7 +33,7 @@ public class BlockKelp extends BlockWaterloggedPlant implements IGrowable
 {
     @Nonnull public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
     @Nonnull public static final PropertyBool TOP = PropertyBool.create("top");
-    @Nonnull protected static final AxisAlignedBB KELP_TOP_BB = new AxisAlignedBB(0, 0, 0, 1, 0.5625, 1);
+    @Nonnull protected static final AxisAlignedBB KELP_TOP_BB = new AxisAlignedBB(0, 0, 0, 1, 0.625, 1);
 
     public BlockKelp(@Nonnull Material materialIn) { this(materialIn, materialIn.getMaterialMapColor()); }
     public BlockKelp(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn) {

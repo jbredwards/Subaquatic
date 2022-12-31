@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- *
+ * WILL BE ADDED IN A FUTURE UPDATE WHEN LESS BUGGY
  * @author jbred
  *
  */
@@ -202,7 +202,7 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
                     0.9f + rand.nextFloat() * 0.15f, false);
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     static void updateIsInBubbleColumn(@Nonnull LivingEvent.LivingUpdateEvent event) {
         final EntityLivingBase entity = event.getEntityLiving();
         final @Nullable IBubbleColumn cap = IBubbleColumn.get(entity);
@@ -226,5 +226,5 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
             if(isPull || ModBlocks.BUBBLE_COLUMN.canExist(false, down, null))
                 ModBlocks.BUBBLE_COLUMN.spreadToUp(event.getWorld(), event.getPos().down(), ModBlocks.BUBBLE_COLUMN.getDefaultState().withProperty(PULL, isPull));
         }
-    }
+    }*/
 }

@@ -38,12 +38,12 @@ public final class ModBlocks
     @Nonnull public static final BlockRotatedPillar DRIED_KELP_BLOCK = register("dried_kelp_block", new BlockRotatedPillar(Material.GRASS, MapColor.BROWN), block -> block.setSoundType(SoundType.PLANT).setResistance(2.5f / 3).setHardness(0.5f));
     @Nonnull public static final BlockKelp KELP = register("kelp", new BlockKelp(OCEAN_PLANT), block -> block.setSoundType(ModSounds.WET_GRASS));
     @Nonnull public static final BlockNautilusShell NAUTILUS_SHELL = register("nautilus_shell", new BlockNautilusShell(Material.CORAL, MapColor.BROWN), block -> block.setSoundType(Blocks.BONE_BLOCK.getSoundType()));
-    @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN = register("bubble_column", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL));
     @Nonnull public static final BlockCoral TUBE_CORAL_BLOCK = register("tube_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.BLUE), Blocks.STONE);
     @Nonnull public static final BlockCoral BRAIN_CORAL_BLOCK = register("brain_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.PINK), Blocks.STONE);
     @Nonnull public static final BlockCoral BUBBLE_CORAL_BLOCK = register("bubble_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.PURPLE), Blocks.STONE);
     @Nonnull public static final BlockCoral FIRE_CORAL_BLOCK = register("fire_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.RED), Blocks.STONE);
     @Nonnull public static final BlockCoral HORN_CORAL_BLOCK = register("horn_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.YELLOW), Blocks.STONE);
+    //TODO @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN = register("bubble_column", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL));
 
     //register burnables
     public static void registerBurnables() {
