@@ -48,28 +48,28 @@ public final class PluginGenLayerDeepOcean implements IASMPlugin
         static int frozenDeepOceanBiomeId;
 
         public static int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight, @Nonnull GenLayer parent) {
-            final int[] parentInts = parent.getInts(areaX - 1, areaY - 1, areaWidth + 2, areaHeight + 2);
-            final int[] biomeNoise = IntCache.getIntCache(areaWidth * areaHeight);
+            final int[] biomeInts = parent.getInts(areaX - 1, areaY - 1, areaWidth + 2, areaHeight + 2);
+            final int[] out = IntCache.getIntCache(areaWidth * areaHeight);
             for(int x = 0; x < areaWidth; x++) {
                 for(int z = 0; z < areaHeight; z++) {
-                    final int biomeId = parentInts[x + 1 + (z + 1) * (areaWidth + 2)];
+                    final int biomeId = biomeInts[x + 1 + (z + 1) * (areaWidth + 2)];
                     final @Nullable Biome biome = Biome.getBiomeForId(biomeId);
                     if(IOceanBiome.isShallowOcean(biome)) {
                         int deepOceanChecks = 0;
 
-                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(parentInts[x + 1 + (z + 1 - 1) * (areaWidth + 2)]))) ++deepOceanChecks;
-                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(parentInts[x + 1 + 1 + (z + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
-                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(parentInts[x + 1 - 1 + (z + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
-                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(parentInts[x + 1 + (z + 1 + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
+                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeInts[x + 1 + (z + 1 - 1) * (areaWidth + 2)]))) ++deepOceanChecks;
+                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeInts[x + 1 + 1 + (z + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
+                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeInts[x + 1 - 1 + (z + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
+                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeInts[x + 1 + (z + 1 + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
 
-                        biomeNoise[x + z * areaWidth] = deepOceanChecks == 4 ? getDeepOceanBiomeId(biome) : biomeId;
+                        out[x + z * areaWidth] = deepOceanChecks == 4 ? getDeepOceanBiomeId(biome) : biomeId;
                     }
 
-                    else biomeNoise[x + z * areaWidth] = biomeId;
+                    else out[x + z * areaWidth] = biomeId;
                 }
             }
 
-            return biomeNoise;
+            return out;
         }
 
         //helper

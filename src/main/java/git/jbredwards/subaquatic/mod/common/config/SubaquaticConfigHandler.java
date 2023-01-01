@@ -4,8 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import it.unimi.dsi.fastutil.objects.Object2CharMap;
-import it.unimi.dsi.fastutil.objects.Object2CharOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
@@ -42,7 +42,7 @@ public final class SubaquaticConfigHandler
     public static int biomeColorBlendRadius = 3;
 
     @Config.Ignore
-    @Nonnull public static final Object2CharMap<Biome> FOG_COLORS = new Object2CharOpenHashMap<>(), SURFACE_COLORS = new Object2CharOpenHashMap<>();
+    @Nonnull public static final Object2IntMap<Biome> FOG_COLORS = new Object2IntOpenHashMap<>(), SURFACE_COLORS = new Object2IntOpenHashMap<>();
     @Nonnull static final Map<Block, BubbleColumnPredicate> BUBBLE_COLUMN_PULL = new HashMap<>(), BUBBLE_COLUMN_PUSH = new HashMap<>();
 
     @Nullable
@@ -52,7 +52,7 @@ public final class SubaquaticConfigHandler
 
     public static float[] getFogColorAt(@Nonnull IBlockAccess worldIn, @Nonnull BlockPos posIn, @Nonnull ToIntFunction<Biome> fallback) {
         return new Color(BiomeColorHelper.getColorAtPos(worldIn, posIn,
-                (biome, pos) -> FOG_COLORS.containsKey(biome) ? FOG_COLORS.get(biome) : fallback.applyAsInt(biome)))
+                (biome, pos) -> FOG_COLORS.getOrDefault(biome, fallback.applyAsInt(biome))))
                 .getColorComponents(new float[3]);
     }
 
@@ -66,8 +66,8 @@ public final class SubaquaticConfigHandler
                 if(json.has("Biome")) {
                     final @Nullable Biome biome = Biome.REGISTRY.getObject(new ResourceLocation(json.get("Biome").getAsString()));
                     if(biome != null) {
-                        if(json.has("Surface")) SURFACE_COLORS.put(biome, json.get("Surface").getAsCharacter());
-                        if(json.has("Fog")) FOG_COLORS.put(biome, json.get("Fog").getAsCharacter());
+                        if(json.has("Surface")) SURFACE_COLORS.put(biome, json.get("Surface").getAsInt());
+                        if(json.has("Fog")) FOG_COLORS.put(biome, json.get("Fog").getAsInt());
                     }
                 }
             }

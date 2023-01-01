@@ -2,16 +2,19 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url 'https://files.minecraftforge.net/maven' }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.matthewprenger.cursegradle'
 apply plugin: 'maven-publish'
 
-version = 'v1.0-mc1.12.2'
+version = 'v1.0.0-mc1.12.2'
 group = 'git.jbredwards.subaquatic'
 archivesBaseName = 'Subaquatic'
 sourceCompatibility = targetCompatibility = '1.8'
@@ -24,13 +27,18 @@ minecraft {
 }
 
 dependencies {
+    //required
     deobfCompile "com.cleanroommc:assetmover:${assetmover_version}"
     deobfCompile "com.github.jbredwards:fluidlogged-api:${fluidlogged_api_version}"
+
+    //optional
+    deobfCompile 'curse.maven:biomes-o-plenty-220318:2842510'
     deobfCompile "mezz.jei:jei_1.12.2:${jei_version}"
 }
 
 repositories {
     maven { url 'https://jitpack.io' }
+    maven { url 'https://cursemaven.com' }
     maven { url 'https://maven.cleanroommc.com' }
     maven {
         //location of the maven that hosts JEI files

@@ -55,7 +55,8 @@ public class BlockKelp extends BlockWaterloggedPlant implements IGrowable
     @Nonnull
     @Override
     public IBlockState getStateForPlacement(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer) {
-        return getDefaultState().withProperty(AGE, worldIn.rand.nextInt(16));
+        final IBlockState down = worldIn.getBlockState(pos.down());
+        return getDefaultState().withProperty(AGE, isEqualTo(down.getBlock(), this) ? down.getValue(AGE) : worldIn.rand.nextInt(4));
     }
 
     @Nonnull
