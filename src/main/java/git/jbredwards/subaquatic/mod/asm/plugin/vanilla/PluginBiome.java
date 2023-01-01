@@ -43,7 +43,7 @@ public final class PluginBiome implements IASMPlugin
     {
         @Nonnull
         public static IBlockState getOceanTopBlock(@Nonnull Biome biome, @Nonnull IBlockState fallback) {
-            return biome instanceof IOceanBiome ? biome.topBlock : fallback;
+            return biome instanceof IOceanBiome ? ((IOceanBiome)biome).getOceanSurface() : fallback;
         }
     }
 }

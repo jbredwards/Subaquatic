@@ -20,7 +20,7 @@ public final class ModBiomes
     @Nonnull public static final List<Biome> INIT = new ArrayList<>();
 
     // Biomes
-    @Nonnull public static final BiomeSubaquaticOcean DEEP_FROZEN_OCEAN = register("deep_frozen_ocean", new BiomeSubaquaticOcean(null, new Biome.BiomeProperties("Deep Frozen Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0).setRainfall(0.5f).setSnowEnabled()));
+    @Nonnull public static final BiomeSubaquaticOcean DEEP_FROZEN_OCEAN = register("deep_frozen_ocean", new BiomeSubaquaticOcean(new Biome.BiomeProperties("Deep Frozen Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0).setRainfall(0.5f).setSnowEnabled()));
 
     // Biome Dictionary
     public static void registerBiomeDictionary() {

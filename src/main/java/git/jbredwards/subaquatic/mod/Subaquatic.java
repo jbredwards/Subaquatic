@@ -8,6 +8,7 @@ import git.jbredwards.subaquatic.api.biome.IOceanBiome;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
+import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
@@ -77,6 +78,7 @@ public final class Subaquatic
         if(event.getSide() == Side.CLIENT) overrideParticles();
         //automatically add all IOceanBiome instances to the Forge ocean biomes list
         ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
+        MinecraftForge.TERRAIN_GEN_BUS.register(GenLayerOceanBiomes.class);
         //init config
         SubaquaticConfigHandler.init();
     }

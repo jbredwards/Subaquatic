@@ -1,10 +1,9 @@
 package git.jbredwards.subaquatic.api.biome;
 
-import net.minecraft.world.biome.Biome;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.world.biome.BiomeOcean;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Default implementation of IOceanBiome
@@ -13,19 +12,14 @@ import javax.annotation.Nullable;
  */
 public class BiomeSubaquaticOcean extends BiomeOcean implements IOceanBiome
 {
-    @Nullable
-    protected final Biome deepOceanBiome; //null if this itself is a deep ocean biome
-    protected int deepOceanBiomeIdCache;
-
-    public BiomeSubaquaticOcean(@Nullable Biome deepOceanBiomeIn, @Nonnull BiomeProperties propertiesIn) {
+    @Nonnull
+    protected IBlockState surfaceBlock;
+    public BiomeSubaquaticOcean(@Nonnull BiomeProperties propertiesIn) {
         super(propertiesIn);
-        deepOceanBiome = deepOceanBiomeIn;
-        topBlock = GRAVEL;
+        surfaceBlock = GRAVEL;
     }
 
+    @Nonnull
     @Override
-    public int getDeepOceanBiomeId() {
-        if(deepOceanBiomeIdCache != 0) return deepOceanBiomeIdCache;
-        else return deepOceanBiomeIdCache = deepOceanBiome != null ? getIdForBiome(deepOceanBiome) : -1;
-    }
+    public IBlockState getOceanSurface() { return surfaceBlock; }
 }

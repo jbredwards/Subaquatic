@@ -27,6 +27,7 @@ public final class ModItems
 
     //item blocks
     @Nonnull public static final ItemBlock DRIED_KELP_BLOCK = register("dried_kelp_block", new ItemBlock(ModBlocks.DRIED_KELP_BLOCK));
+    @Nonnull public static final ItemBlock BLUE_ICE = register("blue_ice", new ItemBlock(ModBlocks.BLUE_ICE));
     @Nonnull public static final ItemBlock TUBE_CORAL_BLOCK = register("tube_coral_block", new ItemBlockMeta(ModBlocks.TUBE_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlock BRAIN_CORAL_BLOCK = register("brain_coral_block", new ItemBlockMeta(ModBlocks.BRAIN_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlock BUBBLE_CORAL_BLOCK = register("bubble_coral_block", new ItemBlockMeta(ModBlocks.BUBBLE_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
