@@ -22,24 +22,23 @@ public abstract class GetOceanForGenEvent extends Event
 {
     @Nonnull
     protected Biome oceanForGen;
-    public final double temperatureNoise;
+    public GetOceanForGenEvent(@Nonnull Biome oceanForGenIn) { oceanForGen = ensureIsOcean(oceanForGenIn); }
 
-    public GetOceanForGenEvent(@Nonnull Biome oceanForGenIn, double temperatureNoiseIn) {
-        oceanForGen = oceanForGenIn;
-        temperatureNoise = temperatureNoiseIn;
-    }
-
-    public void setOcean(@Nonnull Biome oceanForGenIn) {
+    @Nonnull
+    protected static Biome ensureIsOcean(@Nonnull Biome oceanForGenIn) {
         Preconditions.checkNotNull(oceanForGenIn);
         Preconditions.checkArgument(BiomeManager.oceanBiomes.contains(oceanForGenIn),
-                "Biome for generation \"%s\" is not an ocean biome!", oceanForGenIn.delegate.name());
+                "Biome for generation \"%s\" is not an ocean biome!", oceanForGenIn.getRegistryName());
 
-        oceanForGen = oceanForGenIn;
-        setCanceled(true);
+        return oceanForGenIn;
     }
 
     @Nonnull
-    public Biome getOceanForGen() { return oceanForGen; }
+    public Biome getOcean() { return oceanForGen; }
+    public void setOcean(@Nonnull Biome oceanForGenIn) {
+        oceanForGen = ensureIsOcean(oceanForGenIn);
+        setCanceled(true);
+    }
 
     /**
      * Fired when fetching shallow ocean biomes.
@@ -47,7 +46,11 @@ public abstract class GetOceanForGenEvent extends Event
     @Cancelable
     public static class Shallow extends GetOceanForGenEvent
     {
-        public Shallow(double temperatureNoiseIn) { super(Biomes.OCEAN, temperatureNoiseIn); }
+        public final double temperatureNoise;
+        public Shallow(double temperatureNoiseIn) {
+            super(Biomes.OCEAN);
+            temperatureNoise = temperatureNoiseIn;
+        }
     }
 
     /**
@@ -56,6 +59,22 @@ public abstract class GetOceanForGenEvent extends Event
     @Cancelable
     public static class Deep extends GetOceanForGenEvent
     {
-        public Deep(double temperatureNoiseIn) { super(Biomes.DEEP_OCEAN, temperatureNoiseIn); }
+        public final double temperatureNoise;
+        public Deep(double temperatureNoiseIn) {
+            super(Biomes.DEEP_OCEAN);
+            temperatureNoise = temperatureNoiseIn;
+        }
+    }
+
+    /**
+     * TODO
+     * Fired when fetching the result of mixing neighboring ocean biomes.
+     */
+    @Cancelable
+    public static class Mixed extends GetOceanForGenEvent
+    {
+        public Mixed(@Nonnull Biome oceanForGenIn) {
+            super(oceanForGenIn);
+        }
     }
 }

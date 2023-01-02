@@ -34,6 +34,7 @@
     ["1.18.2", "assets/minecraft/sounds/step/wet_grass6.ogg", "assets/subaquatic/sounds/blocks/wet_grass/step6.ogg"],
 
     //block textures
+    ["1.18.2", "assets/minecraft/textures/block/blue_ice.png", "assets/subaquatic/textures/blocks/blue_ice.png"],
     ["1.18.2", "assets/minecraft/textures/block/brain_coral_block.png", "assets/subaquatic/textures/blocks/brain_coral_block.png"],
     ["1.18.2", "assets/minecraft/textures/block/bubble_coral_block.png", "assets/subaquatic/textures/blocks/bubble_coral_block.png"],
     ["1.18.2", "assets/minecraft/textures/block/dead_brain_coral_block.png", "assets/subaquatic/textures/blocks/dead_brain_coral_block.png"],
@@ -50,6 +51,13 @@
     ["1.18.2", "assets/minecraft/textures/block/kelp.png.mcmeta", "assets/subaquatic/textures/blocks/kelp_top.png.mcmeta"],
     ["1.18.2", "assets/minecraft/textures/block/kelp_plant.png", "assets/subaquatic/textures/blocks/kelp.png"],
     ["1.18.2", "assets/minecraft/textures/block/kelp_plant.png.mcmeta", "assets/subaquatic/textures/blocks/kelp.png.mcmeta"],
+    ["1.18.2", "assets/minecraft/textures/block/sea_pickle.png", "assets/subaquatic/textures/blocks/sea_pickle.png"],
+    ["1.18.2", "assets/minecraft/textures/block/seagrass.png", "assets/subaquatic/textures/blocks/seagrass_single.png"],
+    ["1.18.2", "assets/minecraft/textures/block/seagrass.png.mcmeta", "assets/subaquatic/textures/blocks/seagrass_single.png.mcmeta"],
+    ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_bottom.png", "assets/subaquatic/textures/blocks/seagrass_bottom.png"],
+    ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_bottom.png.mcmeta", "assets/subaquatic/textures/blocks/seagrass_bottom.png.mcmeta"],
+    ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_top.png", "assets/subaquatic/textures/blocks/seagrass_top.png"],
+    ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_top.png.mcmeta", "assets/subaquatic/textures/blocks/seagrass_top.png.mcmeta"],
     ["1.18.2", "assets/minecraft/textures/block/tube_coral_block.png", "assets/subaquatic/textures/blocks/tube_coral_block.png"],
     ["1.18.2", "assets/minecraft/textures/block/water_still.png", "assets/subaquatic/textures/blocks/water_still.png"],
     ["1.18.2", "assets/minecraft/textures/block/water_still.png.mcmeta", "assets/subaquatic/textures/blocks/water_still.png.mcmeta"],
@@ -59,5 +67,7 @@
 
     //item textures
     ["1.18.2", "assets/minecraft/textures/item/kelp.png", "assets/subaquatic/textures/items/kelp.png"],
-    ["1.18.2", "assets/minecraft/textures/item/nautilus_shell.png", "assets/subaquatic/textures/items/nautilus_shell.png"]
+    ["1.18.2", "assets/minecraft/textures/item/nautilus_shell.png", "assets/subaquatic/textures/items/nautilus_shell.png"],
+    ["1.18.2", "assets/minecraft/textures/item/sea_pickle.png", "assets/subaquatic/textures/items/sea_pickle.png"],
+    ["1.18.2", "assets/minecraft/textures/item/seagrass.png", "assets/subaquatic/textures/items/seagrass.png"]
 ]

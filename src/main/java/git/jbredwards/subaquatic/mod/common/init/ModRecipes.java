@@ -1,6 +1,7 @@
 package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
@@ -32,6 +33,7 @@ final class ModRecipes
 
     static void registerSmelting() {
         GameRegistry.addSmelting(ModItems.KELP, new ItemStack(ModItems.DRIED_KELP), 0.1f);
+        GameRegistry.addSmelting(ModItems.SEA_PICKLE, new ItemStack(Items.DYE, 1, 10), 0.1f);
         GameRegistry.addSmelting(new ItemStack(ModItems.BRAIN_CORAL_BLOCK, 1, 0), new ItemStack(ModItems.BRAIN_CORAL_BLOCK, 1, 1), 0.2f);
         GameRegistry.addSmelting(new ItemStack(ModItems.BUBBLE_CORAL_BLOCK, 1, 0), new ItemStack(ModItems.BUBBLE_CORAL_BLOCK, 1, 1), 0.2f);
         GameRegistry.addSmelting(new ItemStack(ModItems.FIRE_CORAL_BLOCK, 1, 0), new ItemStack(ModItems.FIRE_CORAL_BLOCK, 1, 1), 0.2f);

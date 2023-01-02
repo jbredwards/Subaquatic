@@ -26,7 +26,10 @@ import java.util.Random;
  */
 public class BiomeFrozenOcean extends BiomeSubaquaticOcean
 {
+    @Nonnull
+    protected static final NoiseGeneratorPerlin NOISE = new NoiseGeneratorPerlin(new Random(3456), 3);
     protected NoiseGeneratorPerlin perlin1, perlin2;
+
     public BiomeFrozenOcean(@Nonnull BiomeProperties propertiesIn) {
         super(propertiesIn);
         spawnableCreatureList.add(new SpawnListEntry(EntityPolarBear.class, 1, 1, 2));
@@ -40,20 +43,20 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
             protected void genDecorations(@Nonnull Biome biomeIn, @Nonnull World worldIn, @Nonnull Random rand) {
                 //normal icebergs
                 if(rand.nextFloat() < 0.0625) {
-                    final int offsetX = rand.nextInt(8) + 4;
-                    final int offsetZ = rand.nextInt(8) + 4;
+                    final int offsetX = rand.nextInt(8) + 12;
+                    final int offsetZ = rand.nextInt(8) + 12;
                     final BlockPos pos = worldIn.getHeight(chunkPos.add(offsetX, 0, offsetZ));
                     new WorldGenIceberg(Blocks.PACKED_ICE.getDefaultState()).generate(worldIn, rand, pos);
                 }
                 //rare icebergs
                 if(rand.nextFloat() < 0.005) {
-                    final int offsetX = rand.nextInt(8) + 4;
-                    final int offsetZ = rand.nextInt(8) + 4;
+                    final int offsetX = rand.nextInt(8) + 12;
+                    final int offsetZ = rand.nextInt(8) + 12;
                     final BlockPos pos = worldIn.getHeight(chunkPos.add(offsetX, 0, offsetZ));
                     new WorldGenIceberg(ModBlocks.BLUE_ICE.getDefaultState()).generate(worldIn, rand, pos);
                 }
                 //blue ice ore gen
-                genStandardOre1(worldIn, rand, 20, new WorldGenBlueIce(), 30, 64);
+                //genStandardOre1(worldIn, rand, 20, new WorldGenBlueIce(), 30, 64);
                 super.genDecorations(biomeIn, worldIn, rand);
             }
         });
@@ -163,5 +166,23 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
                 }
             }
         }
+    }
+
+    @Override
+    public float getTemperature(@Nonnull BlockPos pos) {
+        float defaultTemp = getDefaultTemperature();
+        final double noiseTemp = NOISE.getValue(pos.getX() * 0.05, pos.getZ() * 0.05);
+        final double otherTemp = GRASS_COLOR_NOISE.getValue(pos.getX() * 0.2, pos.getZ() * 0.2);
+
+        if(noiseTemp + otherTemp < 0.3 && GRASS_COLOR_NOISE.getValue(pos.getX() * 0.09, pos.getZ() * 0.09) < 0.8) {
+            defaultTemp = 0.2f;
+        }
+
+        if(pos.getY() > 64) {
+            final float temp = (float)(TEMPERATURE_NOISE.getValue(pos.getX() / 8.0, pos.getZ() / 8.0) * 4);
+            return defaultTemp - (temp + pos.getY() - 64) * 0.05f / 30;
+        }
+
+        return defaultTemp;
     }
 }

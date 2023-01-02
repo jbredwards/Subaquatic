@@ -16,7 +16,10 @@ import javax.annotation.Nonnull;
 public final class PluginBiome implements IASMPlugin
 {
     @Override
-    public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals(obfuscated ? "func_180628_b" : "generateBiomeTerrain"); }
+    public int getMethodIndex(@Nonnull MethodNode method, boolean obfuscated) {
+        if(method.name.equals(obfuscated ? "func_180628_b" : "generateBiomeTerrain")) return 1;
+        else return method.name.equals(obfuscated ? "func_185358_q" : "registerBiomes") ? 2 : 0;
+    }
 
     @Override
     public boolean transform(@Nonnull InsnList instructions, @Nonnull MethodNode method, @Nonnull AbstractInsnNode insn, boolean obfuscated, int index) {
@@ -29,9 +32,23 @@ public final class PluginBiome implements IASMPlugin
          * //allow modded ocean biomes to have custom surface blocks
          * chunkPrimerIn.setBlockState(i1, j1, l, Hooks.getOceanTopBlock(this, GRAVEL));
          */
-        if(checkField(insn, obfuscated ? "field_185368_d" : "GRAVEL")) {
+        if(index == 1 && checkField(insn, obfuscated ? "field_185368_d" : "GRAVEL")) {
             instructions.insertBefore(insn, new VarInsnNode(ALOAD, 0));
             instructions.insert(insn, genMethodNode("getOceanTopBlock", "(Lnet/minecraft/world/biome/Biome;Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/block/state/IBlockState;"));
+            return true;
+        }
+        /*
+         * registerBiomes: (changes are around line 562)
+         * Old code:
+         * registerBiome(10, "frozen_ocean", new BiomeOcean((new Biome.BiomeProperties("FrozenOcean")).setBaseHeight(-1.0F).setHeightVariation(0.1F).setTemperature(0.0F).setRainfall(0.5F).setSnowEnabled()));
+         *
+         * New code:
+         * //replace old biome class with new one
+         * registerBiome(10, "frozen_ocean", new BiomeFrozenOcean((new Biome.BiomeProperties("FrozenOcean")).setBaseHeight(-1.0F).setHeightVariation(0.1F).setTemperature(0.0F).setRainfall(0.5F).setSnowEnabled()));
+         */
+        else if(index == 2 && insn.getOpcode() == LDC && ((LdcInsnNode)insn).cst.equals("frozen_ocean")) {
+            ((TypeInsnNode)insn.getNext()).desc = "git/jbredwards/subaquatic/mod/common/world/biome/BiomeFrozenOcean";
+            ((MethodInsnNode)getNext(insn, 16)).owner = "git/jbredwards/subaquatic/mod/common/world/biome/BiomeFrozenOcean";
             return true;
         }
 

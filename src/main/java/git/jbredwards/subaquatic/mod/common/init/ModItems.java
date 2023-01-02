@@ -2,9 +2,7 @@ package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.block.AbstractBlockCoral;
-import git.jbredwards.subaquatic.mod.common.item.CreativeTab;
-import git.jbredwards.subaquatic.mod.common.item.ItemBlockMeta;
-import git.jbredwards.subaquatic.mod.common.item.ItemDurationFood;
+import git.jbredwards.subaquatic.mod.common.item.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
@@ -35,9 +33,11 @@ public final class ModItems
     @Nonnull public static final ItemBlock HORN_CORAL_BLOCK = register("horn_coral_block", new ItemBlockMeta(ModBlocks.HORN_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
 
     //items
-    @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(ModBlocks.NAUTILUS_SHELL));
+    @Nonnull public static final ItemBlockSeaPickle SEA_PICKLE = register("sea_pickle", new ItemBlockSeaPickle(ModBlocks.SEA_PICKLE));
+    @Nonnull public static final ItemBlockSeagrass SEAGRASS = register("seagrass", new ItemBlockSeagrass(ModBlocks.SEAGRASS));
     @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(ModBlocks.KELP));
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.maxUseDuration = 16);
+    @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(ModBlocks.NAUTILUS_SHELL));
 
     //ore dict registration
     public static void registerOreDictionary() {

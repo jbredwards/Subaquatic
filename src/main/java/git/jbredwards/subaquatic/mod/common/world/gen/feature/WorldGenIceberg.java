@@ -156,10 +156,10 @@ public class WorldGenIceberg extends WorldGenerator
     private void func_205175_a(BlockPos p_205175_1_, World p_205175_2_, Random p_205175_3_, int p_205175_4_, int p_205175_5_, boolean p_205175_6_, boolean p_205175_7_, IBlockState p_205175_8_) {
         IBlockState iblockstate = p_205175_2_.getBlockState(p_205175_1_);
         Block block = iblockstate.getBlock();
-        if (iblockstate.getMaterial() == Material.AIR || block == Blocks.SNOW || block == Blocks.ICE || block == Blocks.WATER) {
+        if (iblockstate.getMaterial() == Material.AIR || block == Blocks.SNOW || block == Blocks.ICE || iblockstate.getMaterial() == Material.WATER) {
             boolean flag = !p_205175_6_ || p_205175_3_.nextDouble() > 0.05D;
             int i = p_205175_6_ ? 3 : 2;
-            if (p_205175_7_ && block != Blocks.WATER && (double)p_205175_4_ <= (double)p_205175_3_.nextInt(Math.max(1, p_205175_5_ / i)) + (double)p_205175_5_ * 0.6D && flag) {
+            if (p_205175_7_ && iblockstate.getMaterial() != Material.WATER && (double)p_205175_4_ <= (double)p_205175_3_.nextInt(Math.max(1, p_205175_5_ / i)) + (double)p_205175_5_ * 0.6D && flag) {
                 setBlockAndNotifyAdequately(p_205175_2_, p_205175_1_, Blocks.SNOW.getDefaultState());
             } else {
                 setBlockAndNotifyAdequately(p_205175_2_, p_205175_1_, p_205175_8_);
@@ -246,6 +246,5 @@ public class WorldGenIceberg extends WorldGenerator
                 }
             }
         }
-
     }
 }

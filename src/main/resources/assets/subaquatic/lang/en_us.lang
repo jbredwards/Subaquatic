@@ -1,8 +1,11 @@
 #Blocks
+tile.subaquatic.blue_ice.name=Blue Ice
 tile.subaquatic.bubble_column.name=Bubble Column
 tile.subaquatic.dried_kelp_block.name=Block of Dried Kelp
 tile.subaquatic.kelp.name=Kelp
 tile.subaquatic.nautilus_shell.name=Nautilus Shell
+tile.subaquatic.sea_pickle.name=Sea Pickle
+tile.subaquatic.seagrass.name=Seagrass
 #Coral
 tile.subaquatic.brain_coral_block.name=Block of Brain Coral
 tile.subaquatic.brain_coral_block.alive.false.name=Block of Dead Brain Coral

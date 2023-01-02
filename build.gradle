@@ -32,8 +32,8 @@ dependencies {
     deobfCompile "com.github.jbredwards:fluidlogged-api:${fluidlogged_api_version}"
 
     //optional
-    deobfCompile 'curse.maven:biomes-o-plenty-220318:2842510'
     deobfCompile "mezz.jei:jei_1.12.2:${jei_version}"
+    deobfProvided 'curse.maven:biomes-o-plenty-220318:2842510'
 }
 
 repositories {
