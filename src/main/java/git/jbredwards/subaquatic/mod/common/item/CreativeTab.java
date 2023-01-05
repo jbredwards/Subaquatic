@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.common.item;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.init.ModItems;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,5 +22,5 @@ public final class CreativeTab extends CreativeTabs
     @Nonnull
     @SideOnly(Side.CLIENT)
     @Override
-    public ItemStack createIcon() { return new ItemStack(ModItems.NAUTILUS_SHELL); }
+    public ItemStack createIcon() { return new ItemStack(SubaquaticItems.NAUTILUS_SHELL); }
 }

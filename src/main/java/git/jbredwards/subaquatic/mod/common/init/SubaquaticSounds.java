@@ -14,7 +14,7 @@ import java.util.List;
  * @author jbred
  *
  */
-public final class ModSounds
+public final class SubaquaticSounds
 {
     //sound init
     @Nonnull public static final List<SoundEvent> INIT = new ArrayList<>();

@@ -2,12 +2,11 @@ package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.biome.Biome;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
@@ -62,10 +61,8 @@ public final class PluginItemRenderer implements IASMPlugin
         @Nonnull
         public static final ResourceLocation UNDERWATER_OVERLAY = new ResourceLocation(Subaquatic.MODID, "textures/misc/underwater.png");
         public static void applyColor(float brightness, float partialTicks) {
-            final float[] fogComp = SubaquaticConfigHandler.getFogColorAt(
-                    Minecraft.getMinecraft().world,
-                    new BlockPos(Minecraft.getMinecraft().player.getPositionEyes(partialTicks)),
-                    Biome::getWaterColor);;
+            final float[] fogComp = SubaquaticWaterColorConfig.getFogColorAt(Minecraft.getMinecraft().world,
+                    new BlockPos(Minecraft.getMinecraft().player.getPositionEyes(partialTicks)));
 
             brightness *= 0.2f;
             GlStateManager.color(fogComp[0] * 0.8f + brightness, fogComp[1] * 0.8f + brightness, fogComp[2] * 0.8f + brightness, 0.5f);

@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -47,7 +47,7 @@ public final class PluginBlock implements IASMPlugin
     {
         @Nonnull
         public static Vec3d betterWaterFogColor(@Nonnull World world, @Nonnull BlockPos origin, float modifier) {
-            final float[] components = SubaquaticConfigHandler.getFogColorAt(world, origin, biome -> 20827);
+            final float[] components = SubaquaticWaterColorConfig.getFogColorAt(world, origin);
             return new Vec3d(Math.min(1, components[0] + modifier), Math.min(1, components[1] + modifier), Math.min(1, components[2] + modifier));
         }
     }

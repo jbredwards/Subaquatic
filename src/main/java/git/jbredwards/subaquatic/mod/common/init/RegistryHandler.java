@@ -22,29 +22,29 @@ final class RegistryHandler
 {
     @SubscribeEvent
     static void registerBiomes(@Nonnull RegistryEvent.Register<Biome> event) {
-        ModBiomes.INIT.forEach(event.getRegistry()::register);
-        ModBiomes.registerBiomeDictionary();
+        SubaquaticBiomes.INIT.forEach(event.getRegistry()::register);
+        SubaquaticBiomes.registerBiomeDictionary();
     }
 
     @SubscribeEvent
     static void registerBlocks(@Nonnull RegistryEvent.Register<Block> event) {
-        ModBlocks.INIT.forEach(event.getRegistry()::register);
-        ModBlocks.registerBurnables();
+        SubaquaticBlocks.INIT.forEach(event.getRegistry()::register);
+        SubaquaticBlocks.registerBurnables();
     }
 
     @SubscribeEvent
     static void registerItems(@Nonnull RegistryEvent.Register<Item> event) {
-        ModItems.INIT.forEach(event.getRegistry()::register);
-        ModItems.registerOreDictionary();
+        SubaquaticItems.INIT.forEach(event.getRegistry()::register);
+        SubaquaticItems.registerOreDictionary();
     }
 
     @SubscribeEvent
     static void registerPotions(@Nonnull RegistryEvent.Register<Potion> event) {
-        ModPotions.INIT.forEach(event.getRegistry()::register);
+        SubaquaticPotions.INIT.forEach(event.getRegistry()::register);
     }
 
     @SubscribeEvent
     static void registerSounds(@Nonnull RegistryEvent.Register<SoundEvent> event) {
-        ModSounds.INIT.forEach(event.getRegistry()::register);
+        SubaquaticSounds.INIT.forEach(event.getRegistry()::register);
     }
 }

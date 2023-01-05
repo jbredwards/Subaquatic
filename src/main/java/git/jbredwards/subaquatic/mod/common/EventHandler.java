@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.common;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.init.ModSounds;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.RegistryEvent;
@@ -23,6 +23,6 @@ public final class EventHandler
     static void improveVanillaBlocks(@Nonnull RegistryEvent.Register<Block> event) {
         Blocks.FLOWING_WATER.setLightOpacity(2);
         Blocks.WATER.setLightOpacity(2);
-        Blocks.WATERLILY.setSoundType(ModSounds.WET_GRASS);
+        Blocks.WATERLILY.setSoundType(SubaquaticSounds.WET_GRASS);
     }
 }

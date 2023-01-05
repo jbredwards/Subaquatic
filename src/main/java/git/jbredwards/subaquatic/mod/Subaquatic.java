@@ -8,6 +8,8 @@ import git.jbredwards.subaquatic.api.biome.IOceanBiome;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
+import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -26,6 +28,7 @@ import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.io.IOUtils;
@@ -71,16 +74,19 @@ public final class Subaquatic
     static void preInit(@Nonnull FMLPreInitializationEvent event) {
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
+        //world generators
+        GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
     }
 
     @Mod.EventHandler
-    static void init(@Nonnull FMLInitializationEvent event) {
+    static void init(@Nonnull FMLInitializationEvent event) throws IOException {
         if(event.getSide() == Side.CLIENT) overrideParticles();
         //automatically add all IOceanBiome instances to the Forge ocean biomes list
         ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
         MinecraftForge.TERRAIN_GEN_BUS.register(GenLayerOceanBiomes.class);
-        //init config
+        //config stuff
         SubaquaticConfigHandler.init();
+        SubaquaticWaterColorConfig.buildWaterColors();
     }
 
     @SideOnly(Side.CLIENT)

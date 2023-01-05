@@ -1,6 +1,6 @@
 package git.jbredwards.subaquatic.mod.common.block;
 
-import git.jbredwards.subaquatic.mod.common.init.ModSounds;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
@@ -45,7 +45,7 @@ public abstract class AbstractBlockCoral extends Block implements IGrowable
     @Nonnull
     @Override
     public SoundType getSoundType(@Nonnull IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nullable Entity entity) {
-        return state.getValue(ALIVE) ? ModSounds.CORAL : SoundType.STONE;
+        return state.getValue(ALIVE) ? SubaquaticSounds.CORAL : SoundType.STONE;
     }
 
     @Nonnull

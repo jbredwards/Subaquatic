@@ -1,6 +1,6 @@
 package git.jbredwards.subaquatic.mod.common.world.gen.feature;
 
-import git.jbredwards.subaquatic.mod.common.init.ModBlocks;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -27,14 +27,14 @@ public class WorldGenBlueIce extends WorldGenerator
 
         boolean isPackedIceNear = false;
         for(EnumFacing facing : EnumFacing.values()) {
-            if (facing != EnumFacing.DOWN && world.getBlockState(position.offset(facing)).getBlock() == Blocks.PACKED_ICE) {
+            if(facing != EnumFacing.DOWN && world.getBlockState(position.offset(facing)).getBlock() == Blocks.PACKED_ICE) {
                 isPackedIceNear = true;
                 break;
             }
         }
 
         if(!isPackedIceNear) return false;
-        setBlockAndNotifyAdequately(world, position, ModBlocks.BLUE_ICE.getDefaultState());
+        setBlockAndNotifyAdequately(world, position, SubaquaticBlocks.BLUE_ICE.getDefaultState());
 
         for(int i = 0; i < 200; i++) {
             final int y = rand.nextInt(5) - rand.nextInt(6);
@@ -45,8 +45,8 @@ public class WorldGenBlueIce extends WorldGenerator
 
             if(state.getMaterial() == Material.AIR || state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.PACKED_ICE || state.getBlock() == Blocks.ICE) {
                 for(EnumFacing facing : EnumFacing.values()) {
-                    if(world.getBlockState(pos.offset(facing)).getBlock() == ModBlocks.BLUE_ICE) {
-                        setBlockAndNotifyAdequately(world, pos, ModBlocks.BLUE_ICE.getDefaultState());
+                    if(world.getBlockState(pos.offset(facing)).getBlock() == SubaquaticBlocks.BLUE_ICE) {
+                        setBlockAndNotifyAdequately(world, pos, SubaquaticBlocks.BLUE_ICE.getDefaultState());
                         break;
                     }
                 }

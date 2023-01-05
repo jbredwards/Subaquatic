@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  * @author jbred
  *
  */
-public final class ModPotions
+public final class SubaquaticPotions
 {
     //potion init
     @Nonnull public static final List<Potion> INIT = new ArrayList<>();

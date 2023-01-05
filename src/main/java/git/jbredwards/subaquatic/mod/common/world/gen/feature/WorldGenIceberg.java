@@ -1,6 +1,6 @@
 package git.jbredwards.subaquatic.mod.common.world.gen.feature;
 
-import git.jbredwards.subaquatic.mod.common.init.ModBlocks;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -208,7 +208,7 @@ public class WorldGenIceberg extends WorldGenerator
     }
 
     private boolean isBlockIceberg(@Nonnull Block block) {
-        return block == Blocks.PACKED_ICE || block == Blocks.SNOW || block == ModBlocks.BLUE_ICE;
+        return block == Blocks.PACKED_ICE || block == Blocks.SNOW || block == SubaquaticBlocks.BLUE_ICE;
     }
 
     private boolean isDownAir(@Nonnull World world, @Nonnull BlockPos pos) {

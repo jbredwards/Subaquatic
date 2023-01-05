@@ -18,14 +18,15 @@ import javax.annotation.Nonnull;
  *
  */
 @Cancelable
-public abstract class GetOceanForGenEvent extends Event
+public class GetOceanForGenEvent extends Event
 {
-    @Nonnull public final Biome startingOcean;
-    @Nonnull protected Biome oceanForGen;
+    @Nonnull
+    protected Biome oceanForGen;
+    public final double temperatureNoise;
 
-    public GetOceanForGenEvent(@Nonnull Biome oceanForGenIn) {
-        startingOcean = ensureIsOcean(oceanForGenIn);
-        oceanForGen = startingOcean;
+    public GetOceanForGenEvent(double temperatureNoiseIn) {
+        temperatureNoise = temperatureNoiseIn;
+        oceanForGen = Biomes.OCEAN;
     }
 
     @Nonnull
@@ -42,27 +43,5 @@ public abstract class GetOceanForGenEvent extends Event
     public void setOcean(@Nonnull Biome oceanForGenIn) {
         oceanForGen = ensureIsOcean(oceanForGenIn);
         setCanceled(true);
-    }
-
-    /**
-     * Fired when fetching shallow ocean biomes.
-     */
-    @Cancelable
-    public static class Shallow extends GetOceanForGenEvent
-    {
-        public final double temperatureNoise;
-        public Shallow(double temperatureNoiseIn) {
-            super(Biomes.OCEAN);
-            temperatureNoise = temperatureNoiseIn;
-        }
-    }
-
-    /**
-     * Fired when fetching deep ocean biomes.
-     */
-    @Cancelable
-    public static class Deep extends GetOceanForGenEvent
-    {
-        public Deep(@Nonnull Biome shallowOceanIn) { super(shallowOceanIn); }
     }
 }

@@ -1,7 +1,8 @@
 package git.jbredwards.subaquatic.mod.common.world.biome;
 
 import git.jbredwards.subaquatic.api.biome.BiomeSubaquaticOcean;
-import git.jbredwards.subaquatic.mod.common.init.ModBlocks;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.WorldGenBlueIce;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.WorldGenIceberg;
 import net.minecraft.block.BlockSand;
@@ -17,6 +18,7 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -30,10 +32,15 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
     protected static final NoiseGeneratorPerlin NOISE = new NoiseGeneratorPerlin(new Random(3456), 3);
     protected NoiseGeneratorPerlin perlin1, perlin2;
 
-    public BiomeFrozenOcean(@Nonnull BiomeProperties propertiesIn) {
-        super(propertiesIn);
+    public BiomeFrozenOcean(@Nonnull BiomeProperties propertiesIn) { this(null, propertiesIn); }
+    public BiomeFrozenOcean(@Nullable Biome deepOceanBiomeIn, @Nonnull BiomeProperties propertiesIn) {
+        super(deepOceanBiomeIn, propertiesIn);
         spawnableCreatureList.add(new SpawnListEntry(EntityPolarBear.class, 1, 1, 2));
     }
+
+    @Nonnull
+    @Override
+    public Biome getMixOceanBiome() { return SubaquaticBiomes.COLD_OCEAN; }
 
     @Nonnull
     @Override
@@ -53,7 +60,7 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
                     final int offsetX = rand.nextInt(8) + 12;
                     final int offsetZ = rand.nextInt(8) + 12;
                     final BlockPos pos = worldIn.getHeight(chunkPos.add(offsetX, 0, offsetZ));
-                    new WorldGenIceberg(ModBlocks.BLUE_ICE.getDefaultState()).generate(worldIn, rand, pos);
+                    new WorldGenIceberg(SubaquaticBlocks.BLUE_ICE.getDefaultState()).generate(worldIn, rand, pos);
                 }
                 //blue ice ore gen
                 genStandardOre1(worldIn, rand, 20, new WorldGenBlueIce(), 30, 64);

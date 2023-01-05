@@ -7,10 +7,9 @@ import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
 import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
-import git.jbredwards.subaquatic.mod.common.config.BubbleColumnPredicate;
+import git.jbredwards.subaquatic.mod.common.config.util.BubbleColumnPredicate;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
-import git.jbredwards.subaquatic.mod.common.init.ModBlocks;
-import git.jbredwards.subaquatic.mod.common.init.ModSounds;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -30,11 +29,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -173,8 +169,8 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
             if(cap != null && !cap.isInBubbleColumn()) {
                 cap.setInBubbleColumn(true);
                 worldIn.playSound(null, pos, isPull
-                        ? ModSounds.BUBBLE_COLUMN_DOWN_INSIDE
-                        : ModSounds.BUBBLE_COLUMN_UP_INSIDE, SoundCategory.BLOCKS, 0.5f, 1.0f);
+                        ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_INSIDE
+                        : SubaquaticSounds.BUBBLE_COLUMN_UP_INSIDE, SoundCategory.BLOCKS, 0.5f, 1.0f);
             }
         }
     }
@@ -196,8 +192,8 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
         //ambient sound effect
         if(rand.nextInt(200) == 0)
             worldIn.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, isPull
-                            ? ModSounds.BUBBLE_COLUMN_DOWN_AMBIENT
-                            : ModSounds.BUBBLE_COLUMN_UP_AMBIENT,
+                            ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_AMBIENT
+                            : SubaquaticSounds.BUBBLE_COLUMN_UP_AMBIENT,
                     SoundCategory.BLOCKS, 0.2f + rand.nextFloat() * 0.2f,
                     0.9f + rand.nextFloat() * 0.15f, false);
     }

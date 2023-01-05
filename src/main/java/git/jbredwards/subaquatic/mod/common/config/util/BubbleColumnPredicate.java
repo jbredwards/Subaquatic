@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.config;
+package git.jbredwards.subaquatic.mod.common.config.util;
 
 import git.jbredwards.fluidlogged_api.mod.common.config.FluidloggedAPIConfigHandler;
 import net.minecraft.block.Block;

@@ -17,8 +17,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -68,14 +66,7 @@ public class BlockKelp extends BlockWaterloggedPlant implements IGrowable
     @Nonnull
     @Override
     public AxisAlignedBB getBoundingBox(@Nonnull IBlockState state, @Nonnull IBlockAccess source, @Nonnull BlockPos pos) {
-        return isKelpTop(source, pos) ? KELP_TOP_BB : FULL_BLOCK_AABB;
-    }
-
-    @Nonnull
-    @SideOnly(Side.CLIENT)
-    @Override
-    public AxisAlignedBB getSelectedBoundingBox(@Nonnull IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos) {
-        return state.getBoundingBox(worldIn, pos).offset(pos).offset(state.getOffset(worldIn, pos));
+        return (isKelpTop(source, pos) ? KELP_TOP_BB : FULL_BLOCK_AABB).offset(state.getOffset(source, pos));
     }
 
     @Override

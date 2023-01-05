@@ -4,15 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.config.util.BubbleColumnPredicate;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -21,11 +19,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.function.ToIntFunction;
 
 /**
  *
@@ -48,12 +44,6 @@ public final class SubaquaticConfigHandler
     @Nullable
     public static BubbleColumnPredicate getBubbleColumnConditions(@Nonnull Block soil, boolean isPull) {
         return (isPull ? BUBBLE_COLUMN_PULL : BUBBLE_COLUMN_PUSH).get(soil);
-    }
-
-    public static float[] getFogColorAt(@Nonnull IBlockAccess worldIn, @Nonnull BlockPos posIn, @Nonnull ToIntFunction<Biome> fallback) {
-        return new Color(BiomeColorHelper.getColorAtPos(worldIn, posIn,
-                (biome, pos) -> FOG_COLORS.getOrDefault(biome, fallback.applyAsInt(biome))))
-                .getColorComponents(new float[3]);
     }
 
     public static void init() {
