@@ -20,9 +20,13 @@ import javax.annotation.Nonnull;
 @Cancelable
 public abstract class GetOceanForGenEvent extends Event
 {
-    @Nonnull
-    protected Biome oceanForGen;
-    public GetOceanForGenEvent(@Nonnull Biome oceanForGenIn) { oceanForGen = ensureIsOcean(oceanForGenIn); }
+    @Nonnull public final Biome startingOcean;
+    @Nonnull protected Biome oceanForGen;
+
+    public GetOceanForGenEvent(@Nonnull Biome oceanForGenIn) {
+        startingOcean = ensureIsOcean(oceanForGenIn);
+        oceanForGen = startingOcean;
+    }
 
     @Nonnull
     protected static Biome ensureIsOcean(@Nonnull Biome oceanForGenIn) {
@@ -59,22 +63,6 @@ public abstract class GetOceanForGenEvent extends Event
     @Cancelable
     public static class Deep extends GetOceanForGenEvent
     {
-        public final double temperatureNoise;
-        public Deep(double temperatureNoiseIn) {
-            super(Biomes.DEEP_OCEAN);
-            temperatureNoise = temperatureNoiseIn;
-        }
-    }
-
-    /**
-     * TODO
-     * Fired when fetching the result of mixing neighboring ocean biomes.
-     */
-    @Cancelable
-    public static class Mixed extends GetOceanForGenEvent
-    {
-        public Mixed(@Nonnull Biome oceanForGenIn) {
-            super(oceanForGenIn);
-        }
+        public Deep(@Nonnull Biome shallowOceanIn) { super(shallowOceanIn); }
     }
 }

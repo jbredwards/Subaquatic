@@ -56,7 +56,7 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
                     new WorldGenIceberg(ModBlocks.BLUE_ICE.getDefaultState()).generate(worldIn, rand, pos);
                 }
                 //blue ice ore gen
-                //genStandardOre1(worldIn, rand, 20, new WorldGenBlueIce(), 30, 64);
+                genStandardOre1(worldIn, rand, 20, new WorldGenBlueIce(), 30, 64);
                 super.genDecorations(biomeIn, worldIn, rand);
             }
         });
@@ -65,16 +65,16 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
     @Override
     public void genTerrainBlocks(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull ChunkPrimer chunkPrimerIn, int posX, int posZ, double noiseVal) {
         final NoiseGeneratorPerlin perlin1 = this.perlin1 != null ? this.perlin1 : (this.perlin1 = new NoiseGeneratorPerlin(rand, 4));
-        final NoiseGeneratorPerlin perlin2 = this.perlin2 != null ? this.perlin2 : (this.perlin2 = new NoiseGeneratorPerlin(rand, 1));
 
         double d0 = 0;
         double d1 = 0;
 
         final int seaLevel = worldIn.getSeaLevel();
-        final float temperature = getTemperature(new BlockPos(posX, 63, posZ));
-        double d2 = Math.min(Math.abs(noiseVal), perlin1.getValue((double)posX * 0.1D, (double)posZ * 0.1));
+        double d2 = Math.min(Math.abs(noiseVal), perlin1.getValue((double)posX * 0.1, (double)posZ * 0.1));
 
         if(d2 > 1.8) {
+            final NoiseGeneratorPerlin perlin2 = this.perlin2 != null ? this.perlin2 : (this.perlin2 = new NoiseGeneratorPerlin(rand, 1));
+            final float temperature = getTemperature(new BlockPos(posX, 63, posZ));
             final double noiseFactor = 0.09765625;
             double d4 = Math.abs(perlin2.getValue((double)posX * noiseFactor, (double)posZ * noiseFactor));
             d0 = d2 * d2 * 1.2;

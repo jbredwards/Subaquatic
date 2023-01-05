@@ -21,6 +21,7 @@ public class WorldGenBlueIce extends WorldGenerator
 {
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos position) {
+        position = position.add(8, 0, 8);
         if(position.getY() >= world.getSeaLevel()) return false;
         if(world.getBlockState(position).getBlock() != Blocks.WATER && world.getBlockState(position.down()).getBlock() != Blocks.WATER) return false;
 
