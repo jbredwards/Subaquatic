@@ -49,15 +49,15 @@ public final class PluginGenLayerDeepOcean implements IASMPlugin
             for(int x = 0; x < areaWidth; x++) {
                 for(int z = 0; z < areaHeight; z++) {
                     final int biomeId = biomeInts[x + 1 + (z + 1) * (areaWidth + 2)];
-                    if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeId))) {
-                        int deepOceanChecks = 0;
+                    if(IOceanBiome.isShallowOcean(biomeId)) {
+                        int oceanChecks = 0;
 
-                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeInts[x + 1 + (z + 1 - 1) * (areaWidth + 2)]))) ++deepOceanChecks;
-                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeInts[x + 1 + 1 + (z + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
-                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeInts[x + 1 - 1 + (z + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
-                        if(IOceanBiome.isShallowOcean(Biome.getBiomeForId(biomeInts[x + 1 + (z + 1 + 1) * (areaWidth + 2)]))) ++deepOceanChecks;
+                        if(IOceanBiome.isShallowOcean(biomeInts[x + 1 + (z + 1 - 1) * (areaWidth + 2)])) ++oceanChecks;
+                        if(IOceanBiome.isShallowOcean(biomeInts[x + 1 + 1 + (z + 1) * (areaWidth + 2)])) ++oceanChecks;
+                        if(IOceanBiome.isShallowOcean(biomeInts[x + 1 - 1 + (z + 1) * (areaWidth + 2)])) ++oceanChecks;
+                        if(IOceanBiome.isShallowOcean(biomeInts[x + 1 + (z + 1 + 1) * (areaWidth + 2)])) ++oceanChecks;
 
-                        out[x + z * areaWidth] = deepOceanChecks == 4 ? DEEP_OCEAN : biomeId;
+                        out[x + z * areaWidth] = oceanChecks == 4 ? DEEP_OCEAN : biomeId;
                     }
 
                     else out[x + z * areaWidth] = biomeId;

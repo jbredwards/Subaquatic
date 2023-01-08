@@ -50,7 +50,7 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
             @Override
             protected void genDecorations(@Nonnull Biome biomeIn, @Nonnull World worldIn, @Nonnull Random rand) {
                 //normal icebergs
-                /*if(rand.nextFloat() < 0.0625) {
+                if(rand.nextFloat() < 0.0625) {
                     final int offsetX = rand.nextInt(8) + 12;
                     final int offsetZ = rand.nextInt(8) + 12;
                     final BlockPos pos = worldIn.getHeight(chunkPos.add(offsetX, 0, offsetZ));
@@ -64,7 +64,7 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
                     new WorldGenIceberg(SubaquaticBlocks.BLUE_ICE.getDefaultState()).generate(worldIn, rand, pos);
                 }
                 //blue ice ore gen
-                genStandardOre1(worldIn, rand, 20, new WorldGenBlueIce(), 30, 64);*/
+                genStandardOre1(worldIn, rand, 20, new WorldGenBlueIce(), 30, 64);
                 super.genDecorations(biomeIn, worldIn, rand);
             }
         });
@@ -74,198 +74,99 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
     public void genTerrainBlocks(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull ChunkPrimer chunkPrimerIn, int posX, int posZ, double noiseVal) {
         setSeed(worldIn.getSeed());
         buildSurface(worldIn, rand, chunkPrimerIn, posX, posZ, noiseVal);
-        /*final NoiseGeneratorPerlin perlin1 = this.perlin1 != null ? this.perlin1 : (this.perlin1 = new NoiseGeneratorPerlin(rand, 4));
-
-        double d0 = 0;
-        double d1 = 0;
-
-        final int seaLevel = worldIn.getSeaLevel();
-        double d2 = Math.min(Math.abs(noiseVal), perlin1.getValue((double)posX * 0.1, (double)posZ * 0.1));
-
-        if(d2 > 1.8) {
-            final NoiseGeneratorPerlin perlin2 = this.perlin2 != null ? this.perlin2 : (this.perlin2 = new NoiseGeneratorPerlin(rand, 1));
-            final float temperature = getTemperature(new BlockPos(posX, 63, posZ));
-            final double noiseFactor = 0.09765625;
-            double d4 = Math.abs(perlin2.getValue((double)posX * noiseFactor, (double)posZ * noiseFactor));
-            d0 = d2 * d2 * 1.2;
-            double d5 = Math.ceil(d4 * 40) + 14;
-            if (d0 > d5) {
-                d0 = d5;
-            }
-
-            if (temperature > 0.1) {
-                d0 -= 2;
-            }
-
-            if (d0 > 2) {
-                d1 = (double)seaLevel - d0 - 7;
-                d0 = d0 + (double)seaLevel;
-            } else {
-                d0 = 0;
-            }
-        }
-
-        int x = posX & 15;
-        int z = posZ & 15;
-        IBlockState filler = fillerBlock;
-        IBlockState top = topBlock;
-        int l1 = (int)(noiseVal / 3 + 3 + rand.nextDouble() * 0.25);
-        int j = -1;
-        int k = 0;
-        int l = 2 + rand.nextInt(4);
-        int i1 = seaLevel + 18 + rand.nextInt(10);
-
-        for(int y = 255; y >= 0; --y) {
-            if(y <= rand.nextInt(5)) {
-                chunkPrimerIn.setBlockState(x, y, z, BEDROCK);
-            }
-            else {
-                if(chunkPrimerIn.getBlockState(x, y, z).getMaterial() == Material.AIR && y < (int)d0 && rand.nextDouble() > 0.01) {
-                    chunkPrimerIn.setBlockState(x, y, z, Blocks.PACKED_ICE.getDefaultState());
-                }
-                else if(chunkPrimerIn.getBlockState(x, y, z).getMaterial() == Material.WATER && y > (int)d1 && y < seaLevel && d1 != 0 && rand.nextDouble() > 0.15) {
-                    chunkPrimerIn.setBlockState(x, y, z, Blocks.PACKED_ICE.getDefaultState());
-                }
-
-                IBlockState iblockstate1 = chunkPrimerIn.getBlockState(x, y, z);
-                if(iblockstate1.getMaterial() == Material.AIR) {
-                    j = -1;
-                }
-                else if (iblockstate1.getBlock() != Blocks.STONE) {
-                    if(iblockstate1.getBlock() == Blocks.PACKED_ICE && k <= l && y > i1) {
-                        chunkPrimerIn.setBlockState(x, y, z, Blocks.SNOW.getDefaultState());
-                        ++k;
-                    }
-                }
-                else if (j == -1) {
-                    if (l1 <= 0) {
-                        top = AIR;
-                        filler = STONE;
-                    } else if (y >= seaLevel - 4 && y <= seaLevel + 1) {
-                        top = topBlock;
-                        filler = fillerBlock;
-                    }
-
-                    if (y < seaLevel && (top == null || top.getMaterial() == Material.AIR)) {
-                        if (getTemperature(new BlockPos(posX, y, posZ)) < 0.15) {
-                            top = ICE;
-                        } else {
-                            top = WATER;
-                        }
-                    }
-
-                    j = l1;
-                    if (y >= seaLevel - 1) {
-                        assert top != null;
-                        chunkPrimerIn.setBlockState(x, y, z, top);
-                    } else if (y < seaLevel - 7 - l1) {
-                        top = AIR;
-                        filler = STONE;
-                        chunkPrimerIn.setBlockState(x, y, z, getOceanSurface());
-                    } else {
-                        chunkPrimerIn.setBlockState(x, y, z, filler);
-                    }
-                }
-                else if (j > 0) {
-                    --j;
-                    chunkPrimerIn.setBlockState(x, y, z, filler);
-                    if (j == 0 && filler.getBlock() == Blocks.SAND && l1 > 1) {
-                        j = rand.nextInt(4) + Math.max(0, y - 63);
-                        filler = iblockstate1.getValue(BlockSand.VARIANT) == BlockSand.EnumType.RED_SAND ? RED_SANDSTONE : SANDSTONE;
-                    }
-                }
-            }
-        }*/
     }
 
     //seed to test -955387458787438796
-    protected void buildSurface(@Nonnull World world, @Nonnull Random rand, @Nonnull ChunkPrimer primer, int posX, int posZ, double noise) {
+    protected void buildSurface(@Nonnull World world, @Nonnull Random rand, @Nonnull ChunkPrimer primer, int posX, int posZ, double noiseVal) {
         final int seaLevel = world.getSeaLevel();
-        double d0 = 0.0D;
-        double d1 = 0.0D;
+        double maxHeight = 0;
+        double minHeight = 0; //usually underwater
 
-        final int xNoise = (posX & -16) + (posZ & 15);
-        final int zNoise = (posZ & -16) + (posX & 15);
+        final int xNoiseIn = (posX & -16) + (posZ & 15);
+        final int zNoiseIn = (posZ & -16) + (posX & 15);
 
-        double d2 = Math.min(Math.abs(noise), perlin1.getValue(xNoise * 0.1D, zNoise * 0.1D));
-        if (d2 > 1.8D) {
-            double d3 = 0.09765625D;
-            double d4 = Math.abs(perlin2.getValue(xNoise * 0.09765625D, zNoise * 0.09765625D));
-            d0 = d2 * d2 * 1.2D;
-            double d5 = Math.ceil(d4 * 40.0D) + 14.0D;
-            if (d0 > d5) {
-                d0 = d5;
+        double d2 = Math.min(Math.abs(noiseVal), perlin1.getValue(xNoiseIn * 0.1, zNoiseIn * 0.1));
+        if(d2 > 1.8) {
+            final double noiseScale = 0.09765625;
+            double d4 = Math.abs(perlin2.getValue(xNoiseIn * noiseScale, zNoiseIn * noiseScale));
+
+            maxHeight = d2 * d2 * 1.2;
+            double d5 = Math.ceil(d4 * 40) + 14;
+            if(maxHeight > d5) {
+                maxHeight = d5;
             }
 
-            if (getTemperature(new BlockPos(posX, 63, posZ)) > 0.1F) {
-                d0 -= 2.0D;
+            if(getTemperature(new BlockPos(posX, 63, posZ)) > 0.1) maxHeight -= 2;
+            if(maxHeight > 2) {
+                minHeight = seaLevel - maxHeight - 7;
+                maxHeight = maxHeight + seaLevel;
             }
 
-            if (d0 > 2.0D) {
-                d1 = (double)seaLevel - d0 - 7.0D;
-                d0 = d0 + (double)seaLevel;
-            } else {
-                d0 = 0.0D;
-            }
+            else maxHeight = 0;
         }
 
+        //I hate that these are mixed, but vanilla's are too, soo...
         final int x = posZ & 15;
         final int z = posX & 15;
         
         IBlockState filler = fillerBlock;
         IBlockState top = topBlock;
         
-        int l1 = (int)(noise / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
+        final int oceanSurfaceY = (int)(noiseVal / 3 + 3 + rand.nextDouble() * 0.25);
         int j = -1;
         int k = 0;
         int l = 2 + rand.nextInt(4);
-        int i1 = seaLevel + 18 + rand.nextInt(10);
+        final int snowMinY = seaLevel + 8 + rand.nextInt(10);
 
-        for(int posY = Math.max(255, (int)d0 + 1); posY >= 0; --posY) {
-            if (primer.getBlockState(x, posY, z).getBlock() == Blocks.AIR && posY < (int)d0 && rand.nextDouble() > 0.01D) {
-                primer.setBlockState(x, posY, z, Blocks.PACKED_ICE.getDefaultState());
-            } else if (primer.getBlockState(x, posY, z).getMaterial() == Material.WATER && posY > (int)d1 && posY < seaLevel && d1 != 0.0D && rand.nextDouble() > 0.15D) {
-                primer.setBlockState(x, posY, z, Blocks.PACKED_ICE.getDefaultState());
-            }
+        for(int posY = 255; posY >= 0; --posY) {
+            //bedrock gen
+            if(posY <= rand.nextInt(5)) primer.setBlockState(x, posY, z, BEDROCK);
+            else {
+                //generates most of the (above sea level) packed ice
+                if(primer.getBlockState(x, posY, z).getBlock() == Blocks.AIR && posY < (int)maxHeight && rand.nextDouble() > 0.01)
+                    primer.setBlockState(x, posY, z, Blocks.PACKED_ICE.getDefaultState());
 
-            IBlockState iblockstate1 = primer.getBlockState(x, posY, z);
-            if (iblockstate1.getBlock() == Blocks.AIR) {
-                j = -1;
-            } else if (iblockstate1.getBlock() != STONE.getBlock()) {
-                if (iblockstate1.getBlock() == Blocks.PACKED_ICE && k <= l && posY > i1) {
-                    primer.setBlockState(x, posY, z, Blocks.SNOW.getDefaultState());
-                    ++k;
-                }
-            } else if (j == -1) {
-                if (l1 <= 0) {
-                    top = AIR;
-                    filler = STONE;
-                } else if (posY >= seaLevel - 4 && posY <= seaLevel + 1) {
-                    top = topBlock;
-                    filler = fillerBlock;
-                }
+                //generates most of the (under sea level) packed ice
+                else if(primer.getBlockState(x, posY, z).getMaterial() == Material.WATER && posY > (int)minHeight && posY < seaLevel && minHeight != 0 && rand.nextDouble() > 0.15)
+                    primer.setBlockState(x, posY, z, Blocks.PACKED_ICE.getDefaultState());
 
-                if (posY < seaLevel && (top.getBlock() == Blocks.AIR)) {
-                    if (getTemperature(new BlockPos(posX, posY, posZ)) < 0.15F) {
-                        top = ICE;
-                    } else {
-                        top = WATER;
+
+                final IBlockState here = primer.getBlockState(x, posY, z);
+                if(here.getBlock() == Blocks.AIR) j = -1;
+                else if(here.getBlock() != STONE.getBlock()) {
+                    if(here.getBlock() == Blocks.PACKED_ICE && k <= l && posY > snowMinY) {
+                        primer.setBlockState(x, posY, z, Blocks.SNOW.getDefaultState());
+                        ++k;
                     }
                 }
+                else if(j == -1) {
+                    if(oceanSurfaceY <= 0) {
+                        top = AIR;
+                        filler = STONE;
+                    }
+                    else if(posY >= seaLevel - 4 && posY <= seaLevel + 1) {
+                        top = topBlock;
+                        filler = fillerBlock;
+                    }
 
-                j = l1;
-                if (posY >= seaLevel - 1) {
-                    primer.setBlockState(x, posY, z, top);
-                } else if (posY < seaLevel - 7 - l1) {
-                    top = AIR;
-                    filler = STONE;
-                    primer.setBlockState(x, posY, z, GRAVEL);
-                } else {
+                    //random ice gen
+                    if(posY < seaLevel && (top.getBlock() == Blocks.AIR))
+                        top = getTemperature(new BlockPos(posX, posY, posZ)) < 0.15F ? ICE : WATER;
+
+                    j = oceanSurfaceY;
+
+                    if(posY >= seaLevel - 1) primer.setBlockState(x, posY, z, top);
+                    else if(posY < seaLevel - 7 - oceanSurfaceY) {
+                        top = AIR;
+                        filler = STONE;
+                        primer.setBlockState(x, posY, z, GRAVEL);
+                    }
+                    else primer.setBlockState(x, posY, z, filler);
+                }
+                else if(j > 0) {
+                    --j;
                     primer.setBlockState(x, posY, z, filler);
                 }
-            } else if (j > 0) {
-                --j;
-                primer.setBlockState(x, posY, z, filler);
             }
         }
     }

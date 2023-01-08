@@ -17,6 +17,7 @@ import net.minecraft.client.particle.*;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -81,12 +82,19 @@ public final class Subaquatic
     @Mod.EventHandler
     static void init(@Nonnull FMLInitializationEvent event) throws IOException {
         if(event.getSide() == Side.CLIENT) overrideParticles();
-        //automatically add all IOceanBiome instances to the Forge ocean biomes list
-        ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
         MinecraftForge.TERRAIN_GEN_BUS.register(GenLayerOceanBiomes.class);
         //config stuff
         SubaquaticConfigHandler.init();
         SubaquaticWaterColorConfig.buildWaterColors();
+        //automatically add all IOceanBiome instances to the Forge ocean biomes list
+        ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
+        //generate ocean biome id sets
+        BiomeManager.oceanBiomes.forEach(biome -> {
+            final int biomeId = Biome.getIdForBiome(biome);
+            IOceanBiome.OCEAN_IDS.add(biomeId);
+
+            if(biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1) IOceanBiome.SHALLOW_OCEAN_IDS.add(biomeId);
+        });
     }
 
     @SideOnly(Side.CLIENT)

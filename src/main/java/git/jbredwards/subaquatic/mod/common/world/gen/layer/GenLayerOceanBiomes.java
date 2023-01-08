@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -38,8 +37,7 @@ public final class GenLayerOceanBiomes extends GenLayer
     @Nonnull
     @Override
     public int[] getInts(int areaX, int areaZ, int areaWidth, int areaHeight) {
-        final int[] oldInts = parent.getInts(areaX, areaZ, areaWidth, areaHeight);
-        final int[] oldIntsCache = Arrays.copyOf(oldInts, oldInts.length);
+        final int[] biomeInts = parent.getInts(areaX - 1, areaZ - 1, areaWidth + 2, areaHeight + 2).clone();
         IntCache.resetIntCache();
 
         //create separate ocean biomes layer
@@ -64,10 +62,27 @@ public final class GenLayerOceanBiomes extends GenLayer
         }, 6).getInts(areaX, areaZ, areaWidth, areaHeight);
 
         //re-apply old layer data to the main layer
-        for(int i = 0; i < oldIntsCache.length; i++) {
-            final int biomeId = oldIntsCache[i];
-            if(biomeId == DEEP_OCEAN) out[i] = handleDeepOceanGen(Biome.getBiomeForId(out[i]));
-            else if(biomeId != OCEAN) out[i] = biomeId;
+        for(int x = 0; x < areaWidth; x++) {
+            for(int z = 0; z < areaHeight; z++) {
+                final int i = x + z * areaHeight;
+                final int biomeId = biomeInts[x + 1 + (z + 1) * (areaHeight + 2)];
+                Biome mixBiome = null;
+
+                //mix ocean biomes with non-ocean ones
+                if(isBiomeOceanic(biomeId)
+                        && (!isBiomeOceanic(biomeInts[x + 1 + (z + 1 - 1) * (areaWidth + 2)])
+                        || !isBiomeOceanic(biomeInts[x + 1 + 1 + (z + 1) * (areaWidth + 2)])
+                        || !isBiomeOceanic(biomeInts[x + 1 - 1 + (z + 1) * (areaWidth + 2)])
+                        || !isBiomeOceanic(biomeInts[x + 1 + (z + 1 + 1) * (areaWidth + 2)]))) {
+                    final Biome biome = Biome.getBiomeForId(out[i]);
+                    if(biome instanceof IOceanBiome) mixBiome = ((IOceanBiome)biome).getMixOceanBiome();
+                }
+
+                //convert ocean biomes to deep ocean ones if necessary
+                if(biomeId == DEEP_OCEAN) out[i] = handleDeepOceanGen(mixBiome != null ? mixBiome : Biome.getBiomeForId(out[i]));
+                else if(mixBiome != null) out[i] = Biome.getIdForBiome(mixBiome);
+                else if(biomeId != OCEAN) out[i] = biomeId;
+            }
         }
 
         return out;

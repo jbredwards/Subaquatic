@@ -26,7 +26,7 @@ public class WorldGenIceberg extends WorldGenerator
     
     @Override
     public boolean generate(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos position) {
-        position = new BlockPos(position.getX() + 8, worldIn.getSeaLevel(), position.getZ() + 8);
+        position = new BlockPos(position.getX(), worldIn.getSeaLevel(), position.getZ());
         boolean flag = rand.nextDouble() > 0.7D;
         IBlockState iblockstate = state;
         double d0 = rand.nextDouble() * 2.0D * Math.PI;
