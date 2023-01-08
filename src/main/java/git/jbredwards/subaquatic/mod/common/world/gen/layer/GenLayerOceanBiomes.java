@@ -61,7 +61,7 @@ public final class GenLayerOceanBiomes extends GenLayer
 
                 return out;
             }
-        }, 1).getInts(areaX, areaZ, areaWidth, areaHeight);
+        }, 6).getInts(areaX, areaZ, areaWidth, areaHeight);
 
         //re-apply old layer data to the main layer
         for(int i = 0; i < oldIntsCache.length; i++) {
@@ -88,8 +88,7 @@ public final class GenLayerOceanBiomes extends GenLayer
         }
 
         //vanilla ocean biomes
-        else if(shallowOcean == Biomes.FROZEN_OCEAN) return DEEP_FROZEN_OCEAN;
-        return DEEP_OCEAN;
+        return shallowOcean == Biomes.FROZEN_OCEAN ? DEEP_FROZEN_OCEAN : DEEP_OCEAN;
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
