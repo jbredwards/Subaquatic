@@ -38,5 +38,5 @@ public enum GeneratorSeaPickle implements IWorldGenerator
         }
     }
 
-    boolean isValidBiome(@Nonnull Biome biome) { return biome == SubaquaticBiomes.WARM_OCEAN; }
+    static boolean isValidBiome(@Nonnull Biome biome) { return biome == SubaquaticBiomes.WARM_OCEAN; }
 }

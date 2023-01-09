@@ -9,6 +9,7 @@ import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColo
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
+import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
@@ -20,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraft.world.gen.structure.StructureOceanMonument;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -77,6 +79,7 @@ public final class Subaquatic
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         //world generators
+        GameRegistry.registerWorldGenerator(GeneratorKelp.INSTANCE, 4);
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
         GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
     }
@@ -97,6 +100,8 @@ public final class Subaquatic
 
             if(biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1) IOceanBiome.SHALLOW_OCEAN_IDS.add(biomeId);
         });
+        //update valid ocean monument biomes
+        StructureOceanMonument
     }
 
     @SideOnly(Side.CLIENT)

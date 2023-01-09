@@ -29,6 +29,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
+            plugins.put("net.minecraft.block.BlockSnow", new PluginBlockSnow()); //Prevent snow layers from being placeable on blue ice
             plugins.put("net.minecraft.block.BlockStem", new PluginBlockStem()); //Update pumpkin reference to the correct block
             plugins.put("net.minecraft.client.particle.ParticleDrip", new PluginParticleDrip()); //Water droplet particles keep the color set by this mod
             plugins.put("net.minecraft.client.renderer.entity.RenderEntityItem", new PluginRenderEntityItem()); //Don't render item bobbing while in water
