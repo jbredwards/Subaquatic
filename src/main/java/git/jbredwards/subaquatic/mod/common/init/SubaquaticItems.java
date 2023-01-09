@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common.init;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.block.AbstractBlockCoral;
 import git.jbredwards.subaquatic.mod.common.item.*;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
@@ -26,6 +27,7 @@ public final class SubaquaticItems
     //item blocks
     @Nonnull public static final ItemBlock DRIED_KELP_BLOCK = register("dried_kelp_block", new ItemBlock(SubaquaticBlocks.DRIED_KELP_BLOCK));
     @Nonnull public static final ItemBlock BLUE_ICE = register("blue_ice", new ItemBlock(SubaquaticBlocks.BLUE_ICE));
+    @Nonnull public static final ItemBlock PUMPKIN = register("pumpkin", new ItemBlock(SubaquaticBlocks.PUMPKIN));
     @Nonnull public static final ItemBlock TUBE_CORAL_BLOCK = register("tube_coral_block", new ItemBlockMeta(SubaquaticBlocks.TUBE_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlock BRAIN_CORAL_BLOCK = register("brain_coral_block", new ItemBlockMeta(SubaquaticBlocks.BRAIN_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlock BUBBLE_CORAL_BLOCK = register("bubble_coral_block", new ItemBlockMeta(SubaquaticBlocks.BUBBLE_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
@@ -41,6 +43,9 @@ public final class SubaquaticItems
 
     //ore dict registration
     public static void registerOreDictionary() {
+        OreDictionary.registerOre("cropPumpkin", PUMPKIN);
+        OreDictionary.registerOre("cropPumpkin", Blocks.PUMPKIN);
+        OreDictionary.registerOre("cropPumpkin", Blocks.LIT_PUMPKIN);
         OreDictionary.registerOre("shellNautilus", NAUTILUS_SHELL);
     }
 

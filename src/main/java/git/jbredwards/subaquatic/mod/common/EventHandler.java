@@ -21,6 +21,7 @@ public final class EventHandler
 {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     static void improveVanillaBlocks(@Nonnull RegistryEvent.Register<Block> event) {
+        Blocks.PUMPKIN.setTranslationKey(Subaquatic.MODID + ".carved_pumpkin");
         Blocks.FLOWING_WATER.setLightOpacity(2);
         Blocks.WATER.setLightOpacity(2);
         Blocks.WATERLILY.setSoundType(SubaquaticSounds.WET_GRASS);

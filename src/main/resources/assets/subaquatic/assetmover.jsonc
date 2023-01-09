@@ -12,6 +12,8 @@
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient5.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient5.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_inside.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_inside.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_inside.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_inside.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/pumpkin/carve1.ogg", "assets/subaquatic/sounds/blocks/pumpkin/carve1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/pumpkin/carve2.ogg", "assets/subaquatic/sounds/blocks/pumpkin/carve2.ogg"],
     ["1.18.2", "assets/minecraft/sounds/dig/coral1.ogg", "assets/subaquatic/sounds/blocks/coral/break1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/dig/coral2.ogg", "assets/subaquatic/sounds/blocks/coral/break2.ogg"],
     ["1.18.2", "assets/minecraft/sounds/dig/coral3.ogg", "assets/subaquatic/sounds/blocks/coral/break3.ogg"],
@@ -32,6 +34,9 @@
     ["1.18.2", "assets/minecraft/sounds/step/wet_grass4.ogg", "assets/subaquatic/sounds/blocks/wet_grass/step4.ogg"],
     ["1.18.2", "assets/minecraft/sounds/step/wet_grass5.ogg", "assets/subaquatic/sounds/blocks/wet_grass/step5.ogg"],
     ["1.18.2", "assets/minecraft/sounds/step/wet_grass6.ogg", "assets/subaquatic/sounds/blocks/wet_grass/step6.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/music/game/water/axolotl.ogg", "assets/subaquatic/sounds/music/axolotl.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/music/game/water/dragon_fish.ogg", "assets/subaquatic/sounds/music/dragon_fish.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/music/game/water/shuniji.ogg", "assets/subaquatic/sounds/music/shuniji.ogg"],
 
     //block textures
     ["1.18.2", "assets/minecraft/textures/block/blue_ice.png", "assets/subaquatic/textures/blocks/blue_ice.png"],
@@ -56,8 +61,6 @@
     ["1.18.2", "assets/minecraft/textures/block/seagrass.png.mcmeta", "assets/subaquatic/textures/blocks/seagrass_single.png.mcmeta"],
     ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_bottom.png", "assets/subaquatic/textures/blocks/seagrass_bottom.png"],
     ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_bottom.png.mcmeta", "assets/subaquatic/textures/blocks/seagrass_bottom.png.mcmeta"],
-    ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_top.png", "assets/subaquatic/textures/blocks/seagrass_top.png"],
-    ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_top.png.mcmeta", "assets/subaquatic/textures/blocks/seagrass_top.png.mcmeta"],
     ["1.18.2", "assets/minecraft/textures/block/tube_coral_block.png", "assets/subaquatic/textures/blocks/tube_coral_block.png"],
     ["1.18.2", "assets/minecraft/textures/block/water_still.png", "assets/subaquatic/textures/blocks/water_still.png"],
     ["1.18.2", "assets/minecraft/textures/block/water_still.png.mcmeta", "assets/subaquatic/textures/blocks/water_still.png.mcmeta"],

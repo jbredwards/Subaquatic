@@ -37,7 +37,7 @@ public final class GenLayerOceanBiomes extends GenLayer
     @Nonnull
     @Override
     public int[] getInts(int areaX, int areaZ, int areaWidth, int areaHeight) {
-        final int[] biomeInts = parent.getInts(areaX - 1, areaZ - 1, areaWidth + 2, areaHeight + 2).clone();
+        final int[] biomeInts = parent.getInts(areaX, areaZ, areaWidth, areaHeight).clone();
         IntCache.resetIntCache();
 
         //create separate ocean biomes layer
@@ -62,27 +62,12 @@ public final class GenLayerOceanBiomes extends GenLayer
         }, 6).getInts(areaX, areaZ, areaWidth, areaHeight);
 
         //re-apply old layer data to the main layer
-        for(int x = 0; x < areaWidth; x++) {
-            for(int z = 0; z < areaHeight; z++) {
-                final int i = x + z * areaHeight;
-                final int biomeId = biomeInts[x + 1 + (z + 1) * (areaHeight + 2)];
-                Biome mixBiome = null;
-
-                //mix ocean biomes with non-ocean ones
-                if(isBiomeOceanic(biomeId)
-                        && (!isBiomeOceanic(biomeInts[x + 1 + (z + 1 - 1) * (areaWidth + 2)])
-                        || !isBiomeOceanic(biomeInts[x + 1 + 1 + (z + 1) * (areaWidth + 2)])
-                        || !isBiomeOceanic(biomeInts[x + 1 - 1 + (z + 1) * (areaWidth + 2)])
-                        || !isBiomeOceanic(biomeInts[x + 1 + (z + 1 + 1) * (areaWidth + 2)]))) {
-                    final Biome biome = Biome.getBiomeForId(out[i]);
-                    if(biome instanceof IOceanBiome) mixBiome = ((IOceanBiome)biome).getMixOceanBiome();
-                }
-
-                //convert ocean biomes to deep ocean ones if necessary
-                if(biomeId == DEEP_OCEAN) out[i] = handleDeepOceanGen(mixBiome != null ? mixBiome : Biome.getBiomeForId(out[i]));
-                else if(mixBiome != null) out[i] = Biome.getIdForBiome(mixBiome);
-                else if(biomeId != OCEAN) out[i] = biomeId;
-            }
+        for(int i = 0; i < out.length; i++) {
+            final int biomeId = biomeInts[i];
+            //convert ocean biomes to deep ocean ones if necessary
+            if(biomeId == DEEP_OCEAN) out[i] = handleDeepOceanGen(Biome.getBiomeForId(out[i]));
+            //re-apply old layer data to the main layer
+            else if(biomeId != OCEAN) out[i] = biomeId;
         }
 
         return out;

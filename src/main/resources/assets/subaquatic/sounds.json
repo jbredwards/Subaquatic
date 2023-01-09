@@ -140,5 +140,13 @@
          "subaquatic:blocks/bubble_column/whirlpool_ambient5"
       ],
       "subtitle":"subtitles.subaquatic.block.bubble_column.down.ambient"
+   },
+   "music.underwater":{
+      "category":"music",
+      "sounds":[
+         {"name":"subaquatic:music/axolotl","stream":true},
+         {"name":"subaquatic:music/dragon_fish","stream":true},
+         {"name":"subaquatic:music/shuniji","stream":true}
+      ]
    }
 }

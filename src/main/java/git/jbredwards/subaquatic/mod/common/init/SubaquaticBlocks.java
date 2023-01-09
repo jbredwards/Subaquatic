@@ -6,10 +6,7 @@ import git.jbredwards.subaquatic.mod.common.block.BlockCoral;
 import git.jbredwards.subaquatic.mod.common.block.BlockKelp;
 import git.jbredwards.subaquatic.mod.common.block.material.MaterialOceanPlant;
 import git.jbredwards.subaquatic.mod.common.item.CreativeTab;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockPackedIce;
-import net.minecraft.block.BlockRotatedPillar;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
@@ -36,8 +33,9 @@ public final class SubaquaticBlocks
     @Nonnull public static final MaterialLiquid BUBBLE_COLUMN_MATERIAL = new MaterialLiquid(MapColor.WATER);
 
     // Blocks
-    @Nonnull public static final BlockRotatedPillar DRIED_KELP_BLOCK = register("dried_kelp_block", new BlockRotatedPillar(Material.GRASS, MapColor.BROWN), block -> block.setSoundType(SoundType.PLANT).setResistance(2.5f / 3).setHardness(0.5f));
     @Nonnull public static final BlockPackedIce BLUE_ICE = register("blue_ice", new BlockPackedIce(), Blocks.PACKED_ICE, block -> block.setDefaultSlipperiness(0.989f));
+    @Nonnull public static final BlockRotatedPillar DRIED_KELP_BLOCK = register("dried_kelp_block", new BlockRotatedPillar(Material.GRASS, MapColor.BROWN), block -> block.setSoundType(SoundType.PLANT).setResistance(2.5f / 3).setHardness(0.5f));
+    @Nonnull public static final BlockCarvablePumpkin PUMPKIN = register("pumpkin", new BlockCarvablePumpkin(Material.GOURD, MapColor.ADOBE), Blocks.PUMPKIN, block -> ((BlockStem)Blocks.PUMPKIN_STEM).crop = block.setTranslationKey("pumpkin"));
     @Nonnull public static final BlockKelp KELP = register("kelp", new BlockKelp(OCEAN_PLANT), block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
     @Nonnull public static final BlockSeagrass SEAGRASS = register("seagrass", new BlockSeagrass(OCEAN_PLANT), block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
     @Nonnull public static final BlockSeaPickle SEA_PICKLE = register("sea_pickle", new BlockSeaPickle(OCEAN_PLANT, MapColor.GREEN), block -> block.setSoundType(SoundType.SLIME));

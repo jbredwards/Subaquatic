@@ -1,0 +1,14 @@
+{
+	"forge_marker": 1,
+    "defaults":{
+        "model":"cube_column",
+        "textures":{
+            "side":"blocks/pumpkin_side",
+            "end":"blocks/pumpkin_top"
+        }
+    },
+    "variants":{
+        "normal":[{}],
+        "inventory":[{}]
+    }
+}

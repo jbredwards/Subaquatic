@@ -24,6 +24,8 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_AMBIENT = register("blocks.bubble_column.down.ambient");
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_UP_INSIDE = register("blocks.bubble_column.up.inside");
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_INSIDE = register("blocks.bubble_column.down.inside");
+    @Nonnull public static final SoundEvent PUMPKIN_CARVE = register("blocks.pumpkin.carve");
+    @Nonnull public static final SoundEvent UNDERWATER_MUSIC = register("music.underwater");
 
     //sound types
     @Nonnull public static final SoundType CORAL = registerType("coral", 1, 1);
