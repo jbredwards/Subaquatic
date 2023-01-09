@@ -5,7 +5,7 @@ import git.jbredwards.subaquatic.mod.common.block.*;
 import git.jbredwards.subaquatic.mod.common.block.BlockCoral;
 import git.jbredwards.subaquatic.mod.common.block.BlockKelp;
 import git.jbredwards.subaquatic.mod.common.block.material.MaterialOceanPlant;
-import git.jbredwards.subaquatic.mod.common.item.CreativeTab;
+import git.jbredwards.subaquatic.mod.common.item.SubaquaticCreativeTab;
 import net.minecraft.block.*;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -55,7 +55,7 @@ public final class SubaquaticBlocks
     // Registry
     @Nonnull static <T extends Block> T register(@Nonnull String name, @Nonnull T block) { return register(name, block, b -> {}); }
     @Nonnull static <T extends Block> T register(@Nonnull String name, @Nonnull T block, @Nonnull Consumer<T> properties) {
-        INIT.add(block.setRegistryName(Subaquatic.MODID, name).setTranslationKey(Subaquatic.MODID + "." + name).setCreativeTab(CreativeTab.INSTANCE));
+        INIT.add(block.setRegistryName(Subaquatic.MODID, name).setTranslationKey(Subaquatic.MODID + "." + name).setCreativeTab(SubaquaticCreativeTab.INSTANCE));
         properties.accept(block);
         return block;
     }

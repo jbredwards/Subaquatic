@@ -32,6 +32,8 @@ import java.util.Random;
  */
 public class BlockSeagrass extends BlockWaterloggedPlant implements IShearable, IGrowable
 {
+    @Nonnull protected static final AxisAlignedBB SINGLE_BB = new AxisAlignedBB(0, 0, 0, 1, 0.75, 1);
+    @Nonnull protected static final AxisAlignedBB TOP_BB = new AxisAlignedBB(0, 0, 0, 1, 0.875, 1);
     @Nonnull public static final PropertyEnum<Type> TYPE = PropertyEnum.create("type", Type.class);
     @Nonnull public final ThreadLocal<Boolean> isPlacing = ThreadLocal.withInitial(() -> false);
 
@@ -100,12 +102,15 @@ public class BlockSeagrass extends BlockWaterloggedPlant implements IShearable, 
 
     @Nonnull
     @Override
-    public EnumOffsetType getOffsetType() { return EnumOffsetType.XZ; }
-
-    @Nonnull
-    @Override
     public AxisAlignedBB getBoundingBox(@Nonnull IBlockState state, @Nonnull IBlockAccess source, @Nonnull BlockPos pos) {
-        return FULL_BLOCK_AABB.offset(state.getOffset(source, pos));
+        switch(state.getValue(TYPE)) {
+            case SINGLE:
+                return SINGLE_BB;
+            case TOP:
+                return TOP_BB;
+            default:
+                return FULL_BLOCK_AABB;
+        }
     }
 
     @Override

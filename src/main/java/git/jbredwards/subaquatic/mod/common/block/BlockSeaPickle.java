@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common.block;
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable;
 import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.mod.common.item.util.IBlockCluster;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.MapColor;
@@ -30,7 +31,7 @@ import java.util.Random;
  * @author jbred
  *
  */
-public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggable
+public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggable, IBlockCluster
 {
     @Nonnull public static final PropertyInteger PICKLES = PropertyInteger.create("pickles", 0, 3);
     @Nonnull public static final PropertyBool GLOWING = PropertyBool.create("glowing");
@@ -41,7 +42,6 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
             new AxisAlignedBB(0.125,  0, 0.125,  0.875,  0.4375, 0.875)
     };
 
-    public final ThreadLocal<Boolean> isPlacing = ThreadLocal.withInitial(() -> false);
     public BlockSeaPickle(@Nonnull Material materialIn) { this(materialIn, materialIn.getMaterialMapColor()); }
     public BlockSeaPickle(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn) {
         super(materialIn, mapColorIn);
@@ -59,6 +59,15 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
         return getDefaultState().withProperty(GLOWING, meta >> 2 > 0).withProperty(PICKLES, meta & 3);
     }
 
+    @Nonnull
+    @Override
+    public IBlockState withAmount(@Nonnull IBlockState oldState, int newAmount) {
+        return oldState.withProperty(PICKLES, newAmount);
+    }
+
+    @Override
+    public int getAmount(@Nonnull IBlockState state) { return state.getValue(PICKLES); }
+
     @Override
     public int getMetaFromState(@Nonnull IBlockState state) {
         return (state.getValue(GLOWING) ? 4 : 0) | state.getValue(PICKLES);
@@ -72,20 +81,19 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
     @Nonnull
     @Override
     public IBlockState getStateForPlacement(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer) {
-        final IBlockState here = worldIn.getBlockState(pos);
-        int pickles = 0;
-
-        if(isEqualTo(this, here.getBlock())) {
-            final int herePickles = here.getValue(PICKLES);
-            if(herePickles < 3) pickles = herePickles + 1;
-        }
-
-        return getDefaultState().withProperty(GLOWING, FluidloggedUtils.getFluidState(worldIn, pos).getMaterial() == Material.WATER).withProperty(PICKLES, pickles);
+        return getDefaultState().withProperty(GLOWING, FluidloggedUtils.getFluidState(worldIn, pos).getMaterial() == Material.WATER);
     }
 
+    @Nonnull
     @Override
-    public boolean isReplaceable(@Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
-        return super.isReplaceable(worldIn, pos) || isPlacing.get();
+    public AxisAlignedBB getBoundingBox(@Nonnull IBlockState state, @Nonnull IBlockAccess source, @Nonnull BlockPos pos) {
+        return aabb[state.getValue(PICKLES)];
+    }
+
+    @Nonnull
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(@Nonnull IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
+        return blockState.getBoundingBox(worldIn, pos);
     }
 
     @Override
@@ -95,9 +103,10 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
 
     @Override
     public boolean canPlaceBlockAt(@Nonnull World worldIn, @Nonnull BlockPos pos) {
+        if(!canSustainBush(worldIn.getBlockState(pos.down()))) return false;
+
         final FluidState fluidState = FluidloggedUtils.getFluidState(worldIn, pos);
-        return super.canPlaceBlockAt(worldIn, pos) &&
-                (fluidState.isEmpty() || isFluidValid(getDefaultState(), worldIn, pos, fluidState.getFluid()));
+        return fluidState.isEmpty() || isFluidValid(getDefaultState(), worldIn, pos, fluidState.getFluid());
     }
 
     @Nonnull

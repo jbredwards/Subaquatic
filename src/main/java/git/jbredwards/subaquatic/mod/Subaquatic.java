@@ -9,6 +9,7 @@ import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColo
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
+import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.material.Material;
@@ -77,6 +78,7 @@ public final class Subaquatic
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         //world generators
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
+        GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
     }
 
     @Mod.EventHandler

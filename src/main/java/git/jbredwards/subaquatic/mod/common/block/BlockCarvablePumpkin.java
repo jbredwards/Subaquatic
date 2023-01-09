@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockPumpkin;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -59,5 +61,21 @@ public class BlockCarvablePumpkin extends Block
         }
 
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+    }
+
+    //exists so walls, fences, and glass panes don't connect to this
+    @Nonnull
+    @Override
+    public BlockFaceShape getBlockFaceShape(@Nonnull IBlockAccess worldIn, @Nonnull IBlockState state, @Nonnull BlockPos pos, @Nonnull EnumFacing face) {
+        if(face.getAxis().isVertical()) return BlockFaceShape.SOLID;
+        final IBlockState neighbor = worldIn.getBlockState(pos.offset(face));
+        if(neighbor.getBlock() instanceof BlockCarvablePumpkin) return BlockFaceShape.SOLID;
+
+        switch(neighbor.getBlockFaceShape(worldIn, pos, face.getOpposite())) {
+            case MIDDLE_POLE:
+            case MIDDLE_POLE_THIN:
+            case MIDDLE_POLE_THICK: return BlockFaceShape.UNDEFINED;
+            default: return BlockFaceShape.SOLID;
+        }
     }
 }

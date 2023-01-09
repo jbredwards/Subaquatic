@@ -35,7 +35,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock HORN_CORAL_BLOCK = register("horn_coral_block", new ItemBlockMeta(SubaquaticBlocks.HORN_CORAL_BLOCK, AbstractBlockCoral.ALIVE));
 
     //items
-    @Nonnull public static final ItemBlockSeaPickle SEA_PICKLE = register("sea_pickle", new ItemBlockSeaPickle(SubaquaticBlocks.SEA_PICKLE));
+    @Nonnull public static final ItemBlockCluster SEA_PICKLE = register("sea_pickle", new ItemBlockCluster(SubaquaticBlocks.SEA_PICKLE));
     @Nonnull public static final ItemBlockSeagrass SEAGRASS = register("seagrass", new ItemBlockSeagrass(SubaquaticBlocks.SEAGRASS));
     @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(SubaquaticBlocks.KELP));
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.maxUseDuration = 16);
@@ -45,7 +45,6 @@ public final class SubaquaticItems
     public static void registerOreDictionary() {
         OreDictionary.registerOre("cropPumpkin", PUMPKIN);
         OreDictionary.registerOre("cropPumpkin", Blocks.PUMPKIN);
-        OreDictionary.registerOre("cropPumpkin", Blocks.LIT_PUMPKIN);
         OreDictionary.registerOre("shellNautilus", NAUTILUS_SHELL);
     }
 
@@ -56,7 +55,7 @@ public final class SubaquaticItems
 
     @Nonnull
     static <I extends Item> I register(@Nonnull String name, @Nonnull I item, @Nonnull Consumer<I> consumer) {
-        INIT.add(item.setRegistryName(Subaquatic.MODID, name).setTranslationKey(Subaquatic.MODID + "." + name).setCreativeTab(CreativeTab.INSTANCE));
+        INIT.add(item.setRegistryName(Subaquatic.MODID, name).setTranslationKey(Subaquatic.MODID + "." + name).setCreativeTab(SubaquaticCreativeTab.INSTANCE));
         consumer.accept(item);
         return item;
     }

@@ -141,6 +141,14 @@
       ],
       "subtitle":"subtitles.subaquatic.block.bubble_column.down.ambient"
    },
+   "blocks.pumpkin.carve":{
+      "category":"blocks",
+      "sounds":[
+         "subaquatic:blocks/pumpkin/carve1",
+         "subaquatic:blocks/pumpkin/carve2"
+      ],
+      "subtitle":"subtitles.subaquatic.block.pumpkin.carve"
+   },
    "music.underwater":{
       "category":"music",
       "sounds":[

@@ -14,10 +14,10 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public final class CreativeTab extends CreativeTabs
+public final class SubaquaticCreativeTab extends CreativeTabs
 {
-    public static final CreativeTab INSTANCE = new CreativeTab();
-    CreativeTab() { super(Subaquatic.MODID + ".tab"); }
+    public static final SubaquaticCreativeTab INSTANCE = new SubaquaticCreativeTab();
+    SubaquaticCreativeTab() { super(Subaquatic.MODID + ".tab"); }
 
     @Nonnull
     @SideOnly(Side.CLIENT)

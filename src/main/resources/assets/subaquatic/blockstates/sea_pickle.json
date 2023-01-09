@@ -1,0 +1,58 @@
+{
+	"forge_marker": 1,
+	"defaults":{
+        "model":"forge:multi-layer",
+		"textures":{"all":"subaquatic:blocks/sea_pickle"}
+	},
+	"variants":{
+		"inventory":[{
+			"transform":"forge:default-item",
+            "model":"builtin/generated",
+			"textures":{
+                "layer0":"subaquatic:items/sea_pickle"
+            }
+        }],
+		"glowing=false,pickles=0":[{"model":"subaquatic:sea_pickle_1"}],
+		"glowing=true,pickles=0":[{
+			"custom":{
+				"base":"subaquatic:sea_pickle#solid_1",
+				"Solid":"subaquatic:sea_pickle#solid_1",
+				"Cutout":"subaquatic:sea_pickle#cutout_1"
+			}
+		}],
+		"glowing=false,pickles=1":[{"model":"subaquatic:sea_pickle_2"}],
+		"glowing=true,pickles=1":[{
+			"custom":{
+				"base":"subaquatic:sea_pickle#solid_2",
+				"Solid":"subaquatic:sea_pickle#solid_2",
+				"Cutout":"subaquatic:sea_pickle#cutout_2"
+			}
+
+		}],
+		"glowing=false,pickles=2":[{"model":"subaquatic:sea_pickle_3"}],
+		"glowing=true,pickles=2":[{
+			"custom":{
+				"base":"subaquatic:sea_pickle#solid_3",
+				"Solid":"subaquatic:sea_pickle#solid_3",
+				"Cutout":"subaquatic:sea_pickle#cutout_3"
+			}
+
+		}],
+		"glowing=false,pickles=3":[{"model":"subaquatic:sea_pickle_4"}],
+		"glowing=true,pickles=3":[{
+			"custom":{
+				"base":"subaquatic:sea_pickle#solid_4",
+				"Solid":"subaquatic:sea_pickle#solid_4",
+				"Cutout":"subaquatic:sea_pickle#cutout_4"
+			}
+		}],
+		"solid_1":[{"model":"subaquatic:sea_pickle_1"}],
+		"solid_2":[{"model":"subaquatic:sea_pickle_2"}],
+		"solid_3":[{"model":"subaquatic:sea_pickle_3"}],
+		"solid_4":[{"model":"subaquatic:sea_pickle_4"}],
+		"cutout_1":[{"model":"subaquatic:sea_pickle_lit_1"}],
+		"cutout_2":[{"model":"subaquatic:sea_pickle_lit_2"}],
+		"cutout_3":[{"model":"subaquatic:sea_pickle_lit_3"}],
+		"cutout_4":[{"model":"subaquatic:sea_pickle_lit_4"}]
+	}
+}

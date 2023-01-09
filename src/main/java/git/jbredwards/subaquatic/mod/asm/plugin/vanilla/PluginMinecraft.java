@@ -7,15 +7,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldProvider;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.util.EnumHelper;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Set;
 
 /**
  * Allow underwater music to be played
@@ -60,11 +57,8 @@ public final class PluginMinecraft implements IASMPlugin
             if(providerType != null) return providerType;
 
             final EntityPlayerSP player = Minecraft.getMinecraft().player;
-            if(!isPlayingGameMusic() && player.isInWater() && player.isInsideOfMaterial(Material.WATER)) {
-                final Set<BiomeDictionary.Type> biomeTypes = BiomeDictionary.getTypes(player.world.getBiome(new BlockPos(player.posX, player.posY, player.posZ)));
-                if(biomeTypes.contains(BiomeDictionary.Type.RIVER) || biomeTypes.contains(BiomeDictionary.Type.OCEAN) || biomeTypes.contains(BiomeDictionary.Type.BEACH))
-                    return UNDERWATER;
-            }
+            if(!isPlayingGameMusic() && player.isInWater() && player.isInsideOfMaterial(Material.WATER))
+                return UNDERWATER;
 
             return null;
         }
@@ -72,7 +66,7 @@ public final class PluginMinecraft implements IASMPlugin
         //helper
         static boolean isPlayingGameMusic() {
             return Minecraft.getMinecraft().getMusicTicker().currentMusic != null
-                    && MusicTicker.MusicType.GAME.getMusicLocation().getSoundName().equals(Minecraft.getMinecraft().getMusicTicker().currentMusic.getSoundLocation());
+                    && !SubaquaticSounds.UNDERWATER_MUSIC.getSoundName().equals(Minecraft.getMinecraft().getMusicTicker().currentMusic.getSoundLocation());
         }
     }
 }
