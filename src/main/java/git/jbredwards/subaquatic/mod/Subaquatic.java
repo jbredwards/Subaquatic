@@ -1,7 +1,9 @@
 package git.jbredwards.subaquatic.mod;
 
 import com.cleanroommc.assetmover.AssetMoverAPI;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
@@ -9,6 +11,7 @@ import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColo
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
@@ -16,12 +19,14 @@ import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
+import net.minecraft.init.Biomes;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraft.world.gen.structure.StructureOceanMonument;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -42,6 +47,8 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -100,8 +107,19 @@ public final class Subaquatic
 
             if(biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1) IOceanBiome.SHALLOW_OCEAN_IDS.add(biomeId);
         });
-        //update valid ocean monument biomes
-        StructureOceanMonument
+        //automatically update valid ocean monument spawn biomes
+        StructureOceanMonument.SPAWN_BIOMES = new ArrayList<>(ImmutableList.<Biome>builder()
+                .add(Biomes.DEEP_OCEAN)
+                .addAll(BiomeManager.oceanBiomes.stream()
+                        .filter(biome -> biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() == -1)
+                        .collect(Collectors.toList()))
+                .build());
+        StructureOceanMonument.SPAWN_BIOMES.removeAll(Lists.newArrayList(Biomes.FROZEN_OCEAN, SubaquaticBiomes.DEEP_FROZEN_OCEAN));
+        //automatically update valid ocean monument neighbor biomes
+        StructureOceanMonument.WATER_BIOMES = new ArrayList<>(ImmutableList.<Biome>builder()
+                .addAll(BiomeManager.oceanBiomes)
+                .addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER))
+                .build());
     }
 
     @SideOnly(Side.CLIENT)
