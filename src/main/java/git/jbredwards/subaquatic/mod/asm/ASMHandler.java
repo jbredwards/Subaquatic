@@ -43,6 +43,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Apply ocean biome generator
             plugins.put("net.minecraft.world.gen.layer.GenLayerDeepOcean", new PluginGenLayerDeepOcean()); //Take modded ocean biomes into account when determining whether to generate a deep ocean
             plugins.put("net.minecraft.world.gen.layer.GenLayerRemoveTooMuchOcean", new PluginGenLayerRemoveTooMuchOcean()); //Account for modded shallow ocean biomes
+            plugins.put("net.minecraft.world.gen.layer.GenLayerRiverMix", new PluginGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
             //plugins.put("net.minecraft.world.gen.layer.GenLayerRiverMix", new PluginGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
         }
 

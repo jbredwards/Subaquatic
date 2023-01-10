@@ -1,12 +1,12 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.subaquatic.api.biome.IOceanBiome;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeManager;
 import org.objectweb.asm.tree.ClassNode;
 
 import javax.annotation.Nonnull;
@@ -63,15 +63,21 @@ public final class PluginGenLayerRiverMix implements IASMPlugin
                     continue;
                 }
 
+                //skip if this is an ocean
+                if(IOceanBiome.isOcean(biomeInts[i])) {
+                    out[i] = biomeInts[i];
+                    continue;
+                }
+
                 //check for BOP special case
                 if(layer instanceof IBOPGenerator && !((IBOPGenerator)layer).biomeSupportsRivers(biomeInts[i])) {
                     out[i] = biomeInts[i];
                     continue;
                 }
 
-                //skip if this is an ocean or null
+                //skip if the biome is null
                 final @Nullable Biome biome = Biome.getBiomeForId(biomeInts[i]);
-                if(biome == null || BiomeManager.oceanBiomes.contains(biome)) {
+                if(biome == null) {
                     out[i] = biomeInts[i];
                     continue;
                 }
