@@ -25,14 +25,8 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public interface IOceanBiome
+public interface IOceanBiome extends IOceanSurfaceProvider
 {
-    /**
-     * Returns the block that generates on ocean surfaces.
-     */
-    @Nonnull
-    default IBlockState getOceanSurface() { return Blocks.GRAVEL.getDefaultState(); }
-
     /**
      * Returns -1 if this is a deep ocean.
      * This is called often during world gen, so it's recommended to return a constant instead of using Biome.getIdForBiome.

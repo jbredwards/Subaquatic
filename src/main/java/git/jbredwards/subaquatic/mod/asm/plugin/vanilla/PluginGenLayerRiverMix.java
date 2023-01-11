@@ -11,7 +11,6 @@ import org.objectweb.asm.tree.ClassNode;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Set;
 
 /**
  * Account for all ocean biomes when generating rivers
@@ -64,31 +63,31 @@ public final class PluginGenLayerRiverMix implements IASMPlugin
                 }
 
                 //skip if this is an ocean
-                if(IOceanBiome.isOcean(biomeInts[i])) {
+                else if(IOceanBiome.isOcean(biomeInts[i])) {
                     out[i] = biomeInts[i];
                     continue;
                 }
 
                 //check for BOP special case
-                if(layer instanceof IBOPGenerator && !((IBOPGenerator)layer).biomeSupportsRivers(biomeInts[i])) {
+                else if(layer instanceof IBOPGenerator && !((IBOPGenerator)layer).biomeSupportsRivers(biomeInts[i])) {
                     out[i] = biomeInts[i];
                     continue;
                 }
 
                 //skip if the biome is null
                 final @Nullable Biome biome = Biome.getBiomeForId(biomeInts[i]);
-                if(biome == null) {
-                    out[i] = biomeInts[i];
-                    continue;
-                }
+                if(biome == null) out[i] = biomeInts[i];
 
-                //check for biome type special cases
-                final Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
-                if(types.contains(BiomeDictionary.Type.SNOWY)) out[i] = FROZEN_RIVER;
-                else if(types.contains(BiomeDictionary.Type.MUSHROOM)) out[i] = MUSHROOM_RIVER;
+                //check for snowy biomes
+                else if(biome.isSnowyBiome())
+                    out[i] = FROZEN_RIVER;
+
+                //check for mushroom biomes
+                else if(BiomeDictionary.getTypes(biome).contains(BiomeDictionary.Type.MUSHROOM))
+                    out[i] = MUSHROOM_RIVER;
 
                 //default
-                else out[i] = riverInts[i] & 255;
+                else out[i] = RIVER;
             }
 
             return out;

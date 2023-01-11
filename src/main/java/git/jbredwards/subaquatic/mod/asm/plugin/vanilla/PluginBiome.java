@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import git.jbredwards.subaquatic.api.biome.IOceanBiome;
+import git.jbredwards.subaquatic.api.biome.IOceanSurfaceProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.world.biome.Biome;
 import org.objectweb.asm.tree.*;
@@ -60,7 +60,7 @@ public final class PluginBiome implements IASMPlugin
     {
         @Nonnull
         public static IBlockState getOceanTopBlock(@Nonnull Biome biome, @Nonnull IBlockState fallback) {
-            return biome instanceof IOceanBiome ? ((IOceanBiome)biome).getOceanSurface() : fallback;
+            return biome instanceof IOceanSurfaceProvider ? ((IOceanSurfaceProvider)biome).getOceanSurface() : fallback;
         }
     }
 }

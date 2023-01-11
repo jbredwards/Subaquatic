@@ -14,8 +14,12 @@ import javax.annotation.Nullable;
  */
 public final class BiomesOPlentyHandler
 {
+    public static boolean isExtendedBiome(@Nullable Biome biome) {
+        return biome != null && BOPBiomes.REG_INSTANCE.getExtendedBiome(biome) != null;
+    }
+
     @Nullable
-    public static Biome getExtendedBiome(@Nullable Biome biome) {
+    public static Biome getBOPBeachBiome(@Nullable Biome biome) {
         if(biome != null) {
             final @Nullable IExtendedBiome extBiome = BOPBiomes.REG_INSTANCE.getExtendedBiome(biome);
             if(extBiome != null) return BiomeUtils.getBiomeForLoc(extBiome.getBeachLocation());

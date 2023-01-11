@@ -3,7 +3,6 @@ package git.jbredwards.subaquatic.mod;
 import com.cleanroommc.assetmover.AssetMoverAPI;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
@@ -61,6 +60,8 @@ public final class Subaquatic
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
     @Nonnull public static final Logger LOGGER = LogManager.getFormatterLogger(NAME);
 
+    public static final boolean isBOPInstalled = Loader.isModLoaded("biomesoplenty");
+
     @SuppressWarnings("ConstantConditions")
     @Mod.EventHandler
     static void construct(@Nonnull FMLConstructionEvent event) throws IOException {
@@ -114,7 +115,7 @@ public final class Subaquatic
                         .filter(biome -> biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() == -1)
                         .collect(Collectors.toList()))
                 .build());
-        StructureOceanMonument.SPAWN_BIOMES.removeAll(Lists.newArrayList(Biomes.FROZEN_OCEAN, SubaquaticBiomes.DEEP_FROZEN_OCEAN));
+        StructureOceanMonument.SPAWN_BIOMES.removeIf(biome -> biome == Biomes.FROZEN_OCEAN || biome == SubaquaticBiomes.DEEP_FROZEN_OCEAN);
         //automatically update valid ocean monument neighbor biomes
         StructureOceanMonument.WATER_BIOMES = new ArrayList<>(ImmutableList.<Biome>builder()
                 .addAll(BiomeManager.oceanBiomes)

@@ -1,0 +1,11 @@
+{
+    "ambientocclusion": false,
+    "elements": [
+        {   "from": [ 2, 12, 2 ],
+            "to": [ 14, 12, 14 ],
+            "faces": {
+                "up": { "texture": "#water", "tintindex": 1 }
+            }
+        }
+    ]
+}

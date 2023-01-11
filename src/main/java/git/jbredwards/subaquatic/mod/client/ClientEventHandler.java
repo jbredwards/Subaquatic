@@ -10,8 +10,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -49,6 +52,13 @@ public final class ClientEventHandler
                 event.setBlue(fogComp[2] * 0.5f + 0.5f * event.getBlue());
             }
         }
+    }
+
+    @SubscribeEvent
+    static void registerBlockColors(@Nonnull ColorHandlerEvent.Block event) {
+        event.getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex)
+                -> tintIndex != 1 || world == null || pos == null ? -1 : BiomeColorHelper.getWaterColorAtPos(world, pos),
+                Blocks.CAULDRON);
     }
 
     @SubscribeEvent

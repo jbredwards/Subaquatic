@@ -28,6 +28,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             //plugins.put("biomesoplenty/common/world/layer/GenLayerRiverMixBOP", new PluginGenLayerRiverMixBOP()); //Account for all ocean biomes when generating rivers
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
+            plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
             plugins.put("net.minecraft.block.BlockSnow", new PluginBlockSnow()); //Prevent snow layers from being placeable on blue ice
             plugins.put("net.minecraft.block.BlockStem", new PluginBlockStem()); //Update pumpkin reference to the correct block
@@ -38,13 +39,18 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
             plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityItem()); //XP orbs float while in water
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
+            plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
             plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config
-            plugins.put("net.minecraft.world.gen.feature.worldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
+            plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Apply ocean biome generator
+            plugins.put("net.minecraft.world.gen.layer.GenLayerAddIsland", new PluginGenLayerAddIsland()); //Account for modded shallow ocean biomes
+            plugins.put("net.minecraft.world.gen.layer.GenLayerAddMushroomIsland", new PluginGenLayerAddMushroomIsland()); //Account for modded shallow ocean biomes
             plugins.put("net.minecraft.world.gen.layer.GenLayerDeepOcean", new PluginGenLayerDeepOcean()); //Take modded ocean biomes into account when determining whether to generate a deep ocean
+            plugins.put("net.minecraft.world.gen.layer.GenLayerEdge", new PluginGenLayerEdge()); //Account for modded shallow oceans
             plugins.put("net.minecraft.world.gen.layer.GenLayerRemoveTooMuchOcean", new PluginGenLayerRemoveTooMuchOcean()); //Account for modded shallow ocean biomes
+            plugins.put("net.minecraft.world.gen.layer.GenLayerRiverInit", new PluginGenLayerRiverInit()); //Account for modded shallow ocean biomes
             plugins.put("net.minecraft.world.gen.layer.GenLayerRiverMix", new PluginGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
-            //plugins.put("net.minecraft.world.gen.layer.GenLayerRiverMix", new PluginGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
+            plugins.put("net.minecraft.world.gen.layer.GenLayerShore", new PluginGenLayerShore()); //Account for all ocean biomes when generating shores
         }
 
         @Nonnull

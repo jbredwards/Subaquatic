@@ -12,7 +12,7 @@
                 "layer0":"subaquatic:items/sea_pickle"
             }
         }],
-		"glowing=false,pickles=0":[{"model":"subaquatic:sea_pickle_1"}],
+		"glowing=false,pickles=0":[{"model":"subaquatic:sea_pickle_1","textures":{"particle":"subaquatic:blocks/sea_pickle_particle"}}],
 		"glowing=true,pickles=0":[{
 			"custom":{
 				"base":"subaquatic:sea_pickle#solid_1",
@@ -20,7 +20,7 @@
 				"Cutout":"subaquatic:sea_pickle#cutout_1"
 			}
 		}],
-		"glowing=false,pickles=1":[{"model":"subaquatic:sea_pickle_2"}],
+		"glowing=false,pickles=1":[{"model":"subaquatic:sea_pickle_2","textures":{"particle":"subaquatic:blocks/sea_pickle_particle"}}],
 		"glowing=true,pickles=1":[{
 			"custom":{
 				"base":"subaquatic:sea_pickle#solid_2",
@@ -29,7 +29,7 @@
 			}
 
 		}],
-		"glowing=false,pickles=2":[{"model":"subaquatic:sea_pickle_3"}],
+		"glowing=false,pickles=2":[{"model":"subaquatic:sea_pickle_3","textures":{"particle":"subaquatic:blocks/sea_pickle_particle"}}],
 		"glowing=true,pickles=2":[{
 			"custom":{
 				"base":"subaquatic:sea_pickle#solid_3",
@@ -38,7 +38,7 @@
 			}
 
 		}],
-		"glowing=false,pickles=3":[{"model":"subaquatic:sea_pickle_4"}],
+		"glowing=false,pickles=3":[{"model":"subaquatic:sea_pickle_4","textures":{"particle":"subaquatic:blocks/sea_pickle_particle"}}],
 		"glowing=true,pickles=3":[{
 			"custom":{
 				"base":"subaquatic:sea_pickle#solid_4",

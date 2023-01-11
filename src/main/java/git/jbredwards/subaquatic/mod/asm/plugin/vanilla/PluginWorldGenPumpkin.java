@@ -26,10 +26,10 @@ public final class PluginWorldGenPumpkin implements IASMPlugin
          * //generate non-carved pumpkins instead of carved ones
          * worldIn.setBlockState(blockpos, SubaquaticBlocks.PUMPKIN.getDefaultState(), 2);
          */
-        if(checkField(insn, obfuscated ? "field_150423_aK" : "PUMPKIN")) {
-            removeFrom(instructions, getNext(insn, 2), 4);
+        if(checkMethod(insn, obfuscated ? "func_176223_P" : "getDefaultState")) {
+            removeFrom(instructions, insn.getNext(), 4);
+            instructions.remove(insn.getPrevious());
             instructions.insertBefore(insn, new FieldInsnNode(GETSTATIC, "git/jbredwards/subaquatic/mod/common/init/SubaquaticBlocks", "PUMPKIN", "Lgit/jbredwards/subaquatic/mod/common/block/BlockCarvablePumpkin;"));
-            instructions.remove(insn);
             return true;
         }
 

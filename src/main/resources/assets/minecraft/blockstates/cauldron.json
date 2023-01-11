@@ -1,0 +1,34 @@
+{
+    "forge_marker":1,
+    "defaults":{ 
+        "model":"forge:multi-layer",
+        "textures":{ "water":"subaquatic:blocks/water_still" }
+    },
+    "variants":{
+        "level=0":[{ "model":"cauldron_empty" }],
+        "level=1":[{ 
+            "custom": {
+                "base":"cauldron#level=0",
+                "Solid":"cauldron#level=0",
+                "Translucent":"cauldron#level1"
+            }
+        }],
+        "level=2":[{ 
+            "custom": {
+                "base":"cauldron#level=0",
+                "Solid":"cauldron#level=0",
+                "Translucent":"cauldron#level2"
+            }
+        }],
+        "level=3":[{ 
+            "custom": {
+                "base":"cauldron#level=0",
+                "Solid":"cauldron#level=0",
+                "Translucent":"cauldron#level3"
+            }
+        }],
+        "level1":[{ "model":"subaquatic:cauldron_level1" }],
+        "level2":[{ "model":"subaquatic:cauldron_level2" }],
+        "level3":[{ "model":"subaquatic:cauldron_level3" }]
+    }
+}

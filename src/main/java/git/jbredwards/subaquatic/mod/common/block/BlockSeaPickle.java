@@ -37,9 +37,9 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
     @Nonnull public static final PropertyBool GLOWING = PropertyBool.create("glowing");
     @Nonnull protected static AxisAlignedBB[] aabb = new AxisAlignedBB[] {
             new AxisAlignedBB(0.375,  0, 0.375,  0.625,  0.375,  0.625),
-            new AxisAlignedBB(0.1875, 0, 0.1875, 0.8125, 0.375,  0.8125),
-            new AxisAlignedBB(0.125,  0, 0.125,  0.875,  0.375,  0.875),
-            new AxisAlignedBB(0.125,  0, 0.125,  0.875,  0.4375, 0.875)
+            new AxisAlignedBB(0.1875, 0, 0.1875, 0.75,   0.375,  0.75),
+            new AxisAlignedBB(0.125,  0, 0.125,  0.75,   0.375,  0.8125),
+            new AxisAlignedBB(0.125,  0, 0.125,  0.8125, 0.4375, 0.875)
     };
 
     public BlockSeaPickle(@Nonnull Material materialIn) { this(materialIn, materialIn.getMaterialMapColor()); }
