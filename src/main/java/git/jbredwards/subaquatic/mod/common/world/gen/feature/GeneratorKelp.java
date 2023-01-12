@@ -5,6 +5,7 @@ import git.jbredwards.subaquatic.api.biome.IOceanBiome;
 import git.jbredwards.subaquatic.mod.common.block.BlockKelp;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.world.biome.BiomeFrozenOcean;
+import git.jbredwards.subaquatic.mod.common.world.biome.BiomeWarmOcean;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -53,6 +54,7 @@ public enum GeneratorKelp implements IWorldGenerator
 
     static int getMaxForBiome(@Nonnull Biome biome) {
         if(biome.getBiomeClass() == BiomeOcean.class) return 120;
-        else return !((biome instanceof BiomeFrozenOcean)) && IOceanBiome.isOcean(biome) ? 80 : 0;
+        else if(biome instanceof BiomeWarmOcean || biome instanceof BiomeFrozenOcean) return 0;
+        else return IOceanBiome.isOcean(biome) ? 80 : 0;
     }
 }

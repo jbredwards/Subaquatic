@@ -2,6 +2,8 @@ package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
+import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.integration.biomesoplenty.BiomesOPlentyHandler;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.layer.GenLayer;
@@ -11,6 +13,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * Account for all ocean biomes when generating rivers
@@ -26,11 +29,10 @@ public final class PluginGenLayerRiverMix implements IASMPlugin
          * //account for all ocean biomes when generating rivers
          * public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight)
          * {
-         *     return Hooks.getInts(this, areaX, areaY, areaWidth, areaHeight, this.biomePatternGeneratorChain, this.riverPatternGeneratorChain);
+         *     return Hooks.getInts(areaX, areaY, areaWidth, areaHeight, this.biomePatternGeneratorChain, this.riverPatternGeneratorChain);
          * }
          */
-        overrideMethod(classNode, method -> method.name.equals(obfuscated ? "func_75904_a" : "getInts"), "getInts", "(Lnet/minecraft/world/gen/layer/GenLayer;IIIILnet/minecraft/world/gen/layer/GenLayer;Lnet/minecraft/world/gen/layer/GenLayer;)[I", generator -> {
-            generator.visitVarInsn(ALOAD, 0);
+        overrideMethod(classNode, method -> method.name.equals(obfuscated ? "func_75904_a" : "getInts"), "getInts", "(IIIILnet/minecraft/world/gen/layer/GenLayer;Lnet/minecraft/world/gen/layer/GenLayer;)[I", generator -> {
             generator.visitVarInsn(ILOAD, 1);
             generator.visitVarInsn(ILOAD, 2);
             generator.visitVarInsn(ILOAD, 3);
@@ -51,52 +53,29 @@ public final class PluginGenLayerRiverMix implements IASMPlugin
         static final int FROZEN_RIVER = Biome.getIdForBiome(Biomes.FROZEN_RIVER);
         static final int MUSHROOM_RIVER = Biome.getIdForBiome(Biomes.MUSHROOM_ISLAND_SHORE);
 
-        public static int[] getInts(@Nonnull GenLayer layer, int areaX, int areaY, int areaWidth, int areaHeight, @Nonnull GenLayer biomePatternGeneratorChain, @Nonnull GenLayer riverPatternGeneratorChain) {
+        public static int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight, @Nonnull GenLayer biomePatternGeneratorChain, @Nonnull GenLayer riverPatternGeneratorChain) {
             final int[] biomeInts = biomePatternGeneratorChain.getInts(areaX, areaY, areaWidth, areaHeight);
             final int[] riverInts = riverPatternGeneratorChain.getInts(areaX, areaY, areaWidth, areaHeight);
             final int[] out = IntCache.getIntCache(areaWidth * areaHeight);
             for(int i = 0; i < areaWidth * areaHeight; ++i) {
-                //skip if there shouldn't be a river
-                if(riverInts[i] != RIVER) {
-                    out[i] = biomeInts[i];
-                    continue;
+                out[i] = biomeInts[i];
+                if(riverInts[i] == RIVER && !IOceanBiome.isOcean(biomeInts[i])) {
+                    final @Nullable Biome biome = Biome.getBiomeForId(biomeInts[i]);
+                    if(biome != null && (!Subaquatic.isBOPInstalled || BiomesOPlentyHandler.doesBiomeSupportRivers(biome))) { //check for BOP special case
+                        final Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
+                        if(!types.contains(BiomeDictionary.Type.BEACH)) { //don't generate on beach biomes
+                            //check for snowy biomes
+                            if(biome.isSnowyBiome()) out[i] = FROZEN_RIVER;
+                            //check for mushroom biomes
+                            else if(types.contains(BiomeDictionary.Type.MUSHROOM)) out[i] = MUSHROOM_RIVER;
+                            //default
+                            else out[i] = RIVER;
+                        }
+                    }
                 }
-
-                //skip if this is an ocean
-                else if(IOceanBiome.isOcean(biomeInts[i])) {
-                    out[i] = biomeInts[i];
-                    continue;
-                }
-
-                //check for BOP special case
-                else if(layer instanceof IBOPGenerator && !((IBOPGenerator)layer).biomeSupportsRivers(biomeInts[i])) {
-                    out[i] = biomeInts[i];
-                    continue;
-                }
-
-                //skip if the biome is null
-                final @Nullable Biome biome = Biome.getBiomeForId(biomeInts[i]);
-                if(biome == null) out[i] = biomeInts[i];
-
-                //check for snowy biomes
-                else if(biome.isSnowyBiome())
-                    out[i] = FROZEN_RIVER;
-
-                //check for mushroom biomes
-                else if(BiomeDictionary.getTypes(biome).contains(BiomeDictionary.Type.MUSHROOM))
-                    out[i] = MUSHROOM_RIVER;
-
-                //default
-                else out[i] = RIVER;
             }
 
             return out;
         }
-    }
-
-    //needed for Biomes O' Plenty support
-    public interface IBOPGenerator
-    {
-        boolean biomeSupportsRivers(int biomeId);
     }
 }

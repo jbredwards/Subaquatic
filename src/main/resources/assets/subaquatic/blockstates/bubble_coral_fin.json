@@ -1,0 +1,20 @@
+{ 
+   "forge_marker":1,
+   "defaults":{
+      "model":"cross"
+   },
+   "variants":{
+		"inventory:alive=false":[{
+			"transform":"forge:default-item",
+         "model":"builtin/generated",
+			"textures":{"layer0":"subaquatic:blocks/dead_bubble_coral_fin"}
+      }],
+		"inventory:alive=true":[{
+			"transform":"forge:default-item",
+         "model":"builtin/generated",
+			"textures":{"layer0":"subaquatic:blocks/bubble_coral_fin"}
+      }],
+      "alive=false":[{"textures":{"cross":"subaquatic:blocks/dead_bubble_coral_fin"}}],
+      "alive=true":[{"textures":{"cross":"subaquatic:blocks/bubble_coral_fin"}}]
+   }
+}

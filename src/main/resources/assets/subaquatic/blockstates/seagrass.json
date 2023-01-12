@@ -1,6 +1,6 @@
 {
 	"forge_marker": 1,
-	"defaults":{"model":"subaquatic:template_seagrass"},
+	"defaults":{"model":"subaquatic:seagrass"},
 	"variants":{
 		"inventory":[{
 			"transform":"forge:default-item",

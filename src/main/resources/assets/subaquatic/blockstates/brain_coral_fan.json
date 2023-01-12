@@ -1,0 +1,28 @@
+{ 
+   "forge_marker":1,
+   "defaults":{
+		"transform":"forge:default-item",
+      "model":"subaquatic:coral_fan_wall"
+   },
+   "variants":{
+		"inventory:alive=false":[{
+         "model":"builtin/generated",
+			"textures":{"layer0":"subaquatic:blocks/dead_brain_coral_fan"}
+      }],
+		"inventory:alive=true":[{
+         "model":"builtin/generated",
+			"textures":{"layer0":"subaquatic:blocks/brain_coral_fan"}
+      }],
+      "alive":{
+         "true":{"textures":{"fan":"subaquatic:blocks/brain_coral_fan"}},
+         "false":{"textures":{"fan":"subaquatic:blocks/dead_brain_coral_fan"}}
+      },
+      "side":{
+         "up":{"model":"subaquatic:coral_fan"},
+         "north":{},
+         "south":{"y":180},
+         "east":{"y":90},
+         "west":{"y":270}
+      }
+   }
+}

@@ -45,6 +45,16 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockCoral BUBBLE_CORAL_BLOCK = register("bubble_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.PURPLE), Blocks.STONE);
     @Nonnull public static final BlockCoral FIRE_CORAL_BLOCK = register("fire_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.RED), Blocks.STONE);
     @Nonnull public static final BlockCoral HORN_CORAL_BLOCK = register("horn_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.YELLOW), Blocks.STONE);
+    @Nonnull public static final BlockCoralFan TUBE_CORAL_FAN = register("tube_coral_fan", new BlockCoralFan(FluidRegistry.WATER, Material.CORAL, MapColor.BLUE), Blocks.STONE);
+    @Nonnull public static final BlockCoralFan BRAIN_CORAL_FAN = register("brain_coral_fan", new BlockCoralFan(FluidRegistry.WATER, Material.CORAL, MapColor.PINK), Blocks.STONE);
+    @Nonnull public static final BlockCoralFan BUBBLE_CORAL_FAN = register("bubble_coral_fan", new BlockCoralFan(FluidRegistry.WATER, Material.CORAL, MapColor.PURPLE), Blocks.STONE);
+    @Nonnull public static final BlockCoralFan FIRE_CORAL_FAN = register("fire_coral_fan", new BlockCoralFan(FluidRegistry.WATER, Material.CORAL, MapColor.RED), Blocks.STONE);
+    @Nonnull public static final BlockCoralFan HORN_CORAL_FAN = register("horn_coral_fan", new BlockCoralFan(FluidRegistry.WATER, Material.CORAL, MapColor.YELLOW), Blocks.STONE);
+    @Nonnull public static final BlockCoralFin TUBE_CORAL_FIN = register("tube_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.BLUE), Blocks.STONE);
+    @Nonnull public static final BlockCoralFin BRAIN_CORAL_FIN = register("brain_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.PINK), Blocks.STONE);
+    @Nonnull public static final BlockCoralFin BUBBLE_CORAL_FIN = register("bubble_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.PURPLE), Blocks.STONE);
+    @Nonnull public static final BlockCoralFin FIRE_CORAL_FIN = register("fire_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.RED), Blocks.STONE);
+    @Nonnull public static final BlockCoralFin HORN_CORAL_FIN = register("horn_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.YELLOW), Blocks.STONE);
     //TODO @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN = register("bubble_column", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL));
 
     //register burnables

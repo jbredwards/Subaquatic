@@ -45,8 +45,4 @@ public class BlockCoral extends AbstractBlockCoral
 
         return false;
     }
-
-    @Nonnull
-    @Override
-    public EnumPushReaction getPushReaction(@Nonnull IBlockState state) { return EnumPushReaction.NORMAL; }
 }

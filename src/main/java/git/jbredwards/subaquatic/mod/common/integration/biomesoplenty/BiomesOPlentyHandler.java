@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.common.integration.biomesoplenty;
 
 import biomesoplenty.api.biome.BOPBiomes;
 import biomesoplenty.api.biome.IExtendedBiome;
+import biomesoplenty.common.biome.overworld.BOPOverworldBiome;
 import biomesoplenty.common.util.biome.BiomeUtils;
 import net.minecraft.world.biome.Biome;
 
@@ -14,6 +15,10 @@ import javax.annotation.Nullable;
  */
 public final class BiomesOPlentyHandler
 {
+    public static boolean doesBiomeSupportRivers(@Nullable Biome biome) {
+        return !(biome instanceof BOPOverworldBiome) || ((BOPOverworldBiome)biome).canGenerateRivers;
+    }
+
     public static boolean isExtendedBiome(@Nullable Biome biome) {
         return biome != null && BOPBiomes.REG_INSTANCE.getExtendedBiome(biome) != null;
     }

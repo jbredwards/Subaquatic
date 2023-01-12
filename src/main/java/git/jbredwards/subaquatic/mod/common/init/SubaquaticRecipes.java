@@ -43,11 +43,21 @@ final class SubaquaticRecipes
     static void registerSmelting() {
         GameRegistry.addSmelting(SubaquaticItems.KELP, new ItemStack(SubaquaticItems.DRIED_KELP), 0.1f);
         GameRegistry.addSmelting(SubaquaticItems.SEA_PICKLE, new ItemStack(Items.DYE, 1, 10), 0.1f);
-        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_BLOCK, 1, 1), 0.2f);
-        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BUBBLE_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.BUBBLE_CORAL_BLOCK, 1, 1), 0.2f);
-        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.FIRE_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.FIRE_CORAL_BLOCK, 1, 1), 0.2f);
-        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.HORN_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.HORN_CORAL_BLOCK, 1, 1), 0.2f);
-        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.TUBE_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.TUBE_CORAL_BLOCK, 1, 1), 0.2f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_BLOCK, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_FAN, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_FAN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_FIN, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_FIN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BUBBLE_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.BUBBLE_CORAL_BLOCK, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BUBBLE_CORAL_FAN, 1, 0), new ItemStack(SubaquaticItems.BUBBLE_CORAL_FAN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BUBBLE_CORAL_FIN, 1, 0), new ItemStack(SubaquaticItems.BUBBLE_CORAL_FIN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.FIRE_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.FIRE_CORAL_BLOCK, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.FIRE_CORAL_FAN, 1, 0), new ItemStack(SubaquaticItems.FIRE_CORAL_FAN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.FIRE_CORAL_FIN, 1, 0), new ItemStack(SubaquaticItems.FIRE_CORAL_FIN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.HORN_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.HORN_CORAL_BLOCK, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.HORN_CORAL_FAN, 1, 0), new ItemStack(SubaquaticItems.HORN_CORAL_FAN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.HORN_CORAL_FIN, 1, 0), new ItemStack(SubaquaticItems.HORN_CORAL_FIN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.TUBE_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.TUBE_CORAL_BLOCK, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.TUBE_CORAL_FAN, 1, 0), new ItemStack(SubaquaticItems.TUBE_CORAL_FAN, 1, 1), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.TUBE_CORAL_FIN, 1, 0), new ItemStack(SubaquaticItems.TUBE_CORAL_FIN, 1, 1), 0.1f);
     }
 
     static void replaceCrafting(@Nonnull IForgeRegistry<IRecipe> registry, @Nonnull String idToRemove, @Nonnull IRecipe replacement) {

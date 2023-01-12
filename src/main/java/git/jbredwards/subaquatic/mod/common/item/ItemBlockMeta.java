@@ -25,24 +25,26 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
 {
     @Nonnull protected final String[] variants;
     @Nonnull protected final String property;
+    protected final boolean hasUniqueModel;
 
-    protected ItemBlockMeta(@Nonnull Block blockIn, @Nonnull String propertyIn, @Nonnull String... variantsIn) {
+    protected ItemBlockMeta(@Nonnull Block blockIn, @Nonnull String propertyIn, boolean hasUniqueModelIn, @Nonnull String... variantsIn) {
         super(blockIn);
         setHasSubtypes(true);
         property = propertyIn;
         variants = variantsIn;
+        hasUniqueModel = hasUniqueModelIn;
     }
 
-    public ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyBool property) {
-        this(block, property.getName(), "true", "false");
+    public ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyBool property, boolean hasUniqueModelIn) {
+        this(block, property.getName(), hasUniqueModelIn, "true", "false");
     }
 
-    public ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyInteger property) {
-        this(block, property.getName(), property.getAllowedValues().stream().map(String::valueOf).toArray(String[]::new));
+    public ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyInteger property, boolean hasUniqueModelIn) {
+        this(block, property.getName(), hasUniqueModelIn, property.getAllowedValues().stream().map(String::valueOf).toArray(String[]::new));
     }
 
-    public <T extends Enum<T> & IStringSerializable> ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyEnum<T> property) {
-        this(block, property.getName(), property.getAllowedValues().stream().map(T::getName).toArray(String[]::new));
+    public <T extends Enum<T> & IStringSerializable> ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyEnum<T> property, boolean hasUniqueModelIn) {
+        this(block, property.getName(), hasUniqueModelIn, property.getAllowedValues().stream().map(T::getName).toArray(String[]::new));
     }
 
     @Override
@@ -68,7 +70,9 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
     public void registerModels() {
         for(int meta = 0; meta < variants.length; meta++) {
             ModelLoader.setCustomModelResourceLocation(this, meta, new ModelResourceLocation(
-                    delegate.name(), String.format("%s=%s", property, variants[meta])));
+                    delegate.name(), hasUniqueModel
+                    ? String.format("inventory:%s=%s", property, variants[meta])
+                    : String.format("%s=%s", property, variants[meta])));
         }
     }
 }

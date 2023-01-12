@@ -17,20 +17,14 @@ public final class PluginGenLayerRiverMixBOP implements IASMPlugin
     @Override
     public boolean transformClass(@Nonnull ClassNode classNode, boolean obfuscated) {
         /*
-         * Interface handling
-         */
-        classNode.interfaces.add("git/jbredwards/subaquatic/mod/asm/plugin/vanilla/PluginGenLayerRiverMix$IBOPGenerator");
-        classNode.methods.forEach(method -> { if(method.name.equals("biomeSupportsRivers")) method.access = ACC_PUBLIC; });
-        /*
          * New code:
          * //account for all ocean biomes when generating rivers
          * public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight)
          * {
-         *     return Hooks.getInts(this, areaX, areaY, areaWidth, areaHeight, biomesBranch, this.riversBranch);
+         *     return Hooks.getInts(areaX, areaY, areaWidth, areaHeight, biomesBranch, this.riversBranch);
          * }
          */
-        overrideMethod(classNode, method -> method.name.equals(obfuscated ? "func_75904_a" : "getInts"), "getInts", "(Lnet/minecraft/world/gen/layer/GenLayer;IIIILnet/minecraft/world/gen/layer/GenLayer;Lnet/minecraft/world/gen/layer/GenLayer;)[I", generator -> {
-            generator.visitVarInsn(ALOAD, 0);
+        overrideMethod(classNode, method -> method.name.equals(obfuscated ? "func_75904_a" : "getInts"), "getInts", "(IIIILnet/minecraft/world/gen/layer/GenLayer;Lnet/minecraft/world/gen/layer/GenLayer;)[I", generator -> {
             generator.visitVarInsn(ILOAD, 1);
             generator.visitVarInsn(ILOAD, 2);
             generator.visitVarInsn(ILOAD, 3);
@@ -47,8 +41,8 @@ public final class PluginGenLayerRiverMixBOP implements IASMPlugin
     @SuppressWarnings("unused")
     public static final class Hooks
     {
-        public static int[] getInts(@Nonnull GenLayer layer, int areaX, int areaY, int areaWidth, int areaHeight, @Nonnull GenLayer biomePatternGeneratorChain, @Nonnull GenLayer riverPatternGeneratorChain) {
-            return PluginGenLayerRiverMix.Hooks.getInts(layer, areaX, areaY, areaWidth, areaHeight, biomePatternGeneratorChain, riverPatternGeneratorChain);
+        public static int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight, @Nonnull GenLayer biomePatternGeneratorChain, @Nonnull GenLayer riverPatternGeneratorChain) {
+            return PluginGenLayerRiverMix.Hooks.getInts(areaX, areaY, areaWidth, areaHeight, biomePatternGeneratorChain, riverPatternGeneratorChain);
         }
     }
 }

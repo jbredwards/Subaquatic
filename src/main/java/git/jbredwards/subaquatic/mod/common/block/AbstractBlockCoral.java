@@ -4,6 +4,7 @@ import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -57,6 +58,10 @@ public abstract class AbstractBlockCoral extends Block implements IGrowable
     @Nonnull
     @Override
     public Material getMaterial(@Nonnull IBlockState state) { return state.getValue(ALIVE) ? material : Material.ROCK; }
+
+    @Nonnull
+    @Override
+    public EnumPushReaction getPushReaction(@Nonnull IBlockState state) { return EnumPushReaction.NORMAL; }
 
     @Override
     public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {

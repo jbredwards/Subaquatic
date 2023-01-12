@@ -381,23 +381,23 @@ public final class SubaquaticWaterColorConfig
             "    },\n" +
             "    //Warm Ocean\n" +
             "    \"subaquatic:warm_ocean\":{\n" +
-            "        \"Surface\":\"0x02B0E5\",\n" +
-            "        \"Fog\":\"0x0289D5\"\n" +
+            "        \"Surface\":\"0x43D5EE\",\n" +
+            "        \"Fog\":\"0x43D5EE\"\n" +
             "    },\n" +
             "    //Deep Warm Ocean\n" +
             "    \"subaquatic:deep_warm_ocean\":{\n" +
-            "        \"Surface\":\"0x02B0E5\",\n" +
-            "        \"Fog\":\"0x0686CA\"\n" +
+            "        \"Surface\":\"0x43D5EE\",\n" +
+            "        \"Fog\":\"0x43D5EE\"\n" +
             "    },\n" +
             "    //Lukewarm Ocean\n" +
             "    \"subaquatic:lukewarm_ocean\":{\n" +
-            "        \"Surface\":\"0x0D96DB\",\n" +
-            "        \"Fog\":\"0x0A74C4\"\n" +
+            "        \"Surface\":\"0x45ADF2\",\n" +
+            "        \"Fog\":\"0x45ADF2\"\n" +
             "    },\n" +
             "    //Deep Lukewarm Ocean\n" +
             "    \"subaquatic:deep_lukewarm_ocean\":{\n" +
-            "        \"Surface\":\"0x0D96DB\",\n" +
-            "        \"Fog\":\"0x0E72B9\"\n" +
+            "        \"Surface\":\"0x45ADF2\",\n" +
+            "        \"Fog\":\"0x45ADF2\"\n" +
             "    },\n" +
             "    //Cold Ocean\n" +
             "    \"subaquatic:cold_ocean\":{\n" +
@@ -411,13 +411,13 @@ public final class SubaquaticWaterColorConfig
             "    },\n" +
             "    //Frozen Ocean\n" +
             "    \"minecraft:frozen_ocean\":{\n" +
-            "        \"Surface\":\"0x2570B5\",\n" +
-            "        \"Fog\":\"0x174985\"\n" +
+            "        \"Surface\":\"0x77a9ff\",\n" +
+            "        \"Fog\":\"0x77a9ff\"\n" +
             "    },\n" +
             "    //Deep Frozen Ocean\n" +
             "    \"subaquatic:deep_frozen_ocean\":{\n" +
-            "        \"Surface\":\"0x2570B5\",\n" +
-            "        \"Fog\":\"0x1A4879\"\n" +
+            "        \"Surface\":\"0x77a9ff\",\n" +
+            "        \"Fog\":\"0x77a9ff\"\n" +
             "    }\n" +
             "}";
 }

@@ -11,6 +11,7 @@ import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
+import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorCoral;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
@@ -87,6 +88,8 @@ public final class Subaquatic
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         //world generators
+        GeneratorCoral.initDefaults();
+        GameRegistry.registerWorldGenerator(GeneratorCoral.INSTANCE, 3);
         GameRegistry.registerWorldGenerator(GeneratorKelp.INSTANCE, 4);
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
         GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
@@ -115,12 +118,13 @@ public final class Subaquatic
                         .filter(biome -> biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() == -1)
                         .collect(Collectors.toList()))
                 .build());
-        StructureOceanMonument.SPAWN_BIOMES.removeIf(biome -> biome == Biomes.FROZEN_OCEAN || biome == SubaquaticBiomes.DEEP_FROZEN_OCEAN);
         //automatically update valid ocean monument neighbor biomes
         StructureOceanMonument.WATER_BIOMES = new ArrayList<>(ImmutableList.<Biome>builder()
                 .addAll(BiomeManager.oceanBiomes)
                 .addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER))
                 .build());
+        //ocean monuments spawning in these biomes causes problems
+        StructureOceanMonument.SPAWN_BIOMES.removeIf(biome -> biome == Biomes.FROZEN_OCEAN || biome == SubaquaticBiomes.DEEP_FROZEN_OCEAN);
     }
 
     @SideOnly(Side.CLIENT)

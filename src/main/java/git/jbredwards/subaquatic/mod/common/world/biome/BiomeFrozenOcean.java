@@ -5,7 +5,6 @@ import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.WorldGenBlueIce;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.WorldGenIceberg;
-import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityPolarBear;
@@ -151,7 +150,7 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
 
                     //random ice gen
                     if(posY < seaLevel && (top.getBlock() == Blocks.AIR))
-                        top = getTemperature(new BlockPos(posX, posY, posZ)) < 0.15F ? ICE : WATER;
+                        top = getTemperature(new BlockPos(posX, posY, posZ)) < 0.15 ? ICE : WATER;
 
                     j = oceanSurfaceY;
 
@@ -181,7 +180,7 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
     }
 
     @Override
-    public float getTemperature(@Nonnull BlockPos pos) {
+    public final float getTemperature(@Nonnull BlockPos pos) {
         float defaultTemp = getDefaultTemperature();
         final double noiseTemp = NOISE.getValue(pos.getX() * 0.05, pos.getZ() * 0.05);
         final double otherTemp = GRASS_COLOR_NOISE.getValue(pos.getX() * 0.2, pos.getZ() * 0.2);
