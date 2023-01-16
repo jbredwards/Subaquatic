@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.item;
+package git.jbredwards.subaquatic.mod.common.item.block;
 
 import git.jbredwards.subaquatic.mod.common.block.BlockSeagrass;
 import net.minecraft.entity.player.EntityPlayer;

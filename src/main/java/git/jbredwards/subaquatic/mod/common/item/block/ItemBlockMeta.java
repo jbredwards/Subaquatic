@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.item;
+package git.jbredwards.subaquatic.mod.common.item.block;
 
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
 import net.minecraft.block.Block;
