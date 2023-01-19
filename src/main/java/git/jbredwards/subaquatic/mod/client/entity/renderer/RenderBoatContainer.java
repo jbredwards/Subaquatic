@@ -25,7 +25,7 @@ public class RenderBoatContainer extends RenderBoat
 
     @Override
     public void doRender(@Nonnull EntityBoat entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        if(entity instanceof EntityBoatContainer && ((EntityBoatContainer)entity).shouldRenderContainer()) {
+        if(entity instanceof EntityBoatContainer && ((EntityBoatContainer)entity).containerPart.shouldRenderContainer()) {
             GlStateManager.pushMatrix();
             setupTranslation(x, y, z);
             setupRotation(entity, entityYaw, partialTicks);
@@ -35,7 +35,7 @@ public class RenderBoatContainer extends RenderBoat
                 GlStateManager.enableOutlineMode(getTeamColor(entity));
             }
 
-            ((EntityBoatContainer)entity).renderContainer(x, y, z, entityYaw, partialTicks);
+            ((EntityBoatContainer)entity).containerPart.renderContainer(x, y, z, entityYaw, partialTicks);
 
             if(renderOutlines) {
                 GlStateManager.disableOutlineMode();

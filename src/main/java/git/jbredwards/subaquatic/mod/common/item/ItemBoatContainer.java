@@ -20,6 +20,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 
@@ -53,8 +54,11 @@ public abstract class ItemBoatContainer extends ItemBoat
                 else if(material != Material.AIR || source.getWorld().getBlockState(boatPos.down()).getMaterial() != Material.WATER)
                     return super.dispenseStack(source, stack);
 
-                final EntityBoatContainer boat = getBoatToCreate(source.getWorld(), x, y + yOffset, z, stack);
+                final EntityBoatContainer boat = new EntityBoatContainer(source.getWorld(), x, y + yOffset, z);
+                boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(stack, 1));
                 boat.rotationYaw = dispenserFacing.getHorizontalAngle();
+
+                buildBoatContainerPart(boat, stack);
                 source.getWorld().spawnEntity(boat);
 
                 stack.shrink(1);
@@ -106,6 +110,5 @@ public abstract class ItemBoatContainer extends ItemBoat
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
-    @Nonnull
-    public abstract EntityBoatContainer getBoatToCreate(@Nonnull World world, double x, double y, double z, @Nonnull ItemStack createdFrom);
+    public abstract void buildBoatContainerPart(@Nonnull EntityBoatContainer boat, @Nonnull ItemStack boatStack);
 }
