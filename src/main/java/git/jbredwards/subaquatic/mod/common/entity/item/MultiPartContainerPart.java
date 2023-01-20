@@ -6,11 +6,9 @@ import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,7 +21,7 @@ import javax.annotation.Nullable;
  * @author jbred
  *
  */
-public abstract class MultiPartContainerPart extends MultiPartEntityPart implements IInteractionObject
+public abstract class MultiPartContainerPart extends MultiPartEntityPart
 {
     @Nonnull
     protected final EntityBoatContainer parentBoat;
@@ -32,13 +30,15 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart impleme
         parentBoat = (EntityBoatContainer)parent;
     }
 
+    @Nonnull
+    public String getFixType() { return "none"; }
+
     @SideOnly(Side.CLIENT)
     public abstract void renderContainer(double x, double y, double z, float entityYaw, float partialTicks);
     public boolean shouldRenderContainer() { return true; }
 
     @Override
     public void setPortal(@Nonnull BlockPos pos) {}
-    public void dropContents(@Nonnull DamageSource source) {}
 
     @Nullable
     @Override

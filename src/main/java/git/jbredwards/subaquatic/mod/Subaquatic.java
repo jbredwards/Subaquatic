@@ -7,10 +7,12 @@ import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
+import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.item.MultiPartAbstractInventoryPart;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorCoral;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
@@ -87,6 +89,8 @@ public final class Subaquatic
 
     @Mod.EventHandler
     static void preInit(@Nonnull FMLPreInitializationEvent event) {
+        CapabilityManager.INSTANCE.register(IBoatType.class, IBoatType.Storage.INSTANCE, IBoatType.Impl::new);
+        MinecraftForge.EVENT_BUS.register(IBoatType.class);
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         //world generators
@@ -98,14 +102,20 @@ public final class Subaquatic
     }
 
     @Mod.EventHandler
+    @SideOnly(Side.CLIENT)
+    static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
+
+    }
+
+    @Mod.EventHandler
     static void init(@Nonnull FMLInitializationEvent event) throws IOException {
-        if(event.getSide() == Side.CLIENT) overrideParticles();
         MinecraftForge.TERRAIN_GEN_BUS.register(GenLayerOceanBiomes.class);
         //config stuff
         SubaquaticConfigHandler.init();
         SubaquaticWaterColorConfig.buildWaterColors();
         //entity data fixers
         EntityBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());
+        MultiPartAbstractInventoryPart.registerFixer(FMLCommonHandler.instance().getDataFixer());
         //automatically add all IOceanBiome instances to the Forge ocean biomes list
         ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
         //generate ocean biome id sets
@@ -131,8 +141,9 @@ public final class Subaquatic
         StructureOceanMonument.SPAWN_BIOMES.removeIf(biome -> biome == Biomes.FROZEN_OCEAN || biome == SubaquaticBiomes.DEEP_FROZEN_OCEAN);
     }
 
+    @Mod.EventHandler
     @SideOnly(Side.CLIENT)
-    static void overrideParticles() {
+    static void initClient(@Nonnull FMLInitializationEvent event) {
         //override some vanilla particle factories to allow for custom coloring
         final ParticleManager manager = Minecraft.getMinecraft().effectRenderer;
         manager.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleDrip.WaterFactory()));

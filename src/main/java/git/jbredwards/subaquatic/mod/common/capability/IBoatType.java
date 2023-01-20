@@ -4,7 +4,7 @@ import git.jbredwards.fluidlogged_api.api.capability.CapabilityProvider;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
-import git.jbredwards.subaquatic.mod.common.item.ItemBoatContainer;
+import git.jbredwards.subaquatic.mod.common.item.boat.ItemBoatContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -59,7 +59,7 @@ public interface IBoatType
     class Impl implements IBoatType
     {
         @Nonnull
-        protected Pair<Item, ResourceLocation> type = Pair.of(Items.BOAT, new ResourceLocation(""));
+        protected Pair<Item, ResourceLocation> type = Pair.of(Items.BOAT, new ResourceLocation("textures/entity/boat/boat_oak.png"));
 
         @Nonnull
         @Override
@@ -82,7 +82,7 @@ public interface IBoatType
         @Override
         public void readNBT(@Nonnull Capability<IBoatType> capability, @Nonnull IBoatType instance, @Nullable EnumFacing side, @Nullable NBTBase nbt) {
             if(nbt instanceof NBTTagString) {
-                final Pair<Item, ResourceLocation> type = SubaquaticChestBoatConfig.getTypeFrom((NBTTagString)nbt);
+                final Pair<Item, ResourceLocation> type = SubaquaticChestBoatConfig.getTypeFrom(((NBTTagString)nbt).getString());
                 if(type != null) instance.setType(type);
             }
         }

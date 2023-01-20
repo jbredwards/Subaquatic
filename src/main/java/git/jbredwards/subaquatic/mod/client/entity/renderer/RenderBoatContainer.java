@@ -33,9 +33,11 @@ public class RenderBoatContainer extends RenderBoat
                 GlStateManager.enableOutlineMode(getTeamColor(entity));
             }
 
-            final Vec3d offset = ((EntityBoatContainer)entity).containerPart.getContainerOffset();
-            setupTranslation(x + offset.x, y + offset.y, z + offset.z);
+            setupTranslation(x, y, z);
             setupRotation(entity, entityYaw, partialTicks);
+
+            final Vec3d offset = ((EntityBoatContainer)entity).containerPart.getContainerOffset();
+            GlStateManager.translate(offset.x, offset.y, offset.z);
             ((EntityBoatContainer)entity).containerPart.renderContainer(x, y, z, entityYaw, partialTicks);
 
             if(renderOutlines) {

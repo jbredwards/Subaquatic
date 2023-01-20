@@ -1,8 +1,10 @@
-package git.jbredwards.subaquatic.mod.common.item;
+package git.jbredwards.subaquatic.mod.common.item.boat;
 
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.item.MultiPartContainerPart;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,14 +15,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBoat;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
+import net.minecraft.stats.StatList;
+import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 
@@ -51,19 +55,60 @@ public abstract class ItemBoatContainer extends ItemBoat
                 double yOffset = 0;
 
                 if(material == Material.WATER) yOffset = 1;
-                else if(material != Material.AIR || source.getWorld().getBlockState(boatPos.down()).getMaterial() != Material.WATER)
+                else if(material != Material.AIR || FluidloggedUtils.getFluidOrReal(source.getWorld(), boatPos.down()).getMaterial() != Material.WATER)
                     return super.dispenseStack(source, stack);
 
                 final EntityBoatContainer boat = new EntityBoatContainer(source.getWorld(), x, y + yOffset, z);
                 boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(stack, 1));
                 boat.rotationYaw = dispenserFacing.getHorizontalAngle();
+                boat.containerPart = createContainer(boat, stack);
 
-                buildBoatContainerPart(boat, stack);
                 if(stack.hasDisplayName()) boat.containerPart.setCustomNameTag(stack.getDisplayName());
                 source.getWorld().spawnEntity(boat);
 
                 stack.shrink(1);
                 return stack;
+            }
+        });
+    }
+
+    @Nonnull
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn, @Nonnull EntityPlayer playerIn, @Nonnull EnumHand handIn) {
+        final ItemStack held = playerIn.getHeldItem(handIn);
+
+        final Vec3d eyeVec = playerIn.getPositionEyes(1);
+        final double reach = playerIn.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
+        final RayTraceResult trace = worldIn.rayTraceBlocks(eyeVec, eyeVec.add(playerIn.getLookVec().scale(reach)), true);
+        if(trace == null || trace.typeOfHit != RayTraceResult.Type.BLOCK) return new ActionResult<>(EnumActionResult.PASS, held);
+
+        final boolean isOverWater = FluidloggedUtils.getFluidOrReal(worldIn, trace.getBlockPos()).getMaterial() == Material.WATER;
+        final EntityBoatContainer boat = new EntityBoatContainer(worldIn, trace.hitVec.x, isOverWater ? trace.hitVec.y - 0.12 : trace.hitVec.y, trace.hitVec.z);
+        boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(held, 1));
+        boat.rotationYaw = playerIn.rotationYaw;
+        boat.containerPart = createContainer(boat, held);
+
+        if(held.hasDisplayName()) boat.containerPart.setCustomNameTag(held.getDisplayName());
+        if(boat.getCollisionBoundingBox() == null) return new ActionResult<>(EnumActionResult.PASS, held);
+
+        final AxisAlignedBB collisionBox = boat.getCollisionBoundingBox().shrink(0.1);
+        if(!worldIn.getCollisionBoxes(boat, collisionBox).isEmpty()) return new ActionResult<>(EnumActionResult.PASS, held);
+
+        if(!worldIn.isRemote) worldIn.spawnEntity(boat);
+        if(!playerIn.isCreative()) held.shrink(1);
+
+        playerIn.addStat(StatList.getObjectUseStats(this));
+        return new ActionResult<>(EnumActionResult.SUCCESS, held);
+    }
+
+    @Override
+    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
+        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.forEach((item, texture) -> {
+            final ItemStack stack = new ItemStack(this);
+            final IBoatType cap = IBoatType.get(stack);
+            if(cap != null) {
+                cap.setType(Pair.of(item, texture));
+                items.add(stack);
             }
         });
     }
@@ -88,28 +133,11 @@ public abstract class ItemBoatContainer extends ItemBoat
     }
 
     @Nonnull
+    public abstract MultiPartContainerPart createContainer(@Nonnull EntityBoatContainer boat, @Nonnull ItemStack boatStack);
+
+    @Nonnull
     public abstract String getRegexTarget();
 
     @Nonnull
     public abstract String getRegexReplacement();
-
-    @Override
-    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
-        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.TYPES.forEach(type -> {
-            final ItemStack stack = new ItemStack(this);
-            final IBoatType cap = IBoatType.get(stack);
-            if(cap != null) {
-                cap.setType(type);
-                items.add(stack);
-            }
-        });
-    }
-
-    @Nonnull
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn, @Nonnull EntityPlayer playerIn, @Nonnull EnumHand handIn) {
-        return super.onItemRightClick(worldIn, playerIn, handIn);
-    }
-
-    public abstract void buildBoatContainerPart(@Nonnull EntityBoatContainer boat, @Nonnull ItemStack boatStack);
 }

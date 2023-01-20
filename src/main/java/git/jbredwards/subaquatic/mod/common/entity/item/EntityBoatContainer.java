@@ -1,5 +1,6 @@
 package git.jbredwards.subaquatic.mod.common.entity.item;
 
+import git.jbredwards.subaquatic.mod.Subaquatic;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
@@ -123,11 +124,16 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
         final boolean isCreative = source.getTrueSource() instanceof EntityPlayer && ((EntityPlayer)source.getTrueSource()).isCreative();
         if(isCreative || damageTaken > 40) {
             if(!isCreative && world.getGameRules().getBoolean("doEntityDrops")) entityDropItem(getContainerStack(), 0);
-            containerPart.dropContents(source);
             setDead();
         }
 
         return true;
+    }
+
+    @Override
+    public void setDead() {
+        super.setDead();
+        containerPart.setDead();
     }
 
     @Nonnull
@@ -141,8 +147,11 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
     @Override
     protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
         final NBTTagCompound containerNBT = new NBTTagCompound();
+        containerNBT.setFloat("ContainerWidth", containerPart.width);
+        containerNBT.setFloat("ContainerHeight", containerPart.height);
         containerNBT.setString("ContainerName", containerPart.partName);
         containerNBT.setString("ContainerType", containerPart.getClass().getName());
+        containerNBT.setString("id", String.format("%s:multipart_%s", Subaquatic.MODID, containerPart.getFixType()));
         containerPart.writeToNBT(containerNBT);
 
         compound.setTag("ContainerNBT", containerNBT);
@@ -162,7 +171,10 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
                     containerPart = (MultiPartContainerPart)
                             Class.forName(containerNBT.getString("ContainerType"))
                             .getConstructor(IEntityMultiPart.class, String.class, float.class, float.class)
-                            .newInstance(this, containerNBT.getString("ContainerName"), 1, 1);
+                            .newInstance(this,
+                                    containerNBT.getString("ContainerName"),
+                                    containerNBT.getFloat("ContainerWidth"),
+                                    containerNBT.getFloat("ContainerHeight"));
 
 
                     containerPart.deserializeNBT(containerNBT);
