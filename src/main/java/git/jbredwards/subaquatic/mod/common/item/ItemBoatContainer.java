@@ -59,6 +59,7 @@ public abstract class ItemBoatContainer extends ItemBoat
                 boat.rotationYaw = dispenserFacing.getHorizontalAngle();
 
                 buildBoatContainerPart(boat, stack);
+                if(stack.hasDisplayName()) boat.containerPart.setCustomNameTag(stack.getDisplayName());
                 source.getWorld().spawnEntity(boat);
 
                 stack.shrink(1);

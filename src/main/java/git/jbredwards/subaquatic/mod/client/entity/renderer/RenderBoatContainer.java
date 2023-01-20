@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.RenderBoat;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,14 +28,14 @@ public class RenderBoatContainer extends RenderBoat
     public void doRender(@Nonnull EntityBoat entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if(entity instanceof EntityBoatContainer && ((EntityBoatContainer)entity).containerPart.shouldRenderContainer()) {
             GlStateManager.pushMatrix();
-            setupTranslation(x, y, z);
-            setupRotation(entity, entityYaw, partialTicks);
-
             if(renderOutlines) {
                 GlStateManager.enableColorMaterial();
                 GlStateManager.enableOutlineMode(getTeamColor(entity));
             }
 
+            final Vec3d offset = ((EntityBoatContainer)entity).containerPart.getContainerOffset();
+            setupTranslation(x + offset.x, y + offset.y, z + offset.z);
+            setupRotation(entity, entityYaw, partialTicks);
             ((EntityBoatContainer)entity).containerPart.renderContainer(x, y, z, entityYaw, partialTicks);
 
             if(renderOutlines) {

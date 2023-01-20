@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -14,6 +15,7 @@ import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.IDataFixer;
 import net.minecraft.util.datafix.walkers.Filtered;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
@@ -58,8 +60,22 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
 
     @Override
     public void updatePassenger(@Nonnull Entity passenger) {
-        final Vec3d offset = (new Vec3d(0.2, 0, 0)).rotateYaw(-rotationYaw * 0.0175f - (float)Math.PI / 2);
+        final Vec3d offset = new Vec3d(0.2, 0, 0).rotateYaw(-rotationYaw * 0.0175f - (float)Math.PI / 2);
         passenger.setPosition(posX + offset.x, posY + (isDead ? 0.01 : getMountedYOffset() + passenger.getYOffset()), posZ + offset.z);
+
+        //handle smooth rotation
+        passenger.rotationYaw += deltaRotation;
+        passenger.setRotationYawHead(passenger.getRotationYawHead() + deltaRotation);
+        applyYawToEntity(passenger);
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+        containerPart.onUpdate();
+
+        final Vec3d offset = containerPart.getContainerOffset();
+        containerPart.setLocationAndAngles(posX + offset.x, posY + offset.y, posZ + offset.z, rotationYaw, rotationPitch);
     }
 
     @Nullable
@@ -84,9 +100,39 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
     public World getWorld() { return world; }
 
     @Override
+    public void applyEntityCollision(@Nonnull Entity entityIn) {
+        if(entityIn != containerPart) super.applyEntityCollision(entityIn);
+    }
+
+    @Override
     public boolean attackEntityFromPart(@Nonnull MultiPartEntityPart part, @Nonnull DamageSource source, float damage) {
         return attackEntityFrom(source, damage);
     }
+
+    @Override
+    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
+        if(isDead || world.isRemote || isEntityInvulnerable(source)) return false;
+        else if(isPassenger(source.getTrueSource())) return false;
+
+        final float damageTaken = getDamageTaken() + amount * 10;
+        setForwardDirection(-getForwardDirection());
+        setDamageTaken(damageTaken);
+        setTimeSinceHit(10);
+        markVelocityChanged();
+
+        final boolean isCreative = source.getTrueSource() instanceof EntityPlayer && ((EntityPlayer)source.getTrueSource()).isCreative();
+        if(isCreative || damageTaken > 40) {
+            if(!isCreative && world.getGameRules().getBoolean("doEntityDrops")) entityDropItem(getContainerStack(), 0);
+            containerPart.dropContents(source);
+            setDead();
+        }
+
+        return true;
+    }
+
+    @Nonnull
+    @Override
+    public ItemStack getPickedResult(@Nonnull RayTraceResult target) { return getContainerStack(); }
 
     @Nonnull
     public ItemStack getContainerStack() { return dataManager.get(CONTAINER_STACK); }
@@ -113,14 +159,15 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
             final NBTTagCompound containerNBT = compound.getCompoundTag("ContainerNBT");
             if(containerNBT.hasKey("ContainerType", Constants.NBT.TAG_STRING)) {
                 try {
-                    containerPart = (MultiPartContainerPart)Class
-                            .forName(containerNBT.getString("ContainerType"))
+                    containerPart = (MultiPartContainerPart)
+                            Class.forName(containerNBT.getString("ContainerType"))
                             .getConstructor(IEntityMultiPart.class, String.class, float.class, float.class)
                             .newInstance(this, containerNBT.getString("ContainerName"), 1, 1);
 
 
                     containerPart.deserializeNBT(containerNBT);
                 }
+
                 //should never pass
                 catch (ClassNotFoundException |
                        ClassCastException |

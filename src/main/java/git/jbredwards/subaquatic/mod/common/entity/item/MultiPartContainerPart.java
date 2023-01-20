@@ -3,7 +3,13 @@ package git.jbredwards.subaquatic.mod.common.entity.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
+import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,6 +36,10 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart impleme
     public abstract void renderContainer(double x, double y, double z, float entityYaw, float partialTicks);
     public boolean shouldRenderContainer() { return true; }
 
+    @Override
+    public void setPortal(@Nonnull BlockPos pos) {}
+    public void dropContents(@Nonnull DamageSource source) {}
+
     @Nullable
     @Override
     public Entity changeDimension(int dimensionIn, @Nonnull ITeleporter teleporter) { return null; }
@@ -43,4 +53,27 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart impleme
 
     @Override
     protected abstract void writeEntityToNBT(@Nonnull NBTTagCompound compound);
+
+    @Nonnull
+    @Override
+    public ItemStack getPickedResult(@Nonnull RayTraceResult target) { return parentBoat.getPickedResult(target); }
+
+    @Nonnull
+    public Vec3d getContainerOffset() {
+        return new Vec3d(-0.4, parentBoat.getMountedYOffset(), 0)
+                .rotateYaw(-parentBoat.rotationYaw * 0.0175f - (float)Math.PI / 2);
+    }
+
+    @Override
+    public void applyEntityCollision(@Nonnull Entity entityIn) {
+        if(entityIn != parent) {
+            if(entityIn instanceof EntityBoat) {
+                if(entityIn.getEntityBoundingBox().minY < getEntityBoundingBox().maxY)
+                    super.applyEntityCollision(entityIn);
+            }
+
+            else if(entityIn.getEntityBoundingBox().minY <= getEntityBoundingBox().minY)
+                super.applyEntityCollision(entityIn);
+        }
+    }
 }

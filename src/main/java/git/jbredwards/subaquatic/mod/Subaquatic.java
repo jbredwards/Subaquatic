@@ -10,6 +10,7 @@ import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColo
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
+import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorCoral;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
@@ -30,6 +31,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ProgressManager;
@@ -102,6 +104,8 @@ public final class Subaquatic
         //config stuff
         SubaquaticConfigHandler.init();
         SubaquaticWaterColorConfig.buildWaterColors();
+        //entity data fixers
+        EntityBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());
         //automatically add all IOceanBiome instances to the Forge ocean biomes list
         ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
         //generate ocean biome id sets
