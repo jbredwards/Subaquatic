@@ -1,17 +1,23 @@
 package git.jbredwards.subaquatic.mod.client.item.model;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.init.Items;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.*;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.common.FMLLog;
@@ -20,9 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -54,7 +58,7 @@ public final class ModelContainerBoat implements IModel
     @Nonnull
     @Override
     public IBakedModel bake(@Nonnull IModelState state, @Nonnull VertexFormat format, @Nonnull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-        return new BakedModel(ModelLoaderRegistry.getModelOrLogError(overlay, "Couldn't load Boat Container model depencency: " + overlay).bake(state, format, bakedTextureGetter), bakedTextureGetter, holidayTexture, Items.BOAT);
+        return new BakedModel(ModelLoaderRegistry.getModelOrLogError(overlay, "Couldn't load Boat Container model depencency: " + overlay).bake(state, format, bakedTextureGetter), bakedTextureGetter.apply(holidayTexture), null);
     }
 
     @Nonnull
@@ -85,18 +89,42 @@ public final class ModelContainerBoat implements IModel
 
     static final class BakedModel extends BakedModelWrapper<IBakedModel>
     {
-        @Nonnull final Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter;
-        @Nullable final ResourceLocation holidayTexture;
-        @Nonnull final Item boat;
+        @Nullable final TextureAtlasSprite holidayTexture;
+        @Nullable final Item boat;
 
-        public BakedModel(@Nonnull IBakedModel originalModelIn, @Nonnull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetterIn, @Nullable ResourceLocation holidayTextureIn, @Nonnull Item boatIn) {
+        public BakedModel(@Nonnull IBakedModel originalModelIn, @Nullable TextureAtlasSprite holidayTextureIn, @Nullable Item boatIn) {
             super(originalModelIn);
-            bakedTextureGetter = bakedTextureGetterIn;
             holidayTexture = holidayTextureIn;
             boat = boatIn;
         }
 
+        @Nonnull
+        @Override
+        public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
+            final List<BakedQuad> overlayQuads = super.getQuads(state, side, rand);
+            if(boat == null) return overlayQuads;
 
+            final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
+            builder.addAll(Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(new ItemStack(boat), null, null).getQuads(null, side, 0));
+
+            if(holidayTexture == null) builder.addAll(overlayQuads);
+            else for(BakedQuad overlayQuad : overlayQuads) builder.add(new BakedQuadRetextured(overlayQuad, holidayTexture));
+
+            return builder.build();
+        }
+
+        @Nonnull
+        @Override
+        public ItemOverrideList getOverrides() {
+            return new ItemOverrideList(Collections.emptyList()) {
+                @Nonnull
+                @Override
+                public IBakedModel handleItemState(@Nonnull IBakedModel originalModelIn, @Nonnull ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
+                    final @Nullable IBoatType cap = IBoatType.get(stack);
+                    return cap != null ? new BakedModel(originalModel, holidayTexture, cap.getType().getKey()) : originalModelIn;
+                }
+            };
+        }
     }
 
     public enum Loader implements ICustomModelLoader
@@ -108,7 +136,7 @@ public final class ModelContainerBoat implements IModel
 
         @Override
         public boolean accepts(@Nonnull ResourceLocation modelLocation) {
-            return modelLocation.getNamespace().equals(Subaquatic.MODID) && modelLocation.getPath().equals("boat_builtin");
+            return modelLocation.getNamespace().equals(Subaquatic.MODID) && modelLocation.getPath().endsWith("builtin/boat");
         }
 
         @Nonnull

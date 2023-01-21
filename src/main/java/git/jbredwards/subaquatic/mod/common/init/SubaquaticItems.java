@@ -6,6 +6,7 @@ import git.jbredwards.subaquatic.mod.common.item.*;
 import git.jbredwards.subaquatic.mod.common.item.block.ItemBlockCluster;
 import git.jbredwards.subaquatic.mod.common.item.block.ItemBlockMeta;
 import git.jbredwards.subaquatic.mod.common.item.block.ItemBlockSeagrass;
+import git.jbredwards.subaquatic.mod.common.item.boat.ItemEnderChestBoat;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -54,6 +55,9 @@ public final class SubaquaticItems
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.maxUseDuration = 16);
     @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(SubaquaticBlocks.NAUTILUS_SHELL));
 
+    //boat containers
+    @Nonnull public static final ItemEnderChestBoat ENDER_CHEST_BOAT = register("ender_chest_boat", new ItemEnderChestBoat());
+
     //ore dict registration
     public static void registerOreDictionary() {
         OreDictionary.registerOre("cropPumpkin", PUMPKIN);
@@ -63,13 +67,13 @@ public final class SubaquaticItems
 
     @Nonnull
     static <I extends Item> I register(@Nonnull String name, @Nonnull I item) {
-        return register(name, item, itemIn -> {});
+        INIT.add(item.setRegistryName(Subaquatic.MODID, name).setTranslationKey(Subaquatic.MODID + "." + name).setCreativeTab(SubaquaticCreativeTab.INSTANCE));
+        return item;
     }
 
     @Nonnull
     static <I extends Item> I register(@Nonnull String name, @Nonnull I item, @Nonnull Consumer<I> consumer) {
-        INIT.add(item.setRegistryName(Subaquatic.MODID, name).setTranslationKey(Subaquatic.MODID + "." + name).setCreativeTab(SubaquaticCreativeTab.INSTANCE));
         consumer.accept(item);
-        return item;
+        return register(name, item);
     }
 }

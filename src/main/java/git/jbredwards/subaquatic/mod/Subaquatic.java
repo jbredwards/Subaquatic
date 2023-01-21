@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
+import git.jbredwards.subaquatic.mod.client.entity.renderer.RenderBoatContainer;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
@@ -33,6 +34,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -104,7 +106,7 @@ public final class Subaquatic
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
-
+        RenderingRegistry.registerEntityRenderingHandler(EntityBoatContainer.class, RenderBoatContainer::new);
     }
 
     @Mod.EventHandler

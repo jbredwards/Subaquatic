@@ -9,6 +9,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 
 import javax.annotation.Nonnull;
 
@@ -30,6 +31,11 @@ final class RegistryHandler
     static void registerBlocks(@Nonnull RegistryEvent.Register<Block> event) {
         SubaquaticBlocks.INIT.forEach(event.getRegistry()::register);
         SubaquaticBlocks.registerBurnables();
+    }
+
+    @SubscribeEvent
+    static void registerEntities(@Nonnull RegistryEvent.Register<EntityEntry> event) {
+        SubaquaticEntities.INIT.forEach(event.getRegistry()::register);
     }
 
     @SubscribeEvent
