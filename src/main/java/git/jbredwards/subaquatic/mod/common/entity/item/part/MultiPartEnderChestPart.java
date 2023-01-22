@@ -9,6 +9,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
@@ -33,7 +34,9 @@ public class MultiPartEnderChestPart extends MultiPartAbstractChestPart
     @Nonnull
     @Override
     public IInventory getInventory(@Nonnull EntityPlayer player) {
-        return new InventoryWrapper(player.getInventoryEnderChest(), this);
+        final InventoryEnderChest enderChest = player.getInventoryEnderChest();
+        enderChest.setChestTileEntity(null);
+        return new InventoryWrapper(enderChest, this);
     }
 
     @Nonnull
@@ -67,7 +70,7 @@ public class MultiPartEnderChestPart extends MultiPartAbstractChestPart
     public void onUpdate() {
         super.onUpdate();
         //spawn particles
-        if(world.isRemote) {
+        if(world.isRemote && rand.nextFloat() < 0.1) {
             for(int i = 0; i < 3; i++) {
                 final int xOffset = rand.nextInt(2) * 2 - 1;
                 final int zOffset = rand.nextInt(2) * 2 - 1;

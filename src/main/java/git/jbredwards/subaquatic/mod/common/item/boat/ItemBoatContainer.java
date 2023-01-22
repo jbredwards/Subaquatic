@@ -11,7 +11,6 @@ import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBoat;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -23,7 +22,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 
@@ -61,7 +59,9 @@ public abstract class ItemBoatContainer extends ItemBoat
                 boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(stack, 1));
                 boat.rotationYaw = dispenserFacing.getHorizontalAngle();
 
-                if(stack.hasDisplayName()) boat.containerPart.setCustomNameTag(stack.getDisplayName());
+                final IBoatType boatCap = IBoatType.get(boat);
+                final IBoatType stackCap = IBoatType.get(stack);
+                if(boatCap != null && stackCap != null) boatCap.setType(stackCap.getType());
                 source.getWorld().spawnEntity(boat);
 
                 stack.shrink(1);
@@ -82,14 +82,17 @@ public abstract class ItemBoatContainer extends ItemBoat
 
         final boolean isOverWater = FluidloggedUtils.getFluidOrReal(worldIn, trace.getBlockPos()).getMaterial() == Material.WATER;
         final AbstractBoatContainer boat = getBoatContainer(worldIn, trace.hitVec.x, isOverWater ? trace.hitVec.y - 0.12 : trace.hitVec.y, trace.hitVec.z);
+
+        if(boat.getCollisionBoundingBox() == null) return new ActionResult<>(EnumActionResult.PASS, held);
+        final AxisAlignedBB collisionBox = boat.getCollisionBoundingBox().shrink(0.1);
+        if(!worldIn.getCollisionBoxes(boat, collisionBox).isEmpty()) return new ActionResult<>(EnumActionResult.PASS, held);
+
         boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(held, 1));
         boat.rotationYaw = playerIn.rotationYaw;
 
-        if(held.hasDisplayName()) boat.containerPart.setCustomNameTag(held.getDisplayName());
-        if(boat.getCollisionBoundingBox() == null) return new ActionResult<>(EnumActionResult.PASS, held);
-
-        final AxisAlignedBB collisionBox = boat.getCollisionBoundingBox().shrink(0.1);
-        if(!worldIn.getCollisionBoxes(boat, collisionBox).isEmpty()) return new ActionResult<>(EnumActionResult.PASS, held);
+        final IBoatType boatCap = IBoatType.get(boat);
+        final IBoatType heldCap = IBoatType.get(held);
+        if(boatCap != null && heldCap != null) boatCap.setType(heldCap.getType());
 
         if(!worldIn.isRemote) worldIn.spawnEntity(boat);
         if(!playerIn.isCreative()) held.shrink(1);
@@ -100,11 +103,11 @@ public abstract class ItemBoatContainer extends ItemBoat
 
     @Override
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
-        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.forEach((item, texture) -> {
+        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.forEach(type -> {
             final ItemStack stack = new ItemStack(this);
             final IBoatType cap = IBoatType.get(stack);
             if(cap != null) {
-                cap.setType(Pair.of(item, texture));
+                cap.setType(type);
                 items.add(stack);
             }
         });
@@ -115,12 +118,12 @@ public abstract class ItemBoatContainer extends ItemBoat
     public String getItemStackDisplayName(@Nonnull ItemStack stack) {
         final IBoatType cap = IBoatType.get(stack);
         if(cap != null) {
-            final Item boat = cap.getType().getKey();
+            final ItemStack typeStack = new ItemStack(cap.getType().boat, 1, cap.getType().boatMeta);
             //if a defined special case exists in .lang file, use that instead of auto generating a name
-            final String specialCase = String.format("%s.type.%s.name", stack.getTranslationKey(), boat.getTranslationKey());
+            final String specialCase = String.format("%s.type.%s.name", stack.getTranslationKey(), typeStack.getTranslationKey());
             if(I18n.canTranslate(specialCase)) return I18n.translateToLocal(specialCase);
             //auto generate a name
-            return boat.getItemStackDisplayName(new ItemStack(boat)).replaceFirst(
+            return typeStack.getItem().getItemStackDisplayName(typeStack).replaceFirst(
                     I18n.translateToLocal(getRegexTarget()),
                     I18n.translateToLocal(getRegexReplacement()));
         }

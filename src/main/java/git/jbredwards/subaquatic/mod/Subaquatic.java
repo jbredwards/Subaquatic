@@ -10,12 +10,15 @@ import git.jbredwards.subaquatic.mod.client.entity.renderer.RenderBoatContainer;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartAbstractInventoryPart;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
-import git.jbredwards.subaquatic.mod.common.message.MessageAbstractChestPart;
+import git.jbredwards.subaquatic.mod.common.message.CMessageOpenBoatInventory;
+import git.jbredwards.subaquatic.mod.common.message.SMessageAbstractChestPart;
+import git.jbredwards.subaquatic.mod.common.message.SMessageBoatType;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorCoral;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
@@ -101,7 +104,9 @@ public final class Subaquatic
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         MinecraftForge.EVENT_BUS.register(IBoatType.class);
         //message registries
-        WRAPPER.registerMessage(MessageAbstractChestPart.Handler.INSTANCE, MessageAbstractChestPart.class, 0, Side.CLIENT);
+        WRAPPER.registerMessage(SMessageBoatType.Handler.INSTANCE, SMessageBoatType.class, 0, Side.CLIENT);
+        WRAPPER.registerMessage(SMessageAbstractChestPart.Handler.INSTANCE, SMessageAbstractChestPart.class, 1, Side.CLIENT);
+        WRAPPER.registerMessage(CMessageOpenBoatInventory.Handler.INSTANCE, CMessageOpenBoatInventory.class, 2, Side.SERVER);
         //world generators
         GeneratorCoral.initDefaults();
         GameRegistry.registerWorldGenerator(GeneratorCoral.INSTANCE, 3);
@@ -121,6 +126,7 @@ public final class Subaquatic
         MinecraftForge.TERRAIN_GEN_BUS.register(GenLayerOceanBiomes.class);
         //config stuff
         SubaquaticConfigHandler.init();
+        SubaquaticChestBoatConfig.buildBoatTypes();
         SubaquaticWaterColorConfig.buildWaterColors();
         //entity data fixers
         AbstractBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());

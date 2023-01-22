@@ -2,15 +2,14 @@ package git.jbredwards.subaquatic.mod.common.capability;
 
 import git.jbredwards.fluidlogged_api.api.capability.CapabilityProvider;
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.capability.util.BoatType;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import git.jbredwards.subaquatic.mod.common.item.boat.ItemBoatContainer;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
@@ -18,7 +17,6 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,8 +34,8 @@ public interface IBoatType
     @Nonnull ResourceLocation CAPABILITY_ID = new ResourceLocation(Subaquatic.MODID, "boat_type");
 
     @Nonnull
-    Pair<Item, ResourceLocation> getType();
-    void setType(@Nonnull Pair<Item, ResourceLocation> typeIn);
+    BoatType getType();
+    void setType(@Nonnull BoatType typeIn);
 
     @Nullable
     static IBoatType get(@Nullable ICapabilityProvider p) {
@@ -59,14 +57,14 @@ public interface IBoatType
     class Impl implements IBoatType
     {
         @Nonnull
-        protected Pair<Item, ResourceLocation> type = Pair.of(Items.BOAT, new ResourceLocation("textures/entity/boat/boat_oak.png"));
+        protected BoatType type = BoatType.DEFAULT;
 
         @Nonnull
         @Override
-        public Pair<Item, ResourceLocation> getType() { return type; }
+        public BoatType getType() { return type; }
 
         @Override
-        public void setType(@Nonnull Pair<Item, ResourceLocation> typeIn) { type = typeIn; }
+        public void setType(@Nonnull BoatType typeIn) { type = typeIn; }
     }
 
     enum Storage implements Capability.IStorage<IBoatType>
@@ -76,13 +74,13 @@ public interface IBoatType
         @Nonnull
         @Override
         public NBTBase writeNBT(@Nonnull Capability<IBoatType> capability, @Nonnull IBoatType instance, @Nullable EnumFacing side) {
-            return new NBTTagString(instance.getType().getKey().delegate.name().toString());
+            return instance.getType().serializeNBT();
         }
 
         @Override
         public void readNBT(@Nonnull Capability<IBoatType> capability, @Nonnull IBoatType instance, @Nullable EnumFacing side, @Nullable NBTBase nbt) {
-            if(nbt instanceof NBTTagString) {
-                final Pair<Item, ResourceLocation> type = SubaquaticChestBoatConfig.getTypeFrom(((NBTTagString)nbt).getString());
+            if(nbt instanceof NBTTagCompound) {
+                final BoatType type = SubaquaticChestBoatConfig.getTypeFrom((NBTTagCompound)nbt);
                 if(type != null) instance.setType(type);
             }
         }

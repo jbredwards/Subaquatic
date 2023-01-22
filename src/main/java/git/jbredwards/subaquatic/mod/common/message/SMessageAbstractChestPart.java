@@ -17,12 +17,12 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public final class MessageAbstractChestPart extends AbstractMessage
+public final class SMessageAbstractChestPart extends AbstractMessage
 {
     public int numPlayersUsing, entityId;
 
-    public MessageAbstractChestPart() {}
-    public MessageAbstractChestPart(int numPlayersUsingIn, int entityIdIn) {
+    public SMessageAbstractChestPart() {}
+    public SMessageAbstractChestPart(int numPlayersUsingIn, int entityIdIn) {
         numPlayersUsing = numPlayersUsingIn;
         entityId = entityIdIn;
         isValid = true;
@@ -40,13 +40,13 @@ public final class MessageAbstractChestPart extends AbstractMessage
         buf.writeVarInt(entityId);
     }
 
-    public enum Handler implements IClientMessageHandler<MessageAbstractChestPart>
+    public enum Handler implements IClientMessageHandler<SMessageAbstractChestPart>
     {
         INSTANCE;
 
         @SideOnly(Side.CLIENT)
         @Override
-        public void handleMessage(@Nonnull MessageAbstractChestPart message) {
+        public void handleMessage(@Nonnull SMessageAbstractChestPart message) {
             final Entity entity = Minecraft.getMinecraft().world.getEntityByID(message.entityId);
             if(entity instanceof AbstractBoatContainer) {
                 final AbstractBoatContainer boat = (AbstractBoatContainer)entity;

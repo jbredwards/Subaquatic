@@ -61,7 +61,7 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
 
     @Nonnull
     public Vec3d getContainerOffset(boolean applyBoatRotation) {
-        final Vec3d offset = new Vec3d(-0.4, parentBoat.getMountedYOffset() + 0.3, 0);
+        final Vec3d offset = new Vec3d(-0.375, parentBoat.getMountedYOffset() + 0.28, 0);
         return applyBoatRotation ? offset.rotateYaw(-parentBoat.rotationYaw * 0.0175f - (float)Math.PI / 2) : offset;
     }
 

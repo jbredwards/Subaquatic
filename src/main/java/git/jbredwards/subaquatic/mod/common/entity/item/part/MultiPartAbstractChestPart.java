@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.common.entity.item.part;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.message.MessageAbstractChestPart;
+import git.jbredwards.subaquatic.mod.common.message.SMessageAbstractChestPart;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,7 +33,7 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
 
     public int getNumPlayersUsing() { return numPlayersUsing; }
     public void setNumPlayersUsing(int numPlayersUsingIn) {
-        if(!world.isRemote) Subaquatic.WRAPPER.sendToAllTracking(new MessageAbstractChestPart(numPlayersUsingIn, parentBoat.getEntityId()), parentBoat);
+        if(!world.isRemote) Subaquatic.WRAPPER.sendToAllTracking(new SMessageAbstractChestPart(numPlayersUsingIn, parentBoat.getEntityId()), parentBoat);
         numPlayersUsing = numPlayersUsingIn;
     }
 
@@ -56,7 +56,8 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
     @Override
     public void renderContainer(double x, double y, double z, float entityYaw, float partialTicks) {
         Minecraft.getMinecraft().renderEngine.bindTexture(getChestTexture());
-        GlStateManager.translate(-0.1, -0.1, -0.1);
+        GlStateManager.translate(-0.0625, 0.25, -0.0625);
+        GlStateManager.scale(0.875, 0.875, 0.875);
 
         float animatedLidAngle = 1 - (prevLidAngle + (lidAngle - prevLidAngle) * partialTicks);
         animatedLidAngle = 1 - animatedLidAngle * animatedLidAngle * animatedLidAngle;
@@ -68,7 +69,6 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
     @Nonnull
     @SideOnly(Side.CLIENT)
     protected abstract ResourceLocation getChestTexture();
-
     public void playChestCloseSound() { playSound(SoundEvents.BLOCK_CHEST_CLOSE, 0.5f, rand.nextFloat() * 0.1f + 0.9f); }
     public void playChestOpenSound() { playSound(SoundEvents.BLOCK_CHEST_OPEN, 0.5f, rand.nextFloat() * 0.1f + 0.9f); }
 

@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
+import git.jbredwards.subaquatic.mod.common.capability.util.BoatType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -13,7 +14,6 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -88,7 +88,7 @@ public final class ModelContainerBoat implements IModel
 
     static final class BakedModelCache extends BakedItemModel
     {
-        @Nonnull final Map<Item, IBakedModel> cache = new HashMap<>();
+        @Nonnull final Map<BoatType, IBakedModel> cache = new HashMap<>();
         @Nonnull final TRSRTransformation transform;
 
         public BakedModelCache(@Nonnull ImmutableList<BakedQuad> overlayQuads, @Nonnull TextureAtlasSprite overlayIn, @Nonnull TRSRTransformation transformIn, @Nonnull ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transformsIn) {
@@ -104,8 +104,8 @@ public final class ModelContainerBoat implements IModel
                 @Override
                 public IBakedModel handleItemState(@Nonnull IBakedModel originalModel, @Nonnull ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
                     final IBoatType cap = IBoatType.get(stack);
-                    if(cap != null) return cache.computeIfAbsent(cap.getType().getKey(), boat -> {
-                        final IBakedModel boatModel = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(boat));
+                    if(cap != null) return cache.computeIfAbsent(cap.getType(), type -> {
+                        final IBakedModel boatModel = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(type.boat, 1, type.boatMeta));
                         final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
                         builder.addAll(boatModel.getQuads(null, null, 0));
                         builder.addAll(quads);

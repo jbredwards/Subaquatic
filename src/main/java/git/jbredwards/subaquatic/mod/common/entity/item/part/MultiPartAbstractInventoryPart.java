@@ -1,6 +1,11 @@
 package git.jbredwards.subaquatic.mod.common.entity.item.part;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
+import git.jbredwards.subaquatic.mod.common.message.CMessageOpenBoatInventory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -13,7 +18,12 @@ import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.LockCode;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nonnull;
 
@@ -22,6 +32,7 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
+@Mod.EventBusSubscriber(modid = Subaquatic.MODID, value = Side.CLIENT)
 public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerPart implements ILockableContainer
 {
     public boolean dropContentsWhenDead = true;
@@ -55,6 +66,27 @@ public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerP
         if(dropContentsWhenDead && !world.isRemote) InventoryHelper.dropInventoryItems(world, this, this);
         super.setDead();
     }
+
+    //don't display player inventory if the player is riding this
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    static void cancelGui(@Nonnull GuiOpenEvent event) {
+        if(event.getGui() instanceof GuiInventory) {
+            if(Minecraft.getMinecraft().player != null) {
+                final Entity riding = Minecraft.getMinecraft().player.getRidingEntity();
+                if(riding instanceof AbstractBoatContainer && ((AbstractBoatContainer)riding).containerPart instanceof MultiPartAbstractInventoryPart) {
+                    final CMessageOpenBoatInventory message = new CMessageOpenBoatInventory();
+                    message.isValid = true;
+
+                    Subaquatic.WRAPPER.sendToServer(message);
+                    event.setCanceled(true);
+                }
+            }
+        }
+    }
+
+    //=======================
+    //GENERIC INVENTORY STUFF
+    //=======================
 
     @Override
     public boolean isUsableByPlayer(@Nonnull EntityPlayer player) { return !isDead && player.getDistanceSq(this) <= 64; }
