@@ -4,11 +4,7 @@
 	"variants":{
 		"inventory":[{
             "model":"subaquatic:builtin/boat",
-			"custom":{"overlay":"subaquatic:ender_chest_boat#overlay"}
-        }],
-		"overlay":{
-			"model":"builtin/generated",
-			"textures":{"layer1":"subaquatuc:items/boat_overlay_end"}
-		}
+			"custom":{"overlayTexture":"subaquatic:items/boat_overlay_end"}
+        }]
 	}
 }

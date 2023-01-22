@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.entity.item;
+package git.jbredwards.subaquatic.mod.common.entity.item.part;
 
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.player.EntityPlayer;

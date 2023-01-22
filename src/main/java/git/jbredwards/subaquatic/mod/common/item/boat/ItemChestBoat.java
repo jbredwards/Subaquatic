@@ -1,9 +1,9 @@
 package git.jbredwards.subaquatic.mod.common.item.boat;
 
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
-import git.jbredwards.subaquatic.mod.common.entity.item.MultiPartChestPart;
-import git.jbredwards.subaquatic.mod.common.item.boat.ItemBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartChestPart;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
@@ -16,8 +16,8 @@ public class ItemChestBoat extends ItemBoatContainer
 {
     @Nonnull
     @Override
-    public MultiPartChestPart createContainer(@Nonnull EntityBoatContainer boat, @Nonnull ItemStack boatStack) {
-        return new MultiPartChestPart(boat, "chest", 0.875f, 0.875f);
+    public AbstractBoatContainer getBoatContainer(@Nonnull World world, double x, double y, double z) {
+        return null;
     }
 
     @Nonnull

@@ -12,9 +12,10 @@ import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
-import git.jbredwards.subaquatic.mod.common.entity.item.MultiPartAbstractInventoryPart;
+import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartAbstractInventoryPart;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
+import git.jbredwards.subaquatic.mod.common.message.MessageAbstractChestPart;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorCoral;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
@@ -42,6 +43,8 @@ import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -66,6 +69,7 @@ public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
     @Nonnull public static final Logger LOGGER = LogManager.getFormatterLogger(NAME);
+    @Nonnull public static final SimpleNetworkWrapper WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 
     public static final boolean isBOPInstalled = Loader.isModLoaded("biomesoplenty");
 
@@ -91,10 +95,13 @@ public final class Subaquatic
 
     @Mod.EventHandler
     static void preInit(@Nonnull FMLPreInitializationEvent event) {
-        CapabilityManager.INSTANCE.register(IBoatType.class, IBoatType.Storage.INSTANCE, IBoatType.Impl::new);
-        MinecraftForge.EVENT_BUS.register(IBoatType.class);
+        //capabilities
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
+        CapabilityManager.INSTANCE.register(IBoatType.class, IBoatType.Storage.INSTANCE, IBoatType.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
+        MinecraftForge.EVENT_BUS.register(IBoatType.class);
+        //message registries
+        WRAPPER.registerMessage(MessageAbstractChestPart.Handler.INSTANCE, MessageAbstractChestPart.class, 0, Side.CLIENT);
         //world generators
         GeneratorCoral.initDefaults();
         GameRegistry.registerWorldGenerator(GeneratorCoral.INSTANCE, 3);
@@ -106,7 +113,7 @@ public final class Subaquatic
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(EntityBoatContainer.class, RenderBoatContainer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
     }
 
     @Mod.EventHandler
@@ -116,7 +123,7 @@ public final class Subaquatic
         SubaquaticConfigHandler.init();
         SubaquaticWaterColorConfig.buildWaterColors();
         //entity data fixers
-        EntityBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());
+        AbstractBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());
         MultiPartAbstractInventoryPart.registerFixer(FMLCommonHandler.instance().getDataFixer());
         //automatically add all IOceanBiome instances to the Forge ocean biomes list
         ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });

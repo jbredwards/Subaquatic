@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
@@ -22,7 +22,7 @@ public final class SubaquaticEntities
     static int id = 0;
 
     // Entities
-    @Nonnull public static final EntityEntry BOAT_CONTAINER = register("boat_container", EntityEntryBuilder.create().entity(EntityBoatContainer.class).tracker(80, 3, true));
+    @Nonnull public static final EntityEntry ENDER_CHEST_BOAT = register("ender_chest_boat", EntityEntryBuilder.create().entity(EntityBoatEnderChest.class).tracker(80, 3, true));
 
     @Nonnull
     static EntityEntry register(@Nonnull String name, @Nonnull EntityEntryBuilder<?> builder) {

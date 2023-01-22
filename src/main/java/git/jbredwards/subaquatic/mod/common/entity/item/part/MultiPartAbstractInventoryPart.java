@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.entity.item;
+package git.jbredwards.subaquatic.mod.common.entity.item.part;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import net.minecraft.entity.IEntityMultiPart;
@@ -44,7 +44,9 @@ public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerP
 
     @Override
     public boolean processInitialInteract(@Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
-        if(!world.isRemote && !(player instanceof FakePlayer)) player.displayGUIChest(getInventory(player));
+        if(!world.isRemote && !(player instanceof FakePlayer) && !parentBoat.isPassenger(player))
+            player.displayGUIChest(getInventory(player));
+
         return true;
     }
 
@@ -64,7 +66,7 @@ public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerP
     public void setDropItemsWhenDead(boolean dropWhenDead) { dropContentsWhenDead = dropWhenDead; }
 
     @Override
-    protected void onDimensionChanged() { dropContentsWhenDead = false; }
+    public void onDimensionChanged() { dropContentsWhenDead = false; }
 
     @Override
     public int getInventoryStackLimit() { return 64; }

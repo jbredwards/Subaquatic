@@ -1,6 +1,7 @@
 package git.jbredwards.subaquatic.mod.common.entity.item;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartContainerPart;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
@@ -24,24 +25,23 @@ import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  *
  * @author jbred
  *
  */
-public final class EntityBoatContainer extends EntityBoat implements IEntityMultiPart
+public abstract class AbstractBoatContainer extends EntityBoat implements IEntityMultiPart
 {
     @Nonnull
-    private static final DataParameter<ItemStack> CONTAINER_STACK = EntityDataManager.createKey(EntityBoatContainer.class, DataSerializers.ITEM_STACK);
-    public MultiPartContainerPart containerPart;
+    private static final DataParameter<ItemStack> CONTAINER_STACK = EntityDataManager.createKey(AbstractBoatContainer.class, DataSerializers.ITEM_STACK);
+    public final MultiPartContainerPart containerPart = getContainerPart();
 
-    public EntityBoatContainer(@Nonnull World worldIn) { super(worldIn); }
-    public EntityBoatContainer(@Nonnull World worldIn, double x, double y, double z) { super(worldIn, x, y, z); }
+    public AbstractBoatContainer(@Nonnull World worldIn) { super(worldIn); }
+    public AbstractBoatContainer(@Nonnull World worldIn, double x, double y, double z) { super(worldIn, x, y, z); }
 
     public static void registerFixer(@Nonnull DataFixer fixer) {
-        fixer.registerWalker(FixTypes.ENTITY, new Filtered(EntityBoatContainer.class) {
+        fixer.registerWalker(FixTypes.ENTITY, new Filtered(AbstractBoatContainer.class) {
             @Nonnull
             @Override
             public NBTTagCompound filteredProcess(@Nonnull IDataFixer fixer, @Nonnull NBTTagCompound compound, int versionIn) {
@@ -55,6 +55,9 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
         super.entityInit();
         dataManager.register(CONTAINER_STACK, ItemStack.EMPTY);
     }
+
+    @Nonnull
+    protected abstract MultiPartContainerPart getContainerPart();
 
     @Override
     protected boolean canFitPassenger(@Nonnull Entity passenger) { return getPassengers().size() == 0; }
@@ -75,7 +78,7 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
         super.onUpdate();
         containerPart.onUpdate();
 
-        final Vec3d offset = containerPart.getContainerOffset();
+        final Vec3d offset = containerPart.getContainerOffset(true);
         containerPart.setLocationAndAngles(posX + offset.x, posY + offset.y, posZ + offset.z, rotationYaw, rotationPitch);
     }
 
@@ -83,9 +86,9 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
     @Override
     public Entity changeDimension(int dimensionIn, @Nonnull ITeleporter teleporter) {
         final Entity newEntity = super.changeDimension(dimensionIn, teleporter);
-        if(newEntity instanceof EntityBoatContainer) {
-            ((EntityBoatContainer)newEntity).containerPart.onDimensionChanged();
-            ((EntityBoatContainer)newEntity).containerPart.dimension = newEntity.dimension;
+        if(newEntity instanceof AbstractBoatContainer) {
+            ((AbstractBoatContainer)newEntity).containerPart.onDimensionChanged();
+            ((AbstractBoatContainer)newEntity).containerPart.dimension = newEntity.dimension;
             return newEntity;
         }
 
@@ -147,50 +150,18 @@ public final class EntityBoatContainer extends EntityBoat implements IEntityMult
     @Override
     protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
         final NBTTagCompound containerNBT = new NBTTagCompound();
-        containerNBT.setFloat("ContainerWidth", containerPart.width);
-        containerNBT.setFloat("ContainerHeight", containerPart.height);
-        containerNBT.setString("ContainerName", containerPart.partName);
-        containerNBT.setString("ContainerType", containerPart.getClass().getName());
         containerNBT.setString("id", String.format("%s:multipart_%s", Subaquatic.MODID, containerPart.getFixType()));
-        containerPart.writeToNBT(containerNBT);
 
-        compound.setTag("ContainerNBT", containerNBT);
+        compound.setTag("ContainerNBT", containerPart.writeToNBT(containerNBT));
         compound.setTag("ContainerStack", getContainerStack().serializeNBT());
     }
 
     @Override
     protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
-        if(compound.hasKey("ContainerStack", Constants.NBT.TAG_COMPOUND)) {
+        if(compound.hasKey("ContainerStack", Constants.NBT.TAG_COMPOUND))
             setContainerStack(new ItemStack(compound.getCompoundTag("ContainerStack")));
-        }
 
-        if(compound.hasKey("ContainerNBT", Constants.NBT.TAG_COMPOUND)) {
-            final NBTTagCompound containerNBT = compound.getCompoundTag("ContainerNBT");
-            if(containerNBT.hasKey("ContainerType", Constants.NBT.TAG_STRING)) {
-                try {
-                    containerPart = (MultiPartContainerPart)
-                            Class.forName(containerNBT.getString("ContainerType"))
-                            .getConstructor(IEntityMultiPart.class, String.class, float.class, float.class)
-                            .newInstance(this,
-                                    containerNBT.getString("ContainerName"),
-                                    containerNBT.getFloat("ContainerWidth"),
-                                    containerNBT.getFloat("ContainerHeight"));
-
-
-                    containerPart.deserializeNBT(containerNBT);
-                }
-
-                //should never pass
-                catch (ClassNotFoundException |
-                       ClassCastException |
-                       NoSuchMethodException |
-                       NullPointerException |
-                       InvocationTargetException |
-                       InstantiationException |
-                       IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+        if(compound.hasKey("ContainerNBT", Constants.NBT.TAG_COMPOUND))
+            containerPart.deserializeNBT(compound.getCompoundTag("ContainerNBT"));
     }
 }

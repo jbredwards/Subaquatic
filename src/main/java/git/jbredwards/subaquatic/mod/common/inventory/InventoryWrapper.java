@@ -74,12 +74,12 @@ public class InventoryWrapper implements IInventory
 
     @Nonnull
     @Override
-    public String getName() { return actionHandler.getName(); }
+    public String getName() { return inventoryHandler.getName(); }
 
     @Override
-    public boolean hasCustomName() { return actionHandler.hasCustomName(); }
+    public boolean hasCustomName() { return inventoryHandler.hasCustomName(); }
 
     @Nonnull
     @Override
-    public ITextComponent getDisplayName() { return actionHandler.getDisplayName(); }
+    public ITextComponent getDisplayName() { return inventoryHandler.getDisplayName(); }
 }

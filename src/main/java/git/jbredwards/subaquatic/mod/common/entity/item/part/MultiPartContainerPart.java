@@ -1,5 +1,6 @@
-package git.jbredwards.subaquatic.mod.common.entity.item;
+package git.jbredwards.subaquatic.mod.common.entity.item.part;
 
+import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
@@ -24,10 +25,10 @@ import javax.annotation.Nullable;
 public abstract class MultiPartContainerPart extends MultiPartEntityPart
 {
     @Nonnull
-    protected final EntityBoatContainer parentBoat;
+    protected final AbstractBoatContainer parentBoat;
     public MultiPartContainerPart(@Nonnull IEntityMultiPart parent, @Nonnull String partName, float width, float height) {
         super(parent, partName, width, height);
-        parentBoat = (EntityBoatContainer)parent;
+        parentBoat = (AbstractBoatContainer)parent;
     }
 
     @Nonnull
@@ -43,7 +44,7 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
     @Nullable
     @Override
     public Entity changeDimension(int dimensionIn, @Nonnull ITeleporter teleporter) { return null; }
-    protected void onDimensionChanged() {}
+    public void onDimensionChanged() {}
 
     @Override
     public boolean canBeCollidedWith() { return parentBoat.canBeCollidedWith(); }
@@ -59,9 +60,9 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
     public ItemStack getPickedResult(@Nonnull RayTraceResult target) { return parentBoat.getPickedResult(target); }
 
     @Nonnull
-    public Vec3d getContainerOffset() {
-        return new Vec3d(-0.4, parentBoat.getMountedYOffset(), 0)
-                .rotateYaw(-parentBoat.rotationYaw * 0.0175f - (float)Math.PI / 2);
+    public Vec3d getContainerOffset(boolean applyBoatRotation) {
+        final Vec3d offset = new Vec3d(-0.4, parentBoat.getMountedYOffset() + 0.3, 0);
+        return applyBoatRotation ? offset.rotateYaw(-parentBoat.rotationYaw * 0.0175f - (float)Math.PI / 2) : offset;
     }
 
     @Override

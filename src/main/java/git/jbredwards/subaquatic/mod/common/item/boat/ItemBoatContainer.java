@@ -3,8 +3,7 @@ package git.jbredwards.subaquatic.mod.common.item.boat;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
-import git.jbredwards.subaquatic.mod.common.entity.item.MultiPartContainerPart;
+import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -58,10 +57,9 @@ public abstract class ItemBoatContainer extends ItemBoat
                 else if(material != Material.AIR || FluidloggedUtils.getFluidOrReal(source.getWorld(), boatPos.down()).getMaterial() != Material.WATER)
                     return super.dispenseStack(source, stack);
 
-                final EntityBoatContainer boat = new EntityBoatContainer(source.getWorld(), x, y + yOffset, z);
+                final AbstractBoatContainer boat = getBoatContainer(source.getWorld(), x, y + yOffset, z);
                 boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(stack, 1));
                 boat.rotationYaw = dispenserFacing.getHorizontalAngle();
-                boat.containerPart = createContainer(boat, stack);
 
                 if(stack.hasDisplayName()) boat.containerPart.setCustomNameTag(stack.getDisplayName());
                 source.getWorld().spawnEntity(boat);
@@ -83,10 +81,9 @@ public abstract class ItemBoatContainer extends ItemBoat
         if(trace == null || trace.typeOfHit != RayTraceResult.Type.BLOCK) return new ActionResult<>(EnumActionResult.PASS, held);
 
         final boolean isOverWater = FluidloggedUtils.getFluidOrReal(worldIn, trace.getBlockPos()).getMaterial() == Material.WATER;
-        final EntityBoatContainer boat = new EntityBoatContainer(worldIn, trace.hitVec.x, isOverWater ? trace.hitVec.y - 0.12 : trace.hitVec.y, trace.hitVec.z);
+        final AbstractBoatContainer boat = getBoatContainer(worldIn, trace.hitVec.x, isOverWater ? trace.hitVec.y - 0.12 : trace.hitVec.y, trace.hitVec.z);
         boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(held, 1));
         boat.rotationYaw = playerIn.rotationYaw;
-        boat.containerPart = createContainer(boat, held);
 
         if(held.hasDisplayName()) boat.containerPart.setCustomNameTag(held.getDisplayName());
         if(boat.getCollisionBoundingBox() == null) return new ActionResult<>(EnumActionResult.PASS, held);
@@ -133,7 +130,7 @@ public abstract class ItemBoatContainer extends ItemBoat
     }
 
     @Nonnull
-    public abstract MultiPartContainerPart createContainer(@Nonnull EntityBoatContainer boat, @Nonnull ItemStack boatStack);
+    public abstract AbstractBoatContainer getBoatContainer(@Nonnull World world, double x, double y, double z);
 
     @Nonnull
     public abstract String getRegexTarget();

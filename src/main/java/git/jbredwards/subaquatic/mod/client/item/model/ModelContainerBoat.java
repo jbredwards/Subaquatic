@@ -6,10 +6,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.*;
 import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -38,79 +38,62 @@ import java.util.function.Function;
 public final class ModelContainerBoat implements IModel
 {
     @Nonnull
-    public static final ModelContainerBoat DEFAULT = new ModelContainerBoat(ModelLoader.MODEL_MISSING, null);
+    public static final ModelContainerBoat DEFAULT = new ModelContainerBoat(TextureMap.LOCATION_MISSING_TEXTURE);
+    static final float NORTH_Z = 7.498f / 16;
+    static final float SOUTH_Z = 8.502f / 16;
 
-    @Nonnull final ResourceLocation overlay;
-    @Nullable final ResourceLocation holidayTexture;
-
-    public ModelContainerBoat(@Nonnull ResourceLocation overlayIn, @Nullable ResourceLocation holidayTextureIn) {
-        overlay = overlayIn;
-        holidayTexture = holidayTextureIn;
-    }
+    @Nonnull
+    final ResourceLocation overlayTexture;
+    public ModelContainerBoat(@Nonnull ResourceLocation overlayTextureIn) { overlayTexture = overlayTextureIn; }
 
     @Nonnull
     @Override
-    public Collection<ResourceLocation> getTextures() {
-        if(holidayTexture == null) return Collections.emptyList();
-        else return Collections.singletonList(holidayTexture);
-    }
+    public Collection<ResourceLocation> getTextures() { return Collections.singletonList(overlayTexture); }
 
     @Nonnull
     @Override
     public IBakedModel bake(@Nonnull IModelState state, @Nonnull VertexFormat format, @Nonnull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-        return new BakedModel(ModelLoaderRegistry.getModelOrLogError(overlay, "Couldn't load Boat Container model depencency: " + overlay).bake(state, format, bakedTextureGetter), bakedTextureGetter.apply(holidayTexture), null);
+        final TRSRTransformation transform = state.apply(Optional.empty()).orElse(TRSRTransformation.identity());
+        final TextureAtlasSprite overlay = bakedTextureGetter.apply(overlayTexture);
+        final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
+
+        builder.addAll(ItemTextureQuadConverter.convertTexture(format, transform, overlay, overlay, NORTH_Z, EnumFacing.NORTH, 0xFFFFFFFF, 1));
+        builder.addAll(ItemTextureQuadConverter.convertTexture(format, transform, overlay, overlay, SOUTH_Z, EnumFacing.SOUTH, 0xFFFFFFFF, 1));
+
+        return new BakedModelCache(builder.build(), overlay, transform, PerspectiveMapWrapper.getTransforms(state));
     }
 
     @Nonnull
     @Override
     public IModel process(@Nonnull ImmutableMap<String, String> customData) {
-        if(customData.containsKey("overlay")) {
-            final JsonElement overlay = new JsonParser().parse(customData.get("overlay"));
-            if(overlay.isJsonPrimitive() && overlay.getAsJsonPrimitive().isString()) {
-                if(customData.containsKey("holidayTexture")) {
-                    //only initialize holiday texture if it will get used
-                    final Calendar calendar = Calendar.getInstance();
-                    if(calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
-                        final JsonElement holidayTexture = new JsonParser().parse(customData.get("holidayTexture"));
-                        if(holidayTexture.isJsonPrimitive() && holidayTexture.getAsJsonPrimitive().isString()) {
-                            return new ModelContainerBoat(new ModelResourceLocation(overlay.getAsString()), new ResourceLocation(holidayTexture.getAsString()));
-                        }
-                    }
-                }
-
-                return new ModelContainerBoat(new ModelResourceLocation(overlay.getAsString()), null);
+        //if it's Christmas, use the provided holiday texture
+        if(customData.containsKey("holidayTexture")) {
+            final Calendar calendar = Calendar.getInstance();
+            if(calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
+                final JsonElement overlay = new JsonParser().parse(customData.get("holidayTexture"));
+                if(overlay.isJsonPrimitive() && overlay.getAsJsonPrimitive().isString())
+                    return new ModelContainerBoat(new ResourceLocation(overlay.getAsString()));
             }
+        }
 
-            FMLLog.log.fatal("Expect ModelResourceLocation, got: {}", customData.get("overlay"));
+        //use provided overlay texture
+        if(customData.containsKey("overlayTexture")) {
+            final JsonElement overlay = new JsonParser().parse(customData.get("overlayTexture"));
+            if(overlay.isJsonPrimitive() && overlay.getAsJsonPrimitive().isString())
+                return new ModelContainerBoat(new ResourceLocation(overlay.getAsString()));
         }
 
         return this;
     }
 
-    static final class BakedModel extends BakedModelWrapper<IBakedModel>
+    static final class BakedModelCache extends BakedItemModel
     {
-        @Nullable final TextureAtlasSprite holidayTexture;
-        @Nullable final Item boat;
+        @Nonnull final Map<Item, IBakedModel> cache = new HashMap<>();
+        @Nonnull final TRSRTransformation transform;
 
-        public BakedModel(@Nonnull IBakedModel originalModelIn, @Nullable TextureAtlasSprite holidayTextureIn, @Nullable Item boatIn) {
-            super(originalModelIn);
-            holidayTexture = holidayTextureIn;
-            boat = boatIn;
-        }
-
-        @Nonnull
-        @Override
-        public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
-            final List<BakedQuad> overlayQuads = super.getQuads(state, side, rand);
-            if(boat == null) return overlayQuads;
-
-            final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
-            builder.addAll(Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(new ItemStack(boat), null, null).getQuads(null, side, 0));
-
-            if(holidayTexture == null) builder.addAll(overlayQuads);
-            else for(BakedQuad overlayQuad : overlayQuads) builder.add(new BakedQuadRetextured(overlayQuad, holidayTexture));
-
-            return builder.build();
+        public BakedModelCache(@Nonnull ImmutableList<BakedQuad> overlayQuads, @Nonnull TextureAtlasSprite overlayIn, @Nonnull TRSRTransformation transformIn, @Nonnull ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transformsIn) {
+            super(overlayQuads, overlayIn, transformsIn, ItemOverrideList.NONE, transformIn.isIdentity());
+            transform = transformIn;
         }
 
         @Nonnull
@@ -119,9 +102,18 @@ public final class ModelContainerBoat implements IModel
             return new ItemOverrideList(Collections.emptyList()) {
                 @Nonnull
                 @Override
-                public IBakedModel handleItemState(@Nonnull IBakedModel originalModelIn, @Nonnull ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
-                    final @Nullable IBoatType cap = IBoatType.get(stack);
-                    return cap != null ? new BakedModel(originalModel, holidayTexture, cap.getType().getKey()) : originalModelIn;
+                public IBakedModel handleItemState(@Nonnull IBakedModel originalModel, @Nonnull ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
+                    final IBoatType cap = IBoatType.get(stack);
+                    if(cap != null) return cache.computeIfAbsent(cap.getType().getKey(), boat -> {
+                        final IBakedModel boatModel = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(boat));
+                        final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
+                        builder.addAll(boatModel.getQuads(null, null, 0));
+                        builder.addAll(quads);
+
+                        return new BakedItemModel(builder.build(), boatModel.getParticleTexture(), transforms, boatModel.getOverrides(), transform.isIdentity());
+                    });
+
+                    throw new IllegalStateException("Tried to apply subaquatic:builtin/boat model to non boat container item: " + stack.getItem().delegate.name());
                 }
             };
         }

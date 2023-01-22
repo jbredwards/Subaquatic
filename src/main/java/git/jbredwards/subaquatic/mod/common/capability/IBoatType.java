@@ -3,7 +3,7 @@ package git.jbredwards.subaquatic.mod.common.capability;
 import git.jbredwards.fluidlogged_api.api.capability.CapabilityProvider;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import git.jbredwards.subaquatic.mod.common.item.boat.ItemBoatContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
@@ -46,7 +46,7 @@ public interface IBoatType
 
     @SubscribeEvent
     static void attachEntity(@Nonnull AttachCapabilitiesEvent<Entity> event) {
-        if(event.getObject() instanceof EntityBoatContainer)
+        if(event.getObject() instanceof AbstractBoatContainer)
             event.addCapability(CAPABILITY_ID, new CapabilityProvider<>(CAPABILITY));
     }
 

@@ -1,14 +1,13 @@
-package git.jbredwards.subaquatic.mod.common.entity.item;
+package git.jbredwards.subaquatic.mod.common.entity.item.part;
 
+import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.message.MessageAbstractChestPart;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,9 +22,8 @@ import javax.annotation.Nonnull;
  */
 public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInventoryPart
 {
-    @Nonnull
-    private static final DataParameter<Integer> NUM_PLAYERS_USING = EntityDataManager.createKey(MultiPartAbstractChestPart.class, DataSerializers.VARINT);
     public float lidAngle, prevLidAngle;
+    protected int numPlayersUsing;
 
     @SideOnly(Side.CLIENT)
     protected static final ModelChest CHEST_MODEL = new ModelChest();
@@ -33,17 +31,17 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
         super(parent, partName, width, height);
     }
 
-    @Override
-    protected void entityInit() { dataManager.register(NUM_PLAYERS_USING, 0); }
-    public int getNumPlayersUsing() { return dataManager.get(NUM_PLAYERS_USING); }
-    public void setNumPlayersUsing(int numPlayersUsing) { dataManager.set(NUM_PLAYERS_USING, numPlayersUsing); }
+    public int getNumPlayersUsing() { return numPlayersUsing; }
+    public void setNumPlayersUsing(int numPlayersUsingIn) {
+        if(!world.isRemote) Subaquatic.WRAPPER.sendToAllTracking(new MessageAbstractChestPart(numPlayersUsingIn, parentBoat.getEntityId()), parentBoat);
+        numPlayersUsing = numPlayersUsingIn;
+    }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
         prevLidAngle = lidAngle;
 
-        final int numPlayersUsing = getNumPlayersUsing();
         if(numPlayersUsing > 0 && lidAngle == 0) playChestOpenSound();
         if(numPlayersUsing == 0 && lidAngle > 0 || numPlayersUsing > 0 && lidAngle < 1) {
             if(numPlayersUsing > 0) lidAngle += 0.1;
@@ -57,8 +55,8 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
     @SideOnly(Side.CLIENT)
     @Override
     public void renderContainer(double x, double y, double z, float entityYaw, float partialTicks) {
-        GlStateManager.scale(-0.875, -0.875, -0.875);
         Minecraft.getMinecraft().renderEngine.bindTexture(getChestTexture());
+        GlStateManager.translate(-0.1, -0.1, -0.1);
 
         float animatedLidAngle = 1 - (prevLidAngle + (lidAngle - prevLidAngle) * partialTicks);
         animatedLidAngle = 1 - animatedLidAngle * animatedLidAngle * animatedLidAngle;
