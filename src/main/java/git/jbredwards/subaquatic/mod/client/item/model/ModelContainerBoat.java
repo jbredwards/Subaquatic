@@ -39,8 +39,8 @@ public final class ModelContainerBoat implements IModel
 {
     @Nonnull
     public static final ModelContainerBoat DEFAULT = new ModelContainerBoat(TextureMap.LOCATION_MISSING_TEXTURE);
-    static final float NORTH_Z = 7.498f / 16;
-    static final float SOUTH_Z = 8.502f / 16;
+    static final float NORTH_Z = 7.4995f / 16;
+    static final float SOUTH_Z = 8.5005f / 16;
 
     @Nonnull
     final ResourceLocation overlayTexture;

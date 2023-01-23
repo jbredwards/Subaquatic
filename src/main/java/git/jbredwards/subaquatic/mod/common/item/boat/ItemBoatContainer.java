@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.common.item.boat;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
+import git.jbredwards.subaquatic.mod.common.capability.util.BoatType;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import net.minecraft.block.BlockDispenser;
@@ -11,6 +12,7 @@ import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBoat;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -21,6 +23,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
@@ -35,6 +38,14 @@ public abstract class ItemBoatContainer extends ItemBoat
     public ItemBoatContainer() {
         super(EntityBoat.Type.OAK);
         registerDispenserBehavior();
+    }
+
+    @Nonnull
+    public static ItemStack createStackWithType(@Nonnull Item boat, @Nonnull BoatType type) {
+        final ItemStack stack = new ItemStack(boat);
+        final IBoatType cap = IBoatType.get(stack);
+        if(cap != null) cap.setType(type);
+        return stack;
     }
 
     protected void registerDispenserBehavior() {
@@ -101,18 +112,6 @@ public abstract class ItemBoatContainer extends ItemBoat
         return new ActionResult<>(EnumActionResult.SUCCESS, held);
     }
 
-    @Override
-    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
-        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.forEach(type -> {
-            final ItemStack stack = new ItemStack(this);
-            final IBoatType cap = IBoatType.get(stack);
-            if(cap != null) {
-                cap.setType(type);
-                items.add(stack);
-            }
-        });
-    }
-
     @Nonnull
     @Override
     public String getItemStackDisplayName(@Nonnull ItemStack stack) {
@@ -130,6 +129,20 @@ public abstract class ItemBoatContainer extends ItemBoat
 
         //should never pass
         return super.getItemStackDisplayName(stack);
+    }
+
+    @Override
+    public int getItemBurnTime(@Nonnull ItemStack itemStack) {
+        final IBoatType cap = IBoatType.get(itemStack);
+        if(cap == null) return -1;
+
+        final BoatType type = cap.getType();
+        return ForgeEventFactory.getItemBurnTime(new ItemStack(type.boat, 1, type.boatMeta));
+    }
+
+    @Override
+    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
+        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.forEach(type -> items.add(createStackWithType(this, type)));
     }
 
     @Nonnull
