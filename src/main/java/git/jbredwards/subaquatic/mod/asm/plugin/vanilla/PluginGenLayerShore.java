@@ -3,7 +3,7 @@ package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.integration.biomesoplenty.BiomesOPlentyHandler;
+import git.jbredwards.subaquatic.mod.common.compat.bop.BiomesOPlentyHandler;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.layer.GenLayer;
