@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Calendar;
 
 /**
  *
@@ -22,7 +23,12 @@ import javax.annotation.Nullable;
 @SideOnly(Side.CLIENT)
 public class RenderBoatContainer extends RenderBoat
 {
-    public RenderBoatContainer(@Nonnull RenderManager renderManagerIn) { super(renderManagerIn); }
+    protected final boolean isChristmas;
+    public RenderBoatContainer(@Nonnull RenderManager renderManagerIn) {
+        super(renderManagerIn);
+        final Calendar calendar = Calendar.getInstance();
+        isChristmas = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26;
+    }
 
     @Override
     public void doRender(@Nonnull EntityBoat entity, double x, double y, double z, float entityYaw, float partialTicks) {
@@ -38,7 +44,7 @@ public class RenderBoatContainer extends RenderBoat
 
             final Vec3d offset = ((AbstractBoatContainer)entity).containerPart.getContainerOffset(false);
             GlStateManager.translate(offset.x, -(offset.y + ((AbstractBoatContainer)entity).containerPart.getEyeHeight()), offset.z);
-            ((AbstractBoatContainer)entity).containerPart.renderContainer(x, y, z, entityYaw, partialTicks);
+            ((AbstractBoatContainer)entity).containerPart.renderContainer(x, y, z, entityYaw, partialTicks, isChristmas);
 
             if(renderOutlines) {
                 GlStateManager.disableOutlineMode();

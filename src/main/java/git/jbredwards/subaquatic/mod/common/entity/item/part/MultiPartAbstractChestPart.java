@@ -54,8 +54,8 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void renderContainer(double x, double y, double z, float entityYaw, float partialTicks) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(getChestTexture());
+    public void renderContainer(double x, double y, double z, float entityYaw, float partialTicks, boolean isChristmas) {
+        Minecraft.getMinecraft().renderEngine.bindTexture(getChestTexture(isChristmas));
         GlStateManager.translate(-0.0625, 0.25, -0.0625);
         GlStateManager.scale(0.875, 0.875, 0.875);
 
@@ -68,7 +68,7 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
 
     @Nonnull
     @SideOnly(Side.CLIENT)
-    protected abstract ResourceLocation getChestTexture();
+    protected abstract ResourceLocation getChestTexture(boolean isChristmas);
     public void playChestCloseSound() { playSound(SoundEvents.BLOCK_CHEST_CLOSE, 0.5f, rand.nextFloat() * 0.1f + 0.9f); }
     public void playChestOpenSound() { playSound(SoundEvents.BLOCK_CHEST_OPEN, 0.5f, rand.nextFloat() * 0.1f + 0.9f); }
 

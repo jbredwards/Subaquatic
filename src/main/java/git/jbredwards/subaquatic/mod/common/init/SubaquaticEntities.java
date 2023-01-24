@@ -22,6 +22,7 @@ public final class SubaquaticEntities
     static int id = 0;
 
     // Entities
+    @Nonnull public static final EntityEntry CHEST_BOAT = register("chest_boat", EntityEntryBuilder.create().entity(EntityBoatChest.class).tracker(80, 3, true));
     @Nonnull public static final EntityEntry ENDER_CHEST_BOAT = register("ender_chest_boat", EntityEntryBuilder.create().entity(EntityBoatEnderChest.class).tracker(80, 3, true));
 
     @Nonnull

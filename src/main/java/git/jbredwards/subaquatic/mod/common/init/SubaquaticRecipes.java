@@ -42,6 +42,12 @@ final class SubaquaticRecipes
             final ResourceLocation typeName = type.boat.delegate.name();
             final String recipeId = '/' + typeName.getNamespace() + '/' + typeName.getPath() + '/' + type.boatMeta;
 
+            //chest boat recipes
+            registry.register(new ShapedOreRecipe(null,
+                    ItemBoatContainer.createStackWithType(SubaquaticItems.CHEST_BOAT, type),
+                    "C", "B", 'C', Blocks.CHEST, 'B', new ItemStack(type.boat, 1, type.boatMeta))
+                    .setRegistryName(Subaquatic.MODID, "chest_boat" + recipeId));
+
             //ender chest boat recipes
             registry.register(new ShapedOreRecipe(null,
                     ItemBoatContainer.createStackWithType(SubaquaticItems.ENDER_CHEST_BOAT, type),

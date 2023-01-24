@@ -1,12 +1,10 @@
 package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.block.AbstractBlockCoral;
+import git.jbredwards.subaquatic.mod.common.block.*;
 import git.jbredwards.subaquatic.mod.common.item.*;
-import git.jbredwards.subaquatic.mod.common.item.block.ItemBlockCluster;
-import git.jbredwards.subaquatic.mod.common.item.block.ItemBlockMeta;
-import git.jbredwards.subaquatic.mod.common.item.block.ItemBlockSeagrass;
-import git.jbredwards.subaquatic.mod.common.item.boat.ItemEnderChestBoat;
+import git.jbredwards.subaquatic.mod.common.item.block.*;
+import git.jbredwards.subaquatic.mod.common.item.boat.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -56,6 +54,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(SubaquaticBlocks.NAUTILUS_SHELL));
 
     //boat containers
+    @Nonnull public static final ItemChestBoat CHEST_BOAT = register("chest_boat", new ItemChestBoat());
     @Nonnull public static final ItemEnderChestBoat ENDER_CHEST_BOAT = register("ender_chest_boat", new ItemEnderChestBoat());
 
     //ore dict registration

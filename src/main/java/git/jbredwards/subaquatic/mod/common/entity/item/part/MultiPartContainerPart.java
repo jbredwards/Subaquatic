@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,7 +36,7 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
     public String getFixType() { return "none"; }
 
     @SideOnly(Side.CLIENT)
-    public abstract void renderContainer(double x, double y, double z, float entityYaw, float partialTicks);
+    public abstract void renderContainer(double x, double y, double z, float entityYaw, float partialTicks, boolean isChristmas);
     public boolean shouldRenderContainer() { return true; }
 
     @Override
@@ -77,4 +78,15 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
                 super.applyEntityCollision(entityIn);
         }
     }
+
+    @Override
+    public boolean hasCustomName() { return parentBoat.hasCustomName(); }
+
+    @Nonnull
+    @Override
+    public String getCustomNameTag() { return parentBoat.getCustomNameTag(); }
+
+    @Nonnull
+    @Override
+    public ITextComponent getDisplayName() { return parentBoat.getDisplayName(); }
 }

@@ -24,6 +24,7 @@ public final class SubaquaticJEIPlugin implements IModPlugin
 
     @Override
     public void registerItemSubtypes(@Nonnull ISubtypeRegistry subtypeRegistry) {
+        subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.CHEST_BOAT, boatContainerInterpreter);
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.ENDER_CHEST_BOAT, boatContainerInterpreter);
     }
 }

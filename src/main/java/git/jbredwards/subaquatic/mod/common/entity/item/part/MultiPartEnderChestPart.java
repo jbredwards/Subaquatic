@@ -64,7 +64,9 @@ public class MultiPartEnderChestPart extends MultiPartAbstractChestPart
     @Nonnull
     @SideOnly(Side.CLIENT)
     @Override
-    protected ResourceLocation getChestTexture() { return TileEntityEnderChestRenderer.ENDER_CHEST_TEXTURE; }
+    protected ResourceLocation getChestTexture(boolean isChristmas) {
+        return TileEntityEnderChestRenderer.ENDER_CHEST_TEXTURE;
+    }
 
     @Override
     public void onUpdate() {
