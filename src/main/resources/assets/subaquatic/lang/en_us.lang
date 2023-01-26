@@ -53,6 +53,9 @@ tile.subaquatic.tube_coral_fan.alive.true.name=Tube Coral Fan
 tile.subaquatic.tube_coral_fin.name=Tube Coral Fin
 tile.subaquatic.tube_coral_fin.alive.false.name=Dead Tube Coral Fin
 tile.subaquatic.tube_coral_fin.alive.true.name=Tube Coral Fin
+#Entities
+entity.ender_chest_boat.name=Ender Chest Boat
+entity.chest_boat.name=Chest Boat
 #Items
 itemGroup.subaquatic.tab=Subaquatic
 item.subaquatic.dried_kelp.name=Dried Kelp

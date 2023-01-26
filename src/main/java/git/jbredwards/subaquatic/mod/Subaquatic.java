@@ -10,6 +10,7 @@ import git.jbredwards.subaquatic.mod.client.entity.renderer.RenderBoatContainer;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
+import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
@@ -100,8 +101,10 @@ public final class Subaquatic
         //capabilities
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         CapabilityManager.INSTANCE.register(IBoatType.class, IBoatType.Storage.INSTANCE, IBoatType.Impl::new);
+        CapabilityManager.INSTANCE.register(IFishBucket.class, IFishBucket.Storage.INSTANCE, IFishBucket.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         MinecraftForge.EVENT_BUS.register(IBoatType.class);
+        MinecraftForge.EVENT_BUS.register(IFishBucket.class);
         //message registries
         WRAPPER.registerMessage(SMessageBoatType.Handler.INSTANCE, SMessageBoatType.class, 0, Side.CLIENT);
         WRAPPER.registerMessage(SMessageAbstractChestPart.Handler.INSTANCE, SMessageAbstractChestPart.class, 1, Side.CLIENT);
