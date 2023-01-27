@@ -19,5 +19,5 @@ public class EntityAIFishSwim extends EntityAIWanderSwim
     }
 
     @Override
-    public boolean shouldExecute() { return fish.isGroupAlive() && super.shouldExecute(); }
+    public boolean shouldExecute() { return fish.hasNoGroup() && super.shouldExecute(); }
 }

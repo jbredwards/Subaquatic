@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
-import git.jbredwards.subaquatic.mod.client.entity.renderer.RenderBoatContainer;
+import git.jbredwards.subaquatic.mod.client.entity.renderer.*;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
@@ -15,6 +15,7 @@ import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartAbstractInventoryPart;
+import git.jbredwards.subaquatic.mod.common.entity.living.*;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.message.CMessageOpenBoatInventory;
 import git.jbredwards.subaquatic.mod.common.message.SMessageAbstractChestPart;
@@ -121,6 +122,7 @@ public final class Subaquatic
     @SideOnly(Side.CLIENT)
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
     }
 
     @Mod.EventHandler

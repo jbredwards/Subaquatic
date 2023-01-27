@@ -103,8 +103,8 @@ public abstract class AbstractFish extends EntityWaterCreature
 
     @Override
     public void travel(float strafe, float vertical, float forward) {
-        if(!world.isRemote && isInWater()) {
-            moveRelative(strafe, vertical, forward, 0);
+        if(isServerWorld() && isInWater()) {
+            moveRelative(strafe, vertical, forward, 0.01f);
             move(MoverType.SELF, motionX, motionY, motionZ);
 
             motionX *= 0.9;
@@ -163,5 +163,5 @@ public abstract class AbstractFish extends EntityWaterCreature
     @Nonnull
     public abstract FishBucketData getBucketData();
 
-    public abstract boolean isGroupAlive();
+    public boolean hasNoGroup() { return true; }
 }
