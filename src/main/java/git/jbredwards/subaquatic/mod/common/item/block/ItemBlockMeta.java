@@ -2,14 +2,11 @@ package git.jbredwards.subaquatic.mod.common.item.block;
 
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.model.ModelLoader;
@@ -27,7 +24,7 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
     @Nonnull protected final String property;
     protected final boolean hasUniqueModel;
 
-    protected ItemBlockMeta(@Nonnull Block blockIn, @Nonnull String propertyIn, boolean hasUniqueModelIn, @Nonnull String... variantsIn) {
+    public ItemBlockMeta(@Nonnull Block blockIn, @Nonnull String propertyIn, boolean hasUniqueModelIn, @Nonnull String... variantsIn) {
         super(blockIn);
         setHasSubtypes(true);
         property = propertyIn;
@@ -35,16 +32,8 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
         hasUniqueModel = hasUniqueModelIn;
     }
 
-    public ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyBool property, boolean hasUniqueModelIn) {
-        this(block, property.getName(), hasUniqueModelIn, "true", "false");
-    }
-
-    public ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyInteger property, boolean hasUniqueModelIn) {
+    public ItemBlockMeta(@Nonnull Block block, @Nonnull IProperty<?> property, boolean hasUniqueModelIn) {
         this(block, property.getName(), hasUniqueModelIn, property.getAllowedValues().stream().map(String::valueOf).toArray(String[]::new));
-    }
-
-    public <T extends Enum<T> & IStringSerializable> ItemBlockMeta(@Nonnull Block block, @Nonnull PropertyEnum<T> property, boolean hasUniqueModelIn) {
-        this(block, property.getName(), hasUniqueModelIn, property.getAllowedValues().stream().map(T::getName).toArray(String[]::new));
     }
 
     @Override

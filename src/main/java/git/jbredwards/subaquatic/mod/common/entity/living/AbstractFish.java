@@ -67,7 +67,7 @@ public abstract class AbstractFish extends EntityWaterCreature
     }
 
     @Override
-    public float getEyeHeight() { return 0.65f; }
+    public float getEyeHeight() { return 0.275f; }
 
     @Override
     public boolean isNoDespawnRequired() { return isFromBucket() || super.isNoDespawnRequired(); }
@@ -158,10 +158,10 @@ public abstract class AbstractFish extends EntityWaterCreature
     protected SoundEvent getSwimSound() { return SubaquaticSounds.ENTITY_FISH_SWIM; }
 
     @Nonnull
-    public abstract SoundEvent getFlopSound();
+    protected abstract SoundEvent getFlopSound();
 
     @Nonnull
     public abstract FishBucketData getBucketData();
 
-    public boolean hasNoGroup() { return true; }
+    public abstract boolean hasNoGroup();
 }

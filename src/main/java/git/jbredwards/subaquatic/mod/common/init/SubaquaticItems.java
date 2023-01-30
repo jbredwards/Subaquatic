@@ -5,6 +5,7 @@ import git.jbredwards.subaquatic.mod.common.block.*;
 import git.jbredwards.subaquatic.mod.common.item.*;
 import git.jbredwards.subaquatic.mod.common.item.block.*;
 import git.jbredwards.subaquatic.mod.common.item.boat.*;
+import net.minecraft.block.BlockSandStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -30,6 +31,8 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock DRIED_KELP_BLOCK = register("dried_kelp_block", new ItemBlock(SubaquaticBlocks.DRIED_KELP_BLOCK));
     @Nonnull public static final ItemBlock BLUE_ICE = register("blue_ice", new ItemBlock(SubaquaticBlocks.BLUE_ICE));
     @Nonnull public static final ItemBlock PUMPKIN = register("pumpkin", new ItemBlock(SubaquaticBlocks.PUMPKIN));
+    @Nonnull public static final ItemBlock END_SAND = register("end_sand", new ItemBlock(SubaquaticBlocks.END_SAND));
+    @Nonnull public static final ItemBlock END_SANDSTONE = register("end_sandstone", new ItemBlockMeta(SubaquaticBlocks.END_SANDSTONE, BlockSandStone.TYPE, true));
     @Nonnull public static final ItemBlock TUBE_CORAL_BLOCK = register("tube_coral_block", new ItemBlockMeta(SubaquaticBlocks.TUBE_CORAL_BLOCK, AbstractBlockCoral.ALIVE, false));
     @Nonnull public static final ItemBlock BRAIN_CORAL_BLOCK = register("brain_coral_block", new ItemBlockMeta(SubaquaticBlocks.BRAIN_CORAL_BLOCK, AbstractBlockCoral.ALIVE, false));
     @Nonnull public static final ItemBlock BUBBLE_CORAL_BLOCK = register("bubble_coral_block", new ItemBlockMeta(SubaquaticBlocks.BUBBLE_CORAL_BLOCK, AbstractBlockCoral.ALIVE, false));

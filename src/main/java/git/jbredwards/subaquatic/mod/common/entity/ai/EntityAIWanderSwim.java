@@ -25,7 +25,7 @@ public class EntityAIWanderSwim extends EntityAIWander
     @Override
     protected Vec3d getPosition() {
         @Nullable Vec3d pos = RandomPositionGenerator.findRandomTarget(entity, 10, 7);
-        for(int i = 0; pos != null && !RandomPositionGenerator.isWaterDestination(new BlockPos(pos), entity) && i++ < 10; i++)
+        for(int i = 0; pos != null && !RandomPositionGenerator.isWaterDestination(new BlockPos(pos), entity) && i < 10; i++)
             pos = RandomPositionGenerator.findRandomTarget(entity, 10, 7);
 
         return pos;

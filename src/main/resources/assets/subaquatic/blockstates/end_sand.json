@@ -1,0 +1,13 @@
+{
+	"forge_marker": 1,
+    "defaults":{
+        "model":"cube_all",
+        "textures":{
+            "all":"subaquatic:blocks/end_sand"
+        }
+    },
+    "variants":{
+        "inventory":[{}],
+        "normal":[{},{"y":90},{"y":180},{"y":270}]
+    }
+}
