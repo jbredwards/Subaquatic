@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
+package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;

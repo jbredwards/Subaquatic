@@ -24,7 +24,7 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
     @Nonnull protected final String property;
     protected final boolean hasUniqueModel;
 
-    public ItemBlockMeta(@Nonnull Block blockIn, @Nonnull String propertyIn, boolean hasUniqueModelIn, @Nonnull String... variantsIn) {
+    public ItemBlockMeta(@Nonnull Block blockIn, boolean hasUniqueModelIn, @Nonnull String propertyIn, @Nonnull String... variantsIn) {
         super(blockIn);
         setHasSubtypes(true);
         property = propertyIn;
@@ -32,8 +32,8 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
         hasUniqueModel = hasUniqueModelIn;
     }
 
-    public ItemBlockMeta(@Nonnull Block block, @Nonnull IProperty<?> property, boolean hasUniqueModelIn) {
-        this(block, property.getName(), hasUniqueModelIn, property.getAllowedValues().stream().map(String::valueOf).toArray(String[]::new));
+    public ItemBlockMeta(@Nonnull Block blockIn, boolean hasUniqueModelIn, @Nonnull IProperty<?> propertyIn) {
+        this(blockIn, hasUniqueModelIn, propertyIn.getName(), propertyIn.getAllowedValues().stream().map(String::valueOf).toArray(String[]::new));
     }
 
     @Override
@@ -50,18 +50,14 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
 
     @Override
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
-        if(isInCreativeTab(tab)) {
-            for(int meta = 0; meta < variants.length; meta++) items.add(new ItemStack(this, 1, meta));
-        }
+        if(isInCreativeTab(tab)) for(int meta = 0; meta < variants.length; meta++) items.add(new ItemStack(this, 1, meta));
     }
 
     @Override
     public void registerModels() {
         for(int meta = 0; meta < variants.length; meta++) {
-            ModelLoader.setCustomModelResourceLocation(this, meta, new ModelResourceLocation(
-                    delegate.name(), hasUniqueModel
-                    ? String.format("inventory:%s=%s", property, variants[meta])
-                    : String.format("%s=%s", property, variants[meta])));
+            ModelLoader.setCustomModelResourceLocation(this, meta, new ModelResourceLocation(delegate.name(),
+                    String.format(hasUniqueModel ? "inventory:%s=%s" : "%s=%s", property, variants[meta])));
         }
     }
 }

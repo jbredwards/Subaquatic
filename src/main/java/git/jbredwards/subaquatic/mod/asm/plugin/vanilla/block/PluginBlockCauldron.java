@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
+package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import net.minecraft.block.Block;

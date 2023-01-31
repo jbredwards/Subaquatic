@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.asm.plugin.vanilla;
+package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import org.objectweb.asm.tree.ClassNode;
@@ -6,15 +6,15 @@ import org.objectweb.asm.tree.ClassNode;
 import javax.annotation.Nonnull;
 
 /**
- * Allow pumpkins to be placed anywhere
+ * Generate sand instead of gravel below sea level
  * @author jbred
  *
  */
-public final class PluginBlockPumpkin implements IASMPlugin
+public final class PluginBiomeBeach implements IASMPlugin
 {
     @Override
     public boolean transformClass(@Nonnull ClassNode classNode, boolean obfuscated) {
-        classNode.methods.removeIf(method -> method.name.equals(obfuscated ? "func_176196_c" : "canPlaceBlockAt"));
+        classNode.interfaces.add("git/jbredwards/subaquatic/api/biome/IOceanSurfaceProvider");
         return false;
     }
 }

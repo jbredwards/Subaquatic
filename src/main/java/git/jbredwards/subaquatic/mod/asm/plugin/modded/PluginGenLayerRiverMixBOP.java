@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.modded;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.PluginGenLayerRiverMix;
+import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world.PluginGenLayerRiverMix;
 import net.minecraft.world.gen.layer.GenLayer;
 import org.objectweb.asm.tree.ClassNode;
 
