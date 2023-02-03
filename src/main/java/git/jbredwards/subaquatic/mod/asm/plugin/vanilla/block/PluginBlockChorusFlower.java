@@ -31,14 +31,14 @@ public final class PluginBlockChorusFlower implements IASMPlugin
              *
              * New code:
              * //implement IChorusPlantSoil functionality
-             * if (IChorusPlantSoil.isSoil(iblockstate))
+             * if (IChorusPlantSoil.isStateValidSoil(iblockstate))
              * {
              *     ...
              * }
              */
             if(index == 1) {
                 ((JumpInsnNode)insn.getNext()).setOpcode(IFEQ);
-                instructions.insert(insn, genMethodNode("git/jbredwards/subaquatic/api/block/IChorusPlantSoil", "isSoil", "(Lnet/minecraft/block/state/IBlockState;)Z"));
+                instructions.insert(insn, genMethodNode("git/jbredwards/subaquatic/api/block/IChorusPlantSoil", "isStateValidSoil", "(Lnet/minecraft/block/state/IBlockState;)Z"));
                 instructions.insert(insn, new VarInsnNode(ALOAD, 9));
                 removeFrom(instructions, insn, -1);
             }
@@ -53,14 +53,14 @@ public final class PluginBlockChorusFlower implements IASMPlugin
              *
              * New code:
              * //implement IChorusPlantSoil functionality
-             * if (block != Blocks.CHORUS_PLANT && !IChorusPlantSoil.isSoil(iblockstate))
+             * if (block != Blocks.CHORUS_PLANT && !IChorusPlantSoil.isStateValidSoil(iblockstate))
              * {
              *     ...
              * }
              */
             else if(index == 2) {
                 ((JumpInsnNode)insn.getNext()).setOpcode(IFNE);
-                instructions.insert(insn, genMethodNode("git/jbredwards/subaquatic/api/block/IChorusPlantSoil", "isSoil", "(Lnet/minecraft/block/state/IBlockState;)Z"));
+                instructions.insert(insn, genMethodNode("git/jbredwards/subaquatic/api/block/IChorusPlantSoil", "isStateValidSoil", "(Lnet/minecraft/block/state/IBlockState;)Z"));
                 instructions.insert(insn, new VarInsnNode(ALOAD, 3));
                 removeFrom(instructions, insn, -1);
             }

@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
  */
 public interface IChorusPlantSoil
 {
-    static boolean isSoil(@Nonnull IBlockState state) {
+    static boolean isStateValidSoil(@Nonnull IBlockState state) {
         return state.getBlock() == Blocks.END_STONE || state.getBlock() instanceof IChorusPlantSoil
                 && ((IChorusPlantSoil)state.getBlock()).canSupportChorusPlant(state);
     }
