@@ -23,19 +23,14 @@ public class ParticleBubbleColumnPop extends Particle
     public static final TextureAtlasSprite[] TEXTURES = new TextureAtlasSprite[5];
     public ParticleBubbleColumnPop(@Nonnull ParticleBubble parent) {
         super(parent.world, parent.posX, parent.posY, parent.posZ);
-        motionX = 0;
-        motionY = 0;
-        motionZ = 0;
+        particleScale = parent.particleScale * 2.75f;
 
         setMaxAge(4);
         setSize(0.02f, 0.02f);
         setParticleTexture(TEXTURES[0]);
 
-        particleGravity = 0.008f;
-        particleScale = parent.particleScale * 2.75f;
-
-        if(SubaquaticConfigHandler.playBubblePopSound)
-            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 1, 1, false);
+        if(SubaquaticConfigHandler.playBubblePopSound || parent instanceof ParticleBubbleColumn)
+            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 1, parent.particleScale, false);
     }
 
     @Override

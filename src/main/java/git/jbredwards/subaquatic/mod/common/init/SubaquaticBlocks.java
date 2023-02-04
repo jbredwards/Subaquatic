@@ -29,16 +29,16 @@ public final class SubaquaticBlocks
     @Nonnull public static final List<Block> INIT = new ArrayList<>();
 
     // Materials
-    @Nonnull public static final MaterialOceanPlant OCEAN_PLANT = new MaterialOceanPlant(MapColor.WATER);
     @Nonnull public static final MaterialLiquid BUBBLE_COLUMN_MATERIAL = new MaterialLiquid(MapColor.WATER);
+    @Nonnull public static final MaterialOceanPlant OCEAN_PLANT_MATERIAL = new MaterialOceanPlant(MapColor.WATER);
 
     // Blocks
     @Nonnull public static final BlockPackedIce BLUE_ICE = register("blue_ice", new BlockPackedIce(), Blocks.PACKED_ICE, block -> block.setDefaultSlipperiness(0.989f));
     @Nonnull public static final BlockRotatedPillar DRIED_KELP_BLOCK = register("dried_kelp_block", new BlockRotatedPillar(Material.GRASS, MapColor.BROWN), block -> block.setSoundType(SoundType.PLANT).setResistance(2.5f / 3).setHardness(0.5f));
     @Nonnull public static final BlockCarvablePumpkin PUMPKIN = register("pumpkin", new BlockCarvablePumpkin(Material.GOURD, MapColor.ADOBE), Blocks.PUMPKIN, block -> ((BlockStem)Blocks.PUMPKIN_STEM).crop = block.setTranslationKey("pumpkin"));
-    @Nonnull public static final BlockKelp KELP = register("kelp", new BlockKelp(OCEAN_PLANT), block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
-    @Nonnull public static final BlockSeagrass SEAGRASS = register("seagrass", new BlockSeagrass(OCEAN_PLANT), block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
-    @Nonnull public static final BlockSeaPickle SEA_PICKLE = register("sea_pickle", new BlockSeaPickle(OCEAN_PLANT, MapColor.GREEN), block -> block.setSoundType(SoundType.SLIME));
+    @Nonnull public static final BlockKelp KELP = register("kelp", new BlockKelp(OCEAN_PLANT_MATERIAL), block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
+    @Nonnull public static final BlockSeagrass SEAGRASS = register("seagrass", new BlockSeagrass(OCEAN_PLANT_MATERIAL), block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
+    @Nonnull public static final BlockSeaPickle SEA_PICKLE = register("sea_pickle", new BlockSeaPickle(OCEAN_PLANT_MATERIAL, MapColor.GREEN), block -> block.setSoundType(SoundType.SLIME));
     @Nonnull public static final BlockNautilusShell NAUTILUS_SHELL = register("nautilus_shell", new BlockNautilusShell(Material.CORAL, MapColor.BROWN), block -> block.setSoundType(Blocks.BONE_BLOCK.getSoundType()));
     @Nonnull public static final BlockCoral TUBE_CORAL_BLOCK = register("tube_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.BLUE), Blocks.STONE);
     @Nonnull public static final BlockCoral BRAIN_CORAL_BLOCK = register("brain_coral_block", new BlockCoral(FluidRegistry.WATER, Material.CORAL, MapColor.PINK), Blocks.STONE);

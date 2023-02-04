@@ -35,7 +35,7 @@ public final class SubaquaticCreativeTab extends CreativeTabs
         SubaquaticEntities.INIT.forEach(entry -> {
             if(entry.getEgg() != null) {
                 final ItemStack spawnEgg = new ItemStack(Items.SPAWN_EGG);
-                ItemMonsterPlacer.applyEntityIdToItemStack(spawnEgg, entry.delegate.name());
+                ItemMonsterPlacer.applyEntityIdToItemStack(spawnEgg, entry.getEgg().spawnedID);
                 items.add(spawnEgg);
             }
         });

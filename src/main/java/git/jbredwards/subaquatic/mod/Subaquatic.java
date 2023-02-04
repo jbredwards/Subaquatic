@@ -64,6 +64,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -80,24 +81,22 @@ public final class Subaquatic
 
     public static final boolean isBOPInstalled = Loader.isModLoaded("biomesoplenty");
 
-    @SuppressWarnings("ConstantConditions")
     @Mod.EventHandler
-    static void construct(@Nonnull FMLConstructionEvent event) throws IOException {
-        if(event.getSide() == Side.CLIENT) {
-            LOGGER.info("Attempting to gather the vanilla assets required by this mod, this may take a while if it's your first load...");
-            final String[][] assets = new Gson().fromJson(IOUtils.toString(
-                    Loader.class.getResourceAsStream(String.format("/assets/%s/assetmover.jsonc", MODID)),
-                    Charset.defaultCharset()), String[][].class);
+    @SideOnly(Side.CLIENT)
+    static void constructClient(@Nonnull FMLConstructionEvent event) throws IOException {
+        LOGGER.info("Attempting to gather the vanilla assets required by this mod, this may take a while if it's your first load...");
+        final String[][] assets = new Gson().fromJson(IOUtils.toString(
+                Objects.requireNonNull(Loader.class.getResourceAsStream(String.format("/assets/%s/assetmover.jsonc", MODID))),
+                Charset.defaultCharset()), String[][].class);
 
-            final ProgressManager.ProgressBar progressBar = ProgressManager.push("AssetMover", assets.length);
-            for(String[] asset : assets) { //display progress, otherwise it looks like the game froze
-                progressBar.step(asset[2].replaceFirst(String.format("assets/%s/", MODID), ""));
-                AssetMoverAPI.fromMinecraft(asset[0], ImmutableMap.of(asset[1], asset[2]));
-            }
-
-            ProgressManager.pop(progressBar);
-            LOGGER.info("Success!");
+        final ProgressManager.ProgressBar progressBar = ProgressManager.push("AssetMover", assets.length);
+        for(String[] asset : assets) { //display progress, otherwise it looks like the game froze
+            progressBar.step(asset[2].replaceFirst(String.format("assets/%s/", MODID), ""));
+            AssetMoverAPI.fromMinecraft(asset[0], ImmutableMap.of(asset[1], asset[2]));
         }
+
+        ProgressManager.pop(progressBar);
+        LOGGER.info("Success!");
     }
 
     @Mod.EventHandler
