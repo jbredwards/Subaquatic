@@ -1,0 +1,12 @@
+{ 
+    "forge_marker":1,
+    "variants":{
+        "inventory":{
+            "transform":"forge:default-item",
+            "model":"builtin/generated",
+            "textures":{
+                "layer0":"subaquatic:items/minecart_ender_chest"
+            }
+        }
+    }
+}

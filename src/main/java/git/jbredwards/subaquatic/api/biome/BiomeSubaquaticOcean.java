@@ -25,7 +25,6 @@ public class BiomeSubaquaticOcean extends BiomeOcean implements IOceanBiome
         super(propertiesIn);
         surfaceBlock = GRAVEL;
         deepOceanBiome = deepOceanBiomeIn;
-        spawnableWaterCreatureList.clear();
     }
 
     @Nonnull

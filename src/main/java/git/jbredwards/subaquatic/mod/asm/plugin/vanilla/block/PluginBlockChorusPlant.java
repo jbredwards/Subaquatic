@@ -83,6 +83,7 @@ public final class PluginBlockChorusPlant implements IASMPlugin
 
         public static boolean canSurviveAt(@Nonnull BlockChorusPlant block, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
             final IBlockState down = world.getBlockState(pos.down());
+            if(block == down.getBlock() || IChorusPlantSoil.isStateValidSoil(down)) return true;
 
             final boolean isDownAir = down.getBlock().isAir(down, world, pos.down());
             final boolean isUpAir = world.isAirBlock(pos.up());
@@ -94,12 +95,12 @@ public final class PluginBlockChorusPlant implements IASMPlugin
                     if(!isDownAir && !isUpAir) return false;
 
                     final IBlockState downNeighbor = world.getBlockState(offset.down());
-                    if(block == downNeighbor.getBlock() && IChorusPlantSoil.isStateValidSoil(downNeighbor))
+                    if(block == downNeighbor.getBlock() || IChorusPlantSoil.isStateValidSoil(downNeighbor))
                         return true;
                 }
             }
 
-            return block == down.getBlock() && IChorusPlantSoil.isStateValidSoil(down);
+            return false;
         }
 
         @Nonnull

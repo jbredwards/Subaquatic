@@ -1,16 +1,19 @@
 [
     //block sounds
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/bubble1.ogg", "assets/subaquatic/sounds/blocks/bubble_column/bubble1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/bubble2.ogg", "assets/subaquatic/sounds/blocks/bubble_column/bubble2.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/bubble3.ogg", "assets/subaquatic/sounds/blocks/bubble_column/bubble3.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient1.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient2.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient2.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient3.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient3.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient4.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient4.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_ambient5.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_ambient5.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_inside.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_inside.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient1.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient2.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient2.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient3.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient3.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient4.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient4.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_ambient5.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_ambient5.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/block/bubble_column/upwards_inside.ogg", "assets/subaquatic/sounds/blocks/bubble_column/upwards_inside.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/whirlpool_inside.ogg", "assets/subaquatic/sounds/blocks/bubble_column/whirlpool_inside.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/pumpkin/carve1.ogg", "assets/subaquatic/sounds/blocks/pumpkin/carve1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/pumpkin/carve2.ogg", "assets/subaquatic/sounds/blocks/pumpkin/carve2.ogg"],
@@ -44,6 +47,25 @@
     ["1.18.2", "assets/minecraft/sounds/entity/fish/hurt2.ogg", "assets/subaquatic/sounds/entity/fish/hurt2.ogg"],
     ["1.18.2", "assets/minecraft/sounds/entity/fish/hurt3.ogg", "assets/subaquatic/sounds/entity/fish/hurt3.ogg"],
     ["1.18.2", "assets/minecraft/sounds/entity/fish/hurt4.ogg", "assets/subaquatic/sounds/entity/fish/hurt4.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/fish/swim1.ogg", "assets/subaquatic/sounds/entity/fish/swim1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/fish/swim2.ogg", "assets/subaquatic/sounds/entity/fish/swim2.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/fish/swim3.ogg", "assets/subaquatic/sounds/entity/fish/swim3.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/fish/swim4.ogg", "assets/subaquatic/sounds/entity/fish/swim4.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/fish/swim5.ogg", "assets/subaquatic/sounds/entity/fish/swim5.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/fish/swim6.ogg", "assets/subaquatic/sounds/entity/fish/swim6.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/fish/swim7.ogg", "assets/subaquatic/sounds/entity/fish/swim7.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient1.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient2.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient2.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient3.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient3.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient4.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient4.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient5.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient5.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/death1.ogg", "assets/subaquatic/sounds/entity/glow_squid/death1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/death2.ogg", "assets/subaquatic/sounds/entity/glow_squid/death2.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/death3.ogg", "assets/subaquatic/sounds/entity/glow_squid/death3.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/hurt1.ogg", "assets/subaquatic/sounds/entity/glow_squid/hurt1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/hurt2.ogg", "assets/subaquatic/sounds/entity/glow_squid/hurt2.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/hurt3.ogg", "assets/subaquatic/sounds/entity/glow_squid/hurt3.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/hurt4.ogg", "assets/subaquatic/sounds/entity/glow_squid/hurt4.ogg"],
 
     //misc sounds
     ["1.18.2", "assets/minecraft/sounds/ambient/underwater/additions/animal1.ogg", "assets/subaquatic/sounds/ambient/underwater/additions/animal1.ogg"],
@@ -143,9 +165,10 @@
     ["1.18.2", "assets/minecraft/textures/item/seagrass.png", "assets/subaquatic/textures/items/seagrass.png"],
 
     //particle textures
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_0.png", "assets/subaquatic/textures/particle/bubble_pop_0.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_1.png", "assets/subaquatic/textures/particle/bubble_pop_1.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_2.png", "assets/subaquatic/textures/particle/bubble_pop_2.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_3.png", "assets/subaquatic/textures/particle/bubble_pop_3.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_4.png", "assets/subaquatic/textures/particle/bubble_pop_4.png"]
+    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_0.png", "assets/subaquatic/textures/particles/bubble_pop_0.png"],
+    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_1.png", "assets/subaquatic/textures/particles/bubble_pop_1.png"],
+    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_2.png", "assets/subaquatic/textures/particles/bubble_pop_2.png"],
+    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_3.png", "assets/subaquatic/textures/particles/bubble_pop_3.png"],
+    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_4.png", "assets/subaquatic/textures/particles/bubble_pop_4.png"],
+    ["1.18.2", "assets/minecraft/textures/particle/glow.png", "assets/subaquatic/textures/particles/glow_squid_aura.png"]
 ]

@@ -14,6 +14,7 @@ import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.item.EntityMinecartEnderChest;
 import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartAbstractInventoryPart;
 import git.jbredwards.subaquatic.mod.common.entity.living.*;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
@@ -28,6 +29,7 @@ import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.EnumParticleTypes;
@@ -123,6 +125,9 @@ public final class Subaquatic
     @SideOnly(Side.CLIENT)
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityMinecartEnderChest.class, RenderMinecart::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityEnderGlowSquid.class, RenderEnderGlowSquid::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGlowSquid.class, RenderGlowSquid::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityXPOrb.class, RenderTranslucentXPOrb::new);
     }

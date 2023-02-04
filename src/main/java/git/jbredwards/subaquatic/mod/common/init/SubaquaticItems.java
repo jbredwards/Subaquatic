@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.block.*;
+import git.jbredwards.subaquatic.mod.common.entity.item.EntityMinecartEnderChest;
 import git.jbredwards.subaquatic.mod.common.item.*;
 import git.jbredwards.subaquatic.mod.common.item.block.*;
 import git.jbredwards.subaquatic.mod.common.item.boat.*;
@@ -55,6 +56,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(SubaquaticBlocks.KELP));
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.maxUseDuration = 16);
     @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(SubaquaticBlocks.NAUTILUS_SHELL));
+    @Nonnull public static final ItemMinecartTypeless ENDER_CHEST_MINECART = register("ender_chest_minecart", new ItemMinecartTypeless(EntityMinecartEnderChest::new));
 
     //boat containers
     @Nonnull public static final ItemChestBoat CHEST_BOAT = register("chest_boat", new ItemChestBoat());

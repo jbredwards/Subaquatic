@@ -1,6 +1,7 @@
 package git.jbredwards.subaquatic.mod.client.particle;
 
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,6 +16,7 @@ import javax.annotation.Nonnull;
 @SideOnly(Side.CLIENT)
 public class ParticleGlowSquidAura extends Particle
 {
+    public static TextureAtlasSprite TEXTURE; //set during texture stitch event
     public ParticleGlowSquidAura(@Nonnull World worldIn, double posXIn, double posYIn, double posZIn, boolean isPurple) {
         super(worldIn, posXIn, posYIn, posZIn, 0, 0, 0);
         applyColor(isPurple);
@@ -24,19 +26,20 @@ public class ParticleGlowSquidAura extends Particle
         motionZ *= 0.1;
         canCollide = false;
 
+        setParticleTexture(TEXTURE);
         setMaxAge((int)(8 / (rand.nextDouble() * 0.8 + 0.2)));
     }
 
     public void applyColor(boolean isPurple) {
         if(rand.nextBoolean()) {
-            particleRed = isPurple ? : 0.6f;
-            particleGreen = isPurple ? : 0;
-            particleBlue = isPurple ? : 0.8f;
+            particleRed = isPurple ? 1: 0.6f;
+            particleGreen = isPurple ? 1: 1;
+            particleBlue = isPurple ? 1: 0.8f;
         }
         else {
-            particleRed = isPurple ? : 0.08f;
-            particleGreen = isPurple ? : 0.4f;
-            particleBlue = isPurple ? : 0.4f;
+            particleRed = isPurple ? 1: 0.08f;
+            particleGreen = isPurple ? 1: 0.4f;
+            particleBlue = isPurple ? 1: 0.4f;
         }
     }
 

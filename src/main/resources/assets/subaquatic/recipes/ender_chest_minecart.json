@@ -1,0 +1,19 @@
+{
+    "type":"minecraft:crafting_shaped",
+    "pattern":[
+        "A",
+        "B"
+    ],
+    "key":{
+        "A":{
+            "item":"minecraft:ender_chest"
+        },
+        "B":{
+            "item":"minecraft:minecart"
+        }
+    },
+    "result":{
+        "item":"subaquatic:ender_chest_minecart",
+        "count":1
+    }
+}

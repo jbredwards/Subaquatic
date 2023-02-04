@@ -57,10 +57,14 @@ tile.subaquatic.tube_coral_fin.alive.true.name=Tube Coral Fin
 #Entities
 entity.subaquatic.chest_boat.name=Chest Boat
 entity.subaquatic.ender_chest_boat.name=Ender Chest Boat
+entity.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
+entity.subaquatic.ender_glow_squid.name=Ender Glow Squid
+entity.subaquatic.glow_squid.name=Glow Squid
 entity.subaquatic.salmon.name=Salmon
 #Items
 itemGroup.subaquatic.tab=Subaquatic
 item.subaquatic.dried_kelp.name=Dried Kelp
+item.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
 #Sounds
 subtitles.subaquatic.block.bubble_column.up.ambient=Bubbles flow
 subtitles.subaquatic.block.bubble_column.down.ambient=Bubbles whirl

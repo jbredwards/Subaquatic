@@ -30,6 +30,9 @@ public final class SubaquaticConfigHandler
     @Config.LangKey("config.subaquatic.biomeColorBlendRadius")
     public static int biomeColorBlendRadius = 3;
 
+    @Config.LangKey("config.subaquatic.playBubblePopSound")
+    public static boolean playBubblePopSound = false;
+
     @Config.LangKey("config.subaquatic.translucentXPOrbs")
     public static boolean translucentXPOrbs = true;
 
