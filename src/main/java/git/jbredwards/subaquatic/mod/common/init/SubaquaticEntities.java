@@ -10,7 +10,6 @@ import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -42,15 +41,6 @@ public final class SubaquaticEntities
     @Nonnull
     public static final EntityEntry ENDER_CHEST_MINECART = register("ender_chest_minecart",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityMinecartEnderChest.class));
-
-    @Nonnull
-    public static final EntityEntry ENDER_GLOW_SQUID = register("ender_glow_squid",
-            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityEnderGlowSquid.class).egg(0x37234d, 0x9e7fbd)
-                    .spawn(EnumCreatureType.WATER_CREATURE, 10, 1, 4, BiomeDictionary.getBiomes(BiomeDictionary.Type.END)));
-    @Nonnull
-    public static final EntityEntry GLOW_SQUID = register("glow_squid",
-            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityGlowSquid.class).egg(3515039, 11730125)
-                    .spawn(EnumCreatureType.WATER_CREATURE, 2, 1, 4, BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP)));
     @Nonnull
     public static final EntityEntry SALMON = register("salmon",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntitySalmon.class).egg(10489616, 951412)
@@ -61,10 +51,6 @@ public final class SubaquaticEntities
         //fix the spawning mechanics of this mod's water creatures
         INIT.forEach(entry -> { if(EntityWaterCreature.class.isAssignableFrom(entry.getEntityClass()) || EntityWaterMob.class.isAssignableFrom(entry.getEntityClass()))
                 EntitySpawnPlacementRegistry.setPlacementType(entry.getEntityClass(), EntityLiving.SpawnPlacementType.IN_WATER); });
-
-        //swamps spawn glow squids instead of normal squids
-        BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP)
-                .forEach(biome -> biome.getSpawnableList(EnumCreatureType.WATER_CREATURE).removeIf(entry -> entry.entityClass == EntitySquid.class));
 
         //globally adjust the spawn rates of squids
         ForgeRegistries.BIOMES.forEach(biome -> biome.getSpawnableList(EnumCreatureType.WATER_CREATURE).forEach(entry -> {

@@ -34,8 +34,6 @@ public final class ASMHandler implements BasicLoadingPlugin
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
-            plugins.put("net.minecraft.block.BlockChorusFlower", new PluginBlockChorusFlower()); //Implement IChorusPlantSoil functionality
-            plugins.put("net.minecraft.block.BlockChorusPlant", new PluginBlockChorusPlant()); //Implement IChorusPlantSoil functionality
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
             plugins.put("net.minecraft.block.BlockSnow", new PluginBlockSnow()); //Prevent snow layers from being placeable on blue ice
             plugins.put("net.minecraft.block.BlockStem", new PluginBlockStem()); //Update pumpkin reference to the correct block

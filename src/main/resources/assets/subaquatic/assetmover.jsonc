@@ -54,18 +54,6 @@
     ["1.18.2", "assets/minecraft/sounds/entity/fish/swim5.ogg", "assets/subaquatic/sounds/entity/fish/swim5.ogg"],
     ["1.18.2", "assets/minecraft/sounds/entity/fish/swim6.ogg", "assets/subaquatic/sounds/entity/fish/swim6.ogg"],
     ["1.18.2", "assets/minecraft/sounds/entity/fish/swim7.ogg", "assets/subaquatic/sounds/entity/fish/swim7.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient1.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient1.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient2.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient2.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient3.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient3.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient4.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient4.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/ambient5.ogg", "assets/subaquatic/sounds/entity/glow_squid/ambient5.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/death1.ogg", "assets/subaquatic/sounds/entity/glow_squid/death1.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/death2.ogg", "assets/subaquatic/sounds/entity/glow_squid/death2.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/death3.ogg", "assets/subaquatic/sounds/entity/glow_squid/death3.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/hurt1.ogg", "assets/subaquatic/sounds/entity/glow_squid/hurt1.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/hurt2.ogg", "assets/subaquatic/sounds/entity/glow_squid/hurt2.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/hurt3.ogg", "assets/subaquatic/sounds/entity/glow_squid/hurt3.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/entity/glow_squid/hurt4.ogg", "assets/subaquatic/sounds/entity/glow_squid/hurt4.ogg"],
 
     //misc sounds
     ["1.18.2", "assets/minecraft/sounds/ambient/underwater/additions/animal1.ogg", "assets/subaquatic/sounds/ambient/underwater/additions/animal1.ogg"],
@@ -169,6 +157,5 @@
     ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_1.png", "assets/subaquatic/textures/particles/bubble_pop_1.png"],
     ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_2.png", "assets/subaquatic/textures/particles/bubble_pop_2.png"],
     ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_3.png", "assets/subaquatic/textures/particles/bubble_pop_3.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_4.png", "assets/subaquatic/textures/particles/bubble_pop_4.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/glow.png", "assets/subaquatic/textures/particles/glow_squid_aura.png"]
+    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_4.png", "assets/subaquatic/textures/particles/bubble_pop_4.png"]
 ]

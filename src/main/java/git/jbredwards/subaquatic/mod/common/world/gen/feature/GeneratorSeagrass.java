@@ -29,22 +29,24 @@ public enum GeneratorSeagrass implements IWorldGenerator
 
     @Override
     public void generate(@Nonnull Random random, int chunkX, int chunkZ, @Nonnull World world, @Nonnull IChunkGenerator chunkGenerator, @Nonnull IChunkProvider chunkProvider) {
-        final int originX = chunkX << 4 | 8;
-        final int originZ = chunkZ << 4 | 8;
-        final int amountForGen = getAmountForGen(world, originX, originZ);
+        if(world.provider.getDimension() == 0) {
+            final int originX = chunkX << 4 | 8;
+            final int originZ = chunkZ << 4 | 8;
+            final int amountForGen = getAmountForGen(world, originX, originZ);
 
-        for(int i = 0; i < amountForGen; i++) {
-            final int offsetX = random.nextInt(16);
-            final int offsetZ = random.nextInt(16);
+            for(int i = 0; i < amountForGen; i++) {
+                final int offsetX = random.nextInt(16);
+                final int offsetZ = random.nextInt(16);
 
-            final BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(originX + offsetX, 0, originZ + offsetZ));
-            final Biome biome = world.getBiome(pos);
+                final BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(originX + offsetX, 0, originZ + offsetZ));
+                final Biome biome = world.getBiome(pos);
 
-            if(!biome.isSnowyBiome() && world.getBlockState(pos.down()).isTopSolid() && SubaquaticBlocks.SEAGRASS.canPlaceBlockAt(world, pos)) {
-                world.setBlockState(pos, SubaquaticBlocks.SEAGRASS.getDefaultState(), 2);
-                //try growing a double tall plant
-                if(random.nextFloat() < 0.3 && SubaquaticBlocks.SEAGRASS.canPlaceBlockAt(world, pos.up()))
-                    world.setBlockState(pos.up(), SubaquaticBlocks.SEAGRASS.getDefaultState().withProperty(BlockSeagrass.TYPE, BlockSeagrass.Type.TOP), 2);
+                if(!biome.isSnowyBiome() && world.getBlockState(pos.down()).isTopSolid() && SubaquaticBlocks.SEAGRASS.canPlaceBlockAt(world, pos)) {
+                    world.setBlockState(pos, SubaquaticBlocks.SEAGRASS.getDefaultState(), 2);
+                    //try growing a double tall plant
+                    if(random.nextFloat() < 0.3 && SubaquaticBlocks.SEAGRASS.canPlaceBlockAt(world, pos.up()))
+                        world.setBlockState(pos.up(), SubaquaticBlocks.SEAGRASS.getDefaultState().withProperty(BlockSeagrass.TYPE, BlockSeagrass.Type.TOP), 2);
+                }
             }
         }
     }

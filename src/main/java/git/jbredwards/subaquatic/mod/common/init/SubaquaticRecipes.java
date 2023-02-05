@@ -68,7 +68,6 @@ final class SubaquaticRecipes
     static void registerSmelting() {
         GameRegistry.addSmelting(SubaquaticItems.KELP, new ItemStack(SubaquaticItems.DRIED_KELP), 0.1f);
         GameRegistry.addSmelting(SubaquaticItems.SEA_PICKLE, new ItemStack(Items.DYE, 1, 10), 0.1f);
-        GameRegistry.addSmelting(SubaquaticItems.END_SAND, new ItemStack(Blocks.GLASS), 0.1f);
         GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_BLOCK, 1, 1), 0.1f);
         GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_FAN, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_FAN, 1, 1), 0.1f);
         GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_FIN, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_FIN, 1, 1), 0.1f);

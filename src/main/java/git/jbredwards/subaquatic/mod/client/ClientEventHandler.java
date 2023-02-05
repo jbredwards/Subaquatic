@@ -5,7 +5,6 @@ import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
 import git.jbredwards.subaquatic.mod.client.item.model.ModelContainerBoat;
 import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumnPop;
-import git.jbredwards.subaquatic.mod.client.particle.ParticleGlowSquidAura;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
@@ -84,8 +83,8 @@ public final class ClientEventHandler
             event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_still"));
             event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "misc/underwater"));
 
-            for(int i = 0; i < 5; i++) ParticleBubbleColumnPop.TEXTURES[i] = event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "particles/bubble_pop_" + i));
-            ParticleGlowSquidAura.TEXTURE = event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "particles/glow_squid_aura"));
+            for(int i = 0; i < 5; i++) ParticleBubbleColumnPop.TEXTURES[i] =
+                    event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "particles/bubble_pop_" + i));
         }
     }
 }

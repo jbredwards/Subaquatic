@@ -125,8 +125,6 @@ public final class Subaquatic
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMinecartEnderChest.class, RenderMinecart::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityEnderGlowSquid.class, RenderEnderGlowSquid::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityGlowSquid.class, RenderGlowSquid::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityXPOrb.class, RenderTranslucentXPOrb::new);
     }
