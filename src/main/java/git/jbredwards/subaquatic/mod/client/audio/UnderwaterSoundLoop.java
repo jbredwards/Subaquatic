@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
  *
  */
 @SideOnly(Side.CLIENT)
-public class UnderwaterSoundLoop extends MovingSound implements IUnderwaterSound
+public class UnderwaterSoundLoop extends MovingSound implements IUnderwaterSound, IPrioritySound
 {
     @Nonnull
     protected final EntityPlayerSP player;
@@ -46,4 +46,7 @@ public class UnderwaterSoundLoop extends MovingSound implements IUnderwaterSound
 
         else donePlaying = true;
     }
+
+    @Override
+    public boolean isPriority() { return true; }
 }
