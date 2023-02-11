@@ -36,7 +36,7 @@ public class EntityFishMoveHelper extends EntityMoveHelper
 
             final double newSpeed = speed * fish.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
             fish.setAIMoveSpeed(fish.getAIMoveSpeed() + (float)(newSpeed - fish.getAIMoveSpeed()) * 0.125f);
-            fish.motionY = fish.getAIMoveSpeed() * y / MathHelper.sqrt(x * x + y * y + z * z) * 0.1;
+            fish.motionY += fish.getAIMoveSpeed() * y / MathHelper.sqrt(x * x + y * y + z * z) * 0.1;
         }
 
         else fish.setAIMoveSpeed(0);

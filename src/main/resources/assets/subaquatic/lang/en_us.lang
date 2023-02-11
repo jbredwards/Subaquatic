@@ -66,8 +66,12 @@ itemGroup.subaquatic.tab=Subaquatic
 item.subaquatic.dried_kelp.name=Dried Kelp
 item.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
 #Sounds
-subtitles.subaquatic.block.bubble_column.up.ambient=Bubbles flow
+subtitles.subaquatic.block.bubble_column.bubble_pop=Bubbles pop
 subtitles.subaquatic.block.bubble_column.down.ambient=Bubbles whirl
-subtitles.subaquatic.block.bubble_column.up.inside=Bubbles woosh
 subtitles.subaquatic.block.bubble_column.down.inside=Bubbles zoom
+subtitles.subaquatic.block.bubble_column.up.ambient=Bubbles flow
+subtitles.subaquatic.block.bubble_column.up.inside=Bubbles woosh
 subtitles.subaquatic.block.pumpkin.carve=Shears carve
+subtitles.subaquatic.entity.salmon.death=Salmon dies
+subtitles.subaquatic.entity.salmon.flop=Salmon flops
+subtitles.subaquatic.entity.salmon.hurt=Salmon hurts

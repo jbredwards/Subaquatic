@@ -28,9 +28,19 @@ public final class ASMHandler implements BasicLoadingPlugin
             //forge
             plugins.put("net.minecraftforge.fluids.FluidRegistry", new PluginFluidRegistry()); //Changes the water textures to allow for better coloring
             //modded
+            plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginGenLayerRiverMixBOP()); //Account for all ocean biomes when generating rivers
+            plugins.put("biomesoplenty.common.world.layer.GenLayerShoreBOP", new PluginGenLayerShoreBOP()); //Account for all ocean biomes when generating shores
+            plugins.put("biomesoplenty.common.world.BiomeProviderBOP", new PluginBiomeProviderBOP()); //Apply ocean biome generator
             plugins.put("com.blamejared.clumps.proxy.ClientProxy", new PluginClumps()); //Remove Clumps mod XP orb render override
             plugins.put("com.blamejared.clumps.entities.EntityXPOrbBig", new PluginClumps()); //Clumps mod XP orbs float while in water
-            //plugins.put("biomesoplenty/common/world/layer/GenLayerRiverMixBOP", new PluginGenLayerRiverMixBOP()); //Account for all ocean biomes when generating rivers
+            plugins.put("com.fuzs.aquaacrobatics.client.handler.FogHandler", new PluginAquaAcrobatics()); //Improve Aqua Acrobatics mod compatibility by removing the stuff from that mod which this mod already does
+            plugins.put("com.fuzs.aquaacrobatics.core.mixin.client.ItemRendererMixin", new PluginAquaAcrobatics());
+            plugins.put("com.fuzs.aquaacrobatics.core.mixin.client.ModelFluidMixin", new PluginAquaAcrobatics());
+            plugins.put("com.fuzs.aquaacrobatics.core.mixin.BiomeColorHelperMixin", new PluginAquaAcrobatics());
+            plugins.put("com.fuzs.aquaacrobatics.core.mixin.BiomeMixin", new PluginAquaAcrobatics());
+            plugins.put("com.fuzs.aquaacrobatics.core.mixin.BlockGrassMixin", new PluginAquaAcrobatics());
+            plugins.put("com.fuzs.aquaacrobatics.core.mixin.BlockMyceliumMixin", new PluginAquaAcrobatics());
+            plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityItemMixin", new PluginAquaAcrobatics());
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision

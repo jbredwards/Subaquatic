@@ -247,33 +247,6 @@
         ],
         "subtitle":"subtitles.block.generic.footsteps"
     },
-    "entity.ender_glow_squid.ambient":{
-        "sounds":[
-            "subaquatic:entity/glow_squid/ambient1",
-            "subaquatic:entity/glow_squid/ambient2",
-            "subaquatic:entity/glow_squid/ambient3",
-            "subaquatic:entity/glow_squid/ambient4",
-            "subaquatic:entity/glow_squid/ambient5"
-        ],
-        "subtitle":"subtitles.subaquatic.entity.ender_glow_squid.ambient"
-    },
-    "entity.ender_glow_squid.death":{
-        "sounds":[
-            "subaquatic:entity/glow_squid/death1",
-            "subaquatic:entity/glow_squid/death2",
-            "subaquatic:entity/glow_squid/death3"
-        ],
-        "subtitle":"subtitles.subaquatic.entity.ender_glow_squid.death"
-    },
-    "entity.ender_glow_squid.hurt":{
-        "sounds":[
-            "subaquatic:entity/glow_squid/hurt1",
-            "subaquatic:entity/glow_squid/hurt2",
-            "subaquatic:entity/glow_squid/hurt3",
-            "subaquatic:entity/glow_squid/hurt4"
-        ],
-        "subtitle":"subtitles.subaquatic.entity.ender_glow_squid.hurt"
-    },
     "entity.fish.swim":{
         "sounds":[
             "subaquatic:entity/fish/swim1",
@@ -284,33 +257,6 @@
             "subaquatic:entity/fish/swim6",
             "subaquatic:entity/fish/swim7"
         ]
-    },
-    "entity.glow_squid.ambient":{
-        "sounds":[
-            "subaquatic:entity/glow_squid/ambient1",
-            "subaquatic:entity/glow_squid/ambient2",
-            "subaquatic:entity/glow_squid/ambient3",
-            "subaquatic:entity/glow_squid/ambient4",
-            "subaquatic:entity/glow_squid/ambient5"
-        ],
-        "subtitle":"subtitles.subaquatic.entity.glow_squid.ambient"
-    },
-    "entity.glow_squid.death":{
-        "sounds":[
-            "subaquatic:entity/glow_squid/death1",
-            "subaquatic:entity/glow_squid/death2",
-            "subaquatic:entity/glow_squid/death3"
-        ],
-        "subtitle":"subtitles.subaquatic.entity.glow_squid.death"
-    },
-    "entity.glow_squid.hurt":{
-        "sounds":[
-            "subaquatic:entity/glow_squid/hurt1",
-            "subaquatic:entity/glow_squid/hurt2",
-            "subaquatic:entity/glow_squid/hurt3",
-            "subaquatic:entity/glow_squid/hurt4"
-        ],
-        "subtitle":"subtitles.subaquatic.entity.glow_squid.hurt"
     },
     "entity.salmon.ambient":{
         "sounds":[

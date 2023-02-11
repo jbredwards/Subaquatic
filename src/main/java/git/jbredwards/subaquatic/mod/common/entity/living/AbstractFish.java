@@ -5,6 +5,7 @@ import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
 import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIFishSwim;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityFishMoveHelper;
+import git.jbredwards.subaquatic.mod.common.entity.ai.PathNavigateFish;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.MoverType;
@@ -18,7 +19,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.pathfinding.PathNavigateSwimmer;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
@@ -45,7 +45,7 @@ public abstract class AbstractFish extends EntityWaterCreature
 
     @Nonnull
     @Override
-    protected PathNavigate createNavigator(@Nonnull World worldIn) { return new PathNavigateSwimmer(this, worldIn); }
+    protected PathNavigate createNavigator(@Nonnull World worldIn) { return new PathNavigateFish(this, worldIn); }
 
     @Override
     protected void entityInit() {
@@ -67,7 +67,7 @@ public abstract class AbstractFish extends EntityWaterCreature
     }
 
     @Override
-    public float getEyeHeight() { return 0.275f; }
+    public float getEyeHeight() { return height * 0.5f; }
 
     @Override
     public boolean isNoDespawnRequired() { return isFromBucket() || super.isNoDespawnRequired(); }

@@ -150,12 +150,5 @@
     ["1.18.2", "assets/minecraft/textures/item/kelp.png", "assets/subaquatic/textures/items/kelp.png"],
     ["1.18.2", "assets/minecraft/textures/item/nautilus_shell.png", "assets/subaquatic/textures/items/nautilus_shell.png"],
     ["1.18.2", "assets/minecraft/textures/item/sea_pickle.png", "assets/subaquatic/textures/items/sea_pickle.png"],
-    ["1.18.2", "assets/minecraft/textures/item/seagrass.png", "assets/subaquatic/textures/items/seagrass.png"],
-
-    //particle textures
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_0.png", "assets/subaquatic/textures/particles/bubble_pop_0.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_1.png", "assets/subaquatic/textures/particles/bubble_pop_1.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_2.png", "assets/subaquatic/textures/particles/bubble_pop_2.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_3.png", "assets/subaquatic/textures/particles/bubble_pop_3.png"],
-    ["1.18.2", "assets/minecraft/textures/particle/bubble_pop_4.png", "assets/subaquatic/textures/particles/bubble_pop_4.png"]
+    ["1.18.2", "assets/minecraft/textures/item/seagrass.png", "assets/subaquatic/textures/items/seagrass.png"]
 ]

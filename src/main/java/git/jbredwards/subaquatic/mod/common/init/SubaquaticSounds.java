@@ -28,13 +28,7 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundEvent PUMPKIN_CARVE = register("blocks.pumpkin.carve");
 
     //entity sounds
-    @Nonnull public static final SoundEvent ENTITY_ENDER_GLOW_SQUID_AMBIENT = register("entity.ender_glow_squid.ambient");
-    @Nonnull public static final SoundEvent ENTITY_ENDER_GLOW_SQUID_DEATH = register("entity.ender_glow_squid.death");
-    @Nonnull public static final SoundEvent ENTITY_ENDER_GLOW_SQUID_HURT = register("entity.ender_glow_squid.hurt");
     @Nonnull public static final SoundEvent ENTITY_FISH_SWIM = register("entity.fish.swim");
-    @Nonnull public static final SoundEvent ENTITY_GLOW_SQUID_AMBIENT = register("entity.glow_squid.ambient");
-    @Nonnull public static final SoundEvent ENTITY_GLOW_SQUID_DEATH = register("entity.glow_squid.death");
-    @Nonnull public static final SoundEvent ENTITY_GLOW_SQUID_HURT = register("entity.glow_squid.hurt");
     @Nonnull public static final SoundEvent ENTITY_SALMON_AMBIENT = register("entity.salmon.ambient");
     @Nonnull public static final SoundEvent ENTITY_SALMON_DEATH = register("entity.salmon.death");
     @Nonnull public static final SoundEvent ENTITY_SALMON_FLOP = register("entity.salmon.flop");

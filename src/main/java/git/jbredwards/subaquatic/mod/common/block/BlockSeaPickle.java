@@ -12,11 +12,9 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -76,12 +74,6 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
     @Override
     public int getLightValue(@Nonnull IBlockState state) {
         return state.getValue(GLOWING) ? 6 + 3 * state.getValue(PICKLES) : 0;
-    }
-
-    @Nonnull
-    @Override
-    public IBlockState getStateForPlacement(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer) {
-        return getDefaultState().withProperty(GLOWING, FluidloggedUtils.getFluidState(worldIn, pos).getMaterial() == Material.WATER);
     }
 
     @Nonnull
