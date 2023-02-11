@@ -28,7 +28,11 @@ public final class SubaquaticConfigHandler
     @Config.SlidingOption
     @Config.RangeInt(min = 0, max = 15)
     @Config.LangKey("config.subaquatic.biomeColorBlendRadius")
-    public static int biomeColorBlendRadius = 3;
+    public static int biomeColorBlendRadius = 5;
+
+    @Config.RangeInt(min = 0, max = 64)
+    @Config.LangKey("config.subaquatic.oceanBiomeSize")
+    public static int oceanBiomeSize = 6;
 
     @Config.LangKey("config.subaquatic.playBubblePopSound")
     public static boolean playBubblePopSound = false;

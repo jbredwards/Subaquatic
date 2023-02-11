@@ -56,10 +56,9 @@ tile.subaquatic.tube_coral_fin.alive.false.name=Dead Tube Coral Fin
 tile.subaquatic.tube_coral_fin.alive.true.name=Tube Coral Fin
 #Entities
 entity.subaquatic.chest_boat.name=Chest Boat
+entity.subaquatic.cod.name=Cod
 entity.subaquatic.ender_chest_boat.name=Ender Chest Boat
 entity.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
-entity.subaquatic.ender_glow_squid.name=Ender Glow Squid
-entity.subaquatic.glow_squid.name=Glow Squid
 entity.subaquatic.salmon.name=Salmon
 #Items
 itemGroup.subaquatic.tab=Subaquatic
@@ -72,6 +71,16 @@ subtitles.subaquatic.block.bubble_column.down.inside=Bubbles zoom
 subtitles.subaquatic.block.bubble_column.up.ambient=Bubbles flow
 subtitles.subaquatic.block.bubble_column.up.inside=Bubbles woosh
 subtitles.subaquatic.block.pumpkin.carve=Shears carve
+subtitles.subaquatic.entity.cod.death=Cod dies
+subtitles.subaquatic.entity.cod.flop=Cod flops
+subtitles.subaquatic.entity.cod.hurt=Cod hurts
 subtitles.subaquatic.entity.salmon.death=Salmon dies
 subtitles.subaquatic.entity.salmon.flop=Salmon flops
 subtitles.subaquatic.entity.salmon.hurt=Salmon hurts
+subtitles.subaquatic.items.bucket.fill.fish=Fish scooped
+#Misc
+regex.subaquatic.chest_boat.replacement=Chest Boat
+regex.subaquatic.chest_boat.target=Boat
+regex.subaquatic.ender_chest_boat.replacement=Ender Chest Boat
+regex.subaquatic.ender_chest_boat.target=Boat
+tooltip.subaquatic.item.fish_bucket=Contained Fish: %s

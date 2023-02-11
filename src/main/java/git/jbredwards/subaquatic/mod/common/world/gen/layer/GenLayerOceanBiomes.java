@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.common.world.gen.layer;
 
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
 import git.jbredwards.subaquatic.api.event.GetOceanForGenEvent;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.world.gen.NoiseGeneratorOceans;
 import net.minecraft.init.Biomes;
@@ -59,7 +60,7 @@ public final class GenLayerOceanBiomes extends GenLayer
 
                 return out;
             }
-        }, 6).getInts(areaX, areaZ, areaWidth, areaHeight);
+        }, SubaquaticConfigHandler.oceanBiomeSize).getInts(areaX, areaZ, areaWidth, areaHeight);
 
         //re-apply old layer data to the main layer
         for(int i = 0; i < out.length; i++) {

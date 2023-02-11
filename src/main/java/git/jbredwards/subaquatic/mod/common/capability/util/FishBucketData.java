@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  *
@@ -21,7 +22,7 @@ public class FishBucketData
 {
     @Nonnull
     @SideOnly(Side.CLIENT)
-    public static final Map<EntityEntry, TextureAtlasSprite> OVERLAY_TEXTURES = new HashMap<>();
+    public static final Map<EntityEntry, Function<FishBucketData, TextureAtlasSprite>> OVERLAY_TEXTURES = new HashMap<>();
 
     @Nonnull
     public static final FishBucketData EMPTY = new FishBucketData();
@@ -43,7 +44,7 @@ public class FishBucketData
         if(nbt.isEmpty()) return EMPTY;
         final FishBucketData data = new FishBucketData();
 
-        data.entity = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("Entity"));
+        data.entity = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(nbt.getString("Entity")));
         if(data.entity == null) return EMPTY;
 
         data.fishNbt = nbt.getCompoundTag("FishNBT");

@@ -21,9 +21,9 @@ public class ItemEnderChestBoat extends ItemBoatContainer
 
     @Nonnull
     @Override
-    public String getRegexTarget() { return "TODO"; }
+    public String getRegexTarget() { return "regex.subaquatic.ender_chest_boat.target"; }
 
     @Nonnull
     @Override
-    public String getRegexReplacement() { return "TODO"; }
+    public String getRegexReplacement() { return "regex.subaquatic.ender_chest_boat.replacement"; }
 }

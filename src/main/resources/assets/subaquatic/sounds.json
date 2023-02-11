@@ -79,7 +79,7 @@
             }
         ]
     },
-    "ambient.underwater.loop.additions.ultra_rare":{
+    "ambient.underwater.loop.additions.ultrarare":{
         "sounds":[
             "subaquatic:ambient/underwater/additions/animal2",
             "subaquatic:ambient/underwater/additions/dark1",
@@ -258,10 +258,44 @@
             "subaquatic:entity/fish/swim7"
         ]
     },
-    "entity.salmon.ambient":{
+    "entity.cod.death":{
         "sounds":[
-            
-        ]
+            "subaquatic:entity/fish/hurt1",
+            "subaquatic:entity/fish/hurt2",
+            "subaquatic:entity/fish/hurt3",
+            "subaquatic:entity/fish/hurt4"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.cod.death"
+    },
+    "entity.cod.flop":{
+        "sounds":[
+            {
+                "name":"subaquatic:entity/fish/flop1",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop2",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop3",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop4",
+                "volume":0.3
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.entity.cod.flop"
+    },
+    "entity.cod.hurt":{
+        "sounds":[
+            "subaquatic:entity/fish/hurt1",
+            "subaquatic:entity/fish/hurt2",
+            "subaquatic:entity/fish/hurt3",
+            "subaquatic:entity/fish/hurt4"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.cod.hurt"
     },
     "entity.salmon.death":{
         "sounds":[
@@ -329,6 +363,14 @@
             }
         ],
         "subtitle":"subtitles.subaquatic.entity.salmon.hurt"
+    },
+    "items.bucket.fill.fish":{
+        "sounds": [
+            "subaquatic:items/bucket/fill_fish1",
+            "subaquatic:items/bucket/fill_fish2",
+            "subaquatic:items/bucket/fill_fish3"
+        ],
+        "subtitle":"subtitles.subaquatic.items.bucket.fill.fish"
     },
     "music.underwater":{
         "sounds":[

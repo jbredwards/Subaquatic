@@ -7,6 +7,7 @@ import git.jbredwards.subaquatic.mod.asm.plugin.modded.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.entity.*;
+import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.item.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world.*;
 
 import javax.annotation.Nonnull;
@@ -27,6 +28,7 @@ public final class ASMHandler implements BasicLoadingPlugin
         public Transformer() {
             //forge
             plugins.put("net.minecraftforge.fluids.FluidRegistry", new PluginFluidRegistry()); //Changes the water textures to allow for better coloring
+            plugins.put("net.minecraftforge.fluids.FluidUtil", new PluginFluidUtil()); //Place fish contained within bucket
             //modded
             plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginGenLayerRiverMixBOP()); //Account for all ocean biomes when generating rivers
             plugins.put("biomesoplenty.common.world.layer.GenLayerShoreBOP", new PluginGenLayerShoreBOP()); //Account for all ocean biomes when generating shores
@@ -55,6 +57,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.client.Minecraft", new PluginMinecraft()); //Allow underwater music to be played
             plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
             plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityItem()); //XP orbs float while in water
+            plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
             plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config

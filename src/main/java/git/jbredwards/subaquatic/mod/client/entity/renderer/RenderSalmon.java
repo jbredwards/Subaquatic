@@ -23,15 +23,11 @@ public class RenderSalmon extends RenderLiving<EntitySalmon>
 {
     @Nonnull
     private static final ResourceLocation TEXTURE = new ResourceLocation(Subaquatic.MODID, "textures/entity/fish/salmon.png");
-    public RenderSalmon(@Nonnull RenderManager renderManagerIn) {
-        super(renderManagerIn, new ModelSalmon(), 0.2f);
-    }
+    public RenderSalmon(@Nonnull RenderManager renderManagerIn) { super(renderManagerIn, new ModelSalmon(), 0.2f); }
 
     @Nonnull
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntitySalmon entity) {
-        return TEXTURE;
-    }
+    protected ResourceLocation getEntityTexture(@Nonnull EntitySalmon entity) { return TEXTURE; }
 
     @Override
     protected void applyRotations(@Nonnull EntitySalmon entityLiving, float ageInTicks, float rotationYaw, float partialTicks) {
@@ -44,8 +40,7 @@ public class RenderSalmon extends RenderLiving<EntitySalmon>
             frequency = 1.7f;
         }
 
-        final float angle = magnitude * 4.3f * MathHelper.sin(frequency * 0.6f * ageInTicks);
-        GlStateManager.rotate(angle, 0, 1, 0);
+        GlStateManager.rotate(magnitude * 4.3f * MathHelper.sin(frequency * 0.6f * ageInTicks), 0, 1, 0);
         GlStateManager.translate(0, 0, -0.4);
 
         if(!entityLiving.isInWater()) {

@@ -27,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  *
@@ -119,7 +120,7 @@ public abstract class AbstractFish extends EntityWaterCreature
 
     @Override
     public void onLivingUpdate() {
-        if(!isInWater() && onGround && collidedVertically) {
+        if(!isDead && !isInWater() && onGround && collidedVertically) {
             motionY += 0.4;
             motionX += 0.05 * (rand.nextFloat() * 2 - 1);
             motionZ += 0.05 * (rand.nextFloat() * 2 - 1);
@@ -139,13 +140,20 @@ public abstract class AbstractFish extends EntityWaterCreature
             final ItemStack fishBucket = ItemHandlerHelper.copyStackWithSize(held, 1);
             final IFishBucket cap = IFishBucket.get(fishBucket);
             if(cap != null && cap.getData() == FishBucketData.EMPTY) {
-                cap.setData(getBucketData());
-
                 if(hasCustomName()) fishBucket.setStackDisplayName(getCustomNameTag());
-                ItemHandlerHelper.giveItemToPlayer(player, fishBucket);
+                final FishBucketData data = new FishBucketData();
+                buildFishBucketData(data);
+                cap.setData(data);
+
+                if(!player.isCreative() && held.getCount() == 1) player.setHeldItem(hand, fishBucket);
+                else {
+                    ItemHandlerHelper.giveItemToPlayer(player, fishBucket);
+                    if(!player.isCreative()) held.shrink(1);
+                }
 
                 playSound(SubaquaticSounds.BUCKET_FILL_FISH, 1, 1);
-                if(!player.isCreative()) held.shrink(1);
+                setDead();
+
                 return true;
             }
         }
@@ -157,11 +165,14 @@ public abstract class AbstractFish extends EntityWaterCreature
     @Override
     protected SoundEvent getSwimSound() { return SubaquaticSounds.ENTITY_FISH_SWIM; }
 
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() { return null; }
+
     @Nonnull
     protected abstract SoundEvent getFlopSound();
-
-    @Nonnull
-    public abstract FishBucketData getBucketData();
-
     public abstract boolean hasNoGroup();
+
+    public abstract void buildFishBucketData(@Nonnull FishBucketData data);
+    public void onCreatedByBucket(@Nonnull FishBucketData data) {}
 }

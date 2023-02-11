@@ -16,35 +16,32 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public class EntitySalmon extends AbstractGroupFish
+public class EntityCod extends AbstractGroupFish
 {
-    public EntitySalmon(@Nonnull World worldIn) {
+    public EntityCod(@Nonnull World worldIn) {
         super(worldIn);
-        setSize(0.7f, 0.4f);
+        setSize(0.5f, 0.3f);
     }
 
     @Override
     public void buildFishBucketData(@Nonnull FishBucketData data) {
-        data.entity = SubaquaticEntities.SALMON;
+        data.entity = SubaquaticEntities.COD;
         data.fishNbt = serializeNBT();
     }
 
+    @Nonnull
     @Override
-    public int getMaxSpawnedInChunk() { return 5; }
+    protected ResourceLocation getLootTable() { return new ResourceLocation(Subaquatic.MODID, "entities/cod"); }
 
     @Nonnull
     @Override
-    protected ResourceLocation getLootTable() { return new ResourceLocation(Subaquatic.MODID, "entities/salmon"); }
+    protected SoundEvent getDeathSound() { return SubaquaticSounds.ENTITY_COD_DEATH; }
 
     @Nonnull
     @Override
-    protected SoundEvent getDeathSound() { return SubaquaticSounds.ENTITY_SALMON_DEATH; }
+    protected SoundEvent getFlopSound() { return SubaquaticSounds.ENTITY_COD_FLOP; }
 
     @Nonnull
     @Override
-    protected SoundEvent getFlopSound() { return SubaquaticSounds.ENTITY_SALMON_FLOP; }
-
-    @Nonnull
-    @Override
-    protected SoundEvent getHurtSound(@Nonnull DamageSource source) { return SubaquaticSounds.ENTITY_SALMON_HURT; }
+    protected SoundEvent getHurtSound(@Nonnull DamageSource source) { return SubaquaticSounds.ENTITY_COD_HURT; }
 }

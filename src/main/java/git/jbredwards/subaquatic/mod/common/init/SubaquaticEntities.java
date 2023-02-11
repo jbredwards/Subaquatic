@@ -37,10 +37,15 @@ public final class SubaquaticEntities
     @Nonnull
     public static final EntityEntry ENDER_CHEST_BOAT = register("ender_chest_boat",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityBoatEnderChest.class));
-
     @Nonnull
     public static final EntityEntry ENDER_CHEST_MINECART = register("ender_chest_minecart",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityMinecartEnderChest.class));
+    @Nonnull
+    public static final EntityEntry COD = register("cod",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityCod.class).egg(12691306, 15058059)
+                    .spawn(EnumCreatureType.WATER_CREATURE, 10, 3, 6, Biomes.OCEAN, Biomes.DEEP_OCEAN)
+                    .spawn(EnumCreatureType.WATER_CREATURE, 15, 3, 6, SubaquaticBiomes.COLD_OCEAN, SubaquaticBiomes.DEEP_COLD_OCEAN, SubaquaticBiomes.LUKEWARM_OCEAN)
+                    .spawn(EnumCreatureType.WATER_CREATURE, 8, 3, 6, SubaquaticBiomes.DEEP_LUKEWARM_OCEAN));
     @Nonnull
     public static final EntityEntry SALMON = register("salmon",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntitySalmon.class).egg(10489616, 951412)
