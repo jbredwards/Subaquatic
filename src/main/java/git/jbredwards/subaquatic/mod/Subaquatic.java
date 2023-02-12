@@ -126,6 +126,7 @@ public final class Subaquatic
         RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMinecartEnderChest.class, RenderMinecart::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCod.class, RenderCod::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityPufferfish.class, RenderPufferfish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityXPOrb.class, RenderTranslucentXPOrb::new);
     }

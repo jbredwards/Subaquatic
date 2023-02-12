@@ -150,6 +150,7 @@
 
     //entity textures
     ["1.18.2", "assets/minecraft/textures/entity/fish/cod.png", "assets/subaquatic/textures/entity/fish/cod.png"],
+    ["1.18.2", "assets/minecraft/textures/entity/fish/pufferfish.png", "assets/subaquatic/textures/entity/fish/pufferfish.png"],
     ["1.18.2", "assets/minecraft/textures/entity/fish/salmon.png", "assets/subaquatic/textures/entity/fish/salmon.png"],
 
     //item textures

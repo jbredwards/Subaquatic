@@ -65,6 +65,7 @@ public final class ClientEventHandler
 
     @SubscribeEvent
     static void registerBlockColors(@Nonnull ColorHandlerEvent.Block event) {
+        FluidRegistry.WATER.setColor(0xFF3F76E4); //fix water color in buckets
         event.getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex)
                 -> tintIndex != 1 || world == null || pos == null ? -1 : BiomeColorHelper.getWaterColorAtPos(world, pos),
                 Blocks.CAULDRON);
@@ -97,7 +98,7 @@ public final class ClientEventHandler
     static void handleFishBucketTooltip(@Nonnull ItemTooltipEvent event) {
         final IFishBucket cap = IFishBucket.get(event.getItemStack());
         if(cap != null && cap.getData() != FishBucketData.EMPTY) {
-            event.getToolTip().add(1, I18n.format("tooltip.subaquatic.item.fish_bucket",
+            event.getToolTip().add(1, I18n.format("tooltip.subaquatic.fish_bucket",
                     I18n.format("entity." + cap.getData().entity.getName() + ".name")));
         }
     }
@@ -115,6 +116,7 @@ public final class ClientEventHandler
 
             //fish bucket sprites
             FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.COD, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_cod")))::apply);
+            FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.PUFFERFISH, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_pufferfish")))::apply);
             FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.SALMON, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_salmon")))::apply);
         }
     }

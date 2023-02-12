@@ -50,7 +50,7 @@ public final class SMessageBoatType extends AbstractMessage
         @Override
         public void handleMessage(@Nonnull SMessageBoatType message) {
             final IBoatType cap = IBoatType.get(Minecraft.getMinecraft().world.getEntityByID(message.entityId));
-            if(cap != null) cap.setType(SubaquaticChestBoatConfig.BOAT_TYPES.get(message.boatTypeId));
+            if(cap != null) cap.setType(SubaquaticChestBoatConfig.BOAT_TYPES_LOOKUP.get(message.boatTypeId));
         }
     }
 }

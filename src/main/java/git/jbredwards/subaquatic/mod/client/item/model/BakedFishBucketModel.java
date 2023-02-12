@@ -57,9 +57,9 @@ public class BakedFishBucketModel extends BakedModelWrapper<IBakedModel>
         builder.addAll(OVERLAY_QUADS.computeIfAbsent(sprite, entity -> {
             final TRSRTransformation identity = TRSRTransformation.identity();
             final TRSRTransformation transform = new TRSRTransformation(
-                new Vector3f(0, 0.00001f, 0), identity.getLeftRot(), identity.getScale(), identity.getRightRot());
+                new Vector3f(0, -0.00005f, -0.005f), identity.getLeftRot(), new Vector3f(1, 1.0001f, 1.01f), identity.getRightRot());
 
-            return ItemLayerModel.getQuadsForSprite(-1, sprite, DefaultVertexFormats.ITEM, Optional.of(transform));
+            return ItemLayerModel.getQuadsForSprite(3, sprite, DefaultVertexFormats.ITEM, Optional.of(transform));
         }));
 
         return builder.build();

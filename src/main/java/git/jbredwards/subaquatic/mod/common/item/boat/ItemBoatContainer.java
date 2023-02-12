@@ -142,7 +142,7 @@ public abstract class ItemBoatContainer extends ItemBoat
 
     @Override
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
-        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.forEach(type -> items.add(createStackWithType(this, type)));
+        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.BOAT_TYPES.forEach(type -> items.add(createStackWithType(this, type)));
     }
 
     @Nonnull

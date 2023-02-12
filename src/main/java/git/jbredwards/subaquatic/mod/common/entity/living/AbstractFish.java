@@ -1,19 +1,18 @@
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
-import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
-import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIFishSwim;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityFishMoveHelper;
 import git.jbredwards.subaquatic.mod.common.entity.ai.PathNavigateFish;
+import git.jbredwards.subaquatic.mod.common.entity.util.IBucketableEntity;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -24,7 +23,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,7 +32,7 @@ import javax.annotation.Nullable;
  * @author jbred
  *
  */
-public abstract class AbstractFish extends EntityWaterCreature
+public abstract class AbstractFish extends EntityWaterCreature implements IBucketableEntity
 {
     @Nonnull
     private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.createKey(AbstractFish.class, DataSerializers.BOOLEAN);
@@ -87,8 +85,11 @@ public abstract class AbstractFish extends EntityWaterCreature
                 && FluidloggedUtils.getFluidOrReal(world, pos.up()).getMaterial() == Material.WATER;
     }
 
+    @Override
     public boolean isFromBucket() { return dataManager.get(FROM_BUCKET); }
-    public void setFromBucket(boolean isFromBucket) { dataManager.set(FROM_BUCKET, isFromBucket); }
+
+    @Override
+    public void setFromBucket(boolean fromBucket) { dataManager.set(FROM_BUCKET, fromBucket); }
 
     @Override
     public void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
@@ -135,30 +136,7 @@ public abstract class AbstractFish extends EntityWaterCreature
 
     @Override
     protected boolean processInteract(@Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
-        final ItemStack held = player.getHeldItem(hand);
-        if(isEntityAlive() && IFishBucket.canStackHoldFish(held)) {
-            final ItemStack fishBucket = ItemHandlerHelper.copyStackWithSize(held, 1);
-            final IFishBucket cap = IFishBucket.get(fishBucket);
-            if(cap != null && cap.getData() == FishBucketData.EMPTY) {
-                if(hasCustomName()) fishBucket.setStackDisplayName(getCustomNameTag());
-                final FishBucketData data = new FishBucketData();
-                buildFishBucketData(data);
-                cap.setData(data);
-
-                if(!player.isCreative() && held.getCount() == 1) player.setHeldItem(hand, fishBucket);
-                else {
-                    ItemHandlerHelper.giveItemToPlayer(player, fishBucket);
-                    if(!player.isCreative()) held.shrink(1);
-                }
-
-                playSound(SubaquaticSounds.BUCKET_FILL_FISH, 1, 1);
-                setDead();
-
-                return true;
-            }
-        }
-
-        return super.processInteract(player, hand);
+        return tryCaptureEntity(player, hand) || super.processInteract(player, hand);
     }
 
     @Nonnull
@@ -173,6 +151,10 @@ public abstract class AbstractFish extends EntityWaterCreature
     protected abstract SoundEvent getFlopSound();
     public abstract boolean hasNoGroup();
 
-    public abstract void buildFishBucketData(@Nonnull FishBucketData data);
-    public void onCreatedByBucket(@Nonnull FishBucketData data) {}
+    @Override
+    public boolean canBucket() { return true; }
+
+    @Nonnull
+    @Override
+    public Entity getAsEntity() { return this; }
 }

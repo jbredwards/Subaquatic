@@ -51,6 +51,11 @@ public final class SubaquaticEntities
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntitySalmon.class).egg(10489616, 951412)
                     .spawn(EnumCreatureType.WATER_CREATURE, 5, 1, 5, Biomes.RIVER, Biomes.FROZEN_RIVER)
                     .spawn(EnumCreatureType.WATER_CREATURE, 15, 1, 5, Biomes.FROZEN_OCEAN, SubaquaticBiomes.DEEP_FROZEN_OCEAN, SubaquaticBiomes.COLD_OCEAN, SubaquaticBiomes.DEEP_COLD_OCEAN));
+    @Nonnull
+    public static final EntityEntry PUFFERFISH = register("pufferfish",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityPufferfish.class).egg(16167425, 3654642)
+                    .spawn(EnumCreatureType.WATER_CREATURE, 5, 1, 3, SubaquaticBiomes.LUKEWARM_OCEAN, SubaquaticBiomes.DEEP_LUKEWARM_OCEAN)
+                    .spawn(EnumCreatureType.WATER_CREATURE, 15, 1, 3, SubaquaticBiomes.WARM_OCEAN));
 
     static void handleSpawns() {
         //fix the spawning mechanics of this mod's water creatures

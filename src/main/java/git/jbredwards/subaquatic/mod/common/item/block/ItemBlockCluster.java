@@ -55,10 +55,7 @@ public class ItemBlockCluster extends ItemBlock
 
         //cluster if possible
         if(canClusterWith) {
-            final int meta = getMetadata(held.getMetadata());
-            final int amount = clusterHandler.getAmount(state);
-
-            final IBlockState placedState = clusterHandler.withAmount(block.getStateForPlacement(worldIn, placedPos, facing, hitX, hitY, hitZ, meta, player, hand), amount + 1);
+            final IBlockState placedState = clusterHandler.withAmount(state, clusterHandler.getAmount(state) + 1);
             if(!placeBlockAt(held, player, worldIn, placedPos, facing, hitX, hitY, hitZ, placedState)) return EnumActionResult.FAIL;
 
             final SoundType sound = placedState.getBlock().getSoundType(placedState, worldIn, placedPos, player);

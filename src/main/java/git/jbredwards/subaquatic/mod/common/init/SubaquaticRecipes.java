@@ -38,7 +38,7 @@ final class SubaquaticRecipes
     static void registerCrafting(@Nonnull IForgeRegistry<IRecipe> registry) throws IOException {
         //boat containers
         SubaquaticChestBoatConfig.buildBoatTypes();
-        SubaquaticChestBoatConfig.forEach(type -> {
+        SubaquaticChestBoatConfig.BOAT_TYPES.forEach(type -> {
             final ResourceLocation typeName = type.boat.delegate.name();
             final String recipeId = '/' + typeName.getNamespace() + '/' + typeName.getPath() + '/' + type.boatMeta;
 

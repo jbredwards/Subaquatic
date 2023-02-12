@@ -1,6 +1,5 @@
 package git.jbredwards.subaquatic.mod.client.entity.model;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -15,10 +14,10 @@ import javax.annotation.Nonnull;
  *
  */
 @SideOnly(Side.CLIENT)
-public class ModelSalmon extends ModelBase
+public class ModelSalmon extends ModelFishBase
 {
     @Nonnull
-    protected final ModelRenderer bodyFront, bodyBack, head, topFrontFin, topBackFin, backFin, rightFin, leftFin;
+    protected final ModelRenderer bodyFront, bodyBack, head, rightFin, leftFin;
     public ModelSalmon() {
         textureWidth = 32;
         textureHeight = 32;
@@ -35,15 +34,15 @@ public class ModelSalmon extends ModelBase
         head.addBox(-1, -2, -3, 2, 4, 3);
         head.setRotationPoint(0, 20, 0);
 
-        backFin = new ModelRenderer(this, 20, 10);
+        final ModelRenderer backFin = new ModelRenderer(this, 20, 10);
         backFin.addBox(0, -2.5f, 0, 0, 5, 6);
         backFin.setRotationPoint(0, 0, 8);
 
-        topFrontFin = new ModelRenderer(this, 2, 1);
+        final ModelRenderer topFrontFin = new ModelRenderer(this, 2, 1);
         topFrontFin.addBox(0, 0, 0, 0, 2, 3);
         topFrontFin.setRotationPoint(0, -4.5f, 5);
 
-        topBackFin = new ModelRenderer(this, 0, 2);
+        final ModelRenderer topBackFin = new ModelRenderer(this, 0, 2);
         topBackFin.addBox(0, 0, 0, 0, 2, 4);
         topBackFin.setRotationPoint(0, -4.5f, -1);
 
