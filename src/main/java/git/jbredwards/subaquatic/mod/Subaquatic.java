@@ -12,6 +12,7 @@ import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import git.jbredwards.subaquatic.mod.common.entity.item.EntityMinecartEnderChest;
@@ -128,6 +129,7 @@ public final class Subaquatic
         RenderingRegistry.registerEntityRenderingHandler(EntityCod.class, RenderCod::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPufferfish.class, RenderPufferfish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTropicalFish.class, RenderTropicalFish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityXPOrb.class, RenderTranslucentXPOrb::new);
     }
 
@@ -136,6 +138,7 @@ public final class Subaquatic
         MinecraftForge.TERRAIN_GEN_BUS.register(GenLayerOceanBiomes.class);
         //config stuff
         SubaquaticConfigHandler.init();
+        SubaquaticTropicalFishConfig.buildFishTypes();
         SubaquaticWaterColorConfig.buildWaterColors();
         //entity data fixers
         AbstractBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());

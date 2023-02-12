@@ -61,6 +61,7 @@ entity.subaquatic.ender_chest_boat.name=Boat with Ender Chest
 entity.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
 entity.subaquatic.pufferfish.name=Pufferfish
 entity.subaquatic.salmon.name=Salmon
+entity.subaquatic.tropical_fish.name=Tropical Fish
 #Items
 itemGroup.subaquatic.tab=Subaquatic
 item.subaquatic.dried_kelp.name=Dried Kelp
@@ -84,6 +85,9 @@ subtitles.subaquatic.entity.pufferfish.sting=Pufferfish stings
 subtitles.subaquatic.entity.salmon.death=Salmon dies
 subtitles.subaquatic.entity.salmon.flop=Salmon flops
 subtitles.subaquatic.entity.salmon.hurt=Salmon hurts
+subtitles.subaquatic.entity.tropical_fish.death=Tropical fish dies
+subtitles.subaquatic.entity.tropical_fish.flop=Tropical fish flops
+subtitles.subaquatic.entity.tropical_fish.hurt=Tropical fish hurts
 subtitles.subaquatic.items.bucket.fill.fish=Fish scooped
 #Misc
 regex.subaquatic.chest_boat.replacement=Boat with Chest
@@ -91,3 +95,14 @@ regex.subaquatic.chest_boat.target=Boat
 regex.subaquatic.ender_chest_boat.replacement=Boat with Ender Chest
 regex.subaquatic.ender_chest_boat.target=Boat
 tooltip.subaquatic.fish_bucket=%s
+#Config
+config.subaquatic.biomeColorBlendRadius=Biome Color Blend Radius
+config.subaquatic.biomeColorBlendRadius.tooltip=When biomes are nextdoor to eachother, the grass, water, and foliage colors blend together. This number represents the distance from other biomes until this starts to color blend. Making this number bigger results in better biome blending, but lower fps.
+config.subaquatic.coloredRain=Biome Colored Rain
+config.subaquatic.coloredRain.tooltip=Rain uses the biome's water color instead of being a hardcoded shade of blue.
+config.subaquatic.oceanBiomeSize=Ocean Biome Size
+config.subaquatic.oceanBiomeSize.tooltip=WARNING: Changing this for a world that already exists is not recommended. This number is the size of the ocean biomes this mod generates, making it bigger will result in larger ocean biomes (note that this does not change the size of enite oceans, just the size of the biomes that generate inside them).
+config.subaquatic.playBubblePopSound=Play Bubble Pop Sound
+config.subaquatic.playBubblePopSound.tooltip=While ture, the bubble particles play a sound when they pop. Set to false by default because it can be annoying.
+config.subaquatic.translucentXPOrbs=Translucent XP Orbs
+config.subaquatic.translucentXPOrbs.tooltip=XP Orbs are translucent, like in 1.15+.

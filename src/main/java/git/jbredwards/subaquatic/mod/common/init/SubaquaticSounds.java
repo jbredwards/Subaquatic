@@ -41,6 +41,9 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundEvent ENTITY_SALMON_DEATH = register("entity.salmon.death");
     @Nonnull public static final SoundEvent ENTITY_SALMON_FLOP = register("entity.salmon.flop");
     @Nonnull public static final SoundEvent ENTITY_SALMON_HURT = register("entity.salmon.hurt");
+    @Nonnull public static final SoundEvent ENTITY_TROPICAL_FISH_DEATH = register("entity.tropical_fish.death");
+    @Nonnull public static final SoundEvent ENTITY_TROPICAL_FISH_FLOP = register("entity.tropical_fish.flop");
+    @Nonnull public static final SoundEvent ENTITY_TROPICAL_FISH_HURT = register("entity.tropical_fish.hurt");
 
     //misc sounds
     @Nonnull public static final SoundEvent AMBIENT_UNDERWATER_ENTER = register("ambient.underwater.enter");

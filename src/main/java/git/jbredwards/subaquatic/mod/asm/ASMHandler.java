@@ -53,10 +53,13 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.client.particle.ParticleBubble", new PluginParticleBubble()); //Add the unused bubble pop particle from 1.13+
             plugins.put("net.minecraft.client.particle.ParticleDrip", new PluginParticleDrip()); //Water droplet particles keep the color set by this mod
             plugins.put("net.minecraft.client.renderer.entity.RenderEntityItem", new PluginRenderEntityItem()); //Don't render item bobbing while in water
+            plugins.put("net.minecraft.client.renderer.EntityRenderer", new PluginEntityRenderer()); //Colors rain according to biome color
             plugins.put("net.minecraft.client.renderer.ItemRenderer", new PluginItemRenderer()); //Apply biome colors to underwater overlay
             plugins.put("net.minecraft.client.Minecraft", new PluginMinecraft()); //Allow underwater music to be played
             plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
             plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityItem()); //XP orbs float while in water
+            plugins.put("net.minecraft.entity.player.EntityPlayerMP", new PluginEntityPlayerMP()); //Check for no collision instead of air when falling on a block (MC-1691)
+            plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level

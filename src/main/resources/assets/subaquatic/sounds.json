@@ -297,6 +297,74 @@
         ],
         "subtitle":"subtitles.subaquatic.entity.cod.hurt"
     },
+    "entity.pufferfish.death":{
+        "sounds":[
+            "subaquatic:entity/pufferfish/death1",
+            "subaquatic:entity/pufferfish/death2"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.pufferfish.death"
+    },
+    "entity.pufferfish.deflate":{
+        "sounds":[
+            {
+                "name":"subaquatic:entity/pufferfish/deflate1",
+                "volume":0.7
+            },
+            {
+                "name":"subaquatic:entity/pufferfish/deflate2",
+                "volume":0.7
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.entity.pufferfish.deflate"
+    },
+    "entity.pufferfish.flop":{
+        "sounds":[
+            {
+                "name":"subaquatic:entity/pufferfish/flop1",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/pufferfish/flop2",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/pufferfish/flop3",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/pufferfish/flop4",
+                "volume":0.3
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.entity.pufferfish.flop"
+    },
+    "entity.pufferfish.hurt":{
+        "sounds":[
+            "subaquatic:entity/pufferfish/hurt1",
+            "subaquatic:entity/pufferfish/hurt2"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.pufferfish.hurt"
+    },
+    "entity.pufferfish.inflate":{
+        "sounds":[
+            {
+                "name":"subaquatic:entity/pufferfish/inflate1",
+                "volume":0.45
+            },
+            {
+                "name":"subaquatic:entity/pufferfish/inflate2",
+                "volume":0.45
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.entity.pufferfish.inflate"
+    },
+    "entity.pufferfish.sting":{
+        "sounds":[
+            "subaquatic:entity/pufferfish/sting1",
+            "subaquatic:entity/pufferfish/sting2"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.pufferfish.sting"
+    },
     "entity.salmon.death":{
         "sounds":[
             {
@@ -363,6 +431,57 @@
             }
         ],
         "subtitle":"subtitles.subaquatic.entity.salmon.hurt"
+    },
+    "entity.tropical_fish.death":{
+        "sounds":[
+            {
+                "name":"subaquatic:entity/fish/hurt1",
+                "pitch":0.8
+            },
+            {
+                "name":"subaquatic:entity/fish/hurt2",
+                "pitch":0.8
+            },
+            {
+                "name":"subaquatic:entity/fish/hurt3",
+                "pitch":0.8
+            },
+            {
+                "name":"subaquatic:entity/fish/hurt4",
+                "pitch":0.8
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.entity.tropical_fish.death"
+    },
+    "entity.tropical_fish.flop":{
+        "sounds":[
+            {
+                "name":"subaquatic:entity/fish/flop1",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop2",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop3",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop4",
+                "volume":0.3
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.entity.tropical_fish.flop"
+    },
+    "entity.tropical_fish.hurt":{
+        "sounds":[
+            "subaquatic:entity/fish/hurt1",
+            "subaquatic:entity/fish/hurt2",
+            "subaquatic:entity/fish/hurt3",
+            "subaquatic:entity/fish/hurt4"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.tropical_fish.hurt"
     },
     "items.bucket.fill.fish":{
         "sounds": [

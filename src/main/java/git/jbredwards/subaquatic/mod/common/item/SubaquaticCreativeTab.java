@@ -46,6 +46,7 @@ public final class SubaquaticCreativeTab extends CreativeTabs
         //add all fish buckets to tab
         addFishBucket(items, SubaquaticEntities.COD);
         addFishBucket(items, SubaquaticEntities.SALMON);
+        addFishBucket(items, SubaquaticEntities.TROPICAL_FISH);
         addFishBucket(items, SubaquaticEntities.PUFFERFISH);
 
         //dynamically add all entity eggs to tab

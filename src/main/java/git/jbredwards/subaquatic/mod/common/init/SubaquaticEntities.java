@@ -52,6 +52,10 @@ public final class SubaquaticEntities
                     .spawn(EnumCreatureType.WATER_CREATURE, 5, 1, 5, Biomes.RIVER, Biomes.FROZEN_RIVER)
                     .spawn(EnumCreatureType.WATER_CREATURE, 15, 1, 5, Biomes.FROZEN_OCEAN, SubaquaticBiomes.DEEP_FROZEN_OCEAN, SubaquaticBiomes.COLD_OCEAN, SubaquaticBiomes.DEEP_COLD_OCEAN));
     @Nonnull
+    public static final EntityEntry TROPICAL_FISH = register("tropical_fish",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityTropicalFish.class).egg(15690005, 16775663)
+                    .spawn(EnumCreatureType.WATER_CREATURE, 25, 8, 8, SubaquaticBiomes.LUKEWARM_OCEAN, SubaquaticBiomes.DEEP_LUKEWARM_OCEAN, SubaquaticBiomes.WARM_OCEAN, SubaquaticBiomes.DEEP_WARM_OCEAN));
+    @Nonnull
     public static final EntityEntry PUFFERFISH = register("pufferfish",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityPufferfish.class).egg(16167425, 3654642)
                     .spawn(EnumCreatureType.WATER_CREATURE, 5, 1, 3, SubaquaticBiomes.LUKEWARM_OCEAN, SubaquaticBiomes.DEEP_LUKEWARM_OCEAN)

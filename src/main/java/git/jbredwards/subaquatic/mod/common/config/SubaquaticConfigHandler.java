@@ -30,6 +30,9 @@ public final class SubaquaticConfigHandler
     @Config.LangKey("config.subaquatic.biomeColorBlendRadius")
     public static int biomeColorBlendRadius = 5;
 
+    @Config.LangKey("config.subaquatic.coloredRain")
+    public static boolean coloredRain = true;
+
     @Config.RangeInt(min = 0, max = 64)
     @Config.LangKey("config.subaquatic.oceanBiomeSize")
     public static int oceanBiomeSize = 6;

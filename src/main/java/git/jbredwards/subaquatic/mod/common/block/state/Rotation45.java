@@ -47,8 +47,7 @@ public enum Rotation45 implements IStringSerializable
     @Nonnull
     public static Rotation45 fromRotation(float rotationIn) {
         //angle must be between 0 - 360.
-        while(rotationIn >= 360) rotationIn -= 360;
-        while(rotationIn < 0) rotationIn += 360;
+        rotationIn %= 360;
         //gets the Rot from the closest
         switch((int)(rotationIn / 45 + 0.5) * 45) {
             case 45:  return DEG_45;

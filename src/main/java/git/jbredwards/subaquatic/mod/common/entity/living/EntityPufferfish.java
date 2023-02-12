@@ -5,7 +5,9 @@ import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIPuff;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -78,7 +80,9 @@ public class EntityPufferfish extends AbstractFish
 
     protected void updateSize(float size) { super.setSize(originalWidth * size, originalHeight * size); }
     public boolean canAttackEntity(@Nonnull EntityLivingBase entity) {
-        return !(entity instanceof EntityWaterCreature || entity instanceof EntityWaterMob) && EntitySelectors.CAN_AI_TARGET.apply(entity);
+        return (!(entity instanceof EntityWaterCreature || entity instanceof EntityWaterMob || entity instanceof EntityGuardian)
+                || ((EntityLiving)entity).getAttackTarget() == this)
+                && EntitySelectors.CAN_AI_TARGET.apply(entity);
     }
 
     @Override

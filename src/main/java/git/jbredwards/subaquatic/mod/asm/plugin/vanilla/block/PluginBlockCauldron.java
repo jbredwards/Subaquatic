@@ -1,18 +1,21 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
+import git.jbredwards.subaquatic.mod.common.entity.util.IBucketableEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,6 +27,35 @@ import javax.annotation.Nullable;
  */
 public final class PluginBlockCauldron implements IASMPlugin
 {
+    @Override
+    public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals(obfuscated ? "func_180639_a" : "onBlockActivated"); }
+
+    @Override
+    public boolean transform(@Nonnull InsnList instructions, @Nonnull MethodNode method, @Nonnull AbstractInsnNode insn, boolean obfuscated, int index) {
+        /*
+         * onBlockActivated: (changes are around line 126)
+         * Old code:
+         * this.setWaterLevel(worldIn, pos, state, 3);
+         *
+         * New code:
+         * //place any fish within the water bucket
+         * this.setWaterLevel(worldIn, pos, state, 3);
+         * Hooks.placeCapturedEntity(worldIn, pos, itemstack);
+         */
+        if(checkMethod(insn, obfuscated ? "func_176590_a" : "setWaterLevel")) {
+            final InsnList list = new InsnList();
+            list.add(new VarInsnNode(ALOAD, 1));
+            list.add(new VarInsnNode(ALOAD, 2));
+            list.add(new VarInsnNode(ALOAD, 10));
+            list.add(genMethodNode("placeCapturedEntity", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/item/ItemStack;)V"));
+
+            instructions.insert(insn, list);
+            return true;
+        }
+
+        return false;
+    }
+
     @Override
     public boolean transformClass(@Nonnull ClassNode classNode, boolean obfuscated) {
         /*
@@ -96,7 +128,7 @@ public final class PluginBlockCauldron implements IASMPlugin
             }
         );
 
-        return false;
+        return true;
     }
 
     @SuppressWarnings("unused")
@@ -126,6 +158,11 @@ public final class PluginBlockCauldron implements IASMPlugin
         public static Boolean isAABBInsideCauldronLiquid(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB boundingBox) {
             final int level = world.getBlockState(pos).getValue(BlockCauldron.LEVEL);
             return level > 0 && boundingBox.minY < pos.getY() + 0.375 + level * 0.1875;
+        }
+
+        public static void placeCapturedEntity(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
+            final IFishBucket cap = IFishBucket.get(stack);
+            if(cap != null) IBucketableEntity.placeCapturedEntity(world, pos, stack, cap.getData());
         }
     }
 }

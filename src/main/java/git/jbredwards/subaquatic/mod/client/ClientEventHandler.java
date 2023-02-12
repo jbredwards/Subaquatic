@@ -65,7 +65,7 @@ public final class ClientEventHandler
 
     @SubscribeEvent
     static void registerBlockColors(@Nonnull ColorHandlerEvent.Block event) {
-        FluidRegistry.WATER.setColor(0xFF3F76E4); //fix water color in buckets
+        FluidRegistry.WATER.setColor(0xFF3f97e4); //fix water color in buckets
         event.getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex)
                 -> tintIndex != 1 || world == null || pos == null ? -1 : BiomeColorHelper.getWaterColorAtPos(world, pos),
                 Blocks.CAULDRON);
@@ -94,12 +94,14 @@ public final class ClientEventHandler
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     static void handleFishBucketTooltip(@Nonnull ItemTooltipEvent event) {
         final IFishBucket cap = IFishBucket.get(event.getItemStack());
         if(cap != null && cap.getData() != FishBucketData.EMPTY) {
+            final FishBucketData data = cap.getData();
+            if(!data.tooltip.isEmpty()) event.getToolTip().addAll(1, data.tooltip);
             event.getToolTip().add(1, I18n.format("tooltip.subaquatic.fish_bucket",
-                    I18n.format("entity." + cap.getData().entity.getName() + ".name")));
+                    I18n.format("entity." + data.entity.getName() + ".name")));
         }
     }
 
@@ -118,6 +120,7 @@ public final class ClientEventHandler
             FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.COD, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_cod")))::apply);
             FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.PUFFERFISH, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_pufferfish")))::apply);
             FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.SALMON, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_salmon")))::apply);
+            FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.TROPICAL_FISH, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_tropical_fish")))::apply);
         }
     }
 }

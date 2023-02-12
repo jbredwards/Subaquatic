@@ -6,6 +6,8 @@ import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -66,7 +68,8 @@ public interface IBucketableEntity
             final Entity fishEntity = EntityList.createEntityFromNBT(data.fishNbt, world);
             if(fishEntity != null) {
                 if(!world.isRemote) {
-                    fishEntity.setPosition(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+                    final double yOffset = ((ItemMonsterPlacer)Items.SPAWN_EGG).getYOffset(world, pos);
+                    fishEntity.setPosition(pos.getX() + 0.5, pos.getY() + yOffset, pos.getZ() + 0.5);
                     fishEntity.setUniqueId(MathHelper.getRandomUUID());
 
                     if(bucket.hasDisplayName()) fishEntity.setCustomNameTag(bucket.getDisplayName());

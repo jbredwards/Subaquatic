@@ -19,9 +19,6 @@ public class ModelSalmon extends ModelFishBase
     @Nonnull
     protected final ModelRenderer bodyFront, bodyBack, head, rightFin, leftFin;
     public ModelSalmon() {
-        textureWidth = 32;
-        textureHeight = 32;
-
         bodyFront = new ModelRenderer(this, 0, 0);
         bodyFront.addBox(-1.5f, -2.5f, 0, 3, 5, 8);
         bodyFront.setRotationPoint(0, 20, 0);

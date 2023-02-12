@@ -55,7 +55,7 @@ public class ModelCod extends ModelFishBase
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, @Nonnull Entity entityIn) {
-        final float magnitude = entityIn.isInWater() ? 1.5f : 1;
+        final float magnitude = entityIn.isInWater() ? 1 : 1.5f;
         tailFin.rotateAngleY = -magnitude * 0.45f * MathHelper.sin(0.6f * ageInTicks);
     }
 }
