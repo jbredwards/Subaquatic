@@ -131,6 +131,9 @@ public final class PluginBlockCauldron implements IASMPlugin
         return true;
     }
 
+    @Override
+    public boolean recalcFrames(boolean obfuscated) { return true; }
+
     @SuppressWarnings("unused")
     public static final class Hooks
     {

@@ -33,7 +33,9 @@ public final class PluginAquaAcrobatics implements IASMPlugin
                 method.name.equals("bake_RealFlowing") ||
                 //remove AA FogHandler
                 method.name.equals("onRenderFogDensity") ||
-                method.name.equals("onRenderFogColor")
+                method.name.equals("onRenderFogColor") ||
+                //remove AA EntityMixin climbing behavior (somehow causes crash with subaquatic installed, mixin is wack)
+                method.name.equals("getFakeClimbingBlock")
         );
 
         return false;

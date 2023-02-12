@@ -53,34 +53,34 @@ public final class PluginEntityRenderer implements IASMPlugin
                 list.add(new VarInsnNode(ALOAD, isOptifine ? 20 : 21));
                 //stores the color
                 list.add(genMethodNode("getColor", "(Lnet/minecraft/util/math/BlockPos;)I"));
-                list.add(new VarInsnNode(ISTORE, 60));
+                list.add(new VarInsnNode(ISTORE, 50));
                 //stores the red
-                list.add(new VarInsnNode(ILOAD, 60));
+                list.add(new VarInsnNode(ILOAD, 50));
                 list.add(genMethodNode("getRed", "(I)F"));
-                list.add(new VarInsnNode(FSTORE, 61));
+                list.add(new VarInsnNode(FSTORE, 51));
                 //stores the green
-                list.add(new VarInsnNode(ILOAD, 60));
+                list.add(new VarInsnNode(ILOAD, 50));
                 list.add(genMethodNode("getGreen", "(I)F"));
-                list.add(new VarInsnNode(FSTORE, 62));
+                list.add(new VarInsnNode(FSTORE, 102));
                 //stores the blue
-                list.add(new VarInsnNode(ILOAD, 60));
+                list.add(new VarInsnNode(ILOAD, 50));
                 list.add(genMethodNode("getBlue", "(I)F"));
-                list.add(new VarInsnNode(FSTORE, 63));
+                list.add(new VarInsnNode(FSTORE, 53));
                 //adds the new variables to the insn list
                 instructions.insert(getPrevious(insn, 30), list);
             }
 
             //replaces the red value
             final AbstractInsnNode redNode = getPrevious(insn, 4);
-            instructions.insert(redNode, new VarInsnNode(FLOAD, 61));
+            instructions.insert(redNode, new VarInsnNode(FLOAD, 51));
             instructions.remove(redNode);
             //replaces the green value
             final AbstractInsnNode greenNode = getPrevious(insn, 3);
-            instructions.insert(greenNode, new VarInsnNode(FLOAD, 62));
+            instructions.insert(greenNode, new VarInsnNode(FLOAD, 52));
             instructions.remove(greenNode);
             //replaces the blue value
             final AbstractInsnNode blueNode = getPrevious(insn, 2);
-            instructions.insert(blueNode, new VarInsnNode(FLOAD, 63));
+            instructions.insert(blueNode, new VarInsnNode(FLOAD, 53));
             instructions.remove(blueNode);
 
             //returns true once applied to all four
@@ -92,12 +92,15 @@ public final class PluginEntityRenderer implements IASMPlugin
 
     @Override
     public boolean addLocalVariables(@Nonnull MethodNode method, @Nonnull LabelNode start, @Nonnull LabelNode end, int index) {
-        method.localVariables.add(new LocalVariableNode("color", "I", null, start, end, 60));
-        method.localVariables.add(new LocalVariableNode("red", "F", null, start, end, 61));
-        method.localVariables.add(new LocalVariableNode("green", "F", null, start, end, 62));
-        method.localVariables.add(new LocalVariableNode("blue", "F", null, start, end, 63));
+        method.localVariables.add(new LocalVariableNode("color", "I", null, start, end, 50));
+        method.localVariables.add(new LocalVariableNode("red", "F", null, start, end, 51));
+        method.localVariables.add(new LocalVariableNode("green", "F", null, start, end, 52));
+        method.localVariables.add(new LocalVariableNode("blue", "F", null, start, end, 53));
         return true;
     }
+
+    @Override
+    public boolean recalcFrames(boolean obfuscated) { return true; }
 
     @SuppressWarnings("unused")
     public static final class Hooks

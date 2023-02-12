@@ -53,7 +53,7 @@ public final class PluginEntity implements IASMPlugin
         else if(checkField(insn, obfuscated ? "field_151579_a" : "AIR")) {
             ((JumpInsnNode)insn.getNext()).setOpcode(IFEQ);
             final InsnList list = new InsnList();
-            list.add(new VarInsnNode(ALOAD, 26));
+            list.add(new VarInsnNode(ALOAD, obfuscated ? 71 : 26));
             list.add(new VarInsnNode(ALOAD, 0));
             list.add(genMethodNode("hasNoCollision", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;)Z"));
 
