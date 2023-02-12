@@ -135,6 +135,12 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
     }
 
     @Override
+    protected void updateAITasks() {
+        super.updateAITasks();
+        if(!hasHome()) setHomePosAndDistance(new BlockPos(this), 64);
+    }
+
+    @Override
     protected boolean processInteract(@Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         return tryCaptureEntity(player, hand) || super.processInteract(player, hand);
     }

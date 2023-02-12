@@ -43,6 +43,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.BlockGrassMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.BlockMyceliumMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityItemMixin", new PluginAquaAcrobatics());
+            plugins.put("git.jbredwards.fluidlogged_api.mod.common.EventHandler", new PluginFluidloggedAPI()); //Place any fish contained within the bucket when fluidlogging, and yes I'm asm-ing my own mod XD
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
@@ -57,7 +58,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.client.renderer.ItemRenderer", new PluginItemRenderer()); //Apply biome colors to underwater overlay
             plugins.put("net.minecraft.client.Minecraft", new PluginMinecraft()); //Allow underwater music to be played
             plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
-            plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityItem()); //XP orbs float while in water
+            plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityXPOrb()); //XP orbs float while in water
             plugins.put("net.minecraft.entity.player.EntityPlayerMP", new PluginEntityPlayerMP()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket

@@ -1,18 +1,16 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.entity;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
 
 /**
- * Items float while in water
+ * XP Orbs float while in water and have a proper eye height
  * @author jbred
  *
  */
-public final class PluginEntityItem implements IASMPlugin
+public final class PluginEntityXPOrb implements IASMPlugin
 {
     @Override
     public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals(obfuscated ? "func_70071_h_" : "onUpdate"); }
@@ -28,14 +26,14 @@ public final class PluginEntityItem implements IASMPlugin
          * }
          *
          * New code:
-         * //items float in water
+         * //xp orbs float in water
          * if(!Hooks.doesFloat(this))
          * {
          *     ...
          * }
          */
         if(checkMethod(insn, obfuscated ? "func_189652_ae" : "hasNoGravity")) {
-            instructions.insert(insn, genMethodNode("doesFloat", "(Lnet/minecraft/entity/Entity;)Z"));
+            instructions.insert(insn, genMethodNode("git/jbredwards/subaquatic/mod/asm/plugin/vanilla/entity/PluginEntityItem$Hooks", "doesFloat", "(Lnet/minecraft/entity/Entity;)Z"));
             instructions.remove(insn);
             return true;
         }
@@ -43,19 +41,18 @@ public final class PluginEntityItem implements IASMPlugin
         return false;
     }
 
-    @SuppressWarnings("unused")
-    public static final class Hooks
-    {
-        public static boolean doesFloat(@Nonnull Entity entity) {
-            if(entity.isInsideOfMaterial(Material.WATER)) {
-                if(entity.motionY < 0.06) entity.motionY += 5.0E-4;
-                entity.motionX *= 0.99;
-                entity.motionZ *= 0.99;
-
-                return true;
-            }
-
-            return entity.hasNoGravity();
-        }
+    @Override
+    public boolean transformClass(@Nonnull ClassNode classNode, boolean obfuscated) {
+        /*
+         * New code:
+         * //xp orbs have a proper eye height
+         * @ASMGenerated
+         * public float getEyeHeight()
+         * {
+         *     return 0.15f;
+         * }
+         */
+        addMethod(classNode, obfuscated ? "func_70047_e" : "getEyeHeight", "()F", null, null, generator -> generator.visitLdcInsn(0.15f));
+        return true;
     }
 }

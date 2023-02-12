@@ -104,7 +104,7 @@ public final class PluginEntity implements IASMPlugin
     public static final class Hooks
     {
         public static void createRunningParticles(@Nonnull Entity entity) {
-            BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);
+            BlockPos pos = new BlockPos(entity);
             IBlockState state = entity.world.getBlockState(pos);
 
             if(hasNoCollision(state, pos, entity)) {
