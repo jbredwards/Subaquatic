@@ -56,7 +56,7 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
     protected void initEntityAI() {
         tasks.addTask(0, new EntityAIPanic(this, 1.25));
         tasks.addTask(2, new EntityAIAvoidEntity<>(this, EntityPlayer.class, EntitySelectors.NOT_SPECTATING, 8, 1.6, 1.4));
-        tasks.addTask(4, new EntityAIFishSwim(this, 1, 40));
+        tasks.addTask(4, new EntityAIFishSwim(this, 1, 10));
     }
 
     @Override

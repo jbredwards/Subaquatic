@@ -17,7 +17,6 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 import java.io.*;
 import java.util.Set;
-import java.util.function.IntSupplier;
 
 /**
  *
@@ -73,49 +72,46 @@ public final class SubaquaticWaterColorConfig
 
     public static float[] getFogColorAt(@Nonnull IBlockAccess worldIn, @Nonnull BlockPos posIn) {
         return new Color(BiomeColorHelper.getColorAtPos(worldIn, posIn, (biomeIn, pos) ->
-                FOG_COLORS.computeIfAbsent(biomeIn, biome -> computeAbsent(biome, biome.getWaterColorMultiplier(), () -> 0x1f3d81)))
-        ).getColorComponents(new float[3]);
+                FOG_COLORS.computeIfAbsent(biomeIn, Biome::getWaterColorMultiplier))).getColorComponents(new float[3]);
     }
 
     public static int getSurfaceColor(@Nonnull Biome biomeIn, int originalColor) {
-        return SURFACE_COLORS.computeIfAbsent(biomeIn, biome -> computeAbsent(biome, originalColor, () -> emulateLegacyColor(originalColor)));
-    }
+        return SURFACE_COLORS.computeIfAbsent(biomeIn, biome -> {
+            //biome is using the 1.12 swamp color, give it the 1.13 one
+            if(originalColor == 14745518) return 0x617B64;
 
-    static int computeAbsent(@Nonnull Biome biome, int originalColor, @Nonnull IntSupplier aquaticUpdateApplier) {
-        //biome is using the 1.12 swamp color, give it the 1.13 one
-        if(originalColor == 14745518) return 0x617B64;
+            //biome has a special color (not the default 1.12 color), try preserving it
+            else if(originalColor != 16777215) return emulateLegacyColor(originalColor);
 
-        //biome has a special color (not the default 1.12 color), try preserving it
-        else if(originalColor != 16777215) aquaticUpdateApplier.getAsInt();
+            //biome has no special color, give it one that applies to its biome tag
+            final Set<BiomeDictionary.Type> biomeTags = BiomeDictionary.getTypes(biome);
 
-        //biome has no special color, give it one that applies to its biome tag
-        final Set<BiomeDictionary.Type> biomeTags = BiomeDictionary.getTypes(biome);
+            //high priority
+            if(biomeTags.contains(BiomeDictionary.Type.NETHER)) return 0x905957;
+            else if(biomeTags.contains(BiomeDictionary.Type.END)) return 0x62529E;
+            else if(biomeTags.contains(BiomeDictionary.Type.MESA)) return 0x4E7F81;
+            else if(biomeTags.contains(BiomeDictionary.Type.JUNGLE)) return 0x1B9ED8;
+            else if(biomeTags.contains(BiomeDictionary.Type.MUSHROOM)) return 0x8A8997;
 
-        //high priority
-        if(biomeTags.contains(BiomeDictionary.Type.NETHER)) return 0x905957;
-        else if(biomeTags.contains(BiomeDictionary.Type.END)) return 0x62529E;
-        else if(biomeTags.contains(BiomeDictionary.Type.MESA)) return 0x4E7F81;
-        else if(biomeTags.contains(BiomeDictionary.Type.JUNGLE)) return 0x1B9ED8;
-        else if(biomeTags.contains(BiomeDictionary.Type.MUSHROOM)) return 0x8A8997;
+            //medium priority
+            else if(biomeTags.contains(BiomeDictionary.Type.SWAMP)) return 0x617B64;
+            else if(biomeTags.contains(BiomeDictionary.Type.SANDY)) return 0x32A598;
+            else if(biomeTags.contains(BiomeDictionary.Type.SAVANNA)) return 0x2C8B9C;
+            else if(biomeTags.contains(BiomeDictionary.Type.CONIFEROUS)) return 0x1E6B82;
 
-        //medium priority
-        else if(biomeTags.contains(BiomeDictionary.Type.SWAMP)) return 0x617B64;
-        else if(biomeTags.contains(BiomeDictionary.Type.SANDY)) return 0x32A598;
-        else if(biomeTags.contains(BiomeDictionary.Type.SAVANNA)) return 0x2C8B9C;
-        else if(biomeTags.contains(BiomeDictionary.Type.CONIFEROUS)) return 0x1E6B82;
+            //low priority
+            else if(biomeTags.contains(BiomeDictionary.Type.WASTELAND)) return 0x14559B;
+            else if(biomeTags.contains(BiomeDictionary.Type.MOUNTAIN)) return 0x0E63AB;
+            else if(biomeTags.contains(BiomeDictionary.Type.FOREST)) return 0x1E97F2;
+            else if(biomeTags.contains(BiomeDictionary.Type.PLAINS)) return 0x44AFF5;
+            else if(biomeTags.contains(BiomeDictionary.Type.SNOWY)) return 0x1156A7;
+            else if(biomeTags.contains(BiomeDictionary.Type.BEACH)) return 0x157CAB;
+            else if(biomeTags.contains(BiomeDictionary.Type.COLD)) return 0x007BF7;
+            else if(biomeTags.contains(BiomeDictionary.Type.HOT)) return 0x1A7AA1;
 
-        //low priority
-        else if(biomeTags.contains(BiomeDictionary.Type.WASTELAND)) return 0x14559B;
-        else if(biomeTags.contains(BiomeDictionary.Type.MOUNTAIN)) return 0x0E63AB;
-        else if(biomeTags.contains(BiomeDictionary.Type.FOREST)) return 0x1E97F2;
-        else if(biomeTags.contains(BiomeDictionary.Type.PLAINS)) return 0x44AFF5;
-        else if(biomeTags.contains(BiomeDictionary.Type.SNOWY)) return 0x1156A7;
-        else if(biomeTags.contains(BiomeDictionary.Type.BEACH)) return 0x157CAB;
-        else if(biomeTags.contains(BiomeDictionary.Type.COLD)) return 0x007BF7;
-        else if(biomeTags.contains(BiomeDictionary.Type.HOT)) return 0x1A7AA1;
-
-        //should never pass, but if it does apply the default 1.13 water color
-        return aquaticUpdateApplier.getAsInt();
+            //should never pass, but if it does apply the default 1.13 water color
+            return emulateLegacyColor(originalColor);
+        });
     }
 
     /**
