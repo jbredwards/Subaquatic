@@ -45,9 +45,13 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityItemMixin", new PluginAquaAcrobatics());
             plugins.put("git.jbredwards.fluidlogged_api.mod.common.EventHandler", new PluginFluidloggedAPI()); //Place any fish contained within the bucket when fluidlogging, and yes I'm asm-ing my own mod XD
+            plugins.put("knightminer.inspirations.recipes.tileentity.TileCauldron", new PluginInspirations()); //Place fish contained within bucket
+            plugins.put("net.optifine.CustomColors", new PluginOptifine()); //Fix possible Optifine NPE with bubble particles
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
+            plugins.put("net.minecraft.block.BlockGrass", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
+            plugins.put("net.minecraft.block.BlockMycelium", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
             plugins.put("net.minecraft.block.BlockSnow", new PluginBlockSnow()); //Prevent snow layers from being placeable on blue ice
             plugins.put("net.minecraft.block.BlockStem", new PluginBlockStem()); //Update pumpkin reference to the correct block

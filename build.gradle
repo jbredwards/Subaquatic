@@ -14,7 +14,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.matthewprenger.cursegradle'
 apply plugin: 'maven-publish'
 
-version = 'v1.0.0-mc1.12.2'
+version = 'v1.0.1-mc1.12.2'
 group = 'git.jbredwards.subaquatic'
 archivesBaseName = 'Subaquatic'
 sourceCompatibility = targetCompatibility = '1.8'
@@ -34,6 +34,8 @@ dependencies {
     //optional
     deobfCompile "mezz.jei:jei_1.12.2:${jei_version}"
     deobfProvided 'curse.maven:biomes-o-plenty-220318:2842510'
+    deobfProvided 'curse.maven:inspirations-284007:2843007'
+    deobfProvided "curse.maven:mantle-74924:2713386:"
 }
 
 repositories {

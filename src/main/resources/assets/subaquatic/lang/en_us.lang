@@ -98,7 +98,8 @@ tooltip.subaquatic.fish_bucket=%s
 #Config
 config.subaquatic.biomeColorBlendRadius=Biome Color Blend Radius
 config.subaquatic.biomeColorBlendRadius.tooltip=When biomes are next door to eachother, the grass, water, and foliage colors blend together. Making this number bigger results in better biome blending, but can lower fps.
-config.subaquatic.coloredRain=Biome Colored Rain
+config.subaquatic.cauldronFluidPhysics=Cauldron Fluid Physics
+config.subaquatic.cauldronFluidPhysics.tooltip=Vanilla cauldrons have water physics while they have water (entities can swim in them for example).
 config.subaquatic.coloredRain.tooltip=Rain uses the biome's water color instead of being a hardcoded shade of blue.
 config.subaquatic.oceanBiomeSize=Ocean Biome Size
 config.subaquatic.oceanBiomeSize.tooltip=WARNING: Changing this for a world that already exists is not recommended. This number is the size of the ocean biomes this mod generates, making it bigger will result in larger ocean biomes (note that this does not change the size of enire oceans, just the size of the biomes that generate inside them).

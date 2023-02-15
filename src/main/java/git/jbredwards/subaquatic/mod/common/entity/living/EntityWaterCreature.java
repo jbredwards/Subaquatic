@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common.entity.living;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
@@ -52,13 +53,20 @@ public abstract class EntityWaterCreature extends EntityCreature implements IAni
     }
 
     @Override
-    public float getBlockPathWeight(@Nonnull BlockPos pos) {
-        return FluidloggedUtils.getFluidOrReal(world, pos).getMaterial() == Material.WATER ? world.getLightBrightness(pos) + 10 : super.getBlockPathWeight(pos);
-    }
-
-    @Override
     public boolean isPushedByWater() { return false; }
 
     @Override
     public boolean canBeLeashedTo(@Nonnull EntityPlayer player) { return false; }
+
+    @Override
+    public boolean isCreatureType(@Nonnull EnumCreatureType type, boolean forSpawnCount) {
+        if(forSpawnCount && isNoDespawnRequired()) return false;
+        return type == EnumCreatureType.WATER_CREATURE;
+    }
+
+    @Override
+    public float getBlockPathWeight(@Nonnull BlockPos pos) {
+        return FluidloggedUtils.getFluidOrReal(world, pos).getMaterial() == Material.WATER
+                ? world.getLightBrightness(pos) + 10 : super.getBlockPathWeight(pos);
+    }
 }

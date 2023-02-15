@@ -11,6 +11,7 @@ import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColo
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
+import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
@@ -73,7 +74,7 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.0", dependencies = "required-after:fluidlogged_api@[1.9.0.5,);")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.1", dependencies = "required-after:fluidlogged_api@[1.9.0.5,);required-client:assetmover;")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -81,6 +82,7 @@ public final class Subaquatic
     @Nonnull public static final SimpleNetworkWrapper WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 
     public static final boolean isBOPInstalled = Loader.isModLoaded("biomesoplenty");
+    public static final boolean isInspirationsInstalled = Loader.isModLoaded("inspirations");
 
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
@@ -131,6 +133,8 @@ public final class Subaquatic
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTropicalFish.class, RenderTropicalFish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityXPOrb.class, RenderTranslucentXPOrb::new);
+        //inspirations compat
+        if(isInspirationsInstalled) MinecraftForge.EVENT_BUS.register(InspirationsHandler.class);
     }
 
     @Mod.EventHandler
@@ -173,11 +177,11 @@ public final class Subaquatic
     static void initClient(@Nonnull FMLInitializationEvent event) {
         //override some vanilla particle factories to allow for custom coloring
         final ParticleManager manager = Minecraft.getMinecraft().effectRenderer;
-        manager.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleDrip.WaterFactory()));
-        manager.registerParticle(EnumParticleTypes.SUSPENDED.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleSuspend.Factory()));
-        manager.registerParticle(EnumParticleTypes.WATER_DROP.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleRain.Factory()));
-        manager.registerParticle(EnumParticleTypes.WATER_SPLASH.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleSplash.Factory()));
-        manager.registerParticle(EnumParticleTypes.WATER_WAKE.getParticleID(), new ParticleFactoryColorize(BiomeColorHelper::getWaterColorAtPos, new ParticleWaterWake.Factory()));
+        manager.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new ParticleFactoryColorize(new ParticleDrip.WaterFactory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
+        manager.registerParticle(EnumParticleTypes.SUSPENDED.getParticleID(), new ParticleFactoryColorize(new ParticleSuspend.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
+        manager.registerParticle(EnumParticleTypes.WATER_DROP.getParticleID(), new ParticleFactoryColorize(new ParticleRain.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
+        manager.registerParticle(EnumParticleTypes.WATER_SPLASH.getParticleID(), new ParticleFactoryColorize(new ParticleSplash.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
+        manager.registerParticle(EnumParticleTypes.WATER_WAKE.getParticleID(), new ParticleFactoryColorize(new ParticleWaterWake.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
         //fix bubble particles spawning in illegal blocks (like cauldrons)
         final IParticleFactory bubbleFactory = manager.particleTypes.get(EnumParticleTypes.WATER_BUBBLE.getParticleID());
         manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (int particleID, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, int... args) ->

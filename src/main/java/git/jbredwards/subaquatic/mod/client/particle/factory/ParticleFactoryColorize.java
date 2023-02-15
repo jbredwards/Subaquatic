@@ -24,7 +24,7 @@ public class ParticleFactoryColorize implements IParticleFactory
 
     @Nonnull
     public final IParticleFactory factory;
-    public ParticleFactoryColorize(@Nonnull ToIntBiFunction<World, BlockPos> colorIn, @Nonnull IParticleFactory factoryIn) {
+    public ParticleFactoryColorize(@Nonnull IParticleFactory factoryIn, @Nonnull ToIntBiFunction<World, BlockPos> colorIn) {
         color = colorIn;
         factory = factoryIn;
     }

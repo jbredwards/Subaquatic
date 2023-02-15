@@ -60,7 +60,7 @@ public final class PluginBiomeColorHelper implements IASMPlugin
          * k += l & 255;
          *
          * New code:
-         * //increment total colors taking into account
+         * //increment total colors
          * k += l & 255;
          * total += 1;
          */
@@ -81,7 +81,7 @@ public final class PluginBiomeColorHelper implements IASMPlugin
          * //get the biome colors from the radius specified in the config
          * return Hooks.doAccurateBiomeBlend(i, j, k, total);
          */
-        else if(insn.getNext().getOpcode() == IRETURN) {
+        else if(insn.getNext().getOpcode() == IRETURN && insn.getOpcode() == IOR) {
             final InsnList list = new InsnList();
             list.add(new VarInsnNode(ILOAD, 3));
             list.add(new VarInsnNode(ILOAD, 4));

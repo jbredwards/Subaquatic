@@ -1,7 +1,10 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
+import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.entity.util.IBucketableEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCauldron;
@@ -144,28 +147,38 @@ public final class PluginBlockCauldron implements IASMPlugin
 
         @Nullable
         public static Boolean isEntityInsideCauldronMaterial(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Entity entity, double yToTest, @Nonnull Material materialIn, boolean testingHead) {
-            if(state.getBlock() != Blocks.CAULDRON || materialIn != Material.WATER) return null;
+            if(!SubaquaticConfigHandler.cauldronFluidPhysics || state.getBlock() != Blocks.CAULDRON || !doesCauldronHaveFluid(materialIn, world, pos)) return null;
 
             final int level = state.getValue(BlockCauldron.LEVEL);
             if(!testingHead) yToTest = entity.posY;
 
-            return level > 0 && yToTest < pos.getY() + 0.375 + level * 0.1875;
+            return level > 0 && yToTest < pos.getY() + getFluidHeight(level);
         }
 
         @Nullable
         public static Boolean isAABBInsideCauldronMaterial(@Nonnull Block block, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB boundingBox, @Nonnull Material materialIn) {
-            return block != Blocks.CAULDRON || materialIn != Material.WATER ? null : block.isAABBInsideLiquid(world, pos, boundingBox);
+            return !SubaquaticConfigHandler.cauldronFluidPhysics || block != Blocks.CAULDRON || !doesCauldronHaveFluid(materialIn, world, pos) ? null : block.isAABBInsideLiquid(world, pos, boundingBox);
         }
 
-        @Nonnull
+        @Nullable
         public static Boolean isAABBInsideCauldronLiquid(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB boundingBox) {
+            if(!SubaquaticConfigHandler.cauldronFluidPhysics) return null;
             final int level = world.getBlockState(pos).getValue(BlockCauldron.LEVEL);
-            return level > 0 && boundingBox.minY < pos.getY() + 0.375 + level * 0.1875;
+            return level > 0 && boundingBox.minY < pos.getY() + getFluidHeight(level);
         }
 
         public static void placeCapturedEntity(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
             final IFishBucket cap = IFishBucket.get(stack);
             if(cap != null) IBucketableEntity.placeCapturedEntity(world, pos, stack, cap.getData());
         }
+
+        //helper
+        @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+        public static boolean doesCauldronHaveFluid(@Nonnull Material material, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+            return Subaquatic.isInspirationsInstalled ? InspirationsHandler.doesCauldronHaveMaterial(material, world, pos) : material == Material.WATER;
+        }
+
+        //helper
+        public static double getFluidHeight(int level) { return level * 0.1875 + 0.375; }
     }
 }

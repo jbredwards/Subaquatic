@@ -9,6 +9,7 @@ import git.jbredwards.subaquatic.mod.client.item.model.ModelContainerBoat;
 import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumnPop;
 import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
 import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
+import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
@@ -63,11 +64,13 @@ public final class ClientEventHandler
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     static void registerBlockColors(@Nonnull ColorHandlerEvent.Block event) {
         FluidRegistry.WATER.setColor(0xFF3f97e4); //fix water color in buckets
         event.getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex)
-                -> tintIndex != 1 || world == null || pos == null ? -1 : BiomeColorHelper.getWaterColorAtPos(world, pos),
+                -> tintIndex != 1 || world == null || pos == null ? -1 : Subaquatic.isInspirationsInstalled
+                        ? InspirationsHandler.getCauldronColor(world, pos)
+                        : BiomeColorHelper.getWaterColorAtPos(world, pos),
                 Blocks.CAULDRON);
     }
 

@@ -30,6 +30,9 @@ public final class SubaquaticConfigHandler
     @Config.LangKey("config.subaquatic.biomeColorBlendRadius")
     public static int biomeColorBlendRadius = 5;
 
+    @Config.LangKey("config.subaquatic.cauldronFluidPhysics")
+    public static boolean cauldronFluidPhysics = true;
+
     @Config.Ignore //wip, crashes with nothirium
     @Config.LangKey("config.subaquatic.coloredRain")
     public static boolean coloredRain = true;

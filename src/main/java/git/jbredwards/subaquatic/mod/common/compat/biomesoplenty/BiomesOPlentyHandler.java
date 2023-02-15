@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.compat.bop;
+package git.jbredwards.subaquatic.mod.common.compat.biomesoplenty;
 
 import biomesoplenty.api.biome.BOPBiomes;
 import biomesoplenty.api.biome.IExtendedBiome;
