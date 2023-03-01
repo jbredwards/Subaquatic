@@ -1,11 +1,66 @@
 {
     "forge_marker":1,
     "defaults":{ 
-        "model":"forge:multi-layer",
-        "textures":{"water":"subaquatic:blocks/water_still"}
+        "model":"forge:multi-layer"
     },
     "variants":{
         "inventory":[{"model":"inspirations:cauldron/empty"}],
+        "boiling=false,contents=potion,level=0":[{
+            "custom":{
+                "base":"inspirations:cauldron_multilayer#empty_model",
+                "Solid":"inspirations:cauldron_multilayer#empty_model",
+                "Translucent":"inspirations:cauldron_multilayer#0_model_potion"
+            }
+        }],
+        "boiling=true,contents=potion,level=0":[{
+            "custom":{
+                "base":"inspirations:cauldron_multilayer#empty_model",
+                "Solid":"inspirations:cauldron_multilayer#empty_model",
+                "Translucent":"inspirations:cauldron_multilayer#0_model_potion"
+            }
+        }],
+        "boiling=false,contents=potion,level=1":[{
+            "custom":{
+                "base":"inspirations:cauldron_multilayer#empty_model",
+                "Solid":"inspirations:cauldron_multilayer#empty_model",
+                "Translucent":"inspirations:cauldron_multilayer#1_model_potion"
+            }
+        }],
+        "boiling=true,contents=potion,level=1":[{
+            "custom":{
+                "base":"inspirations:cauldron_multilayer#empty_model",
+                "Solid":"inspirations:cauldron_multilayer#empty_model",
+                "Translucent":"inspirations:cauldron_multilayer#1_model_potion"
+            }
+        }],
+        "boiling=false,contents=potion,level=2":[{
+            "custom":{
+                "base":"inspirations:cauldron_multilayer#empty_model",
+                "Solid":"inspirations:cauldron_multilayer#empty_model",
+                "Translucent":"inspirations:cauldron_multilayer#2_model_potion"
+            }
+        }],
+        "boiling=true,contents=potion,level=2":[{
+            "custom":{
+                "base":"inspirations:cauldron_multilayer#empty_model",
+                "Solid":"inspirations:cauldron_multilayer#empty_model",
+                "Translucent":"inspirations:cauldron_multilayer#2_model_potion"
+            }
+        }],
+        "boiling=false,contents=potion,level=3":[{
+            "custom":{
+                "base":"inspirations:cauldron_multilayer#empty_model",
+                "Solid":"inspirations:cauldron_multilayer#empty_model",
+                "Translucent":"inspirations:cauldron_multilayer#3_model_potion"
+            }
+        }],
+        "boiling=true,contents=potion,level=3":[{
+            "custom":{
+                "base":"inspirations:cauldron_multilayer#empty_model",
+                "Solid":"inspirations:cauldron_multilayer#empty_model",
+                "Translucent":"inspirations:cauldron_multilayer#3_model_potion"
+            }
+        }],
         "level":{
             "empty":{"model":"inspirations:cauldron/empty"},
             "0":{
@@ -40,16 +95,20 @@
         "contents":{
             "fluid":{},
             "dye":{},
-            "potion":{"textures":{"water":"inspirations:blocks/fluid_potion_translucent"}}
+            "potion":{}
         },
         "boiling":{
             "true":{},
             "false":{}
         },
         "empty_model":[{"model":"inspirations:cauldron/empty"}],
-        "0_model":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level0"}}],
-        "1_model":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level1"}}],
-        "2_model":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level2"}}],
-        "3_model":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level3"}}]
+        "0_model":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level0","texture":"subaquatic:blocks/water_still"}}],
+        "1_model":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level1","texture":"subaquatic:blocks/water_still"}}],
+        "2_model":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level2","texture":"subaquatic:blocks/water_still"}}],
+        "3_model":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level3","texture":"subaquatic:blocks/water_still"}}],
+        "0_model_potion":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level0","texture":"subaquatic:blocks/fluid_potion_translucent"}}],
+        "1_model_potion":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level1","texture":"subaquatic:blocks/fluid_potion_translucent"}}],
+        "2_model_potion":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level2","texture":"subaquatic:blocks/fluid_potion_translucent"}}],
+        "3_model_potion":[{"model":"inspirations:builtin/cauldron_wrapper","custom":{"model":"subaquatic:block/cauldron_level3","texture":"subaquatic:blocks/fluid_potion_translucent"}}]
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.block.model.BakedQuadRetextured;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.EnumFacing;
@@ -21,12 +22,12 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
@@ -39,26 +40,39 @@ import java.util.function.Function;
 public final class InspirationsModelCauldron implements IModel
 {
     @Nonnull
-    public static final InspirationsModelCauldron MODEL = new InspirationsModelCauldron(ModelBakery.MODEL_MISSING);
+    public static final InspirationsModelCauldron MODEL = new InspirationsModelCauldron(ModelBakery.MODEL_MISSING, TextureMap.LOCATION_MISSING_TEXTURE);
 
     @Nonnull
-    final ResourceLocation modelLocation;
-    private InspirationsModelCauldron(@Nonnull ResourceLocation modelLocationIn) { modelLocation = modelLocationIn; }
-    
+    final ResourceLocation modelLocation, modelTexture;
+    private InspirationsModelCauldron(@Nonnull ResourceLocation modelLocationIn, @Nonnull ResourceLocation modelTextureIn) {
+        modelLocation = modelLocationIn;
+        modelTexture = modelTextureIn;
+    }
+
+    @Nonnull
+    @Override
+    public Collection<ResourceLocation> getTextures() { return ImmutableList.of(modelTexture); }
+
     @Nonnull
     @Override
     public IBakedModel bake(@Nonnull IModelState state, @Nonnull VertexFormat format, @Nonnull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
         return new BakedModel(ModelLoaderRegistry.getModelOrLogError(modelLocation, "Couldn't load InspirationsModelCauldron dependency: " + modelLocation)
-                .bake(state, format, bakedTextureGetter), bakedTextureGetter);
+                .bake(state, format, bakedTextureGetter), bakedTextureGetter.apply(modelTexture), bakedTextureGetter);
     }
 
     @Nonnull
     @Override
     public IModel process(@Nonnull ImmutableMap<String, String> customData) {
         if(customData.containsKey("model")) {
-            final JsonElement overlay = new JsonParser().parse(customData.get("model"));
-            if(overlay.isJsonPrimitive() && overlay.getAsJsonPrimitive().isString())
-                return new InspirationsModelCauldron(new ResourceLocation(overlay.getAsString()));
+            final JsonElement overlayModel = new JsonParser().parse(customData.get("model"));
+            if(overlayModel.isJsonPrimitive() && overlayModel.getAsJsonPrimitive().isString()) {
+                final JsonElement overlayTexture = new JsonParser().parse(customData.get("texture"));
+                if(overlayTexture.isJsonPrimitive() && overlayTexture.getAsJsonPrimitive().isString()) {
+                    return new InspirationsModelCauldron(
+                            new ResourceLocation(overlayModel.getAsString()),
+                            new ResourceLocation(overlayTexture.getAsString()));
+                }
+            }
         }
 
         return MODEL;
@@ -66,10 +80,12 @@ public final class InspirationsModelCauldron implements IModel
 
     private static final class BakedModel extends BakedModelWrapper<IBakedModel>
     {
-        @Nonnull
-        final Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter;
-        public BakedModel(@Nonnull IBakedModel originalModelIn, @Nonnull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetterIn) {
+        @Nonnull final TextureAtlasSprite modelTexture;
+        @Nonnull final Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter;
+
+        public BakedModel(@Nonnull IBakedModel originalModelIn, @Nonnull TextureAtlasSprite modelTextureIn, @Nonnull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetterIn) {
             super(originalModelIn);
+            modelTexture = modelTextureIn;
             bakedTextureGetter = bakedTextureGetterIn;
         }
 
@@ -78,10 +94,10 @@ public final class InspirationsModelCauldron implements IModel
         public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
             if(state instanceof IExtendedBlockState) {
                 final String textureStr = ((IExtendedBlockState)state).getValue(TextureBlockUtil.TEXTURE_PROP);
-                final ResourceLocation texture = textureStr != null ? new ResourceLocation(textureStr) : FluidRegistry.WATER.getStill();
+                final TextureAtlasSprite texture = textureStr == null ? modelTexture : bakedTextureGetter.apply(new ResourceLocation(textureStr));
 
                 final ImmutableList.Builder<BakedQuad> quads = ImmutableList.builder();
-                super.getQuads(state, side, rand).forEach(quad -> quads.add(new BakedQuadRetextured(quad, bakedTextureGetter.apply(texture))));
+                super.getQuads(state, side, rand).forEach(quad -> quads.add(new BakedQuadRetextured(quad, texture)));
                 return quads.build();
             }
 
