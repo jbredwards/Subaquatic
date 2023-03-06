@@ -8,8 +8,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -26,7 +24,6 @@ import java.util.function.Function;
 public class FishBucketData
 {
     @Nonnull
-    @SideOnly(Side.CLIENT)
     public static final Map<EntityEntry, Function<FishBucketData, TextureAtlasSprite>> OVERLAY_TEXTURES = new HashMap<>();
 
     @Nonnull

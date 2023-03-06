@@ -30,6 +30,10 @@ public abstract class AbstractGroupFish extends AbstractFish
     }
 
     @Override
+    public int getMaxSpawnedInChunk() { return getMaxGroupSize(); }
+    public int getMaxGroupSize() { return super.getMaxSpawnedInChunk(); }
+
+    @Override
     public boolean hasNoGroup() { return !hasGroupLeader(); }
     public boolean hasGroupLeader() { return groupLeader != null && groupLeader.isEntityAlive(); }
 
@@ -52,20 +56,20 @@ public abstract class AbstractGroupFish extends AbstractFish
     }
 
     public boolean isGroupLeader() { return groupSize > 1; }
-    public boolean canAddToGroup() { return isGroupLeader() && groupSize < getMaxSpawnedInChunk(); }
+    public boolean canAddToGroup() { return isGroupLeader() && groupSize < getMaxGroupSize(); }
 
     public boolean isWithinLeader() { return getDistanceSq(groupLeader) <= 121; }
     public void followLeader() { if(hasGroupLeader()) navigator.tryMoveToEntityLiving(groupLeader, 1); }
 
     public void addFishToGroup(@Nonnull Stream<AbstractGroupFish> stream) {
-        stream.limit(getMaxSpawnedInChunk() - groupSize).filter(entity -> entity != this).forEach(entity -> entity.addToGroupLeader(this));
+        stream.limit(getMaxGroupSize() - groupSize).filter(entity -> entity != this).forEach(entity -> entity.addToGroupLeader(this));
     }
 
     @Nullable
     @Override
     public IEntityLivingData onInitialSpawn(@Nonnull DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         super.onInitialSpawn(difficulty, livingdata);
-        if(livingdata == null) return new GroupData(this);
+        if(!(livingdata instanceof GroupData)) return new GroupData(this);
 
         addToGroupLeader(((GroupData)livingdata).groupLeader);
         return livingdata;

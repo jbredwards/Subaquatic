@@ -20,7 +20,6 @@ public class ItemDurationFood extends ItemFood
 {
     @Nonnull
     public final List<Pair<PotionEffect, Float>> effects = new ArrayList<>();
-    public int maxUseDuration = 32;
 
     public ItemDurationFood(int amount, boolean isWolfFood) { super(amount, isWolfFood); }
     public ItemDurationFood(int amount, float saturation, boolean isWolfFood) { super(amount, saturation, isWolfFood); }
@@ -33,5 +32,5 @@ public class ItemDurationFood extends ItemFood
     }
 
     @Override
-    public int getMaxItemUseDuration(@Nonnull ItemStack stack) { return maxUseDuration; }
+    public int getMaxItemUseDuration(@Nonnull ItemStack stack) { return itemUseDuration; }
 }

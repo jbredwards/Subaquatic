@@ -8,6 +8,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  *
@@ -19,8 +20,9 @@ public class BoatType
     @Nonnull
     public static final BoatType DEFAULT = new BoatType(Items.BOAT, 0);
 
+    @Nullable
     @SideOnly(Side.CLIENT)
-    public ResourceLocation texture = new ResourceLocation("textures/entity/boat/boat_oak.png");
+    public ResourceLocation entityTexture;
 
     @Nonnull
     public final Item boat;

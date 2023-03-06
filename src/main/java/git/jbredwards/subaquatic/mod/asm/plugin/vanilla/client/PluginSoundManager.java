@@ -3,6 +3,8 @@ package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client;
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import git.jbredwards.subaquatic.mod.client.audio.IPrioritySound;
 import net.minecraft.client.audio.ISound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
@@ -43,6 +45,7 @@ public final class PluginSoundManager implements IASMPlugin
     @SuppressWarnings("unused")
     public static final class Hooks
     {
+        @SideOnly(Side.CLIENT)
         public static boolean isPrioritySound(@Nonnull ISound sound) {
             return sound instanceof IPrioritySound && ((IPrioritySound)sound).isPriority();
         }

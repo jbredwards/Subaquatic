@@ -51,7 +51,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlockCluster SEA_PICKLE = register("sea_pickle", new ItemBlockCluster(SubaquaticBlocks.SEA_PICKLE));
     @Nonnull public static final ItemBlockSeagrass SEAGRASS = register("seagrass", new ItemBlockSeagrass(SubaquaticBlocks.SEAGRASS));
     @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(SubaquaticBlocks.KELP));
-    @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.maxUseDuration = 16);
+    @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.itemUseDuration = 16);
     @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(SubaquaticBlocks.NAUTILUS_SHELL));
     @Nonnull public static final ItemMinecartTypeless ENDER_CHEST_MINECART = register("ender_chest_minecart", new ItemMinecartTypeless(EntityMinecartEnderChest::new));
 

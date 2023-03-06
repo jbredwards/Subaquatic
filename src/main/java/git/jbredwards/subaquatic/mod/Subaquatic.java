@@ -28,6 +28,7 @@ import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
+import git.jbredwards.subaquatic.mod.common.world.gen.primer.PrimerSeaPickle;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
@@ -74,12 +75,14 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.1", dependencies = "required-after:fluidlogged_api@[1.9.0.5,);required-client:assetmover;")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.1", dependencies = "required-after:fluidlogged_api@[2.0.0,);required-client:assetmover;")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
     @Nonnull public static final Logger LOGGER = LogManager.getFormatterLogger(NAME);
-    @Nonnull public static final SimpleNetworkWrapper WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+
+    @SuppressWarnings("NotNullFieldNotInitialized")
+    @Nonnull public static SimpleNetworkWrapper WRAPPER;
 
     public static final boolean isBOPInstalled = Loader.isModLoaded("biomesoplenty");
     public static final boolean isInspirationsInstalled = Loader.isModLoaded("inspirations");
@@ -112,6 +115,7 @@ public final class Subaquatic
         MinecraftForge.EVENT_BUS.register(IBoatType.class);
         MinecraftForge.EVENT_BUS.register(IFishBucket.class);
         //message registries
+        WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
         WRAPPER.registerMessage(SMessageBoatType.Handler.INSTANCE, SMessageBoatType.class, 0, Side.CLIENT);
         WRAPPER.registerMessage(SMessageAbstractChestPart.Handler.INSTANCE, SMessageAbstractChestPart.class, 1, Side.CLIENT);
         WRAPPER.registerMessage(CMessageOpenBoatInventory.Handler.INSTANCE, CMessageOpenBoatInventory.class, 2, Side.SERVER);
@@ -120,7 +124,8 @@ public final class Subaquatic
         GameRegistry.registerWorldGenerator(GeneratorCoral.INSTANCE, 3);
         GameRegistry.registerWorldGenerator(GeneratorKelp.INSTANCE, 4);
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
-        GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
+        //GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
+        MinecraftForge.TERRAIN_GEN_BUS.register(PrimerSeaPickle.class);
     }
 
     @Mod.EventHandler

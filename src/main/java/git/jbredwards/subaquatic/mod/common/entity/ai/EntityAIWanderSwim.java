@@ -30,4 +30,7 @@ public class EntityAIWanderSwim extends EntityAIWander
 
         return pos;
     }
+
+    @Override
+    public void resetTask() { entity.getNavigator().clearPath(); }
 }

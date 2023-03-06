@@ -26,7 +26,7 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
     protected int numPlayersUsing;
 
     @SideOnly(Side.CLIENT)
-    protected static final ModelChest CHEST_MODEL = new ModelChest();
+    protected static ModelChest CHEST_MODEL;
     public MultiPartAbstractChestPart(@Nonnull IEntityMultiPart parent, @Nonnull String partName, float width, float height) {
         super(parent, partName, width, height);
     }
@@ -62,6 +62,7 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
         float animatedLidAngle = 1 - (prevLidAngle + (lidAngle - prevLidAngle) * partialTicks);
         animatedLidAngle = 1 - animatedLidAngle * animatedLidAngle * animatedLidAngle;
 
+        if(CHEST_MODEL == null) CHEST_MODEL = new ModelChest();
         CHEST_MODEL.chestLid.rotateAngleX = -(animatedLidAngle * (float)Math.PI / 2);
         CHEST_MODEL.renderAll();
     }

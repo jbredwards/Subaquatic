@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common.world.gen.feature;
 import git.jbredwards.subaquatic.mod.common.block.BlockSeaPickle;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
+import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -31,8 +32,10 @@ public enum GeneratorSeaPickle implements IWorldGenerator
             for(int i = 0; i < 20; i++) {
                 if(random.nextFloat() < 0.0625) {
                     final BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(originX + random.nextInt(16), 0, originZ + random.nextInt(16)));
-                    if(isValidBiome(world.getBiome(pos)) && SubaquaticBlocks.SEA_PICKLE.canPlaceBlockAt(world, pos))
-                        world.setBlockState(pos, SubaquaticBlocks.SEA_PICKLE.withAmount(SubaquaticBlocks.SEA_PICKLE.getDefaultState().withProperty(BlockSeaPickle.GLOWING, true), random.nextInt(4)), 2);
+                    if(isValidBiome(world.getBiome(pos)) && SubaquaticBlocks.SEA_PICKLE.canPlaceBlockAt(world, pos) && world.getBlockState(pos).getMaterial() == Material.WATER) {
+                        world.setBlockState(pos, SubaquaticBlocks.SEA_PICKLE.withAmount(SubaquaticBlocks.SEA_PICKLE.getDefaultState().withProperty(BlockSeaPickle.GLOWING, true), random.nextInt(4)));
+                        world.getChunk(pos).resetRelightChecks();
+                    }
                 }
             }
         }

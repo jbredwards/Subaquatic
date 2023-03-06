@@ -56,7 +56,7 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
     protected void initEntityAI() {
         tasks.addTask(0, new EntityAIPanic(this, 1.25));
         tasks.addTask(2, new EntityAIAvoidEntity<>(this, EntityPlayer.class, EntitySelectors.NOT_SPECTATING, 8, 1.6, 1.4));
-        tasks.addTask(4, new EntityAIFishSwim(this, 1, 10));
+        tasks.addTask(4, new EntityAIFishSwim(this, 1, 40));
     }
 
     @Override
@@ -66,7 +66,7 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
     }
 
     @Override
-    public float getEyeHeight() { return height * 0.5f; }
+    public float getEyeHeight() { return height * 0.65f; }
 
     @Override
     public boolean isNoDespawnRequired() { return isFromBucket() || super.isNoDespawnRequired(); }
@@ -122,8 +122,8 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
     @Override
     public void onLivingUpdate() {
         if(!isDead && !isInWater() && onGround && collidedVertically) {
-            motionY += 0.4;
             motionX += 0.05 * (rand.nextFloat() * 2 - 1);
+            motionY += 0.4;
             motionZ += 0.05 * (rand.nextFloat() * 2 - 1);
 
             onGround = false;

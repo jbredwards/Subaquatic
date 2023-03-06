@@ -58,7 +58,7 @@ public final class SubaquaticChestBoatConfig
                     final BoatType type = new BoatType(item, meta);
                     if(FMLCommonHandler.instance().getSide().isClient() && configElement.has("texture")) {
                         final ResourceLocation texture = new ResourceLocation(configElement.get("texture").getAsString());
-                        type.texture = new ResourceLocation(texture.getNamespace(), String.format("textures/%s.png", texture.getPath()));
+                        type.entityTexture = new ResourceLocation(texture.getNamespace(), String.format("textures/%s.png", texture.getPath()));
                     }
 
                     BOAT_TYPES.add(type);

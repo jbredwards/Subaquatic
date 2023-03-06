@@ -89,7 +89,7 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
     }
 
     @Override
-    protected boolean canSustainBush(@Nonnull IBlockState state) {
+    public boolean canSustainBush(@Nonnull IBlockState state) {
         return !isEqualTo(state.getBlock(), Blocks.MAGMA) && state.isTopSolid();
     }
 

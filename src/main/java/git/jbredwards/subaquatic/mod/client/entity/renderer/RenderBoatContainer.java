@@ -61,6 +61,9 @@ public class RenderBoatContainer extends RenderBoat
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityBoat entity) {
         final IBoatType cap = IBoatType.get(entity);
-        return cap != null ? cap.getType().texture : super.getEntityTexture(entity);
+        if(cap == null) return super.getEntityTexture(entity);
+
+        final ResourceLocation texture = cap.getType().entityTexture;
+        return texture != null ? texture : super.getEntityTexture(entity);
     }
 }

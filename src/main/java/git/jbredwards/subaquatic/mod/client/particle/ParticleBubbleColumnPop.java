@@ -30,7 +30,7 @@ public class ParticleBubbleColumnPop extends Particle
         setParticleTexture(TEXTURES[0]);
 
         if(SubaquaticConfigHandler.playBubblePopSound || parent instanceof ParticleBubbleColumn)
-            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 1, parent.particleScale, false);
+            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 1, parent.particleScale * 2 - 1, false);
     }
 
     @Override

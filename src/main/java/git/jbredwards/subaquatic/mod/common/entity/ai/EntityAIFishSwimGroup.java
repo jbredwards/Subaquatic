@@ -55,7 +55,7 @@ public class EntityAIFishSwimGroup extends EntityAIBase
     @Override
     public void updateTask() {
         if(--navigateTimer <= 0) {
-            navigateTimer = 10;
+            navigateTimer = -Math.floorDiv(10, 2);
             fish.followLeader();
         }
     }

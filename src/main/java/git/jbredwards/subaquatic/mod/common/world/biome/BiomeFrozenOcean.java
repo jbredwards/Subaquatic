@@ -8,6 +8,8 @@ import git.jbredwards.subaquatic.mod.common.world.gen.feature.WorldGenIceberg;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityPolarBear;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityStray;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -35,6 +37,8 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
     public BiomeFrozenOcean(@Nonnull BiomeProperties propertiesIn) { this(null, propertiesIn); }
     public BiomeFrozenOcean(@Nullable Biome deepOceanBiomeIn, @Nonnull BiomeProperties propertiesIn) {
         super(deepOceanBiomeIn, propertiesIn);
+        spawnableMonsterList.removeIf(entry -> entry.entityClass == EntitySkeleton.class);
+        spawnableMonsterList.add(new SpawnListEntry(EntityStray.class, 100, 4, 4));
         spawnableCreatureList.add(new SpawnListEntry(EntityPolarBear.class, 1, 1, 2));
     }
 

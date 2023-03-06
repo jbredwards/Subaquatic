@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -19,7 +20,10 @@ import javax.annotation.Nonnull;
  */
 public abstract class EntityWaterCreature extends EntityCreature implements IAnimals
 {
-    public EntityWaterCreature(World worldIn) { super(worldIn); }
+    public EntityWaterCreature(World worldIn) {
+        super(worldIn);
+        setPathPriority(PathNodeType.WATER, 0);
+    }
 
     @Override
     public boolean canBreatheUnderwater() { return true; }
@@ -66,7 +70,6 @@ public abstract class EntityWaterCreature extends EntityCreature implements IAni
 
     @Override
     public float getBlockPathWeight(@Nonnull BlockPos pos) {
-        return FluidloggedUtils.getFluidOrReal(world, pos).getMaterial() == Material.WATER
-                ? world.getLightBrightness(pos) + 10 : super.getBlockPathWeight(pos);
+        return FluidloggedUtils.getFluidOrReal(world, pos).getMaterial() == Material.WATER ? 100 : 0;
     }
 }

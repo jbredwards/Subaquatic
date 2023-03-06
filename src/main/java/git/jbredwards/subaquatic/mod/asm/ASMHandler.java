@@ -8,6 +8,7 @@ import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.entity.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.item.*;
+import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.network.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world.*;
 
 import javax.annotation.Nonnull;
@@ -27,6 +28,7 @@ public final class ASMHandler implements BasicLoadingPlugin
     {
         public Transformer() {
             //forge
+            plugins.put("net.minecraftforge.common.util.PacketUtil", new PluginPacketUtil()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
             plugins.put("net.minecraftforge.fluids.FluidRegistry", new PluginFluidRegistry()); //Changes the water textures to allow for better coloring
             plugins.put("net.minecraftforge.fluids.FluidUtil", new PluginFluidUtil()); //Place fish contained within bucket
             //modded
@@ -67,9 +69,11 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.entity.player.EntityPlayerMP", new PluginEntityPlayerMP()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
+            plugins.put("net.minecraft.network.PacketBuffer", new PluginPacketBuffer()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
             plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config
+            plugins.put("net.minecraft.world.chunk.Chunk", new PluginChunk()); //Add call to OnCreateChunkFromPrimerEvent
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Apply ocean biome generator
             plugins.put("net.minecraft.world.gen.layer.GenLayerAddIsland", new PluginGenLayerAddIsland()); //Account for modded shallow ocean biomes
