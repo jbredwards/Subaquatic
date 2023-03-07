@@ -29,8 +29,10 @@ public class ParticleBubbleColumnPop extends Particle
         setSize(0.02f, 0.02f);
         setParticleTexture(TEXTURES[0]);
 
-        if(SubaquaticConfigHandler.playBubblePopSound || parent instanceof ParticleBubbleColumn)
-            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 1, parent.particleScale * 2 - 1, false);
+        if(SubaquaticConfigHandler.playBubblePopSound || parent instanceof ParticleBubbleColumn) {
+            final float pitch = Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f);
+            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 1, pitch, false);
+        }
     }
 
     @Override

@@ -117,8 +117,8 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
         
         final int oceanSurfaceY = (int)(noiseVal / 3 + 3 + rand.nextDouble() * 0.25);
         int j = -1;
-        int k = 0;
-        int l = 2 + rand.nextInt(4);
+        int currentSnowLayer = 0;
+        final int maxSnowLayers = 2 + rand.nextInt(4);
         final int snowMinY = seaLevel + 8 + rand.nextInt(10);
 
         for(int posY = 255; posY >= 0; --posY) {
@@ -137,9 +137,9 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
                 final IBlockState here = primer.getBlockState(x, posY, z);
                 if(here.getBlock() == Blocks.AIR) j = -1;
                 else if(here.getBlock() != STONE.getBlock()) {
-                    if(here.getBlock() == Blocks.PACKED_ICE && k <= l && posY > snowMinY) {
+                    if(here.getBlock() == Blocks.PACKED_ICE && currentSnowLayer <= maxSnowLayers && posY > snowMinY) {
                         primer.setBlockState(x, posY, z, Blocks.SNOW.getDefaultState());
-                        ++k;
+                        ++currentSnowLayer;
                     }
                 }
                 else if(j == -1) {

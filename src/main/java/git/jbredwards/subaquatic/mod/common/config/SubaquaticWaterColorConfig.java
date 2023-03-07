@@ -16,7 +16,11 @@ import net.minecraftforge.common.BiomeDictionary;
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.io.*;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Function;
 
 /**
  *
@@ -25,9 +29,8 @@ import java.util.Set;
  */
 public final class SubaquaticWaterColorConfig
 {
-
-    @Nonnull
-    public static final Object2IntMap<Biome> FOG_COLORS = new Object2IntOpenHashMap<>(), SURFACE_COLORS = new Object2IntOpenHashMap<>();
+    @Nonnull private static final Object2IntMap<Biome> FOG_COLORS = new Object2IntOpenHashMap<>(), SURFACE_COLORS = new Object2IntOpenHashMap<>();
+    @Nonnull private static final Lock FOG_LOCK = new ReentrantReadWriteLock().readLock(), SURFACE_LOCK = new ReentrantReadWriteLock().readLock();
 
     @SuppressWarnings("UnstableApiUsage")
     public static void buildWaterColors() throws IOException {
@@ -71,12 +74,12 @@ public final class SubaquaticWaterColorConfig
     }
 
     public static float[] getFogColorAt(@Nonnull IBlockAccess worldIn, @Nonnull BlockPos posIn) {
-        return new Color(BiomeColorHelper.getColorAtPos(worldIn, posIn, (biomeIn, pos) ->
-                FOG_COLORS.computeIfAbsent(biomeIn, Biome::getWaterColorMultiplier))).getColorComponents(new float[3]);
+        return new Color(BiomeColorHelper.getColorAtPos(worldIn, posIn, (biomeIn, pos) -> computeIfAbsentSafe(FOG_LOCK,
+                FOG_COLORS, biomeIn, Biome::getWaterColorMultiplier))).getColorComponents(new float[3]);
     }
 
     public static int getSurfaceColor(@Nonnull Biome biomeIn, int originalColor) {
-        return SURFACE_COLORS.computeIfAbsent(biomeIn, biome -> {
+        return computeIfAbsentSafe(SURFACE_LOCK, SURFACE_COLORS, biomeIn, biome -> {
             //biome is using the 1.12 swamp color, give it the 1.13 one
             if(originalColor == 14745518) return 0x617B64;
 
@@ -114,6 +117,14 @@ public final class SubaquaticWaterColorConfig
         });
     }
 
+    //fixes a rare, but possible, array out of bounds exception
+    @Nonnull
+    static <K, V> V computeIfAbsentSafe(@Nonnull Lock lock, @Nonnull Map<K, V> map, @Nonnull K key, @Nonnull Function<? super K, ? extends V> mappingFunction) {
+        lock.lock();
+        try { return map.computeIfAbsent(key, mappingFunction); }
+        finally { lock.unlock(); }
+    }
+
     /**
      * Modified code from Aqua Acrobatics
      */
@@ -135,5 +146,122 @@ public final class SubaquaticWaterColorConfig
     }
 
     @Nonnull
-    public static final String defaultConfigValues = "";
+    public static final String defaultConfigValues =
+            "{\n" +
+            "    //River\n" +
+            "    \"minecraft:river\":{\n" +
+            "        \"Surface\":\"0x0084FF\",\n" +
+            "        \"Fog\":\"0x0084FF\"\n" +
+            "    },\n" +
+            "    //Frozen River\n" +
+            "    \"minecraft:frozen_river\":{\n" +
+            "        \"Surface\":\"0x185390\",\n" +
+            "        \"Fog\":\"0x185390\"\n" +
+            "    },\n" +
+            "    //Ocean\n" +
+            "    \"minecraft:ocean\":{\n" +
+            "        \"Surface\":\"0x1787D4\",\n" +
+            "        \"Fog\":\"0x1165B0\"\n" +
+            "    },\n" +
+            "    //Deep Ocean\n" +
+            "    \"minecraft:deep_ocean\":{\n" +
+            "        \"Surface\":\"0x1787D4\",\n" +
+            "        \"Fog\":\"0x1463A5\"\n" +
+            "    },\n" +
+            "    //Warm Ocean\n" +
+            "    \"subaquatic:warm_ocean\":{\n" +
+            "        \"Surface\":\"0x43D5EE\",\n" +
+            "        \"Fog\":\"0x43D5EE\"\n" +
+            "    },\n" +
+            "    //Deep Warm Ocean\n" +
+            "    \"subaquatic:deep_warm_ocean\":{\n" +
+            "        \"Surface\":\"0x43D5EE\",\n" +
+            "        \"Fog\":\"0x43D5EE\"\n" +
+            "    },\n" +
+            "    //Lukewarm Ocean\n" +
+            "    \"subaquatic:lukewarm_ocean\":{\n" +
+            "        \"Surface\":\"0x45ADF2\",\n" +
+            "        \"Fog\":\"0x45ADF2\"\n" +
+            "    },\n" +
+            "    //Deep Lukewarm Ocean\n" +
+            "    \"subaquatic:deep_lukewarm_ocean\":{\n" +
+            "        \"Surface\":\"0x45ADF2\",\n" +
+            "        \"Fog\":\"0x45ADF2\"\n" +
+            "    },\n" +
+            "    //Cold Ocean\n" +
+            "    \"subaquatic:cold_ocean\":{\n" +
+            "        \"Surface\":\"0x2080C9\",\n" +
+            "        \"Fog\":\"0x14559B\"\n" +
+            "    },\n" +
+            "    //Deep Cold Ocean\n" +
+            "    \"subaquatic:deep_cold_ocean\":{\n" +
+            "        \"Surface\":\"0x2080C9\",\n" +
+            "        \"Fog\":\"0x185390\"\n" +
+            "    },\n" +
+            "    //Frozen Ocean\n" +
+            "    \"minecraft:frozen_ocean\":{\n" +
+            "        \"Surface\":\"0x77a9ff\",\n" +
+            "        \"Fog\":\"0x77a9ff\"\n" +
+            "    },\n" +
+            "    //Deep Frozen Ocean\n" +
+            "    \"subaquatic:deep_frozen_ocean\":{\n" +
+            "        \"Surface\":\"0x77a9ff\",\n" +
+            "        \"Fog\":\"0x77a9ff\"\n" +
+            "    },\n" +
+            "\n" +
+            "    //============\n" +
+            "    //BETWEENLANDS\n" +
+            "    //============\n" +
+            "\n" +
+            "    //Coarse Islands\n" +
+            "    \"thebetweenlands:coarse_islands\":{\n" +
+            "        \"Surface\":\"0x1b3944\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Deep Waters\n" +
+            "    \"thebetweenlands:deep_waters\":{\n" +
+            "        \"Surface\":\"0x1b3944\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Marsh 0\n" +
+            "    \"thebetweenlands:marsh_0\":{\n" +
+            "        \"Surface\":\"0x485E18\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Marsh 1\n" +
+            "    \"thebetweenlands:marsh_1\":{\n" +
+            "        \"Surface\":\"0x485E18\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Patchy Islands\n" +
+            "    \"thebetweenlands:patchy_islands\":{\n" +
+            "        \"Surface\":\"0x184220\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Raised Isles\n" +
+            "    \"thebetweenlands:raised_isles\":{\n" +
+            "        \"Surface\":\"0x1b3944\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Sludge Plains\n" +
+            "    \"thebetweenlands:sludge_plains\":{\n" +
+            "        \"Surface\":\"0x3A2F0B\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Sludge Plains Clearing\n" +
+            "    \"thebetweenlands:sludge_plains_clearing\":{\n" +
+            "        \"Surface\":\"0x3A2F0B\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Swamplands\n" +
+            "    \"thebetweenlands:swamplands\":{\n" +
+            "        \"Surface\":\"0x184220\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    },\n" +
+            "    //Swamplands Clearing\n" +
+            "    \"thebetweenlands:swamplands_clearing\":{\n" +
+            "        \"Surface\":\"0x184220\",\n" +
+            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    }\n" +
+            "}";
 }

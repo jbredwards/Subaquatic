@@ -32,9 +32,10 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraftforge.fluids.FluidRegistry", new PluginFluidRegistry()); //Changes the water textures to allow for better coloring
             plugins.put("net.minecraftforge.fluids.FluidUtil", new PluginFluidUtil()); //Place fish contained within bucket
             //modded
-            plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginGenLayerRiverMixBOP()); //Account for all ocean biomes when generating rivers
-            plugins.put("biomesoplenty.common.world.layer.GenLayerShoreBOP", new PluginGenLayerShoreBOP()); //Account for all ocean biomes when generating shores
-            plugins.put("biomesoplenty.common.world.BiomeProviderBOP", new PluginBiomeProviderBOP()); //Apply ocean biome generator
+            plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBOPFogEventHandler()); //Don't change the underwater fog color while this mod is installed
+            plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginBOPGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
+            plugins.put("biomesoplenty.common.world.layer.GenLayerShoreBOP", new PluginBOPGenLayerShore()); //Account for all ocean biomes when generating shores
+            plugins.put("biomesoplenty.common.world.BiomeProviderBOP", new PluginBOPBiomeProvider()); //Apply ocean biome generator
             plugins.put("com.blamejared.clumps.proxy.ClientProxy", new PluginClumps()); //Remove Clumps mod XP orb render override
             plugins.put("com.blamejared.clumps.entities.EntityXPOrbBig", new PluginClumps()); //Clumps mod XP orbs float while in water
             plugins.put("com.fuzs.aquaacrobatics.client.handler.FogHandler", new PluginAquaAcrobatics()); //Improve Aqua Acrobatics mod compatibility by removing the stuff from that mod which this mod already does
@@ -73,7 +74,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
             plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config
-            plugins.put("net.minecraft.world.chunk.Chunk", new PluginChunk()); //Add call to OnCreateChunkFromPrimerEvent
+            //plugins.put("net.minecraft.world.chunk.Chunk", new PluginChunk()); //Add call to OnCreateChunkFromPrimerEvent
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Apply ocean biome generator
             plugins.put("net.minecraft.world.gen.layer.GenLayerAddIsland", new PluginGenLayerAddIsland()); //Account for modded shallow ocean biomes

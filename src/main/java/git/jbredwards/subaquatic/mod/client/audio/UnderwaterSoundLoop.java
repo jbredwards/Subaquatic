@@ -2,9 +2,9 @@ package git.jbredwards.subaquatic.mod.client.audio;
 
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.audio.MovingSound;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -16,16 +16,11 @@ import javax.annotation.Nonnull;
  *
  */
 @SideOnly(Side.CLIENT)
-public class UnderwaterSoundLoop extends MovingSound implements IUnderwaterSound, IPrioritySound
+public class UnderwaterSoundLoop extends UnderwaterSound implements IPrioritySound
 {
-    @Nonnull
-    protected final EntityPlayerSP player;
     protected int ticksInWater = 0;
-
     public UnderwaterSoundLoop(@Nonnull EntityPlayerSP playerIn) {
-        super(SubaquaticSounds.AMBIENT_UNDERWATER_LOOP, SoundCategory.AMBIENT);
-        player = playerIn;
-
+        super(playerIn, SubaquaticSounds.AMBIENT_UNDERWATER_LOOP, SoundCategory.AMBIENT);
         repeat = true;
         repeatDelay = 0;
     }
@@ -41,10 +36,13 @@ public class UnderwaterSoundLoop extends MovingSound implements IUnderwaterSound
             else ticksInWater -= 2;
 
             ticksInWater = Math.min(ticksInWater, 40);
-            volume = Math.max(0, Math.min(ticksInWater / 40f, 1));
+            volume = MathHelper.clamp(ticksInWater / 40f, 0, 1);
         }
 
-        else donePlaying = true;
+        else {
+            donePlaying = true;
+            AmbientUnderwaterSoundHandler.currentLoopSound = null;
+        }
     }
 
     @Override

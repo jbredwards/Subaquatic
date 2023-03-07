@@ -124,7 +124,7 @@ public final class Subaquatic
         GameRegistry.registerWorldGenerator(GeneratorCoral.INSTANCE, 3);
         GameRegistry.registerWorldGenerator(GeneratorKelp.INSTANCE, 4);
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
-        //GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
+        GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
         MinecraftForge.TERRAIN_GEN_BUS.register(PrimerSeaPickle.class);
     }
 

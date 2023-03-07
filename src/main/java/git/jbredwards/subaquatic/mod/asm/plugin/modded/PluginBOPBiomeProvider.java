@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public final class PluginBiomeProviderBOP implements IASMPlugin
+public final class PluginBOPBiomeProvider implements IASMPlugin
 {
     @Override
     public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals("setupBOPGenLayers"); }

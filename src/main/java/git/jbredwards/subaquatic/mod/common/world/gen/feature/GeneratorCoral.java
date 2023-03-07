@@ -59,9 +59,7 @@ public enum GeneratorCoral implements IWorldGenerator
         }
     }
 
-    static int getMaxForBiome(@Nonnull Biome biome) {
-        return biome instanceof BiomeWarmOcean && ((BiomeWarmOcean)biome).getDeepOceanBiomeId() != -1 ? 20 : 0;
-    }
+    static int getMaxForBiome(@Nonnull Biome biome) { return biome instanceof BiomeWarmOcean ? 20 : 0; }
 
     public static void initDefaults() {
         CORAL_GENERATORS.clear();

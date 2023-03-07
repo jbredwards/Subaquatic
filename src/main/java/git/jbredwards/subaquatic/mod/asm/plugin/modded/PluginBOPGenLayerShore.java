@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public final class PluginGenLayerShoreBOP implements IASMPlugin
+public final class PluginBOPGenLayerShore implements IASMPlugin
 {
     @Override
     public boolean transformClass(@Nonnull ClassNode classNode, boolean obfuscated) {
