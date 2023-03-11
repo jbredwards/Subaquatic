@@ -52,6 +52,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -59,13 +60,12 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -75,7 +75,7 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.1", dependencies = "required-after:fluidlogged_api@[2.0.0,);required-client:assetmover;")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.1", dependencies = "required-after:fluidlogged_api@[2.1.0,);required-client:assetmover;")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -89,11 +89,11 @@ public final class Subaquatic
 
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
-    static void constructClient(@Nonnull FMLConstructionEvent event) throws IOException {
+    static void constructClient(@Nonnull FMLConstructionEvent event) {
         LOGGER.info("Attempting to gather the vanilla assets required by this mod, this may take a while if it's your first load...");
-        final String[][] assets = new Gson().fromJson(IOUtils.toString(
-                Objects.requireNonNull(Loader.class.getResourceAsStream(String.format("/assets/%s/assetmover.jsonc", MODID))),
-                Charset.defaultCharset()), String[][].class);
+        final String[][] assets = new Gson().fromJson(new InputStreamReader(Objects.requireNonNull(
+                Loader.class.getResourceAsStream(String.format("/assets/%s/assetmover.jsonc", MODID)))),
+                String[][].class);
 
         final ProgressManager.ProgressBar progressBar = ProgressManager.push("AssetMover", assets.length);
         for(String[] asset : assets) { //display progress, otherwise it looks like the game froze
@@ -143,12 +143,8 @@ public final class Subaquatic
     }
 
     @Mod.EventHandler
-    static void init(@Nonnull FMLInitializationEvent event) throws IOException {
+    static void init(@Nonnull FMLInitializationEvent event) {
         MinecraftForge.TERRAIN_GEN_BUS.register(GenLayerOceanBiomes.class);
-        //config stuff
-        SubaquaticConfigHandler.init();
-        SubaquaticTropicalFishConfig.buildFishTypes();
-        SubaquaticWaterColorConfig.buildWaterColors();
         //entity data fixers
         AbstractBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());
         MultiPartAbstractInventoryPart.registerFixer(FMLCommonHandler.instance().getDataFixer());
@@ -191,5 +187,13 @@ public final class Subaquatic
         final IParticleFactory bubbleFactory = manager.particleTypes.get(EnumParticleTypes.WATER_BUBBLE.getParticleID());
         manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (int particleID, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, int... args) ->
                 FluidloggedUtils.getFluidOrReal(world, new BlockPos(x, y, z)).getMaterial() == Material.WATER ? bubbleFactory.createParticle(particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args) : null);
+    }
+
+    @Mod.EventHandler
+    static void postInit(@Nonnull FMLPostInitializationEvent event) throws IOException {
+        //config stuff
+        SubaquaticConfigHandler.init();
+        SubaquaticTropicalFishConfig.buildFishTypes();
+        SubaquaticWaterColorConfig.buildWaterColors();
     }
 }

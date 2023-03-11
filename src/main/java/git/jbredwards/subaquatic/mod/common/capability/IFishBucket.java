@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common.capability;
 import git.jbredwards.fluidlogged_api.api.capability.CapabilityProvider;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -51,7 +52,8 @@ public interface IFishBucket
         final FluidStack fluid = handler.drain(Fluid.BUCKET_VOLUME, false);
         return fluid != null && fluid.getFluid() != null
                 && fluid.amount >= Fluid.BUCKET_VOLUME && fluid.getFluid().canBePlacedInWorld()
-                && fluid.getFluid().getBlock().getDefaultState().getMaterial() == Material.WATER;
+                && fluid.getFluid().getBlock().getDefaultState().getMaterial() == Material.WATER
+                && !SubaquaticConfigHandler.FISH_BUCKET_FLUID_BLACKLIST.contains(fluid.getFluid());
     }
 
     @Nullable
