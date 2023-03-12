@@ -27,18 +27,6 @@
                 {
                     "functions":[
                         {
-                            "conditions":[
-                                {
-                                    "condition":"entity_properties",
-                                    "entity":"this",
-                                    "properties":{
-                                        "on_fire":true
-                                    }
-                                }
-                            ],
-                            "function":"furnace_smelt"
-                        },
-                        {
                             "data":3,
                             "function":"minecraft:set_data"
                         }

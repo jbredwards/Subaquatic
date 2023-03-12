@@ -26,7 +26,7 @@ public final class PluginBlockGrass implements IASMPlugin
          * }
          *
          * New code:
-         * if (worldIn.getBlockState(pos.up()).getLightOpacity(worldIn, pos.up()) > 0)
+         * if (worldIn.getBlockState(pos.up()).getLightOpacity(worldIn, pos.up()) > 1)
          * {
          *     ...
          * }
@@ -34,7 +34,7 @@ public final class PluginBlockGrass implements IASMPlugin
         if(checkMethod(getPrevious(insn, 2), obfuscated ? "func_175671_l" : "getLightFromNeighbors") && insn.getPrevious().getOpcode() == ICONST_4) removeFrom(instructions, insn, -5);
         else if(insn.getOpcode() == ICONST_2) {
             final boolean isFinished = insn.getNext().getOpcode() == IF_ICMPGT;
-            instructions.insert(insn, new InsnNode(ICONST_0));
+            instructions.insert(insn, new InsnNode(ICONST_1));
             instructions.remove(insn);
             return isFinished;
         }

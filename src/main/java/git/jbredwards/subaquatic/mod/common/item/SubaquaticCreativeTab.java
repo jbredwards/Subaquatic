@@ -6,7 +6,6 @@ import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
 import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMonsterPlacer;
@@ -61,7 +60,7 @@ public final class SubaquaticCreativeTab extends CreativeTabs
 
     static void addFishBucket(@Nonnull NonNullList<ItemStack> items, @Nonnull EntityEntry entity) {
         ImmutableList.<Fluid>builder().add(FluidRegistry.WATER).addAll(FluidRegistry.getBucketFluids()).build().forEach(fluid -> {
-            if(fluid.canBePlacedInWorld() && fluid.getBlock().getDefaultState().getMaterial() == Material.WATER) {
+            if(IFishBucket.isFluidValid(fluid)) {
                 final ItemStack stack = FluidUtil.getFilledBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME));
                 final IFishBucket cap = IFishBucket.get(stack);
                 if(cap != null) {

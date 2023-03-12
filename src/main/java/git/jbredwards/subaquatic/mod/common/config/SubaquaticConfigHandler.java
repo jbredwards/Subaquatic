@@ -53,7 +53,7 @@ public final class SubaquaticConfigHandler
 
     @Nonnull
     @Config.LangKey("config.subaquatic.fishBucketFluidBlacklist")
-    public static String[] fishBucketFluidBlacklist = new String[] {};
+    public static String[] fishBucketFluidBlacklist = new String[] {"biomesoplenty:honey","biomesoplenty:poison","biomesoplenty:sand"};
 
     @Nonnull
     @Config.Ignore

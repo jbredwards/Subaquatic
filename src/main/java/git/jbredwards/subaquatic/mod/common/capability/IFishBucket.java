@@ -50,10 +50,13 @@ public interface IFishBucket
         if(handler == null || handler.getTankProperties().length != 1) return false;
 
         final FluidStack fluid = handler.drain(Fluid.BUCKET_VOLUME, false);
-        return fluid != null && fluid.getFluid() != null
-                && fluid.amount >= Fluid.BUCKET_VOLUME && fluid.getFluid().canBePlacedInWorld()
-                && fluid.getFluid().getBlock().getDefaultState().getMaterial() == Material.WATER
-                && !SubaquaticConfigHandler.FISH_BUCKET_FLUID_BLACKLIST.contains(fluid.getFluid());
+        return fluid != null && fluid.amount >= Fluid.BUCKET_VOLUME && isFluidValid(fluid.getFluid());
+    }
+
+    static boolean isFluidValid(@Nullable Fluid fluid) {
+        return fluid != null && fluid.canBePlacedInWorld()
+                && fluid.getBlock().getDefaultState().getMaterial() == Material.WATER
+                && !SubaquaticConfigHandler.FISH_BUCKET_FLUID_BLACKLIST.contains(fluid);
     }
 
     @Nullable

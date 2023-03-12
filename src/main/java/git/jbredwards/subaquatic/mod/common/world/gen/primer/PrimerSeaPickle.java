@@ -3,8 +3,8 @@ package git.jbredwards.subaquatic.mod.common.world.gen.primer;
 import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import git.jbredwards.subaquatic.api.event.OnCreateChunkFromPrimerEvent;
 import git.jbredwards.subaquatic.mod.common.block.BlockSeaPickle;
-import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
+import git.jbredwards.subaquatic.mod.common.world.biome.BiomeWarmOcean;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
@@ -40,5 +40,5 @@ public final class PrimerSeaPickle
         }
     }
 
-    static boolean isValidBiome(@Nonnull Biome biome) { return biome == SubaquaticBiomes.WARM_OCEAN; }
+    static boolean isValidBiome(@Nonnull Biome biome) { return biome instanceof BiomeWarmOcean; }
 }

@@ -6,11 +6,13 @@ import knightminer.inspirations.recipes.InspirationsRecipes;
 import knightminer.inspirations.recipes.RecipesClientProxy;
 import knightminer.inspirations.recipes.tileentity.TileCauldron;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fluids.Fluid;
@@ -35,6 +37,12 @@ public final class InspirationsHandler
             ModelLoaderRegistry.registerLoader(InspirationsModelCauldron.Loader.INSTANCE);
             ModelLoader.setCustomStateMapper(InspirationsRecipes.cauldron, new RecipesClientProxy.CauldronStateMapper(Util.getResource("cauldron_multilayer")));
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent(priority = EventPriority.LOW)
+    static void ensureOldPotionFluidTexture(@Nonnull TextureStitchEvent.Pre event) {
+        if(event.getMap() == Minecraft.getMinecraft().getTextureMapBlocks()) event.getMap().registerSprite(Util.getResource("blocks/fluid_potion"));
     }
 
     public static boolean doesCauldronHaveMaterial(@Nonnull Material material, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
