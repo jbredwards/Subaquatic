@@ -40,4 +40,14 @@ public final class TropicalFishData
     public String getLocalizedName() {
         return I18n.translateToLocal("misc.subaquatic.tropical_fish.type." + (primaryShape & 255 | (secondaryShape & 255) << 8));
     }
+
+    @Nonnull
+    public String getPrimaryLocalizedName() {
+        return I18n.translateToLocal("misc.subaquatic.tropical_fish.type." + ((primaryShape & 255) | 65536));
+    }
+
+    @Nonnull
+    public String getSecondaryLocalizedName() {
+        return I18n.translateToLocal("misc.subaquatic.tropical_fish.type." + ((secondaryShape & 255) | 16777216));
+    }
 }

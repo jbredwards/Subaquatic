@@ -1,8 +1,8 @@
 package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
-import git.jbredwards.subaquatic.mod.common.item.boat.ItemBoatContainer;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticBoatTypesConfig;
+import git.jbredwards.subaquatic.mod.common.item.ItemBoatContainer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -37,8 +37,8 @@ final class SubaquaticRecipes
 
     static void registerCrafting(@Nonnull IForgeRegistry<IRecipe> registry) throws IOException {
         //boat containers
-        SubaquaticChestBoatConfig.buildBoatTypes();
-        SubaquaticChestBoatConfig.BOAT_TYPES.forEach(type -> {
+        SubaquaticBoatTypesConfig.buildBoatTypes();
+        SubaquaticBoatTypesConfig.BOAT_TYPES.forEach(type -> {
             final ResourceLocation typeName = type.boat.delegate.name();
             final String recipeId = '/' + typeName.getNamespace() + '/' + typeName.getPath() + '/' + type.boatMeta;
 
@@ -53,6 +53,12 @@ final class SubaquaticRecipes
                     ItemBoatContainer.createStackWithType(SubaquaticItems.ENDER_CHEST_BOAT, type),
                     "C", "B", 'C', Blocks.ENDER_CHEST, 'B', new ItemStack(type.boat, 1, type.boatMeta))
                     .setRegistryName(Subaquatic.MODID, "ender_chest_boat" + recipeId));
+
+            //furnace boat recipes
+            registry.register(new ShapedOreRecipe(null,
+                    ItemBoatContainer.createStackWithType(SubaquaticItems.FURNACE_BOAT, type),
+                    "C", "B", 'C', Blocks.FURNACE, 'B', new ItemStack(type.boat, 1, type.boatMeta))
+                    .setRegistryName(Subaquatic.MODID, "furnace_boat" + recipeId));
         });
 
         //overrides

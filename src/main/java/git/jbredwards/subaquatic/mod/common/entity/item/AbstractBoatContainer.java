@@ -35,7 +35,7 @@ public abstract class AbstractBoatContainer extends EntityBoat implements IEntit
 {
     @Nonnull
     private static final DataParameter<ItemStack> CONTAINER_STACK = EntityDataManager.createKey(AbstractBoatContainer.class, DataSerializers.ITEM_STACK);
-    public final MultiPartContainerPart containerPart = getContainerPart();
+    public final MultiPartContainerPart containerPart = createContainerPart();
 
     public AbstractBoatContainer(@Nonnull World worldIn) { super(worldIn); }
     public AbstractBoatContainer(@Nonnull World worldIn, double x, double y, double z) { super(worldIn, x, y, z); }
@@ -57,7 +57,7 @@ public abstract class AbstractBoatContainer extends EntityBoat implements IEntit
     }
 
     @Nonnull
-    protected abstract MultiPartContainerPart getContainerPart();
+    protected abstract MultiPartContainerPart createContainerPart();
 
     @Override
     protected boolean canFitPassenger(@Nonnull Entity passenger) { return getPassengers().size() == 0; }

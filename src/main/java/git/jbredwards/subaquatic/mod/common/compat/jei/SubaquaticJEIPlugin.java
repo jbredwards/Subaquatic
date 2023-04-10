@@ -3,8 +3,12 @@ package git.jbredwards.subaquatic.mod.common.compat.jei;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
 import mezz.jei.api.IModPlugin;
+import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 
@@ -26,5 +30,11 @@ public final class SubaquaticJEIPlugin implements IModPlugin
     public void registerItemSubtypes(@Nonnull ISubtypeRegistry subtypeRegistry) {
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.CHEST_BOAT, boatContainerInterpreter);
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.ENDER_CHEST_BOAT, boatContainerInterpreter);
+        subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.FURNACE_BOAT, boatContainerInterpreter);
+    }
+
+    @Override
+    public void register(@Nonnull IModRegistry registry) {
+        registry.addRecipeCatalyst(new ItemStack(SubaquaticItems.FURNACE_BOAT, 1, OreDictionary.WILDCARD_VALUE), VanillaRecipeCategoryUid.SMELTING);
     }
 }

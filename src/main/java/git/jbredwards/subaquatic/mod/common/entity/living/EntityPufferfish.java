@@ -1,9 +1,9 @@
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIPuff;
-import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.EntityBucketHandlerPufferfish;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -166,13 +166,6 @@ public class EntityPufferfish extends AbstractFish
         }
     }
 
-    @Override
-    public void buildFishBucketData(@Nonnull FishBucketData data) {
-        data.entity = SubaquaticEntities.PUFFERFISH;
-        data.fishNbt = serializeNBT();
-        data.fishNbt.setInteger("PuffState", 0);
-    }
-
     @Nonnull
     @Override
     protected ResourceLocation getLootTable() { return new ResourceLocation(Subaquatic.MODID, "entities/pufferfish"); }
@@ -191,4 +184,18 @@ public class EntityPufferfish extends AbstractFish
 
     @Override
     public boolean hasNoGroup() { return true; }
+
+    @Nonnull
+    @Override
+    public AbstractEntityBucketHandler createFishBucketHandler() {
+        if(getClass() != EntityPufferfish.class)
+            throw new IllegalStateException("No bucket handler defined for entity class: " + getClass());
+
+        return new EntityBucketHandlerPufferfish();
+    }
+
+    @Override
+    public void postSetHandlerEntityNBT(@Nonnull AbstractEntityBucketHandler handler) {
+        handler.entityNbt.setInteger("PuffState", 0);
+    }
 }

@@ -1,10 +1,10 @@
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
-import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.EntityBucketHandlerTropicalFish;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.item.EnumDyeColor;
@@ -76,15 +76,24 @@ public class EntityTropicalFish extends AbstractGroupFish
         else setVariant(compound.getInteger("Variant"));
     }
 
+    @Nonnull
     @Override
-    public void buildFishBucketData(@Nonnull FishBucketData data) {
-        data.entity = SubaquaticEntities.TROPICAL_FISH;
-        data.fishNbt = serializeNBT();
+    public AbstractEntityBucketHandler createFishBucketHandler() {
+        if(getClass() != EntityTropicalFish.class)
+            throw new IllegalStateException("No bucket handler defined for entity class: " + getClass());
+
+        return new EntityBucketHandlerTropicalFish();
     }
 
     @Override
-    public void onCreatedByBucket(@Nonnull ItemStack bucket, @Nonnull FishBucketData data) {
-        if(!data.fishNbt.hasKey("Variant")) setVariant(getRandomVariant());
+    public void postSetHandlerEntityNBT(@Nonnull AbstractEntityBucketHandler handler) {
+        ((EntityBucketHandlerTropicalFish)handler).fishData = TropicalFishData.deserialize(getVariant());
+    }
+
+    @Override
+    public void onCreatedByBucket(@Nonnull ItemStack bucket, @Nonnull AbstractEntityBucketHandler handler) {
+        final TropicalFishData bucketData = ((EntityBucketHandlerTropicalFish)handler).fishData;
+        setVariant(bucketData == null ? getRandomVariant() : bucketData.serialize());
     }
 
     @Nonnull

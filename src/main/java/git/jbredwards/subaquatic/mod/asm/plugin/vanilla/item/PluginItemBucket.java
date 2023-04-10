@@ -1,8 +1,8 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.item;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
-import git.jbredwards.subaquatic.mod.common.entity.util.IBucketableEntity;
+import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.IBucketableEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
@@ -54,8 +54,8 @@ public final class PluginItemBucket implements IASMPlugin
     {
         public static boolean tryPlaceContainedLiquid(@Nonnull ItemBucket item, @Nonnull EntityPlayer player, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
             if(item.tryPlaceContainedLiquid(player, world, pos)) {
-                final IFishBucket cap = IFishBucket.get(stack);
-                if(cap != null) IBucketableEntity.placeCapturedEntity(world, pos, stack, cap.getData());
+                final IEntityBucket cap = IEntityBucket.get(stack);
+                if(cap != null) IBucketableEntity.placeCapturedEntity(world, pos, stack, cap.getHandler());
                 return true;
             }
 

@@ -59,6 +59,7 @@ entity.subaquatic.chest_boat.name=Boat with Chest
 entity.subaquatic.cod.name=Cod
 entity.subaquatic.ender_chest_boat.name=Boat with Ender Chest
 entity.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
+entity.subaquatic.furnace_boat.name=Boat with Furnace
 entity.subaquatic.pufferfish.name=Pufferfish
 entity.subaquatic.salmon.name=Salmon
 entity.subaquatic.tropical_fish.name=Tropical Fish
@@ -94,6 +95,8 @@ regex.subaquatic.chest_boat.replacement=Boat with Chest
 regex.subaquatic.chest_boat.target=Boat
 regex.subaquatic.ender_chest_boat.replacement=Boat with Ender Chest
 regex.subaquatic.ender_chest_boat.target=Boat
+regex.subaquatic.furnace_boat.replacement=Boat with Furnace
+regex.subaquatic.furnace_boat.target=Boat
 tooltip.subaquatic.fish_bucket=%s
 #Config
 config.subaquatic.biomeColorBlendRadius=Biome Color Blend Radius

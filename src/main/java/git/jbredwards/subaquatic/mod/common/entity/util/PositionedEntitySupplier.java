@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 /**
- *
+ * Generates a new entity instance at the given x y z pos. This does not spawn the entity
  * @author jbred
  *
  */

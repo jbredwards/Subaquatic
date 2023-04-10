@@ -1,25 +1,26 @@
 package git.jbredwards.subaquatic.mod.client;
 
-import com.google.common.base.Functions;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
-import git.jbredwards.subaquatic.mod.client.item.model.BakedFishBucketModel;
+import git.jbredwards.subaquatic.mod.client.item.model.BakedEntityBucketModel;
 import git.jbredwards.subaquatic.mod.client.item.model.ModelContainerBoat;
 import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumnPop;
-import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
-import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
+import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
-import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -27,16 +28,24 @@ import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
+import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.terraingen.BiomeEvent;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.registries.IRegistryDelegate;
 
 import javax.annotation.Nonnull;
+import java.awt.*;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  *
@@ -82,48 +91,101 @@ public final class ClientEventHandler
             if(item instanceof ICustomModel) ((ICustomModel)item).registerModels();
             else ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.delegate.name(), "inventory"));
         }
+
+        //reset all BakedQuad caches on resource reload
+        ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager())
+            .registerReloadListener((ISelectiveResourceReloadListener)(resourceManager, resourcePredicate) -> {
+                if(resourcePredicate.test(VanillaResourceType.MODELS)) BakedEntityBucketModel.clearQuadsCache();
+            }
+        );
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    static void applyFishBucketModelOverrides(@Nonnull ModelBakeEvent event) {
-        for(Item item : ForgeRegistries.ITEMS) {
-            if(IFishBucket.canItemHoldCapability(item)) {
-                for(String variant : event.getModelLoader().getVariantNames(item)) {
-                    final ModelResourceLocation modelLocation = ModelLoader.getInventoryVariant(variant);
-                    final IBakedModel bucketModel = event.getModelRegistry().getObject(modelLocation);
-                    if(bucketModel != null) event.getModelRegistry().putObject(modelLocation, new BakedFishBucketModel(bucketModel));
-                }
+    static void applyEntityBucketModelOverrides(@Nonnull ModelBakeEvent event) {
+        for(Item bucket : IEntityBucket.getValidBuckets()) {
+            for(String variant : event.getModelLoader().getVariantNames(bucket)) {
+                final ModelResourceLocation modelLocation = ModelLoader.getInventoryVariant(variant);
+                final IBakedModel bucketModel = event.getModelRegistry().getObject(modelLocation);
+                if(bucketModel != null) event.getModelRegistry().putObject(modelLocation, new BakedEntityBucketModel(bucketModel));
             }
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW)
-    static void handleFishBucketTooltip(@Nonnull ItemTooltipEvent event) {
-        final IFishBucket cap = IFishBucket.get(event.getItemStack());
-        if(cap != null && cap.getData() != FishBucketData.EMPTY) {
-            final FishBucketData data = cap.getData();
-            if(!data.tooltip.isEmpty()) event.getToolTip().addAll(1, data.tooltip);
-            event.getToolTip().add(1, I18n.format("tooltip.subaquatic.fish_bucket",
-                    I18n.format("entity." + data.entity.getName() + ".name")));
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    static void applyEntityBucketColorOverrides(@Nonnull ColorHandlerEvent.Item event) {
+        final Map<IRegistryDelegate<Item>, IItemColor> itemColorMap = ObfuscationReflectionHelper.getPrivateValue(ItemColors.class, event.getItemColors(), "itemColorMap");
+        for(Item bucket : IEntityBucket.getValidBuckets()) {
+            final IItemColor oldColorHandler = itemColorMap.getOrDefault(bucket.delegate, (stack, tintIndex) -> -1);
+            event.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
+                final IEntityBucket cap = IEntityBucket.get(stack);
+                if(cap != null && cap.getHandler() != null) {
+                    final int color = cap.getHandler().colorMultiplier(stack, tintIndex);
+                    if(color != -1) return color;
+                }
+
+                return oldColorHandler.colorMultiplier(stack, tintIndex);
+            }, bucket);
         }
     }
 
-    @SubscribeEvent
-    static void registerTextures(@Nonnull TextureStitchEvent.Pre event) {
-        if(event.getMap() == Minecraft.getMinecraft().getTextureMapBlocks()) {
-            //ensure these sprites are always registered, as their use cases are hardcoded
-            event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_flow"));
-            event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_overlay"));
-            event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_still"));
-            event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "misc/underwater"));
-            for(int i = 0; i < 5; i++) ParticleBubbleColumnPop.TEXTURES[i] =
-                    event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "particles/bubble_pop_" + i));
+    @SubscribeEvent(priority = EventPriority.LOW)
+    static void handleEntityBucketTooltip(@Nonnull ItemTooltipEvent event) {
+        final IEntityBucket cap = IEntityBucket.get(event.getItemStack());
+        if(cap != null && cap.getHandler() != null) cap.getHandler().handleTooltip(event.getToolTip(), event.getItemStack(), event.getFlags());
+    }
 
-            //fish bucket sprites
-            FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.COD, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_cod")))::apply);
-            FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.PUFFERFISH, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_pufferfish")))::apply);
-            FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.SALMON, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_salmon")))::apply);
-            FishBucketData.OVERLAY_TEXTURES.put(SubaquaticEntities.TROPICAL_FISH, Functions.constant(event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_tropical_fish")))::apply);
-        }
+    @SubscribeEvent(receiveCanceled = true)
+    static void registerTextures(@Nonnull TextureStitchEvent.Pre event) {
+        if(event.getMap() != Minecraft.getMinecraft().getTextureMapBlocks()) return;
+
+        //ensure these sprites are always registered, as their use cases are hardcoded
+        event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_flow"));
+        event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_overlay"));
+        event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_still"));
+        event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "misc/underwater"));
+        for(int i = 0; i < 5; i++) ParticleBubbleColumnPop.TEXTURES[i] =
+                event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "particles/bubble_pop_" + i));
+
+        //handle entity bucket sprites
+        AbstractEntityBucketHandler.BUCKET_HANDLERS.values()
+                .forEach(handler -> handler.get().getSprites()
+                        .forEach(event.getMap()::registerSprite));
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
+    static void handleFluidParticleBaseColor(@Nonnull TextureStitchEvent.Post event) {
+        if(event.getMap() != Minecraft.getMinecraft().getTextureMapBlocks()) return;
+
+        Subaquatic.LOGGER.info("Attempting to gather the average pixel colors of each still fluid texture...");
+        SubaquaticWaterColorConfig.FLUID_PIXEL_BASE_COLORS.clear();
+
+        final Collection<Fluid> fluids = FluidRegistry.getRegisteredFluids().values();
+        final ProgressManager.ProgressBar progressBar = ProgressManager.push("Fluid Texture Averages", fluids.size());
+
+        fluids.forEach(fluid -> {
+            final TextureAtlasSprite texture = event.getMap().getAtlasSprite(fluid.getStill().toString());
+            long pixelRedSum = 0;
+            long pixelGreenSum = 0;
+            long pixelBlueSum = 0;
+            int size = 0;
+
+            progressBar.step(texture.getIconName());
+            for(int frame = 0; frame < texture.getFrameCount(); frame++) {
+                for(int[] textureData : texture.getFrameTextureData(frame)) {
+                    for(int pixel : textureData) {
+                        pixelRedSum   += pixel >> 16 & 255;
+                        pixelGreenSum += pixel >> 8 & 255;
+                        pixelBlueSum  += pixel & 255;
+                        size++;
+                    }
+                }
+            }
+
+            SubaquaticWaterColorConfig.FLUID_PIXEL_BASE_COLORS.put(fluid,
+                    new Color(pixelRedSum / 255f / size, pixelGreenSum / 255f / size, pixelBlueSum / 255f / size));
+        });
+
+        ProgressManager.pop(progressBar);
+        Subaquatic.LOGGER.info("Success!");
     }
 }

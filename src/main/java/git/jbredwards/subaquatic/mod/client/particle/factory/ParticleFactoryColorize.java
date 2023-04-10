@@ -9,6 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.function.ToIntBiFunction;
 
 /**
@@ -19,26 +20,27 @@ import java.util.function.ToIntBiFunction;
 @SideOnly(Side.CLIENT)
 public class ParticleFactoryColorize implements IParticleFactory
 {
-    @Nonnull
-    public final ToIntBiFunction<World, BlockPos> color;
+    @Nonnull public final IParticleColorGetter colorSupplier;
+    @Nonnull public final IParticleFactory particleFactory;
 
-    @Nonnull
-    public final IParticleFactory factory;
+    //gets the color from the particle's BlockPos
     public ParticleFactoryColorize(@Nonnull IParticleFactory factoryIn, @Nonnull ToIntBiFunction<World, BlockPos> colorIn) {
-        color = colorIn;
-        factory = factoryIn;
+        this(factoryIn, (world, x, y, z) -> new Color(colorIn.applyAsInt(world, new BlockPos(x, y, z))));
+    }
+
+    //gets the color from the particle's exact position
+    public ParticleFactoryColorize(@Nonnull IParticleFactory factoryIn, @Nonnull IParticleColorGetter colorIn) {
+        colorSupplier = colorIn;
+        particleFactory = factoryIn;
     }
 
     @Nullable
     @Override
     public Particle createParticle(int particleID, @Nonnull World worldIn, double x, double y, double z, double xSpeedIn, double ySpeedIn, double zSpeedIn, @Nonnull int... args) {
-        final @Nullable Particle particle = factory.createParticle(particleID, worldIn, x, y, z, xSpeedIn, ySpeedIn, zSpeedIn, args);
+        final @Nullable Particle particle = particleFactory.createParticle(particleID, worldIn, x, y, z, xSpeedIn, ySpeedIn, zSpeedIn, args);
         if(particle != null) {
-            final int rgb = color.applyAsInt(worldIn, new BlockPos(x, y, z));
-            final float r = 0.6f * (rgb >> 16 & 255) / 255.0f;
-            final float g = 0.6f * (rgb >> 8 & 255) / 255.0f;
-            final float b = 0.6f * (rgb & 255) / 255.0f;
-            particle.setRBGColorF(r, g, b);
+            final float[] rgb = colorSupplier.get(worldIn, x, y, z).getRGBColorComponents(null);
+            particle.setRBGColorF(rgb[0], rgb[1], rgb[2]);
         }
 
         return particle;

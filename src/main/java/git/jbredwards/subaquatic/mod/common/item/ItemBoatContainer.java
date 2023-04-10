@@ -1,10 +1,11 @@
-package git.jbredwards.subaquatic.mod.common.item.boat;
+package git.jbredwards.subaquatic.mod.common.item;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.util.BoatType;
-import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticBoatTypesConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
+import git.jbredwards.subaquatic.mod.common.entity.util.PositionedEntitySupplier;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,10 +34,13 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public abstract class ItemBoatContainer extends ItemBoat
+public class ItemBoatContainer extends ItemBoat
 {
-    public ItemBoatContainer() {
+    @Nonnull
+    public final PositionedEntitySupplier<AbstractBoatContainer> boatSupplier;
+    public ItemBoatContainer(@Nonnull PositionedEntitySupplier<AbstractBoatContainer> boatSupplierIn) {
         super(EntityBoat.Type.OAK);
+        boatSupplier = boatSupplierIn;
         registerDispenserBehavior();
     }
 
@@ -66,7 +70,7 @@ public abstract class ItemBoatContainer extends ItemBoat
                 else if(material != Material.AIR || FluidloggedUtils.getFluidOrReal(source.getWorld(), boatPos.down()).getMaterial() != Material.WATER)
                     return super.dispenseStack(source, stack);
 
-                final AbstractBoatContainer boat = getBoatContainer(source.getWorld(), x, y + yOffset, z);
+                final AbstractBoatContainer boat = boatSupplier.generate(source.getWorld(), x, y + yOffset, z);
                 boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(stack, 1));
                 boat.rotationYaw = dispenserFacing.getHorizontalAngle();
 
@@ -92,7 +96,7 @@ public abstract class ItemBoatContainer extends ItemBoat
         if(trace == null || trace.typeOfHit != RayTraceResult.Type.BLOCK) return new ActionResult<>(EnumActionResult.PASS, held);
 
         final boolean isOverWater = FluidloggedUtils.getFluidOrReal(worldIn, trace.getBlockPos()).getMaterial() == Material.WATER;
-        final AbstractBoatContainer boat = getBoatContainer(worldIn, trace.hitVec.x, isOverWater ? trace.hitVec.y - 0.12 : trace.hitVec.y, trace.hitVec.z);
+        final AbstractBoatContainer boat = boatSupplier.generate(worldIn, trace.hitVec.x, isOverWater ? trace.hitVec.y - 0.12 : trace.hitVec.y, trace.hitVec.z);
 
         if(boat.getCollisionBoundingBox() == null) return new ActionResult<>(EnumActionResult.PASS, held);
         final AxisAlignedBB collisionBox = boat.getCollisionBoundingBox().shrink(0.1);
@@ -123,8 +127,8 @@ public abstract class ItemBoatContainer extends ItemBoat
             if(I18n.canTranslate(specialCase)) return I18n.translateToLocal(specialCase);
             //auto generate a name
             return typeStack.getItem().getItemStackDisplayName(typeStack).replaceFirst(
-                    I18n.translateToLocal(getRegexTarget()),
-                    I18n.translateToLocal(getRegexReplacement()));
+                    I18n.translateToLocal(getRegexTarget(stack)),
+                    I18n.translateToLocal(getRegexReplacement(stack)));
         }
 
         //should never pass
@@ -142,15 +146,16 @@ public abstract class ItemBoatContainer extends ItemBoat
 
     @Override
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
-        if(isInCreativeTab(tab)) SubaquaticChestBoatConfig.BOAT_TYPES.forEach(type -> items.add(createStackWithType(this, type)));
+        if(isInCreativeTab(tab)) SubaquaticBoatTypesConfig.BOAT_TYPES.forEach(type -> items.add(createStackWithType(this, type)));
     }
 
     @Nonnull
-    public abstract AbstractBoatContainer getBoatContainer(@Nonnull World world, double x, double y, double z);
+    public String getRegexTarget(@Nonnull ItemStack stack) {
+        return String.format("regex.%s.%s.target", delegate.name().getNamespace(), delegate.name().getPath());
+    }
 
     @Nonnull
-    public abstract String getRegexTarget();
-
-    @Nonnull
-    public abstract String getRegexReplacement();
+    public String getRegexReplacement(@Nonnull ItemStack stack) {
+        return String.format("regex.%s.%s.replacement", delegate.name().getNamespace(), delegate.name().getPath());
+    }
 }

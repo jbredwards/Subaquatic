@@ -3,9 +3,9 @@ package git.jbredwards.subaquatic.mod.common.capability;
 import git.jbredwards.fluidlogged_api.api.capability.CapabilityProvider;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.util.BoatType;
-import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticBoatTypesConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
-import git.jbredwards.subaquatic.mod.common.item.boat.ItemBoatContainer;
+import git.jbredwards.subaquatic.mod.common.item.ItemBoatContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -80,7 +80,7 @@ public interface IBoatType
         @Override
         public void readNBT(@Nonnull Capability<IBoatType> capability, @Nonnull IBoatType instance, @Nullable EnumFacing side, @Nullable NBTBase nbt) {
             if(nbt instanceof NBTTagCompound) {
-                final BoatType type = SubaquaticChestBoatConfig.getTypeFrom((NBTTagCompound)nbt);
+                final BoatType type = SubaquaticBoatTypesConfig.getTypeFrom((NBTTagCompound)nbt);
                 if(type != null) instance.setType(type);
             }
         }

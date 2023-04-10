@@ -35,7 +35,7 @@ public final class CMessageOpenBoatInventory extends AbstractMessage
             if(message.isValid) {
                 final EntityPlayer player = ctx.getServerHandler().player;
                 if(player.getRidingEntity() instanceof AbstractBoatContainer) {
-                    AbstractBoatContainer boat = (AbstractBoatContainer)player.getRidingEntity();
+                    final AbstractBoatContainer boat = (AbstractBoatContainer)player.getRidingEntity();
                     if(boat.containerPart instanceof MultiPartAbstractInventoryPart)
                         player.displayGUIChest(((MultiPartAbstractInventoryPart)boat.containerPart).getInventory(player));
                 }

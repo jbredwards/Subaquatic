@@ -70,16 +70,14 @@ public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerP
     //don't display player inventory if the player is riding this
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     static void cancelGui(@Nonnull GuiOpenEvent event) {
-        if(event.getGui() instanceof GuiInventory) {
-            if(Minecraft.getMinecraft().player != null) {
-                final Entity riding = Minecraft.getMinecraft().player.getRidingEntity();
-                if(riding instanceof AbstractBoatContainer && ((AbstractBoatContainer)riding).containerPart instanceof MultiPartAbstractInventoryPart) {
-                    final CMessageOpenBoatInventory message = new CMessageOpenBoatInventory();
-                    message.isValid = true;
+        if(event.getGui() instanceof GuiInventory && Minecraft.getMinecraft().player != null) {
+            final Entity riding = Minecraft.getMinecraft().player.getRidingEntity();
+            if(riding instanceof AbstractBoatContainer && ((AbstractBoatContainer)riding).containerPart instanceof MultiPartAbstractInventoryPart) {
+                final CMessageOpenBoatInventory message = new CMessageOpenBoatInventory();
+                message.isValid = true;
 
-                    Subaquatic.WRAPPER.sendToServer(message);
-                    event.setCanceled(true);
-                }
+                Subaquatic.WRAPPER.sendToServer(message);
+                event.setCanceled(true);
             }
         }
     }

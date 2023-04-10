@@ -36,7 +36,7 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerEntities(@Nonnull RegistryEvent.Register<EntityEntry> event) {
         SubaquaticEntities.INIT.forEach(event.getRegistry()::register);
-        SubaquaticEntities.handleSpawns();
+        SubaquaticEntities.handleAdditionalEntityData();
     }
 
     @SubscribeEvent

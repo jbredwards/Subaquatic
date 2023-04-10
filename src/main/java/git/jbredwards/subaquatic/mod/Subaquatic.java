@@ -10,7 +10,7 @@ import git.jbredwards.subaquatic.mod.client.entity.renderer.*;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
-import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
+import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
@@ -20,15 +20,17 @@ import git.jbredwards.subaquatic.mod.common.entity.item.EntityMinecartEnderChest
 import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartAbstractInventoryPart;
 import git.jbredwards.subaquatic.mod.common.entity.living.*;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import git.jbredwards.subaquatic.mod.common.message.CMessageOpenBoatInventory;
 import git.jbredwards.subaquatic.mod.common.message.SMessageAbstractChestPart;
 import git.jbredwards.subaquatic.mod.common.message.SMessageBoatType;
+import git.jbredwards.subaquatic.mod.common.message.SMessageFurnacePart;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorCoral;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
-import git.jbredwards.subaquatic.mod.common.world.gen.primer.PrimerSeaPickle;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
@@ -36,6 +38,7 @@ import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -68,6 +71,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -106,26 +110,32 @@ public final class Subaquatic
     }
 
     @Mod.EventHandler
-    static void preInit(@Nonnull FMLPreInitializationEvent event) {
+    static void preInit(@Nonnull FMLPreInitializationEvent event) throws IOException {
+        //handle tropical fish types
+        SubaquaticTropicalFishConfig.buildFishTypes();
+
         //capabilities
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         CapabilityManager.INSTANCE.register(IBoatType.class, IBoatType.Storage.INSTANCE, IBoatType.Impl::new);
-        CapabilityManager.INSTANCE.register(IFishBucket.class, IFishBucket.Storage.INSTANCE, IFishBucket.Impl::new);
+        CapabilityManager.INSTANCE.register(IEntityBucket.class, IEntityBucket.Storage.INSTANCE, IEntityBucket.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         MinecraftForge.EVENT_BUS.register(IBoatType.class);
-        MinecraftForge.EVENT_BUS.register(IFishBucket.class);
+        MinecraftForge.EVENT_BUS.register(IEntityBucket.class);
+
         //message registries
         WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
         WRAPPER.registerMessage(SMessageBoatType.Handler.INSTANCE, SMessageBoatType.class, 0, Side.CLIENT);
         WRAPPER.registerMessage(SMessageAbstractChestPart.Handler.INSTANCE, SMessageAbstractChestPart.class, 1, Side.CLIENT);
         WRAPPER.registerMessage(CMessageOpenBoatInventory.Handler.INSTANCE, CMessageOpenBoatInventory.class, 2, Side.SERVER);
+        WRAPPER.registerMessage(SMessageFurnacePart.Handler.INSTANCE, SMessageFurnacePart.class, 3, Side.CLIENT);
+
         //world generators
         GeneratorCoral.initDefaults();
         GameRegistry.registerWorldGenerator(GeneratorCoral.INSTANCE, 3);
         GameRegistry.registerWorldGenerator(GeneratorKelp.INSTANCE, 4);
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
         GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
-        MinecraftForge.TERRAIN_GEN_BUS.register(PrimerSeaPickle.class);
+        //MinecraftForge.TERRAIN_GEN_BUS.register(PrimerSeaPickle.class);
     }
 
     @Mod.EventHandler
@@ -138,6 +148,7 @@ public final class Subaquatic
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTropicalFish.class, RenderTropicalFish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityXPOrb.class, RenderTranslucentXPOrb::new);
+
         //inspirations compat
         if(isInspirationsInstalled) MinecraftForge.EVENT_BUS.register(InspirationsHandler.class);
     }
@@ -148,8 +159,10 @@ public final class Subaquatic
         //entity data fixers
         AbstractBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());
         MultiPartAbstractInventoryPart.registerFixer(FMLCommonHandler.instance().getDataFixer());
+
         //automatically add all IOceanBiome instances to the Forge ocean biomes list
         ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
+
         //generate ocean biome id sets
         BiomeManager.oceanBiomes.forEach(biome -> {
             final int biomeId = Biome.getIdForBiome(biome);
@@ -157,6 +170,7 @@ public final class Subaquatic
 
             if(biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1) IOceanBiome.SHALLOW_OCEAN_IDS.add(biomeId);
         });
+
         //automatically update valid ocean monument spawn biomes
         StructureOceanMonument.SPAWN_BIOMES = new ArrayList<>(ImmutableList.<Biome>builder()
                 .add(Biomes.DEEP_OCEAN)
@@ -180,20 +194,32 @@ public final class Subaquatic
         final ParticleManager manager = Minecraft.getMinecraft().effectRenderer;
         manager.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new ParticleFactoryColorize(new ParticleDrip.WaterFactory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
         manager.registerParticle(EnumParticleTypes.SUSPENDED.getParticleID(), new ParticleFactoryColorize(new ParticleSuspend.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
-        manager.registerParticle(EnumParticleTypes.WATER_DROP.getParticleID(), new ParticleFactoryColorize(new ParticleRain.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
-        manager.registerParticle(EnumParticleTypes.WATER_SPLASH.getParticleID(), new ParticleFactoryColorize(new ParticleSplash.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
-        manager.registerParticle(EnumParticleTypes.WATER_WAKE.getParticleID(), new ParticleFactoryColorize(new ParticleWaterWake.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
+        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), new ParticleFactoryColorize(new ParticleBubble.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
+        manager.registerParticle(EnumParticleTypes.WATER_DROP.getParticleID(), new ParticleFactoryColorize(new ParticleRain.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
+        manager.registerParticle(EnumParticleTypes.WATER_SPLASH.getParticleID(), new ParticleFactoryColorize(new ParticleSplash.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
+        manager.registerParticle(EnumParticleTypes.WATER_WAKE.getParticleID(), new ParticleFactoryColorize(new ParticleWaterWake.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
         //fix bubble particles spawning in illegal blocks (like cauldrons)
         final IParticleFactory bubbleFactory = manager.particleTypes.get(EnumParticleTypes.WATER_BUBBLE.getParticleID());
-        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (int particleID, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, int... args) ->
-                FluidloggedUtils.getFluidOrReal(world, new BlockPos(x, y, z)).getMaterial() == Material.WATER ? bubbleFactory.createParticle(particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args) : null);
+        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (int particleID, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, int... args) -> {
+            final Particle particle = bubbleFactory.createParticle(particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args);
+            if(particle == null) return null;
+
+            final BlockPos pos = new BlockPos(x, y, z);
+            final AxisAlignedBB box = particle.getBoundingBox();
+
+            final AxisAlignedBB boxToCheck = new AxisAlignedBB(box.minX, box.maxY, box.minZ, box.maxX, box.maxY, box.minZ);
+            return Boolean.TRUE.equals(FluidloggedUtils.getFluidOrReal(world, pos).getBlock().isAABBInsideMaterial(world, pos, boxToCheck, Material.WATER)) ? particle : null;
+        });
     }
 
     @Mod.EventHandler
     static void postInit(@Nonnull FMLPostInitializationEvent event) throws IOException {
         //config stuff
         SubaquaticConfigHandler.init();
-        SubaquaticTropicalFishConfig.buildFishTypes();
         SubaquaticWaterColorConfig.buildWaterColors();
+        //improve certain modded block sounds
+        Optional.ofNullable(Block.getBlockFromName("biomesoplenty:waterlily")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
+        Optional.ofNullable(Block.getBlockFromName("twilightforest:huge_lilypad")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
+        Optional.ofNullable(Block.getBlockFromName("twilightforest:huge_waterlily")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
     }
 }

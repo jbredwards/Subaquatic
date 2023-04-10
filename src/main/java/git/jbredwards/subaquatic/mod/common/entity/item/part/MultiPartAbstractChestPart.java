@@ -56,7 +56,7 @@ public abstract class MultiPartAbstractChestPart extends MultiPartAbstractInvent
     @Override
     public void renderContainer(double x, double y, double z, float entityYaw, float partialTicks, boolean isChristmas) {
         Minecraft.getMinecraft().renderEngine.bindTexture(getChestTexture(isChristmas));
-        GlStateManager.translate(-0.0625, 0.25, -0.0625);
+        GlStateManager.translate(-0.0625, 0.15375, -0.0625);
         GlStateManager.scale(0.875, 0.875, 0.875);
 
         float animatedLidAngle = 1 - (prevLidAngle + (lidAngle - prevLidAngle) * partialTicks);

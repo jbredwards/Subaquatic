@@ -1,8 +1,8 @@
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.capability.util.FishBucketData;
-import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.EntityBucketHandlerCod;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -23,12 +23,6 @@ public class EntityCod extends AbstractGroupFish
         setSize(0.5f, 0.3f);
     }
 
-    @Override
-    public void buildFishBucketData(@Nonnull FishBucketData data) {
-        data.entity = SubaquaticEntities.COD;
-        data.fishNbt = serializeNBT();
-    }
-
     @Nonnull
     @Override
     protected ResourceLocation getLootTable() { return new ResourceLocation(Subaquatic.MODID, "entities/cod"); }
@@ -44,4 +38,13 @@ public class EntityCod extends AbstractGroupFish
     @Nonnull
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource source) { return SubaquaticSounds.ENTITY_COD_HURT; }
+
+    @Nonnull
+    @Override
+    public AbstractEntityBucketHandler createFishBucketHandler() {
+        if(getClass() != EntityCod.class)
+            throw new IllegalStateException("No bucket handler defined for entity class: " + getClass());
+
+        return new EntityBucketHandlerCod();
+    }
 }

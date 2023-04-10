@@ -18,7 +18,7 @@ public class EntityBoatChest extends AbstractBoatContainer
 
     @Nonnull
     @Override
-    protected MultiPartContainerPart getContainerPart() {
-        return new MultiPartChestPart(this, "chest", 0.875f, 0.875f);
+    protected MultiPartContainerPart createContainerPart() {
+        return new MultiPartChestPart(this, "chest", 0.775f, 0.775f);
     }
 }

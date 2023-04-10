@@ -2,10 +2,10 @@ package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
+import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
-import git.jbredwards.subaquatic.mod.common.entity.util.IBucketableEntity;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.IBucketableEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.material.Material;
@@ -168,8 +168,8 @@ public final class PluginBlockCauldron implements IASMPlugin
         }
 
         public static void placeCapturedEntity(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
-            final IFishBucket cap = IFishBucket.get(stack);
-            if(cap != null) IBucketableEntity.placeCapturedEntity(world, pos, stack, cap.getData());
+            final IEntityBucket cap = IEntityBucket.get(stack);
+            if(cap != null) IBucketableEntity.placeCapturedEntity(world, pos, stack, cap.getHandler());
         }
 
         //helper

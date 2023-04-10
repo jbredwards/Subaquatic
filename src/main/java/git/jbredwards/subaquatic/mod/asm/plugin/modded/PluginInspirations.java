@@ -1,8 +1,8 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.modded;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import git.jbredwards.subaquatic.mod.common.capability.IFishBucket;
-import git.jbredwards.subaquatic.mod.common.entity.util.IBucketableEntity;
+import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.IBucketableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -50,8 +50,8 @@ public final class PluginInspirations implements IASMPlugin
     public static final class Hooks
     {
         public static void tryPlaceFish(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
-            final IFishBucket cap = IFishBucket.get(stack);
-            if(cap != null) IBucketableEntity.placeCapturedEntity(world, pos, stack, cap.getData());
+            final IEntityBucket cap = IEntityBucket.get(stack);
+            if(cap != null) IBucketableEntity.placeCapturedEntity(world, pos, stack, cap.getHandler());
         }
     }
 }

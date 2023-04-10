@@ -115,6 +115,7 @@ public class MultiPartChestPart extends MultiPartAbstractChestPart implements IL
     public void setInventorySlotContents(int index, @Nonnull ItemStack stack) {
         lootTable = null;
         items.set(index, stack);
+        if(stack.getCount() > getInventoryStackLimit()) stack.setCount(getInventoryStackLimit());
     }
 
     @Override

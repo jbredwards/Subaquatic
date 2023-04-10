@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import git.jbredwards.subaquatic.mod.common.config.util.ConfigUtils;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -40,6 +41,9 @@ public final class SubaquaticTropicalFishConfig
                 writer.close();
             }
         }
+
+        //allow other mods to add their fish types
+        ConfigUtils.parseFromMods("subaquatic/tropical_fish_types.jsonc", SubaquaticTropicalFishConfig::parseFishTypes);
     }
 
     static void parseFishTypes(@Nonnull Reader reader) {

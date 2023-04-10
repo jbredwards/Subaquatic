@@ -7,7 +7,8 @@
     ],
     "key":{
         "#":{
-            "item":"subaquatic:dried_kelp"
+            "type":"forge:ore_dict",
+            "ore":"foodDriedKelp"
         }
     },
     "result":{

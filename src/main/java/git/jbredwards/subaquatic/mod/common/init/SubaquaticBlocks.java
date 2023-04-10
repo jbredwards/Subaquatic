@@ -55,7 +55,7 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockCoralFin BUBBLE_CORAL_FIN = register("bubble_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.PURPLE), Blocks.STONE);
     @Nonnull public static final BlockCoralFin FIRE_CORAL_FIN = register("fire_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.RED), Blocks.STONE);
     @Nonnull public static final BlockCoralFin HORN_CORAL_FIN = register("horn_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.YELLOW), Blocks.STONE);
-    //TODO @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN = register("bubble_column", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL));
+    @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN = register("bubble_column", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL), block -> block.setLightOpacity(1));
 
     //register burnables
     public static void registerBurnables() {

@@ -4,23 +4,33 @@ import com.google.common.io.Files;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import git.jbredwards.fluidlogged_api.api.util.FluidState;
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.api.biome.IWaterColorProvider;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.*;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.*;
+import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  *
@@ -29,8 +39,8 @@ import java.util.function.Function;
  */
 public final class SubaquaticWaterColorConfig
 {
-    @Nonnull private static final Object2IntMap<Biome> FOG_COLORS = new Object2IntOpenHashMap<>(), SURFACE_COLORS = new Object2IntOpenHashMap<>();
-    @Nonnull private static final Lock FOG_LOCK = new ReentrantReadWriteLock().readLock(), SURFACE_LOCK = new ReentrantReadWriteLock().readLock();
+    @Nonnull static final Object2IntMap<Biome> FOG_COLORS = new Object2IntOpenHashMap<>(), SURFACE_COLORS = new Object2IntOpenHashMap<>();
+    @Nonnull public static final Map<Fluid, Color> FLUID_PIXEL_BASE_COLORS = new HashMap<>();
 
     @SuppressWarnings("UnstableApiUsage")
     public static void buildWaterColors() throws IOException {
@@ -74,14 +84,23 @@ public final class SubaquaticWaterColorConfig
     }
 
     public static float[] getFogColorAt(@Nonnull IBlockAccess worldIn, @Nonnull BlockPos posIn) {
-        return new Color(BiomeColorHelper.getColorAtPos(worldIn, posIn, (biomeIn, pos) -> computeIfAbsentSafe(FOG_LOCK,
-                FOG_COLORS, biomeIn, Biome::getWaterColorMultiplier))).getColorComponents(new float[3]);
+        return new Color(BiomeColorHelper.getColorAtPos(worldIn, posIn,
+            (biomeIn, pos) -> computeIfAbsentSafe(FOG_COLORS, biomeIn, biome ->
+                biome instanceof IWaterColorProvider
+                    ? ((IWaterColorProvider)biome).getWaterFogColor()
+                    : biome.getWaterColorMultiplier()
+                )
+            )
+        ).getColorComponents(new float[3]);
     }
 
     public static int getSurfaceColor(@Nonnull Biome biomeIn, int originalColor) {
-        return computeIfAbsentSafe(SURFACE_LOCK, SURFACE_COLORS, biomeIn, biome -> {
+        return computeIfAbsentSafe(SURFACE_COLORS, biomeIn, biome -> {
+            //biome has a special color that's already preserved
+            if(biome instanceof IWaterColorProvider) return ((IWaterColorProvider)biome).getWaterSurfaceColor();
+
             //biome is using the 1.12 swamp color, give it the 1.13 one
-            if(originalColor == 14745518) return 0x617B64;
+            else if(originalColor == 14745518) return 0x617B64;
 
             //biome has a special color (not the default 1.12 color), try preserving it
             else if(originalColor != 16777215) return emulateLegacyColor(originalColor);
@@ -119,10 +138,12 @@ public final class SubaquaticWaterColorConfig
 
     //fixes a rare, but possible, array out of bounds exception
     @Nonnull
-    static <K, V> V computeIfAbsentSafe(@Nonnull Lock lock, @Nonnull Map<K, V> map, @Nonnull K key, @Nonnull Function<? super K, ? extends V> mappingFunction) {
-        lock.lock();
-        try { return map.computeIfAbsent(key, mappingFunction); }
-        finally { lock.unlock(); }
+    static <K, V> V computeIfAbsentSafe(@Nonnull Map<K, V> map, @Nonnull K key, @Nonnull Function<? super K, ? extends V> mappingFunction) {
+        if(map.containsKey(key)) return map.get(key);
+        final V value = mappingFunction.apply(key);
+
+        map.put(key, value);
+        return value;
     }
 
     /**
@@ -143,6 +164,51 @@ public final class SubaquaticWaterColorConfig
         final int displayedG = (modG * legacyG) / 255;
         final int displayedB = (modB * legacyB) / 255;
         return (displayedR << 16) | (displayedG << 8) | displayedB;
+    }
+
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    public static Color getParticleColorAt(@Nonnull World worldIn, double x, double y, double z) {
+        final Pair<BlockPos, FluidState> here = findClosestAround(FluidloggedUtils::getFluidState, fluidState -> !fluidState.isEmpty(), worldIn, x, y, z);
+        if(here == null) return new Color(BiomeColorHelper.getWaterColorAtPos(worldIn, new BlockPos(x, y, z)));
+
+        final BlockPos pos = here.getLeft();
+        final FluidState fluidState = here.getRight();
+
+        //use block color if applicable
+        final int blockColor = Minecraft.getMinecraft().getBlockColors().colorMultiplier(fluidState.getState(), worldIn, pos, 0);
+        if(blockColor != -1) return new Color(blockColor);
+
+        //use fluid color if applicable
+        final int fluidColor = fluidState.getFluid().getColor(worldIn, pos);
+        return fluidColor != 0xFFFFFFFF ? new Color(fluidColor) : FLUID_PIXEL_BASE_COLORS.get(fluidState.getFluid());
+    }
+
+    @Nullable
+    public static <T> Pair<BlockPos, T> findClosestAround(@Nonnull BiFunction<World, BlockPos, T> getter, @Nonnull Predicate<T> checker, @Nonnull World world, double x, double y, double z) {
+        final BlockPos origin = new BlockPos(x, y, z);
+        T instance = getter.apply(world, origin);
+
+        if(checker.test(instance)) return Pair.of(origin, instance);
+        final List<Pair<BlockPos, T>> instances = new ArrayList<>();
+        for(BlockPos pos : BlockPos.getAllInBoxMutable(new BlockPos(x - 0.25, y - 0.25, z - 0.25), new BlockPos(x + 0.25, y + 0.25, z + 0.25))) {
+            if(!pos.equals(origin)) {
+                instance = getter.apply(world, pos);
+                if(checker.test(instance)) instances.add(Pair.of(pos, instance));
+            }
+        }
+
+        double closestDist = -1;
+        Pair<BlockPos, T> closest = null;
+        for(Pair<BlockPos, T> entry : instances) {
+            final double distance = entry.getLeft().distanceSqToCenter(x, y, z);
+            if(closestDist > distance) {
+                closestDist = distance;
+                closest = entry;
+            }
+        }
+
+        return closest;
     }
 
     @Nonnull
@@ -209,59 +275,103 @@ public final class SubaquaticWaterColorConfig
             "        \"Fog\":\"0x77a9ff\"\n" +
             "    },\n" +
             "\n" +
-            "    //============\n" +
-            "    //BETWEENLANDS\n" +
-            "    //============\n" +
+            "    //===============\n" +
+            "    //BIOMES O'PLENTY\n" +
+            "    //===============\n" +
             "\n" +
-            "    //Coarse Islands\n" +
-            "    \"thebetweenlands:coarse_islands\":{\n" +
-            "        \"Surface\":\"0x1b3944\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Bamboo Forest\n" +
+            "    \"biomesoplenty:bamboo_forest\":{\n" +
+            "        \"Surface\":\"0x85CE71\",\n" +
+            "        \"Fog\":\"0x63BF66\"\n" +
             "    },\n" +
-            "    //Deep Waters\n" +
-            "    \"thebetweenlands:deep_waters\":{\n" +
-            "        \"Surface\":\"0x1b3944\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Bayou\n" +
+            "    \"biomesoplenty:bayou\":{\n" +
+            "        \"Surface\":\"0x62AF84\",\n" +
+            "        \"Fog\":\"0x0C211C\"\n" +
             "    },\n" +
-            "    //Marsh 0\n" +
-            "    \"thebetweenlands:marsh_0\":{\n" +
-            "        \"Surface\":\"0x485E18\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Bog\n" +
+            "    \"biomesoplenty:bog\":{\n" +
+            "        \"Surface\":\"0xA89557\",\n" +
+            "        \"Fog\":\"0xC67F5B\"\n" +
             "    },\n" +
-            "    //Marsh 1\n" +
-            "    \"thebetweenlands:marsh_1\":{\n" +
-            "        \"Surface\":\"0x485E18\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Cherry Blossom Grove\n" +
+            "    \"biomesoplenty:cherry_blossom_grove\":{\n" +
+            "        \"Surface\":\"0x85CE71\",\n" +
+            "        \"Fog\":\"0x63BF66\"\n" +
             "    },\n" +
-            "    //Patchy Islands\n" +
-            "    \"thebetweenlands:patchy_islands\":{\n" +
-            "        \"Surface\":\"0x184220\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Cold Desert\n" +
+            "    \"biomesoplenty:cold_desert\":{\n" +
+            "        \"Surface\":\"0xAD9364\",\n" +
+            "        \"Fog\":\"0xB5A76C\"\n" +
             "    },\n" +
-            "    //Raised Isles\n" +
-            "    \"thebetweenlands:raised_isles\":{\n" +
-            "        \"Surface\":\"0x1b3944\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Coral Reef\n" +
+            "    \"biomesoplenty:coral_reef\":{\n" +
+            "        \"Surface\":\"0x45ADF2\",\n" +
+            "        \"Fog\":\"0x45ADF2\"\n" +
             "    },\n" +
-            "    //Sludge Plains\n" +
-            "    \"thebetweenlands:sludge_plains\":{\n" +
-            "        \"Surface\":\"0x3A2F0B\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Dead Forest\n" +
+            "    \"biomesoplenty:dead_forest\":{\n" +
+            "        \"Surface\":\"0xBAAD64\",\n" +
+            "        \"Fog\":\"0xB7B763\"\n" +
             "    },\n" +
-            "    //Sludge Plains Clearing\n" +
-            "    \"thebetweenlands:sludge_plains_clearing\":{\n" +
-            "        \"Surface\":\"0x3A2F0B\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Dead Swamp\n" +
+            "    \"biomesoplenty:dead_swamp\":{\n" +
+            "        \"Surface\":\"0xBAAD64\",\n" +
+            "        \"Fog\":\"0xB7B763\"\n" +
             "    },\n" +
-            "    //Swamplands\n" +
-            "    \"thebetweenlands:swamplands\":{\n" +
-            "        \"Surface\":\"0x184220\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Kelp Forest\n" +
+            "    \"biomesoplenty:kelp_forest\":{\n" +
+            "        \"Surface\":\"0x1787D4\",\n" +
+            "        \"Fog\":\"0x1165B0\"\n" +
             "    },\n" +
-            "    //Swamplands Clearing\n" +
-            "    \"thebetweenlands:swamplands_clearing\":{\n" +
-            "        \"Surface\":\"0x184220\",\n" +
-            "        \"Fog\":\"0x0A1E16\"\n" +
+            "    //Lavender Fields\n" +
+            "    \"biomesoplenty:lavender_fields\":{\n" +
+            "        \"Surface\":\"0xA1C36D\",\n" +
+            "        \"Fog\":\"0xA1C36D\"\n" +
+            "    },\n" +
+            "    //Mangrove\n" +
+            "    \"biomesoplenty:mangrove\":{\n" +
+            "        \"Surface\":\"0x62AF84\",\n" +
+            "        \"Fog\":\"0x0C211C\"\n" +
+            "    },\n" +
+            "    //Moor\n" +
+            "    \"biomesoplenty:moor\":{\n" +
+            "        \"Surface\":\"0x3F76E4\",\n" +
+            "        \"Fog\":\"0x050533\"\n" +
+            "    },\n" +
+            "    //Mystic Grove\n" +
+            "    \"biomesoplenty:mystic_grove\":{\n" +
+            "        \"Surface\":\"0x9C3FE4\",\n" +
+            "        \"Fog\":\"0x2E0533\"\n" +
+            "    },\n" +
+            "    //Ominous Woods\n" +
+            "    \"biomesoplenty:ominous_woods\":{\n" +
+            "        \"Surface\":\"0x312346\",\n" +
+            "        \"Fog\":\"0x0A030C\"\n" +
+            "    },\n" +
+            "    //Glenn\n" +
+            "    \"biomesoplenty:quagmire\":{\n" +
+            "        \"Surface\":\"0x643d28\",\n" +
+            "        \"Fog\":\"0x643d28\"\n" +
+            "    },\n" +
+            "    //Tropical Rainforest\n" +
+            "    \"biomesoplenty:tropical_rainforest\":{\n" +
+            "        \"Surface\":\"0x1B9ED8\",\n" +
+            "        \"Fog\":\"0x1B9ED8\"\n" +
+            "    },\n" +
+            "    \"biomesoplenty:wasteland\":{\n" +
+            "        \"Surface\":\"0x433721\",\n" +
+            "        \"Fog\":\"0x0C0C03\"\n" +
+            "    },\n" +
+            "    //Wetland\n" +
+            "    \"biomesoplenty:wetland\":{\n" +
+            "        \"Surface\":\"0x272179\",\n" +
+            "        \"Fog\":\"0x0C031B\"\n" +
+            "    },\n" +
+            "    //Woodland\n" +
+            "    \"biomesoplenty:woodland\":{\n" +
+            "        \"Surface\":\"0x9CC439\",\n" +
+            "        \"Fog\":\"0x85B408\"\n" +
             "    }\n" +
             "}";
 }

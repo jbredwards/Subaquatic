@@ -1,10 +1,16 @@
 package git.jbredwards.subaquatic.mod.client.particle;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
+import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryHelper;
+import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleBubble;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -20,11 +26,15 @@ import javax.vecmath.Vector2d;
 public class ParticleBubbleColumn extends ParticleBubble
 {
     @Nonnull
+    public static final IParticleFactory FACTORY = new ParticleFactoryColorize(ParticleFactoryHelper.fromConstructor(ParticleBubbleColumn::new),
+            Subaquatic.isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos);
+
+    @Nonnull
     protected final Vector2d origin;
     protected final double radius;
     protected int angle;
 
-    public ParticleBubbleColumn(@Nonnull World world, double x, double y, double z, double hSpeed, double vSpeed, double radiusIn, int angleIn) {
+    protected ParticleBubbleColumn(@Nonnull World world, double x, double y, double z, double hSpeed, double vSpeed, double radiusIn, int... angleIn) {
         super(world, x, y, z, 0, 0, 0);
         //removes RNG from the particle motion.
         motionX = hSpeed;
@@ -33,7 +43,7 @@ public class ParticleBubbleColumn extends ParticleBubble
 
         origin = new Vector2d(x, z);
         radius = radiusIn;
-        angle = angleIn;
+        angle = angleIn.length > 0 ? angleIn[0] : 0;
         setMaxAge(50);
 
         //prevents graphical bug when this particle initially spawns

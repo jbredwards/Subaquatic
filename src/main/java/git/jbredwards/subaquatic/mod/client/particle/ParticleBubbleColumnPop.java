@@ -28,6 +28,7 @@ public class ParticleBubbleColumnPop extends Particle
         setMaxAge(4);
         setSize(0.02f, 0.02f);
         setParticleTexture(TEXTURES[0]);
+        setRBGColorF(parent.getRedColorF(), parent.getGreenColorF(), parent.getBlueColorF());
 
         if(SubaquaticConfigHandler.playBubblePopSound || parent instanceof ParticleBubbleColumn) {
             final float pitch = Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f);

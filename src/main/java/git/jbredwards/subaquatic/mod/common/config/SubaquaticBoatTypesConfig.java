@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import git.jbredwards.subaquatic.mod.common.capability.util.BoatType;
+import git.jbredwards.subaquatic.mod.common.config.util.ConfigUtils;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.Item;
@@ -22,7 +23,7 @@ import java.util.List;
  * @author jbred
  *
  */
-public final class SubaquaticChestBoatConfig
+public final class SubaquaticBoatTypesConfig
 {
     @Nonnull public static final List<BoatType> BOAT_TYPES = new ArrayList<>();
     @Nonnull public static final Int2ObjectMap<BoatType> BOAT_TYPES_LOOKUP = new Int2ObjectOpenHashMap<>();
@@ -44,6 +45,9 @@ public final class SubaquaticChestBoatConfig
                 writer.close();
             }
         }
+
+        //allow other mods to add their own boat types
+        ConfigUtils.parseFromMods("subaquatic/boat_types.jsonc", SubaquaticBoatTypesConfig::parseBoatTypes);
     }
 
     static void parseBoatTypes(@Nonnull Reader reader) {

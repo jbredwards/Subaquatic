@@ -4,10 +4,9 @@ import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIFishSwim;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityFishMoveHelper;
 import git.jbredwards.subaquatic.mod.common.entity.ai.PathNavigateFish;
-import git.jbredwards.subaquatic.mod.common.entity.util.IBucketableEntity;
+import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.IBucketableEntity;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -153,8 +152,4 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
 
     @Override
     public boolean canBucket() { return true; }
-
-    @Nonnull
-    @Override
-    public Entity getAsEntity() { return this; }
 }

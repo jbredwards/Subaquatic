@@ -4,7 +4,7 @@ import git.jbredwards.fluidlogged_api.api.network.IClientMessageHandler;
 import git.jbredwards.fluidlogged_api.api.network.message.AbstractMessage;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.util.BoatType;
-import git.jbredwards.subaquatic.mod.common.config.SubaquaticChestBoatConfig;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticBoatTypesConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketBuffer;
@@ -25,7 +25,7 @@ public final class SMessageBoatType extends AbstractMessage
 
     public SMessageBoatType() {}
     public SMessageBoatType(@Nonnull BoatType typeIn, @Nonnull Entity entityIn) {
-        boatTypeId = SubaquaticChestBoatConfig.getIndex(typeIn.boat, typeIn.boatMeta);
+        boatTypeId = SubaquaticBoatTypesConfig.getIndex(typeIn.boat, typeIn.boatMeta);
         entityId = entityIn.getEntityId();
         isValid = true;
     }
@@ -50,7 +50,7 @@ public final class SMessageBoatType extends AbstractMessage
         @Override
         public void handleMessage(@Nonnull SMessageBoatType message) {
             final IBoatType cap = IBoatType.get(Minecraft.getMinecraft().world.getEntityByID(message.entityId));
-            if(cap != null) cap.setType(SubaquaticChestBoatConfig.BOAT_TYPES_LOOKUP.get(message.boatTypeId));
+            if(cap != null) cap.setType(SubaquaticBoatTypesConfig.BOAT_TYPES_LOOKUP.get(message.boatTypeId));
         }
     }
 }
