@@ -66,4 +66,8 @@ public class RenderBoatContainer extends RenderBoat
         final ResourceLocation texture = cap.getType().entityTexture;
         return texture != null ? texture : super.getEntityTexture(entity);
     }
+
+    //not sure what this actually does, but setting it to false seems to cause no issues & fixes a bug with particle culling
+    @Override
+    public boolean isMultipass() { return false; }
 }

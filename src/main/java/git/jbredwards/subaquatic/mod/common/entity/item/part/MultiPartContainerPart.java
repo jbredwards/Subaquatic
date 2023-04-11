@@ -51,6 +51,9 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
     public boolean canBeCollidedWith() { return parentBoat.canBeCollidedWith(); }
 
     @Override
+    protected boolean canTriggerWalking() { return false; }
+
+    @Override
     protected abstract void readEntityFromNBT(@Nonnull NBTTagCompound compound);
 
     @Override

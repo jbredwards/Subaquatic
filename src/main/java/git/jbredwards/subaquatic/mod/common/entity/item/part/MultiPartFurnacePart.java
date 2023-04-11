@@ -111,7 +111,7 @@ public class MultiPartFurnacePart extends MultiPartAbstractInventoryPart impleme
     @SideOnly(Side.CLIENT)
     public void spawnBurningParticles() {
         if(rand.nextFloat() < 0.1) world.playSound(posX, posY, posZ, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, getSoundCategory(), 1, 1, false);
-        final Vec3d offset = new Vec3d(-0.52, rand.nextFloat() * 6 / 16, rand.nextFloat() * 0.6 - 0.3).rotateYaw((float)Math.toRadians(parentBoat.rotationYaw));
+        final Vec3d offset = new Vec3d(-0.5, rand.nextFloat() * 6 / 16, rand.nextFloat() * 0.6 - 0.3).rotateYaw(-parentBoat.rotationYaw * 0.0175f + ((float)Math.PI / 2));
 
         world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + offset.x, posY + offset.y, posZ + offset.z, 0, 0, 0);
         world.spawnParticle(EnumParticleTypes.FLAME, posX + offset.x, posY + offset.y, posZ + offset.z, 0, 0, 0);
@@ -153,16 +153,18 @@ public class MultiPartFurnacePart extends MultiPartAbstractInventoryPart impleme
     @Override
     public void renderContainer(double x, double y, double z, float entityYaw, float partialTicks, boolean isChristmas) {
         GlStateManager.pushMatrix();
-        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         GlStateManager.translate(-0.0625, 1.13, -0.0625);
         GlStateManager.scale(0.875, -0.875, -0.875);
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         final int brightness = getBrightnessForRender();
         final float prevBrightnessX = OpenGlHelper.lastBrightnessX;
         final float prevBrightnessY = OpenGlHelper.lastBrightnessY;
+
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, brightness % 65536, brightness / 65536f);
         Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(getFurnaceToRender(isChristmas), getBrightness());
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, prevBrightnessX, prevBrightnessY);
+
         GlStateManager.popMatrix();
     }
 
