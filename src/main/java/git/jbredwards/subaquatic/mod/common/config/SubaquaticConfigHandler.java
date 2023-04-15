@@ -41,12 +41,18 @@ public final class SubaquaticConfigHandler
     @Config.LangKey("config.subaquatic.coloredRain")
     public static boolean coloredRain = true;
 
+    @Config.LangKey("config.subaquatic.growRootedDirt")
+    public static boolean growRootedDirt = true;
+
     @Config.RangeInt(min = 0, max = 64)
     @Config.LangKey("config.subaquatic.oceanBiomeSize")
     public static int oceanBiomeSize = 6;
 
     @Config.LangKey("config.subaquatic.playBubblePopSound")
     public static boolean playBubblePopSound = false;
+
+    @Config.LangKey("config.subaquatic.translucentWaterBottles")
+    public static boolean translucentWaterBottles = true;
 
     @Config.LangKey("config.subaquatic.translucentXPOrbs")
     public static boolean translucentXPOrbs = true;

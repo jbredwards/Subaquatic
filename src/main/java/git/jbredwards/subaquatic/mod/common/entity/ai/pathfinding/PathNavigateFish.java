@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.entity.ai;
+package git.jbredwards.subaquatic.mod.common.entity.ai.pathfinding;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.pathfinding.PathNavigateSwimmer;

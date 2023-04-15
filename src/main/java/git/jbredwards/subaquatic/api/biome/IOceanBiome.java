@@ -56,6 +56,6 @@ public interface IOceanBiome extends IOceanSurfaceProvider
     static boolean isShallowOcean(int biome) { return SHALLOW_OCEAN_IDS.contains(biome); }
     static boolean isShallowOcean(@Nonnull Biome biome) {
         if(biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1) return true;
-        else return biome == Biomes.OCEAN || biome == Biomes.FROZEN_OCEAN; //vanilla special cases
+        else return biome == Biomes.OCEAN; //vanilla special case
     }
 }

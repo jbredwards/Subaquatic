@@ -5,7 +5,7 @@ import git.jbredwards.subaquatic.mod.common.potion.PotionBase;
 import net.minecraft.potion.Potion;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public final class SubaquaticPotions
 {
     //potion init
-    @Nonnull public static final List<Potion> INIT = new ArrayList<>();
+    @Nonnull public static final List<Potion> INIT = new LinkedList<>();
 
     //potions
     @Nonnull public static final PotionBase CONDUIT = register("conduit", new PotionBase(false, 1950417));

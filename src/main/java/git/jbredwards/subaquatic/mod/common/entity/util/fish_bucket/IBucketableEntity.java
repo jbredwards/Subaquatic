@@ -9,6 +9,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -53,7 +54,7 @@ public interface IBucketableEntity
                     if(!player.isCreative()) held.shrink(1);
                 }
 
-                entity.playSound(SubaquaticSounds.BUCKET_FILL_FISH, 1, 1);
+                entity.playSound(getBucketFillSound(), 1, 1);
                 entity.setDead();
 
                 return true;
@@ -83,4 +84,7 @@ public interface IBucketableEntity
             }
         }
     }
+
+    @Nonnull
+    default SoundEvent getBucketFillSound() { return SubaquaticSounds.BUCKET_FILL_FISH; }
 }

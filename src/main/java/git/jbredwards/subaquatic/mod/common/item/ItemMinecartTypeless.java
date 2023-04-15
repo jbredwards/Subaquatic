@@ -64,7 +64,7 @@ public class ItemMinecartTypeless extends Item
                     yOffset = dispenserFacing != EnumFacing.DOWN && (downState.getBlock() instanceof BlockRailBase ? ((BlockRailBase)downState.getBlock()).getRailDirection(world, pos.down(), downState, null) : BlockRailBase.EnumRailDirection.NORTH_SOUTH).isAscending() ? -0.4 : -0.9;
                 }
 
-                final EntityMinecart minecart = minecartSupplier.generate(world, x, y + yOffset, z);
+                final EntityMinecart minecart = minecartSupplier.newInstance(world, x, y + yOffset, z);
                 if(stack.hasDisplayName()) minecart.setCustomNameTag(stack.getDisplayName());
                 world.spawnEntity(minecart);
 
@@ -83,7 +83,7 @@ public class ItemMinecartTypeless extends Item
         final ItemStack held = player.getHeldItem(hand);
         if(!worldIn.isRemote) {
             final double yOffset = (state.getBlock() instanceof BlockRailBase ? ((BlockRailBase)state.getBlock()).getRailDirection(worldIn, pos, state, null) : BlockRailBase.EnumRailDirection.NORTH_SOUTH).isAscending() ? 0.5 : 0;
-            final EntityMinecart minecart = minecartSupplier.generate(worldIn, pos.getX() + 0.5, pos.getY() + yOffset + 0.0625, pos.getZ() + 0.5);
+            final EntityMinecart minecart = minecartSupplier.newInstance(worldIn, pos.getX() + 0.5, pos.getY() + yOffset + 0.0625, pos.getZ() + 0.5);
 
             if(held.hasDisplayName()) minecart.setCustomNameTag(held.getDisplayName());
             worldIn.spawnEntity(minecart);

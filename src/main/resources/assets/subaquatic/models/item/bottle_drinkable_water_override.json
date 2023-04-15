@@ -1,0 +1,7 @@
+{
+    "parent":"item/generated",
+    "textures": {
+        "layer0":"subaquatic:items/potion_overlay_translucent",
+        "layer1":"items/potion_bottle_drinkable"
+    }
+}

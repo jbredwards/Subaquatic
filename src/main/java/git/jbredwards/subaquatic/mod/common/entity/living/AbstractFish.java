@@ -3,7 +3,7 @@ package git.jbredwards.subaquatic.mod.common.entity.living;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIFishSwim;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityFishMoveHelper;
-import git.jbredwards.subaquatic.mod.common.entity.ai.PathNavigateFish;
+import git.jbredwards.subaquatic.mod.common.entity.ai.pathfinding.PathNavigateFish;
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.IBucketableEntity;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.material.Material;
@@ -148,7 +148,7 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
 
     @Nonnull
     protected abstract SoundEvent getFlopSound();
-    public abstract boolean hasNoGroup();
+    public boolean hasNoGroup() { return true; }
 
     @Override
     public boolean canBucket() { return true; }

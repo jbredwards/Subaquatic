@@ -9,6 +9,7 @@ import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.entity.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.item.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.network.*;
+import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.potion.PluginPotionUtils;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world.*;
 
 import javax.annotation.Nonnull;
@@ -57,6 +58,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
             plugins.put("net.minecraft.block.BlockGrass", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
+            plugins.put("net.minecraft.block.BlockLever", new PluginBlockLever()); //Add lever redstone particles
             plugins.put("net.minecraft.block.BlockMycelium", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
             plugins.put("net.minecraft.block.BlockSnow", new PluginBlockSnow()); //Prevent snow layers from being placeable on blue ice
@@ -74,10 +76,12 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
             plugins.put("net.minecraft.network.PacketBuffer", new PluginPacketBuffer()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
+            plugins.put("net.minecraft.potion.PotionUtils", new PluginPotionUtils()); //Use new water fluid color
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
             plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config
             //plugins.put("net.minecraft.world.chunk.Chunk", new PluginChunk()); //Add call to OnCreateChunkFromPrimerEvent
+            plugins.put("net.minecraft.world.gen.feature.WorldGenBigTree", new PluginWorldGenBigTree()); //Fix bug where the block under tall trees is not converted to dirt
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Apply ocean biome generator
             plugins.put("net.minecraft.world.gen.layer.GenLayerAddIsland", new PluginGenLayerAddIsland()); //Account for modded shallow ocean biomes

@@ -14,5 +14,5 @@ import javax.annotation.Nonnull;
 public interface PositionedEntitySupplier<T extends Entity>
 {
     @Nonnull
-    T generate(@Nonnull World world, double x, double y, double z);
+    T newInstance(@Nonnull World world, double x, double y, double z);
 }

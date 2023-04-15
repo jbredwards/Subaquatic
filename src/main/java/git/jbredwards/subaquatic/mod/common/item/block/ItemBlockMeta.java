@@ -37,7 +37,7 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
     }
 
     @Override
-    public int getMetadata(int damage) { return MathHelper.clamp(damage, 0, variants.length); }
+    public int getMetadata(int damage) { return MathHelper.clamp(damage, 0, variants.length - 1); }
 
     @Override
     public int getMetadata(@Nonnull ItemStack stack) { return getMetadata(super.getMetadata(stack)); }

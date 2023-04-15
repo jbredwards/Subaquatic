@@ -12,9 +12,13 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -57,14 +61,20 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
         return getDefaultState().withProperty(GLOWING, meta >> 2 > 0).withProperty(PICKLES, meta & 3);
     }
 
-    @Nonnull
     @Override
-    public IBlockState withAmount(@Nonnull IBlockState oldState, int newAmount) {
-        return oldState.withProperty(PICKLES, newAmount);
+    public boolean canClusterWith(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, @Nonnull IBlockState oldState) {
+        return oldState.getValue(PICKLES) < 3;
     }
 
     @Override
-    public int getAmount(@Nonnull IBlockState state) { return state.getValue(PICKLES); }
+    public boolean clusterWith(@Nonnull ItemBlock itemBlock, @Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, float hitX, float hitY, float hitZ, @Nonnull IBlockState oldState) {
+        return itemBlock.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, oldState.withProperty(PICKLES, oldState.getValue(PICKLES) + 1));
+    }
+
+    @Override
+    public boolean createInitialCluster(@Nonnull ItemBlock itemBlock, @Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, float hitX, float hitY, float hitZ, @Nonnull IBlockState oldState) {
+        return itemBlock.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, getDefaultState());
+    }
 
     @Override
     public int getMetaFromState(@Nonnull IBlockState state) {
@@ -95,7 +105,9 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
 
     @Override
     public boolean canPlaceBlockAt(@Nonnull World worldIn, @Nonnull BlockPos pos) {
-        if(!canSustainBush(worldIn.getBlockState(pos.down()))) return false;
+        final IBlockState state = worldIn.getBlockState(pos);
+        if(!isEqualTo(state.getBlock(), this) && !state.getBlock().isReplaceable(worldIn, pos)) return false;
+        else if(!canSustainBush(worldIn.getBlockState(pos.down()))) return false;
 
         final FluidState fluidState = FluidloggedUtils.getFluidState(worldIn, pos);
         return fluidState.isEmpty() || isFluidValid(getDefaultState(), worldIn, pos, fluidState.getFluid());

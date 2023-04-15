@@ -1,0 +1,21 @@
+{ 
+    "forge_marker":1,
+    "defaults":{
+        "model":"cube_column"
+    },
+    "variants":{
+        "inventory:type=0":[{"textures":{"end":"subaquatic:blocks/froglight_ochre_end","side":"subaquatic:blocks/froglight_ochre_side"}}],
+        "inventory:type=1":[{"textures":{"end":"subaquatic:blocks/froglight_pearlescent_end","side":"subaquatic:blocks/froglight_pearlescent_side"}}],
+        "inventory:type=2":[{"textures":{"end":"subaquatic:blocks/froglight_verdant_end","side":"subaquatic:blocks/froglight_verdant_side"}}],
+        "type":{
+            "0":{"textures":{"end":"subaquatic:blocks/froglight_ochre_end","side":"subaquatic:blocks/froglight_ochre_side"}},
+            "1":{"textures":{"end":"subaquatic:blocks/froglight_pearlescent_end","side":"subaquatic:blocks/froglight_pearlescent_side"}},
+            "2":{"textures":{"end":"subaquatic:blocks/froglight_verdant_end","side":"subaquatic:blocks/froglight_verdant_side"}}
+        },
+        "axis":{
+            "x":{"x":90,"y":90},
+            "y":{},
+            "z":{"x":90}
+        }
+    }
+}

@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ public final class SubaquaticEntities
 {
     // Init
     @Nonnull
-    public static final List<EntityEntry> INIT = new ArrayList<>();
+    public static final List<EntityEntry> INIT = new LinkedList<>();
     static int id = 0;
 
     // Item Entities

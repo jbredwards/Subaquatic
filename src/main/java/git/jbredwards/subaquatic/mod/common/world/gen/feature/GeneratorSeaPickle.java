@@ -33,7 +33,9 @@ public enum GeneratorSeaPickle implements IWorldGenerator
                 if(random.nextFloat() < 0.0625) {
                     final BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(originX + random.nextInt(16), 0, originZ + random.nextInt(16)));
                     if(isValidBiome(world.getBiome(pos)) && SubaquaticBlocks.SEA_PICKLE.canPlaceBlockAt(world, pos) && world.getBlockState(pos).getMaterial() == Material.WATER) {
-                        world.setBlockState(pos, SubaquaticBlocks.SEA_PICKLE.withAmount(SubaquaticBlocks.SEA_PICKLE.getDefaultState().withProperty(BlockSeaPickle.GLOWING, true), random.nextInt(4)));
+                        world.setBlockState(pos, SubaquaticBlocks.SEA_PICKLE.getDefaultState()
+                                .withProperty(BlockSeaPickle.PICKLES, random.nextInt(4))
+                                .withProperty(BlockSeaPickle.GLOWING, true));
                     }
                 }
             }

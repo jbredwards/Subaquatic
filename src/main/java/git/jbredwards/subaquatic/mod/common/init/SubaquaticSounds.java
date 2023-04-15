@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 public final class SubaquaticSounds
 {
     //sound init
-    @Nonnull public static final List<SoundEvent> INIT = new ArrayList<>();
+    @Nonnull public static final List<SoundEvent> INIT = new LinkedList<>();
 
     //block sounds
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_BUBBLE_POP = register("blocks.bubble_column.bubble_pop");
@@ -25,6 +25,7 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_INSIDE = register("blocks.bubble_column.down.inside");
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_UP_AMBIENT = register("blocks.bubble_column.up.ambient");
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_UP_INSIDE = register("blocks.bubble_column.up.inside");
+    @Nonnull public static final SoundEvent FROGSPAWN_HATCH = register("blocks.frogspawn.hatch");
     @Nonnull public static final SoundEvent PUMPKIN_CARVE = register("blocks.pumpkin.carve");
 
     //entity sounds
@@ -57,6 +58,15 @@ public final class SubaquaticSounds
 
     //sound types
     @Nonnull public static final SoundType CORAL = registerType("coral", 1, 1);
+    @Nonnull public static final SoundType FROGLIGHT = registerType("froglight", 1, 1);
+    @Nonnull public static final SoundType FROGSPAWN = registerType("frogspawn", 1, 1);
+    @Nonnull public static final SoundType HANGING_ROOTS = registerType("hanging_roots", 1, 1);
+    @Nonnull public static final SoundType MANGROVE_ROOTS = registerType("mangrove_roots", 1, 1);
+    @Nonnull public static final SoundType MANGROVE_ROOTS_MUD = registerType("mangrove_roots_mud", 1, 1);
+    @Nonnull public static final SoundType MUD = registerType("mud", 1, 1);
+    @Nonnull public static final SoundType PACKED_MUD = registerType("packed_mud", 1, 1);
+    @Nonnull public static final SoundType PACKED_MUD_BRICKS = registerType("packed_mud_bricks", 1, 1);
+    @Nonnull public static final SoundType ROOTED_DIRT = registerType("rooted_dirt", 1, 1);
     @Nonnull public static final SoundType WET_GRASS = registerType("wet_grass", 1, 1);
 
     @Nonnull

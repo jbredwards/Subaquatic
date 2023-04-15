@@ -6,13 +6,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import git.jbredwards.subaquatic.mod.common.config.util.ConfigUtils;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.item.EnumDyeColor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,7 +22,7 @@ import java.io.*;
 public final class SubaquaticTropicalFishConfig
 {
     @Nonnull
-    public static final IntList DEFAULT_TYPES = new IntArrayList();
+    public static final List<TropicalFishData> DEFAULT_TYPES = new ArrayList<>();
 
     @SuppressWarnings("UnstableApiUsage")
     public static void buildFishTypes() throws IOException {
@@ -50,7 +50,7 @@ public final class SubaquaticTropicalFishConfig
         new JsonParser().parse(reader).getAsJsonArray().forEach(element -> {
             if(element.isJsonObject()) {
                 final TropicalFishData data = getTropicalFishData(element.getAsJsonObject());
-                if(data != null) DEFAULT_TYPES.add(data.serialize());
+                if(data != null) DEFAULT_TYPES.add(data);
             }
         });
     }

@@ -16,7 +16,6 @@ import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityMinecartEnderChest;
 import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartAbstractInventoryPart;
 import git.jbredwards.subaquatic.mod.common.entity.living.*;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
@@ -34,10 +33,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.entity.RenderMinecart;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.init.Biomes;
+import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
+import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -67,6 +72,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -79,7 +85,7 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.0.2", dependencies = "required-after:fluidlogged_api@[2.1.0,);required-client:assetmover;")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.1.0", dependencies = "required-after:fluidlogged_api@[2.1.0,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -136,13 +142,28 @@ public final class Subaquatic
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
         GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
         //MinecraftForge.TERRAIN_GEN_BUS.register(PrimerSeaPickle.class);
+
+        //new water bottle property
+        final IItemPropertyGetter waterProperty = new IItemPropertyGetter() {
+            @SideOnly(Side.CLIENT)
+            @Override
+            public float apply(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+                return SubaquaticConfigHandler.translucentWaterBottles
+                        && PotionUtils.getPotionFromItem(stack) != PotionTypes.EMPTY
+                        && PotionUtils.getEffectsFromStack(stack).isEmpty() ? 1 : 0;
+            }
+        };
+
+        //items to apply the override
+        Items.POTIONITEM.addPropertyOverride(new ResourceLocation(MODID, "isWater"), waterProperty);
+        Items.SPLASH_POTION.addPropertyOverride(new ResourceLocation(MODID, "isWater"), waterProperty);
+        Items.LINGERING_POTION.addPropertyOverride(new ResourceLocation(MODID, "isWater"), waterProperty);
     }
 
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityMinecartEnderChest.class, RenderMinecart::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCod.class, RenderCod::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPufferfish.class, RenderPufferfish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);

@@ -8,7 +8,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ import java.util.List;
 public final class SubaquaticBiomes
 {
     // Init
-    @Nonnull public static final List<Biome> INIT = new ArrayList<>();
+    @Nonnull public static final List<Biome> INIT = new LinkedList<>();
 
     // Deep Biomes
     @Nonnull public static final BiomeWarmOcean DEEP_WARM_OCEAN = register("deep_warm_ocean",

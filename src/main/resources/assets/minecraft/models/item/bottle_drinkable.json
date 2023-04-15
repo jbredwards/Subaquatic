@@ -1,0 +1,8 @@
+{
+    "parent":"item/generated",
+    "textures":{
+        "layer0":"items/potion_overlay",
+        "layer1":"items/potion_bottle_drinkable"
+    },
+    "overrides":[{"predicate":{"subaquatic:isWater":1},"model":"subaquatic:item/bottle_drinkable_water_override"}]
+}

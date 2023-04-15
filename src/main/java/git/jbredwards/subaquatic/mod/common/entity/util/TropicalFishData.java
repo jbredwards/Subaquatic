@@ -1,15 +1,18 @@
 package git.jbredwards.subaquatic.mod.common.entity.util;
 
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.util.text.translation.I18n;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
 
 /**
  *
  * @author jbred
  *
  */
+@Immutable
 public final class TropicalFishData
 {
     @Nonnull
@@ -32,22 +35,24 @@ public final class TropicalFishData
         return primaryShape & 255 | (secondaryShape & 255) << 8 | (primaryColor.getMetadata() & 255) << 16 | (secondaryColor.getMetadata() & 255) << 24;
     }
 
-    public boolean hasTranslationKey() {
-        return I18n.canTranslate("misc.subaquatic.tropical_fish.type." + (primaryShape & 255 | (secondaryShape & 255) << 8));
+    public boolean hasTranslation(@Nonnull Predicate<String> translator) {
+        return translator.test("tooltip.subaquatic.fish_bucket.tropical_fish.special_type." + serialize());
     }
 
     @Nonnull
-    public String getLocalizedName() {
-        return I18n.translateToLocal("misc.subaquatic.tropical_fish.type." + (primaryShape & 255 | (secondaryShape & 255) << 8));
+    public String getTranslatedName(@Nonnull BiFunction<String, Object[], String> translator) {
+        return translator.apply("tooltip.subaquatic.fish_bucket.tropical_fish.special_type." + serialize(), new Object[0]);
     }
 
     @Nonnull
-    public String getPrimaryLocalizedName() {
-        return I18n.translateToLocal("misc.subaquatic.tropical_fish.type." + ((primaryShape & 255) | 65536));
+    public String getTranslatedShape(@Nonnull BiFunction<String, Object[], String> translator) {
+        return translator.apply("tooltip.subaquatic.fish_bucket.tropical_fish.type." + (primaryShape & 255 | (secondaryShape & 255) << 8), new Object[0]);
     }
 
     @Nonnull
-    public String getSecondaryLocalizedName() {
-        return I18n.translateToLocal("misc.subaquatic.tropical_fish.type." + ((secondaryShape & 255) | 16777216));
+    public String getTranslatedColor(@Nonnull BiFunction<String, Object[], String> translator) {
+        return translator.apply("tooltip.subaquatic.fish_bucket.tropical_fish.colors", new Object[] {
+                translator.apply("color.subaquatic." + primaryColor.getTranslationKey(), new Object[0]),
+                translator.apply("color.subaquatic." + secondaryColor.getTranslationKey(), new Object[0])});
     }
 }

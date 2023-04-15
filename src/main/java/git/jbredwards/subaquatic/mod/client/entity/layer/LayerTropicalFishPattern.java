@@ -4,9 +4,9 @@ import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.entity.model.ModelTropicalFish;
 import git.jbredwards.subaquatic.mod.client.entity.renderer.RenderTropicalFish;
 import git.jbredwards.subaquatic.mod.common.entity.living.EntityTropicalFish;
+import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,14 +31,14 @@ public class LayerTropicalFishPattern implements LayerRenderer<EntityTropicalFis
     @Override
     public void doRenderLayer(@Nonnull EntityTropicalFish entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         if(!entity.isInvisible()) {
-            final int variant = entity.getVariant();
+            final TropicalFishData variant = entity.getVariant();
             renderer.bindTexture(new ResourceLocation(Subaquatic.MODID, "textures/entity/fish/tropical_"
-                    + ((variant & 1) == 0 ? 'a' : 'b') + "_pattern_" + (variant >> 8 & 255) + ".png"));
+                    + ((variant.primaryShape & 1) == 0 ? 'a' : 'b') + "_pattern_" + (variant.secondaryShape) + ".png"));
 
-            final float[] colors = EnumDyeColor.byMetadata(variant >> 24 & 255).getColorComponentValues();
+            final float[] colors = variant.secondaryColor.getColorComponentValues();
             GlStateManager.color(colors[0], colors[1], colors[2]);
 
-            final ModelTropicalFish model = (variant & 1) == 0 ? modelA : modelB;
+            final ModelTropicalFish model = (variant.primaryShape & 1) == 0 ? modelA : modelB;
             model.setModelAttributes(renderer.getMainModel());
             model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
             model.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);

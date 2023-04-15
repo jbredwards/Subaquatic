@@ -70,7 +70,7 @@ public class ItemBoatContainer extends ItemBoat
                 else if(material != Material.AIR || FluidloggedUtils.getFluidOrReal(source.getWorld(), boatPos.down()).getMaterial() != Material.WATER)
                     return super.dispenseStack(source, stack);
 
-                final AbstractBoatContainer boat = boatSupplier.generate(source.getWorld(), x, y + yOffset, z);
+                final AbstractBoatContainer boat = boatSupplier.newInstance(source.getWorld(), x, y + yOffset, z);
                 boat.setContainerStack(ItemHandlerHelper.copyStackWithSize(stack, 1));
                 boat.rotationYaw = dispenserFacing.getHorizontalAngle();
 
@@ -96,7 +96,7 @@ public class ItemBoatContainer extends ItemBoat
         if(trace == null || trace.typeOfHit != RayTraceResult.Type.BLOCK) return new ActionResult<>(EnumActionResult.PASS, held);
 
         final boolean isOverWater = FluidloggedUtils.getFluidOrReal(worldIn, trace.getBlockPos()).getMaterial() == Material.WATER;
-        final AbstractBoatContainer boat = boatSupplier.generate(worldIn, trace.hitVec.x, isOverWater ? trace.hitVec.y - 0.12 : trace.hitVec.y, trace.hitVec.z);
+        final AbstractBoatContainer boat = boatSupplier.newInstance(worldIn, trace.hitVec.x, isOverWater ? trace.hitVec.y - 0.12 : trace.hitVec.y, trace.hitVec.z);
 
         if(boat.getCollisionBoundingBox() == null) return new ActionResult<>(EnumActionResult.PASS, held);
         final AxisAlignedBB collisionBox = boat.getCollisionBoundingBox().shrink(0.1);

@@ -6,15 +6,17 @@ import git.jbredwards.subaquatic.mod.common.block.BlockCoral;
 import git.jbredwards.subaquatic.mod.common.block.BlockKelp;
 import git.jbredwards.subaquatic.mod.common.block.material.MaterialOceanPlant;
 import git.jbredwards.subaquatic.mod.common.item.SubaquaticCreativeTab;
+import git.jbredwards.subaquatic.mod.common.tileentity.TileEntityGlowLichen;
 import net.minecraft.block.*;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -26,15 +28,19 @@ import java.util.function.Consumer;
 public final class SubaquaticBlocks
 {
     // Init
-    @Nonnull public static final List<Block> INIT = new ArrayList<>();
+    @Nonnull public static final List<Block> INIT = new LinkedList<>();
 
     // Materials
     @Nonnull public static final MaterialLiquid BUBBLE_COLUMN_MATERIAL = new MaterialLiquid(MapColor.WATER);
     @Nonnull public static final MaterialOceanPlant OCEAN_PLANT_MATERIAL = new MaterialOceanPlant(MapColor.WATER);
+    @Nonnull public static final Material FROGLIGHT_MATERIAL = new Material(MapColor.AIR);
+
+    // Map Colors
+    @Nonnull public static final MapColor GLOW_LICHEN_MAP_COLOR = new MapColor(61, 0x7FA796); //same id as vanilla, so hopefully no conflicts...?
 
     // Blocks
     @Nonnull public static final BlockPackedIce BLUE_ICE = register("blue_ice", new BlockPackedIce(), Blocks.PACKED_ICE, block -> block.setDefaultSlipperiness(0.989f));
-    @Nonnull public static final BlockRotatedPillar DRIED_KELP_BLOCK = register("dried_kelp_block", new BlockRotatedPillar(Material.GRASS, MapColor.BROWN), block -> block.setSoundType(SoundType.PLANT).setResistance(2.5f / 3).setHardness(0.5f));
+    @Nonnull public static final BlockRotatedPillar DRIED_KELP_BLOCK = register("dried_kelp_block", new BlockRotatedPillar(Material.GRASS, MapColor.BROWN), block -> block.setSoundType(SoundType.PLANT).setHardness(0.5f).setResistance(2.5f / 3));
     @Nonnull public static final BlockCarvablePumpkin PUMPKIN = register("pumpkin", new BlockCarvablePumpkin(Material.GOURD, MapColor.ADOBE), Blocks.PUMPKIN, block -> ((BlockStem)Blocks.PUMPKIN_STEM).crop = block.setTranslationKey("pumpkin"));
     @Nonnull public static final BlockKelp KELP = register("kelp", new BlockKelp(OCEAN_PLANT_MATERIAL), block -> block.setSoundType(SubaquaticSounds.WET_GRASS).setLightOpacity(1));
     @Nonnull public static final BlockSeagrass SEAGRASS = register("seagrass", new BlockSeagrass(OCEAN_PLANT_MATERIAL), block -> block.setSoundType(SubaquaticSounds.WET_GRASS).setLightOpacity(1));
@@ -56,10 +62,27 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockCoralFin FIRE_CORAL_FIN = register("fire_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.RED), Blocks.STONE);
     @Nonnull public static final BlockCoralFin HORN_CORAL_FIN = register("horn_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.YELLOW), Blocks.STONE);
     @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN = register("bubble_column", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL), block -> block.setLightOpacity(1));
+    @Nonnull public static final BlockGlowLichen GLOW_LICHEN = register("glow_lichen", new BlockGlowLichen(Material.VINE, GLOW_LICHEN_MAP_COLOR), block -> block.setSoundType(SoundType.PLANT).setLightLevel(7f/15).setHardness(0.2f).setResistance(1f/3).setHarvestLevel("axe", 0));
+    @Nonnull public static final BlockFroglight FROGLIGHT = register("froglight", new BlockFroglight(FROGLIGHT_MATERIAL), block -> block.setSoundType(SubaquaticSounds.FROGLIGHT).setLightLevel(1).setHardness(0.3f).setResistance(0.5f));
+    @Nonnull public static final BlockRootedDirt ROOTED_DIRT = register("rooted_dirt", new BlockRootedDirt(Material.GROUND), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.ROOTED_DIRT));
+    @Nonnull public static final BlockHangingRoots HANGING_ROOTS = register("hanging_roots", new BlockHangingRoots(Material.VINE, MapColor.DIRT), block -> block.setSoundType(SubaquaticSounds.HANGING_ROOTS));
+    @Nonnull public static final BlockMud MUD = register("mud", new BlockMud(Material.GROUND, MapColor.CYAN_STAINED_HARDENED_CLAY), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.MUD));
+    @Nonnull public static final Block PACKED_MUD = register("packed_mud", new Block(Material.GROUND), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.PACKED_MUD).setHardness(1).setResistance(5));
+    @Nonnull public static final Block PACKED_MUD_BRICKS = register("packed_mud_bricks", new Block(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY), block -> block.setSoundType(SubaquaticSounds.PACKED_MUD_BRICKS).setHardness(1.5f).setResistance(5).setHarvestLevel("pickaxe", 0));
 
-    //register burnables
-    public static void registerBurnables() {
+    // Stairs
+
+    // Slabs
+
+    // Walls
+
+    // Fences & Fence Gates
+
+    //register burnables & tile entities
+    public static void postRegistry() {
         Blocks.FIRE.setFireInfo(DRIED_KELP_BLOCK, 30, 60);
+
+        TileEntity.register(Subaquatic.MODID + ":glow_lichen", TileEntityGlowLichen.class);
     }
 
     // Registry

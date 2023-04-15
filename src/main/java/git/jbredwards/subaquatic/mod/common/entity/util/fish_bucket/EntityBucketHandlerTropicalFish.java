@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -60,10 +60,10 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
     @Nonnull
     @Override
     public List<AbstractEntityBucketHandler> getSubTypes() {
-        final List<AbstractEntityBucketHandler> subTypes = new ArrayList<>();
-        SubaquaticTropicalFishConfig.DEFAULT_TYPES.forEach(serialized -> {
+        final List<AbstractEntityBucketHandler> subTypes = new LinkedList<>();
+        SubaquaticTropicalFishConfig.DEFAULT_TYPES.forEach(data -> {
             final EntityBucketHandlerTropicalFish handler = new EntityBucketHandlerTropicalFish();
-            handler.fishData = TropicalFishData.deserialize(serialized);
+            handler.fishData = data;
             subTypes.add(handler);
         });
 
@@ -74,7 +74,14 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
     @Override
     public void handleTooltip(@Nonnull List<String> tooltip, @Nonnull ItemStack bucket, @Nonnull ITooltipFlag flag) {
         if(fishData != null) {
+            if(fishData.hasTranslation(I18n::hasKey)) tooltip.add(1, fishData.getTranslatedName(I18n::format));
+            else {
+                final List<String> fallback = new LinkedList<>();
+                fallback.add(fishData.getTranslatedShape(I18n::format));
+                fallback.add(fishData.getTranslatedColor(I18n::format));
 
+                tooltip.addAll(1, fallback);
+            }
         }
 
         else tooltip.add(1, I18n.format("tooltip.subaquatic.fish_bucket.tropical_fish.missing"));

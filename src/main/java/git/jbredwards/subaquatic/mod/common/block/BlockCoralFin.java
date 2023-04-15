@@ -83,6 +83,11 @@ public class BlockCoralFin extends AbstractBlockCoral implements IFluidloggable,
     public boolean isFullCube(@Nonnull IBlockState state) { return false; }
 
     @Override
+    public boolean isSideSolid(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
+        return false;
+    }
+
+    @Override
     public BlockFaceShape getBlockFaceShape(@Nonnull IBlockAccess worldIn, @Nonnull IBlockState state, @Nonnull BlockPos pos, @Nonnull EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }

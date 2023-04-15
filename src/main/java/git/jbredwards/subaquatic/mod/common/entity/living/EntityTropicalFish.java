@@ -5,13 +5,13 @@ import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.EntityBucketHandlerTropicalFish;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticDataSerializers;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 public class EntityTropicalFish extends AbstractGroupFish
 {
     @Nonnull
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityTropicalFish.class, DataSerializers.VARINT);
+    private static final DataParameter<TropicalFishData> VARIANT = EntityDataManager.createKey(EntityTropicalFish.class, SubaquaticDataSerializers.TROPICAL_FISH_DATA);
     public EntityTropicalFish(@Nonnull World worldIn) {
         super(worldIn);
         setSize(0.5f, 0.4f);
@@ -40,23 +40,27 @@ public class EntityTropicalFish extends AbstractGroupFish
     @Override
     protected void entityInit() {
         super.entityInit();
-        dataManager.register(VARIANT, 0);
+        dataManager.register(VARIANT, TropicalFishData.deserialize(0));
     }
 
-    public int getVariant() { return dataManager.get(VARIANT); }
-    public void setVariant(int variant) { dataManager.set(VARIANT, variant); }
-    public int getRandomVariant() {
+    @Nonnull
+    public TropicalFishData getVariant() { return dataManager.get(VARIANT); }
+    public void setVariant(@Nonnull TropicalFishData variant) { dataManager.set(VARIANT, variant); }
+
+    @Nonnull
+    public TropicalFishData getRandomVariant() {
         //generate random variant
-        if(rand.nextFloat() < 0.1) return rand.nextInt(2) | rand.nextInt(6) << 8 | rand.nextInt(15) << 16 | rand.nextInt(15) << 24;
+        if(rand.nextFloat() < 0.1) return TropicalFishData.deserialize(rand.nextInt(2) | rand.nextInt(6) << 8 | rand.nextInt(15) << 16 | rand.nextInt(15) << 24);
         //get from config
-        return SubaquaticTropicalFishConfig.DEFAULT_TYPES.isEmpty() ? 0 : SubaquaticTropicalFishConfig.DEFAULT_TYPES
-                .get(rand.nextInt(SubaquaticTropicalFishConfig.DEFAULT_TYPES.size()));
+        return SubaquaticTropicalFishConfig.DEFAULT_TYPES.isEmpty()
+                ? TropicalFishData.deserialize(0)
+                : SubaquaticTropicalFishConfig.DEFAULT_TYPES.get(rand.nextInt(SubaquaticTropicalFishConfig.DEFAULT_TYPES.size()));
     }
 
     @Override
     public void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("Variant", getVariant());
+        compound.setInteger("Variant", getVariant().serialize());
     }
 
     @Override
@@ -69,11 +73,10 @@ public class EntityTropicalFish extends AbstractGroupFish
                     variantData.getInteger("PrimaryShape"),
                     EnumDyeColor.byMetadata(variantData.getInteger("PrimaryColor")),
                     variantData.getInteger("SecondaryShape"),
-                    EnumDyeColor.byMetadata(variantData.getInteger("SecondaryColor"))
-            ).serialize());
+                    EnumDyeColor.byMetadata(variantData.getInteger("SecondaryColor"))));
         }
 
-        else setVariant(compound.getInteger("Variant"));
+        else setVariant(TropicalFishData.deserialize(compound.getInteger("Variant")));
     }
 
     @Nonnull
@@ -87,13 +90,13 @@ public class EntityTropicalFish extends AbstractGroupFish
 
     @Override
     public void postSetHandlerEntityNBT(@Nonnull AbstractEntityBucketHandler handler) {
-        ((EntityBucketHandlerTropicalFish)handler).fishData = TropicalFishData.deserialize(getVariant());
+        ((EntityBucketHandlerTropicalFish)handler).fishData = getVariant();
     }
 
     @Override
     public void onCreatedByBucket(@Nonnull ItemStack bucket, @Nonnull AbstractEntityBucketHandler handler) {
         final TropicalFishData bucketData = ((EntityBucketHandlerTropicalFish)handler).fishData;
-        setVariant(bucketData == null ? getRandomVariant() : bucketData.serialize());
+        setVariant(bucketData == null ? getRandomVariant() : bucketData);
     }
 
     @Nonnull
@@ -116,7 +119,7 @@ public class EntityTropicalFish extends AbstractGroupFish
     @Override
     public IEntityLivingData onInitialSpawn(@Nonnull DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        int tropicalFishData;
+        TropicalFishData tropicalFishData;
 
         if(livingdata instanceof GroupData) tropicalFishData = ((GroupData)livingdata).data;
         else {
@@ -130,8 +133,9 @@ public class EntityTropicalFish extends AbstractGroupFish
 
     public static class GroupData extends AbstractGroupFish.GroupData
     {
-        public final int data;
-        public GroupData(@Nonnull AbstractGroupFish fishIn, int dataIn) {
+        @Nonnull
+        public final TropicalFishData data;
+        public GroupData(@Nonnull AbstractGroupFish fishIn, @Nonnull TropicalFishData dataIn) {
             super(fishIn);
             data = dataIn;
         }

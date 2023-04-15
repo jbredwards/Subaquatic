@@ -1,0 +1,13 @@
+{
+	"forge_marker": 1,
+    "defaults":{
+        "model":"cube_all",
+        "textures":{
+            "all":"subaquatic:blocks/packed_mud_bricks"
+        }
+    },
+    "variants":{
+        "inventory":[{}],
+        "normal":[{}]
+    }
+}

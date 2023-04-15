@@ -10,6 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.registries.DataSerializerEntry;
 
 import javax.annotation.Nonnull;
 
@@ -30,7 +31,12 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerBlocks(@Nonnull RegistryEvent.Register<Block> event) {
         SubaquaticBlocks.INIT.forEach(event.getRegistry()::register);
-        SubaquaticBlocks.registerBurnables();
+        SubaquaticBlocks.postRegistry();
+    }
+
+    @SubscribeEvent
+    static void registerDataSerializers(@Nonnull RegistryEvent.Register<DataSerializerEntry> event) {
+        SubaquaticDataSerializers.INIT.forEach(event.getRegistry()::register);
     }
 
     @SubscribeEvent
