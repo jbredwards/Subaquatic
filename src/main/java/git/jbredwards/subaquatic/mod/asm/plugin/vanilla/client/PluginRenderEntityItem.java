@@ -44,7 +44,7 @@ public final class PluginRenderEntityItem implements IASMPlugin
     public static final class Hooks
     {
         public static boolean shouldBob(@Nonnull RenderEntityItem renderer, @Nonnull EntityItem entity) {
-            return renderer.shouldBob() && FluidloggedUtils.getFluidState(entity.world, new BlockPos(entity.getPositionEyes(1))).isEmpty();
+            return renderer.shouldBob() && (entity.world == null || FluidloggedUtils.getFluidState(entity.world, new BlockPos(entity.getPositionEyes(1))).isEmpty());
         }
     }
 }
