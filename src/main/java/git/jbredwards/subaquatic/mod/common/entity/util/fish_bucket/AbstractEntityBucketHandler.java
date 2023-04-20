@@ -68,18 +68,22 @@ public abstract class AbstractEntityBucketHandler implements INBTSerializable<NB
     protected void readFromNBT(@Nonnull NBTTagCompound nbt) {}
 
     @Nonnull
-    public abstract List<ResourceLocation> getSprites();
+    public List<AbstractEntityBucketHandler> getSubTypes() { return Collections.singletonList(this); }
 
     @Nonnull
-    public List<AbstractEntityBucketHandler> getSubTypes() { return Collections.singletonList(this); }
+    public abstract List<ResourceLocation> getSpriteDependencies();
+
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    public List<ResourceLocation> getSpritesForRender() { return getSpriteDependencies(); }
 
     @Nonnull
     @SideOnly(Side.CLIENT)
     public List<BakedQuad> getRenderQuads() {
         final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
-        final List<ResourceLocation> sprites = getSprites();
+        final List<ResourceLocation> sprites = getSpritesForRender();
 
-        for(int i = 0; i < sprites.size(); i++) builder.addAll(BakedEntityBucketModel.getQuadsForSprite(sprites.get(i), i + 3));
+        for(int i = 0; i < sprites.size(); i++) builder.addAll(BakedEntityBucketModel.getQuadsForSprite(sprites.get(i), i + 3, i));
         return builder.build();
     }
 

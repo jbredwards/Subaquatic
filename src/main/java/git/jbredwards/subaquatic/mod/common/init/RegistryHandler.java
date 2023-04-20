@@ -48,7 +48,7 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerItems(@Nonnull RegistryEvent.Register<Item> event) {
         SubaquaticItems.INIT.forEach(event.getRegistry()::register);
-        SubaquaticItems.registerOreDictionary();
+        SubaquaticItems.postRegistry();
     }
 
     @SubscribeEvent

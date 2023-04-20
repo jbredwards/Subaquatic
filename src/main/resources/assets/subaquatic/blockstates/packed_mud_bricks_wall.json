@@ -1,0 +1,84 @@
+{
+    "forge_marker":1,
+    "defaults":{
+        "model":"block",
+        "textures":{
+            "wall":"subaquatic:blocks/packed_mud_bricks",
+            "particle":"subaquatic:blocks/packed_mud_bricks"
+        }
+    },
+    "variants":{
+        "inventory":[
+            {
+                "model":"wall_inventory"
+            }
+        ],
+        "up":{
+            "false":{
+
+            },
+            "true":{
+                "submodel":{
+                    "up_model":{
+                        "model":"wall_post"
+                    }
+                }
+            }
+        },
+        "north":{
+            "false":{
+
+            },
+            "true":{
+                "submodel":{
+                    "north_model":{
+                        "model":"wall_side",
+                        "uvlock":true
+                    }
+                }
+            }
+        },
+        "east":{
+            "false":{
+
+            },
+            "true":{
+                "submodel":{
+                    "east_model":{
+                        "model":"wall_side",
+                        "y":90,
+                        "uvlock":true
+                    }
+                }
+            }
+        },
+        "south":{
+            "false":{
+
+            },
+            "true":{
+                "submodel":{
+                    "south_model":{
+                        "model":"wall_side",
+                        "y":180,
+                        "uvlock":true
+                    }
+                }
+            }
+        },
+        "west":{
+            "false":{
+
+            },
+            "true":{
+                "submodel":{
+                    "west_model":{
+                        "model":"wall_side",
+                        "y":270,
+                        "uvlock":true
+                    }
+                }
+            }
+        }
+    }
+}

@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -74,7 +74,7 @@ public interface IEntityBucket
     }
 
     @Nonnull
-    List<Item> validBuckets = new ArrayList<>();
+    List<Item> validBuckets = new LinkedList<>();
     static List<Item> getValidBuckets() {
         if(validBuckets.isEmpty()) ForgeRegistries.ITEMS.forEach(item -> {
             if(canItemHoldCapability(item)) validBuckets.add(item);

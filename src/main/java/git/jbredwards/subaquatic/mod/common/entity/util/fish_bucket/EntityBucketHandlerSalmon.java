@@ -22,7 +22,7 @@ public class EntityBucketHandlerSalmon extends AbstractEntityBucketHandler
 
     @Nonnull
     @Override
-    public List<ResourceLocation> getSprites() {
-        return Collections.singletonList(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_salmon"));
+    public List<ResourceLocation> getSpriteDependencies() {
+        return Collections.singletonList(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/salmon"));
     }
 }

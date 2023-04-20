@@ -43,6 +43,9 @@ final class SubaquaticRecipes
         registerCrafting(registry, "packed_ice", new ShapedOreRecipe(null, Blocks.PACKED_ICE, "###", "###", "###", '#', Blocks.ICE));
         registerCrafting(registry, "packed_mud", new ShapelessOreRecipe(null, SubaquaticItems.PACKED_MUD, "mud", "cropWheat"));
         registerCrafting(registry, "packed_mud_bricks", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.PACKED_MUD_BRICKS, 4), "##", "##", '#', SubaquaticItems.PACKED_MUD));
+        registerCrafting(registry, "packed_mud_bricks_slab", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.PACKED_MUD_BRICKS_SLAB, 6), "###", '#', SubaquaticItems.PACKED_MUD_BRICKS));
+        registerCrafting(registry, "packed_mud_bricks_stairs", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.PACKED_MUD_BRICKS_STAIRS, 4), "#  ", "## ", "###", '#', SubaquaticItems.PACKED_MUD_BRICKS));
+        registerCrafting(registry, "packed_mud_bricks_wall", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.PACKED_MUD_BRICKS_WALL, 6), "###", "###", '#', SubaquaticItems.PACKED_MUD_BRICKS));
         registerCrafting(registry, "pumpkin_pie", new ShapelessOreRecipe(null, Items.PUMPKIN_PIE, "cropPumpkin", Items.SUGAR, "egg"));
         registerCrafting(registry, "pumpkin_seeds", new ShapelessOreRecipe(null, new ItemStack(Items.PUMPKIN_SEEDS, 4), "cropPumpkin"));
         registerCrafting(registry, "rooted_dirt", new ShapelessOreRecipe(null, SubaquaticItems.ROOTED_DIRT, "dirt", SubaquaticItems.HANGING_ROOTS));

@@ -9,9 +9,7 @@ import git.jbredwards.subaquatic.mod.common.entity.item.EntityMinecartEnderChest
 import git.jbredwards.subaquatic.mod.common.item.*;
 import git.jbredwards.subaquatic.mod.common.item.block.*;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemFood;
+import net.minecraft.item.*;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
@@ -26,10 +24,10 @@ import java.util.function.Consumer;
  */
 public final class SubaquaticItems
 {
-    //item init
+    // Init
     @Nonnull public static final List<Item> INIT = new LinkedList<>();
 
-    //item blocks
+    // Item blocks
     @Nonnull public static final ItemBlock DRIED_KELP_BLOCK = register("dried_kelp_block", new ItemBlock(SubaquaticBlocks.DRIED_KELP_BLOCK));
     @Nonnull public static final ItemBlock BLUE_ICE = register("blue_ice", new ItemBlock(SubaquaticBlocks.BLUE_ICE));
     @Nonnull public static final ItemBlock PUMPKIN = register("pumpkin", new ItemBlock(SubaquaticBlocks.PUMPKIN));
@@ -61,22 +59,32 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock PACKED_MUD = register("packed_mud", new ItemBlock(SubaquaticBlocks.PACKED_MUD));
     @Nonnull public static final ItemBlock PACKED_MUD_BRICKS = register("packed_mud_bricks", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS));
 
-    //items
+    // Stairs
+    @Nonnull public static final ItemBlock PACKED_MUD_BRICKS_STAIRS = register("packed_mud_bricks_stairs", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS_STAIRS));
+
+    // Slabs
+    @Nonnull public static final ItemSlab PACKED_MUD_BRICKS_SLAB = register("packed_mud_bricks_slab", new ItemSlab(SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB, SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB, SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB_DOUBLE));
+
+    // Walls
+    @Nonnull public static final ItemBlock PACKED_MUD_BRICKS_WALL = register("packed_mud_bricks_wall", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS_WALL));
+
+    // Items
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.itemUseDuration = 16);
     @Nonnull public static final ItemMinecartTypeless ENDER_CHEST_MINECART = register("ender_chest_minecart", new ItemMinecartTypeless(EntityMinecartEnderChest::new));
 
-    //boat containers
+    // Boat containers
     @Nonnull public static final ItemBoatContainer CHEST_BOAT = register("chest_boat", new ItemBoatContainer(EntityBoatChest::new));
     @Nonnull public static final ItemBoatContainer ENDER_CHEST_BOAT = register("ender_chest_boat", new ItemBoatContainer(EntityBoatEnderChest::new));
     @Nonnull public static final ItemBoatContainer FURNACE_BOAT = register("furnace_boat", new ItemBoatContainer(EntityBoatFurnace::new));
 
     //ore dict registration
-    public static void registerOreDictionary() {
+    public static void postRegistry() {
         OreDictionary.registerOre("cropPumpkin", PUMPKIN);
         OreDictionary.registerOre("cropPumpkin", Blocks.PUMPKIN);
         OreDictionary.registerOre("cropKelp", KELP);
         OreDictionary.registerOre("cropSeaPickle", SEA_PICKLE);
         OreDictionary.registerOre("foodDriedKelp", DRIED_KELP);
+        OreDictionary.registerOre("froglight", new ItemStack(FROGLIGHT, 1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("mud", MUD);
         OreDictionary.registerOre("mudPacked", PACKED_MUD);
         OreDictionary.registerOre("mudPacked", PACKED_MUD_BRICKS);

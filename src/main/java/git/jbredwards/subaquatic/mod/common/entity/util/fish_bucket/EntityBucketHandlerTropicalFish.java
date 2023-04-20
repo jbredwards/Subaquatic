@@ -5,11 +5,10 @@ import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
-import net.minecraft.client.Minecraft;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -20,6 +19,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,6 +34,10 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
     @Nullable
     public TropicalFishData fishData;
 
+    @Nonnull
+    @Override
+    public EntityEntry getEntityEntry() { return SubaquaticEntities.TROPICAL_FISH; }
+
     @Override
     protected void writeToNBT(@Nonnull NBTTagCompound nbt) {
         if(fishData != null) nbt.setInteger("Variant", fishData.serialize());
@@ -41,20 +46,6 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
     @Override
     protected void readFromNBT(@Nonnull NBTTagCompound nbt) {
         if(nbt.hasKey("Variant", Constants.NBT.TAG_INT)) fishData = TropicalFishData.deserialize(nbt.getInteger("Variant"));
-    }
-
-    @Nonnull
-    @Override
-    public EntityEntry getEntityEntry() { return SubaquaticEntities.TROPICAL_FISH; }
-
-    @Nonnull
-    @Override
-    public List<ResourceLocation> getSprites() {
-        return ImmutableList.of(
-                new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_tropical_fish_1"),
-                new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_tropical_fish_2"),
-                new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_tropical_fish_3")
-        );
     }
 
     @Nonnull
@@ -68,6 +59,45 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
         });
 
         return subTypes;
+    }
+
+    @Nonnull
+    @Override
+    public List<ResourceLocation> getSpriteDependencies() {
+        final ImmutableList.Builder<ResourceLocation> builder = ImmutableList.builder();
+        final IntSet primaryShapes = new IntOpenHashSet(), secondaryShapes = new IntOpenHashSet();
+
+        //these are coded to randomly spawn, ensure they always have a sprite
+        primaryShapes.addAll(Arrays.asList(0, 1));
+        secondaryShapes.addAll(Arrays.asList(0, 1, 2, 3, 4, 5));
+
+        //account for any possible new types
+        SubaquaticTropicalFishConfig.DEFAULT_TYPES.forEach(type -> {
+            primaryShapes.add(type.primaryShape);
+            secondaryShapes.add(type.secondaryShape);
+        });
+
+        //generate all sprites
+        primaryShapes.forEach(primaryShape -> {
+            final String base = "items/fish_bucket_overlays/tropical_" + primaryShape;
+            builder.add(new ResourceLocation(Subaquatic.MODID, base));
+            secondaryShapes.forEach(secondaryShape -> builder.add(new ResourceLocation(Subaquatic.MODID, base + "_pattern_" + secondaryShape)));
+        });
+
+        //add sprite for missing fish data
+        builder.add(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/tropical_missing"));
+        return builder.build();
+    }
+
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    @Override
+    public List<ResourceLocation> getSpritesForRender() {
+        if(fishData != null) return ImmutableList.of(
+                new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/tropical_" + fishData.primaryShape),
+                new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/tropical_" + fishData.primaryShape + "_pattern_" + fishData.secondaryShape));
+
+        else return Collections.singletonList(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/tropical_missing"));
     }
 
     @SideOnly(Side.CLIENT)
@@ -91,35 +121,10 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
     @SideOnly(Side.CLIENT)
     @Override
     public int colorMultiplier(@Nonnull ItemStack bucket, int tintIndex) {
+        if(fishData == null) return -1;
         switch(tintIndex) {
-            case 3: {
-                if(fishData != null) return fishData.primaryColor.getColorValue();
-
-                final long systemTime = Minecraft.getSystemTime() / 20;
-                final float progress = (systemTime % 25 + Minecraft.getMinecraft().getRenderPartialTicks()) / 25f;
-
-                final float[] startRGB = EntitySheep.getDyeRgb(EnumDyeColor.byMetadata((int)(systemTime / 25 % EnumDyeColor.values().length)));
-                final float[] endRGB = EntitySheep.getDyeRgb(EnumDyeColor.byMetadata((int)((systemTime / 25 + 1) % EnumDyeColor.values().length)));
-
-                return ((int)((startRGB[0] * (1 - progress) + endRGB[0] * progress) * 255) & 0xFF) << 16
-                        | ((int)((startRGB[1] * (1 - progress) + endRGB[1] * progress) * 255) & 0xFF) << 8
-                        | (int)((startRGB[2] * (1 - progress) + endRGB[2] * progress) * 255) & 0xFF;
-            }
-
-            case 4: {
-                if(fishData != null) return fishData.secondaryColor.getColorValue();
-
-                final long systemTime = Minecraft.getSystemTime() / 20;
-                final float progress = (systemTime % 20 + Minecraft.getMinecraft().getRenderPartialTicks()) / 20f;
-
-                final float[] startRGB = EntitySheep.getDyeRgb(EnumDyeColor.byDyeDamage((int)(systemTime / 20 % EnumDyeColor.values().length)));
-                final float[] endRGB = EntitySheep.getDyeRgb(EnumDyeColor.byDyeDamage((int)((systemTime / 20 + 1) % EnumDyeColor.values().length)));
-
-                return ((int)((startRGB[0] * (1 - progress) + endRGB[0] * progress) * 255) & 0xFF) << 16
-                        | ((int)((startRGB[1] * (1 - progress) + endRGB[1] * progress) * 255) & 0xFF) << 8
-                        | (int)((startRGB[2] * (1 - progress) + endRGB[2] * progress) * 255) & 0xFF;
-            }
-
+            case 3: return fishData.primaryColor.getColorValue();
+            case 4: return fishData.secondaryColor.getColorValue();
             default: return -1;
         }
     }

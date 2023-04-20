@@ -32,7 +32,7 @@ public class RenderTropicalFish extends RenderLiving<EntityTropicalFish>
     @Nonnull
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityTropicalFish entity) {
-        return new ResourceLocation(Subaquatic.MODID, "textures/entity/fish/tropical_" + ((entity.getVariant().primaryShape & 1) == 0 ? 'a' : 'b') + ".png");
+        return new ResourceLocation(Subaquatic.MODID, "textures/entity/fish/tropical_" + entity.getVariant().primaryShape + ".png");
     }
 
     @Override

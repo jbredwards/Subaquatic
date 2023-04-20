@@ -7,80 +7,106 @@
         }
     },
     "variants":{
-        "inventory":[{
-            "transform":"forge:default-item",
-            "model":"builtin/generated",
-			"textures":{
-                "layer0":"subaquatic:blocks/glow_lichen"
+        "inventory":[
+            {
+                "transform":"forge:default-item",
+                "model":"builtin/generated",
+                "textures":{
+                    "layer0":"subaquatic:blocks/glow_lichen"
+                }
             }
-        }],
+        ],
         "down":{
-            "false":{},
+            "false":{
+                
+            },
             "true":{
                 "submodel":{
-                    "down_model":[{
-                        "model":"subaquatic:glow_lichen",
-                        "uvlock":true,
-                        "x":90
-                    }]
+                    "down_model":[
+                        {
+                            "model":"subaquatic:glow_lichen",
+                            "uvlock":true,
+                            "x":90
+                        }
+                    ]
                 }
             }
         },
         "up":{
-            "false":{},
+            "false":{
+                
+            },
             "true":{
                 "submodel":{
-                    "up_model":[{
-                        "model":"subaquatic:glow_lichen",
-                        "uvlock":true,
-                        "x":270
-                    }]
+                    "up_model":[
+                        {
+                            "model":"subaquatic:glow_lichen",
+                            "uvlock":true,
+                            "x":270
+                        }
+                    ]
                 }
             }
         },
         "north":{
-            "false":{},
+            "false":{
+                
+            },
             "true":{
                 "submodel":{
-                    "north_model":[{
-                        "model":"subaquatic:glow_lichen"
-                    }]
+                    "north_model":[
+                        {
+                            "model":"subaquatic:glow_lichen"
+                        }
+                    ]
                 }
             }
         },
         "south":{
-            "false":{},
+            "false":{
+                
+            },
             "true":{
                 "submodel":{
-                    "south_model":[{
-                        "model":"subaquatic:glow_lichen",
-                        "uvlock":true,
-                        "y":180
-                    }]
+                    "south_model":[
+                        {
+                            "model":"subaquatic:glow_lichen",
+                            "uvlock":true,
+                            "y":180
+                        }
+                    ]
                 }
             }
         },
         "west":{
-            "false":{},
+            "false":{
+                
+            },
             "true":{
                 "submodel":{
-                    "west_model":[{
-                        "model":"subaquatic:glow_lichen",
-                        "uvlock":true,
-                        "y":270
-                    }]
+                    "west_model":[
+                        {
+                            "model":"subaquatic:glow_lichen",
+                            "uvlock":true,
+                            "y":270
+                        }
+                    ]
                 }
             }
         },
         "east":{
-            "false":{},
+            "false":{
+                
+            },
             "true":{
                 "submodel":{
-                    "east_model":[{
-                        "model":"subaquatic:glow_lichen",
-                        "uvlock":true,
-                        "y":90
-                    }]
+                    "east_model":[
+                        {
+                            "model":"subaquatic:glow_lichen",
+                            "uvlock":true,
+                            "y":90
+                        }
+                    ]
                 }
             }
         }

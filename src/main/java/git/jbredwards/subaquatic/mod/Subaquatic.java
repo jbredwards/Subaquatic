@@ -12,24 +12,24 @@ import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticBlockSoakRecipesConfig;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartAbstractInventoryPart;
 import git.jbredwards.subaquatic.mod.common.entity.living.*;
-import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
-import git.jbredwards.subaquatic.mod.common.message.CMessageOpenBoatInventory;
-import git.jbredwards.subaquatic.mod.common.message.SMessageAbstractChestPart;
-import git.jbredwards.subaquatic.mod.common.message.SMessageBoatType;
-import git.jbredwards.subaquatic.mod.common.message.SMessageFurnacePart;
+import git.jbredwards.subaquatic.mod.common.message.*;
+import git.jbredwards.subaquatic.mod.common.recipe.BlockSoakRecipe;
+import git.jbredwards.subaquatic.mod.common.world.biome.BiomeFrozenOcean;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorCoral;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
@@ -85,7 +85,7 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.1.0", dependencies = "required-after:fluidlogged_api@[2.1.0,);required-client:assetmover@[2.5,);")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.1.0", dependencies = "required-after:fluidlogged_api@[2.1.2,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -134,6 +134,7 @@ public final class Subaquatic
         WRAPPER.registerMessage(SMessageAbstractChestPart.Handler.INSTANCE, SMessageAbstractChestPart.class, 1, Side.CLIENT);
         WRAPPER.registerMessage(CMessageOpenBoatInventory.Handler.INSTANCE, CMessageOpenBoatInventory.class, 2, Side.SERVER);
         WRAPPER.registerMessage(SMessageFurnacePart.Handler.INSTANCE, SMessageFurnacePart.class, 3, Side.CLIENT);
+        WRAPPER.registerMessage(SMessageBottleParticles.Handler.INSTANCE, SMessageBottleParticles.class, 4, Side.CLIENT);
 
         //world generators
         GeneratorCoral.initDefaults();
@@ -205,7 +206,10 @@ public final class Subaquatic
                 .addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER))
                 .build());
         //ocean monuments spawning in these biomes causes problems
-        StructureOceanMonument.SPAWN_BIOMES.removeIf(biome -> biome == Biomes.FROZEN_OCEAN || biome == SubaquaticBiomes.DEEP_FROZEN_OCEAN);
+        StructureOceanMonument.SPAWN_BIOMES.removeIf(biome -> biome instanceof BiomeFrozenOcean);
+
+        //add block soak recipe functionality to dispensers
+        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.POTIONITEM, BlockSoakRecipe.getDispenserHandler());
     }
 
     @Mod.EventHandler
@@ -221,7 +225,7 @@ public final class Subaquatic
         manager.registerParticle(EnumParticleTypes.WATER_WAKE.getParticleID(), new ParticleFactoryColorize(new ParticleWaterWake.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
         //fix bubble particles spawning in illegal blocks (like cauldrons)
         final IParticleFactory bubbleFactory = manager.particleTypes.get(EnumParticleTypes.WATER_BUBBLE.getParticleID());
-        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (int particleID, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, int... args) -> {
+        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args) -> {
             final Particle particle = bubbleFactory.createParticle(particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args);
             if(particle == null) return null;
 
@@ -238,6 +242,7 @@ public final class Subaquatic
         //config stuff
         SubaquaticConfigHandler.init();
         SubaquaticWaterColorConfig.buildWaterColors();
+        SubaquaticBlockSoakRecipesConfig.buildRecipes();
         //improve certain modded block sounds
         Optional.ofNullable(Block.getBlockFromName("biomesoplenty:waterlily")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
         Optional.ofNullable(Block.getBlockFromName("twilightforest:huge_lilypad")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));

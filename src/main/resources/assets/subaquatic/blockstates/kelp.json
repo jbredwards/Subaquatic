@@ -1,35 +1,79 @@
 {
-	"forge_marker": 1,
-	"defaults":{"model":"cross"},
-	"variants":{
-		"inventory":[{
-			"transform":"forge:default-item",
-            "model":"builtin/generated",
-			"textures":{
-                "layer0":"subaquatic:items/kelp"
+    "forge_marker":1,
+    "defaults":{
+        "model":"cross"
+    },
+    "variants":{
+        "inventory":[
+            {
+                "transform":"forge:default-item",
+                "model":"builtin/generated",
+                "textures":{
+                    "layer0":"subaquatic:items/kelp"
+                }
             }
-        }],
-		"age":{
-			"0":{},
-			"1":{},
-			"2":{},
-			"3":{},
-			"4":{},
-			"5":{},
-			"6":{},
-			"7":{},
-			"8":{},
-			"9":{},
-			"10":{},
-			"11":{},
-			"12":{},
-			"13":{},
-			"14":{},
-			"15":{}
-		},
-		"top":{
-			"false":{"textures":{"cross":"subaquatic:blocks/kelp"}},
-			"true":{"textures":{"cross":"subaquatic:blocks/kelp_top"}}
-		}
-	}
+        ],
+        "age":{
+            "0":{
+                
+            },
+            "1":{
+                
+            },
+            "2":{
+                
+            },
+            "3":{
+                
+            },
+            "4":{
+                
+            },
+            "5":{
+                
+            },
+            "6":{
+                
+            },
+            "7":{
+                
+            },
+            "8":{
+                
+            },
+            "9":{
+                
+            },
+            "10":{
+                
+            },
+            "11":{
+                
+            },
+            "12":{
+                
+            },
+            "13":{
+                
+            },
+            "14":{
+                
+            },
+            "15":{
+                
+            }
+        },
+        "top":{
+            "false":{
+                "textures":{
+                    "cross":"subaquatic:blocks/kelp"
+                }
+            },
+            "true":{
+                "textures":{
+                    "cross":"subaquatic:blocks/kelp_top"
+                }
+            }
+        }
+    }
 }

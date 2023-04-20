@@ -75,7 +75,6 @@ public final class ClientEventHandler
 
     @SubscribeEvent(priority = EventPriority.LOW)
     static void registerBlockColors(@Nonnull ColorHandlerEvent.Block event) {
-        FluidRegistry.WATER.setColor(0xFF3f97e4); //fix water color in buckets
         event.getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex)
                 -> tintIndex != 1 || world == null || pos == null ? -1 : Subaquatic.isInspirationsInstalled
                         ? InspirationsHandler.getCauldronColor(world, pos)
@@ -95,13 +94,17 @@ public final class ClientEventHandler
         //reset all BakedQuad caches on resource reload
         ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager())
             .registerReloadListener((ISelectiveResourceReloadListener)(resourceManager, resourcePredicate) -> {
-                if(resourcePredicate.test(VanillaResourceType.MODELS)) BakedEntityBucketModel.clearQuadsCache();
+                if(resourcePredicate.test(VanillaResourceType.MODELS)) {
+                    BakedEntityBucketModel.clearQuadsCache();
+                    FluidRegistry.WATER.setColor(0xFFFFFFFF); //temporarily remove the water fluid color (this gets re-added later)
+                }
             }
         );
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    static void applyEntityBucketModelOverrides(@Nonnull ModelBakeEvent event) {
+    static void handleModelOverrides(@Nonnull ModelBakeEvent event) {
+        //apply entity bucket model overrides
         for(Item bucket : IEntityBucket.getValidBuckets()) {
             for(String variant : event.getModelLoader().getVariantNames(bucket)) {
                 final ModelResourceLocation modelLocation = ModelLoader.getInventoryVariant(variant);
@@ -109,6 +112,10 @@ public final class ClientEventHandler
                 if(bucketModel != null) event.getModelRegistry().putObject(modelLocation, new BakedEntityBucketModel(bucketModel));
             }
         }
+
+        //apply water fluid color override (fixes water color in buckets & bottles)
+        //moved here from BlockColorEvent to fix an F3+T bug
+        FluidRegistry.WATER.setColor(0xFF3f97e4);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -147,9 +154,7 @@ public final class ClientEventHandler
                 event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "particles/bubble_pop_" + i));
 
         //handle entity bucket sprites
-        AbstractEntityBucketHandler.BUCKET_HANDLERS.values()
-                .forEach(handler -> handler.get().getSprites()
-                        .forEach(event.getMap()::registerSprite));
+        AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler -> handler.get().getSpriteDependencies().forEach(event.getMap()::registerSprite));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)

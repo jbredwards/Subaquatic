@@ -125,9 +125,9 @@ public final class SubaquaticWaterColorConfig
             else if(biomeTags.contains(BiomeDictionary.Type.WASTELAND)) return 0x14559B;
             else if(biomeTags.contains(BiomeDictionary.Type.MOUNTAIN)) return 0x0E63AB;
             else if(biomeTags.contains(BiomeDictionary.Type.FOREST)) return 0x1E97F2;
-            else if(biomeTags.contains(BiomeDictionary.Type.PLAINS)) return 0x44AFF5;
+            else if(biomeTags.contains(BiomeDictionary.Type.PLAINS)) return 0x3F76E4;
             else if(biomeTags.contains(BiomeDictionary.Type.SNOWY)) return 0x1156A7;
-            else if(biomeTags.contains(BiomeDictionary.Type.BEACH)) return 0x157CAB;
+            else if(biomeTags.contains(BiomeDictionary.Type.BEACH)) return 0x3F76E4;
             else if(biomeTags.contains(BiomeDictionary.Type.COLD)) return 0x007BF7;
             else if(biomeTags.contains(BiomeDictionary.Type.HOT)) return 0x1A7AA1;
 
@@ -216,8 +216,8 @@ public final class SubaquaticWaterColorConfig
             "{\n" +
             "    //River\n" +
             "    \"minecraft:river\":{\n" +
-            "        \"Surface\":\"0x0084FF\",\n" +
-            "        \"Fog\":\"0x0084FF\"\n" +
+            "        \"Surface\":\"0x3F76E4\",\n" +
+            "        \"Fog\":\"0x3F76E4\"\n" +
             "    },\n" +
             "    //Frozen River\n" +
             "    \"minecraft:frozen_river\":{\n" +
@@ -226,13 +226,13 @@ public final class SubaquaticWaterColorConfig
             "    },\n" +
             "    //Ocean\n" +
             "    \"minecraft:ocean\":{\n" +
-            "        \"Surface\":\"0x1787D4\",\n" +
-            "        \"Fog\":\"0x1165B0\"\n" +
+            "        \"Surface\":\"0x3F76E4\",\n" +
+            "        \"Fog\":\"0x3F76E4\"\n" +
             "    },\n" +
             "    //Deep Ocean\n" +
             "    \"minecraft:deep_ocean\":{\n" +
-            "        \"Surface\":\"0x1787D4\",\n" +
-            "        \"Fog\":\"0x1463A5\"\n" +
+            "        \"Surface\":\"0x3F76E4\",\n" +
+            "        \"Fog\":\"0x3F76E4\"\n" +
             "    },\n" +
             "    //Warm Ocean\n" +
             "    \"subaquatic:warm_ocean\":{\n" +

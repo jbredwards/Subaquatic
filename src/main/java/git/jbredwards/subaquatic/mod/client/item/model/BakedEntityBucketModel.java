@@ -41,30 +41,35 @@ public class BakedEntityBucketModel extends BakedModelWrapper<IBakedModel>
     public static void clearQuadsCache() { OVERLAY_QUADS.clear(); }
 
     @Nullable
-    protected final AbstractEntityBucketHandler fishData;
+    protected final AbstractEntityBucketHandler entityData;
     public BakedEntityBucketModel(@Nonnull IBakedModel originalModel) { this(originalModel, null); }
-    public BakedEntityBucketModel(@Nonnull IBakedModel originalModel, @Nullable AbstractEntityBucketHandler fishDataIn) {
+    public BakedEntityBucketModel(@Nonnull IBakedModel originalModel, @Nullable AbstractEntityBucketHandler entityDataIn) {
         super(originalModel);
-        fishData = fishDataIn;
+        entityData = entityDataIn;
     }
 
     @Nonnull
     @Override
     public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
-        if(fishData == null || side != null) return super.getQuads(state, side, rand);
+        if(entityData == null || side != null) return super.getQuads(state, side, rand);
         final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 
         builder.addAll(super.getQuads(state, null, rand));
-        builder.addAll(fishData.getRenderQuads());
+        builder.addAll(entityData.getRenderQuads());
         return builder.build();
     }
 
     @Nonnull
-    public static List<BakedQuad> getQuadsForSprite(@Nonnull ResourceLocation texture, int tintIndex) {
+    public static List<BakedQuad> getQuadsForSprite(@Nonnull ResourceLocation texture, int tintIndex, int layer) {
         return OVERLAY_QUADS.computeIfAbsent(texture, entity -> {
+            final Vector3f scale = new Vector3f(1 + 0.002f * layer, 1.0001f + 0.0001f * layer, 1.009f + 0.0002f * layer);
+            final Vector3f translation = new Vector3f(scale);
+            translation.sub(new Vector3f(1, 1, 1));
+            translation.scale(-0.5f);
+
             final TRSRTransformation identity = TRSRTransformation.identity();
             return ItemLayerModel.getQuadsForSprite(tintIndex, ModelLoader.defaultTextureGetter().apply(texture), DefaultVertexFormats.ITEM,
-                    Optional.of(new TRSRTransformation(new Vector3f(0, -0.00005f, -0.005f), identity.getLeftRot(), new Vector3f(1, 1.0001f, 1.01f), identity.getRightRot())));
+                    Optional.of(new TRSRTransformation(translation, identity.getLeftRot(), scale, identity.getRightRot())));
         });
     }
 
@@ -87,6 +92,6 @@ public class BakedEntityBucketModel extends BakedModelWrapper<IBakedModel>
     @Override
     public Pair<? extends IBakedModel, Matrix4f> handlePerspective(@Nonnull ItemCameraTransforms.TransformType cameraTransformType) {
         final Pair<? extends IBakedModel, Matrix4f> oldPerspective = super.handlePerspective(cameraTransformType);
-        return Pair.of(new BakedEntityBucketModel(oldPerspective.getKey(), fishData), oldPerspective.getValue());
+        return Pair.of(new BakedEntityBucketModel(oldPerspective.getKey(), entityData), oldPerspective.getValue());
     }
 }

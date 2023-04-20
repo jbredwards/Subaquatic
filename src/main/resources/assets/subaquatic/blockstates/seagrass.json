@@ -1,16 +1,38 @@
 {
-	"forge_marker": 1,
-	"defaults":{"model":"subaquatic:seagrass"},
-	"variants":{
-		"inventory":[{
-			"transform":"forge:default-item",
-            "model":"builtin/generated",
-			"textures":{
-                "layer0":"subaquatic:items/seagrass"
+    "forge_marker":1,
+    "defaults":{
+        "model":"subaquatic:seagrass"
+    },
+    "variants":{
+        "inventory":[
+            {
+                "transform":"forge:default-item",
+                "model":"builtin/generated",
+                "textures":{
+                    "layer0":"subaquatic:items/seagrass"
+                }
             }
-        }],
-		"type=single":[{"textures":{"texture":"subaquatic:blocks/seagrass_single"}}],
-		"type=bottom":[{"textures":{"texture":"subaquatic:blocks/seagrass_bottom"}}],
-		"type=top":[{"textures":{"texture":"subaquatic:blocks/seagrass_top"}}]
-	}
+        ],
+        "type=single":[
+            {
+                "textures":{
+                    "texture":"subaquatic:blocks/seagrass_single"
+                }
+            }
+        ],
+        "type=bottom":[
+            {
+                "textures":{
+                    "texture":"subaquatic:blocks/seagrass_bottom"
+                }
+            }
+        ],
+        "type=top":[
+            {
+                "textures":{
+                    "texture":"subaquatic:blocks/seagrass_top"
+                }
+            }
+        ]
+    }
 }

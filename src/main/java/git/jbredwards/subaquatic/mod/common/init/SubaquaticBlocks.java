@@ -71,17 +71,20 @@ public final class SubaquaticBlocks
     @Nonnull public static final Block PACKED_MUD_BRICKS = register("packed_mud_bricks", new Block(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY), block -> block.setSoundType(SubaquaticSounds.PACKED_MUD_BRICKS).setHardness(1.5f).setResistance(5).setHarvestLevel("pickaxe", 0));
 
     // Stairs
+    @Nonnull public static final BlockStairs PACKED_MUD_BRICKS_STAIRS = register("packed_mud_bricks_stairs", new BlockStairs(PACKED_MUD_BRICKS.getDefaultState()), PACKED_MUD_BRICKS, block -> {block.blockMapColor = MapColor.SILVER_STAINED_HARDENED_CLAY; block.useNeighborBrightness = true;});
 
     // Slabs
+    @Nonnull public static final AbstractBlockSlab PACKED_MUD_BRICKS_SLAB = register("packed_mud_bricks_slab", new AbstractBlockSlab.Single(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY, () -> SubaquaticItems.PACKED_MUD_BRICKS_SLAB), PACKED_MUD_BRICKS);
+    @Nonnull public static final AbstractBlockSlab PACKED_MUD_BRICKS_SLAB_DOUBLE = register("packed_mud_bricks_slab_double", new AbstractBlockSlab.Double(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY, () -> SubaquaticItems.PACKED_MUD_BRICKS_SLAB), PACKED_MUD_BRICKS);
 
     // Walls
+    @Nonnull public static final BlockWallTypeless PACKED_MUD_BRICKS_WALL = register("packed_mud_bricks_wall", new BlockWallTypeless(PACKED_MUD_BRICKS), PACKED_MUD_BRICKS, block -> block.blockMapColor = MapColor.SILVER_STAINED_HARDENED_CLAY);
 
     // Fences & Fence Gates
 
     //register burnables & tile entities
     public static void postRegistry() {
         Blocks.FIRE.setFireInfo(DRIED_KELP_BLOCK, 30, 60);
-
         TileEntity.register(Subaquatic.MODID + ":glow_lichen", TileEntityGlowLichen.class);
     }
 

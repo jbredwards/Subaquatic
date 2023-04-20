@@ -1,5 +1,5 @@
 {
-	"forge_marker": 1,
+    "forge_marker":1,
     "defaults":{
         "model":"cube_bottom_top",
         "textures":{
@@ -9,9 +9,26 @@
         }
     },
     "variants":{
-        "axis=x":[{"x":90,"y":90}],
-        "axis=y":[{}],
-        "axis=z":[{"x":90}],
-        "inventory":[{}]
+        "axis=x":[
+            {
+                "x":90,
+                "y":90
+            }
+        ],
+        "axis=y":[
+            {
+                
+            }
+        ],
+        "axis=z":[
+            {
+                "x":90
+            }
+        ],
+        "inventory":[
+            {
+                
+            }
+        ]
     }
 }

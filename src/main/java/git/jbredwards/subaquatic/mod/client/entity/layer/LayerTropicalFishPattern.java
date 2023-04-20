@@ -32,8 +32,7 @@ public class LayerTropicalFishPattern implements LayerRenderer<EntityTropicalFis
     public void doRenderLayer(@Nonnull EntityTropicalFish entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         if(!entity.isInvisible()) {
             final TropicalFishData variant = entity.getVariant();
-            renderer.bindTexture(new ResourceLocation(Subaquatic.MODID, "textures/entity/fish/tropical_"
-                    + ((variant.primaryShape & 1) == 0 ? 'a' : 'b') + "_pattern_" + (variant.secondaryShape) + ".png"));
+            renderer.bindTexture(new ResourceLocation(Subaquatic.MODID, "textures/entity/fish/tropical_" + variant.primaryShape + "_pattern_" + variant.secondaryShape + ".png"));
 
             final float[] colors = variant.secondaryColor.getColorComponentValues();
             GlStateManager.color(colors[0], colors[1], colors[2]);

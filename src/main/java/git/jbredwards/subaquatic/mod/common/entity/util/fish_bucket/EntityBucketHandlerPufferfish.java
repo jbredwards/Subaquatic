@@ -22,7 +22,7 @@ public class EntityBucketHandlerPufferfish extends AbstractEntityBucketHandler
 
     @Nonnull
     @Override
-    public List<ResourceLocation> getSprites() {
-        return Collections.singletonList(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlay_pufferfish"));
+    public List<ResourceLocation> getSpriteDependencies() {
+        return Collections.singletonList(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/pufferfish"));
     }
 }

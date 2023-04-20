@@ -112,7 +112,9 @@ public final class PluginEntity implements IASMPlugin
                 state = entity.world.getBlockState(pos);
             }
 
-            if(!state.getBlock().addRunningEffects(state, entity.world, pos, entity) && state.getRenderType() != EnumBlockRenderType.INVISIBLE) {
+            if(!state.getBlock().addRunningEffects(state, entity.world, pos, entity)
+            && state.getRenderType() != EnumBlockRenderType.INVISIBLE //prevent barrier particles & the like
+            && state.getBlock().canCollideCheck(state, false)) { //prevent water breaking particles & the like
                 final Random rand = entity.world.rand;
                 entity.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK,
                         entity.posX + (rand.nextFloat() - 0.5) * entity.width,
@@ -123,7 +125,7 @@ public final class PluginEntity implements IASMPlugin
         }
 
         public static boolean hasNoCollision(@Nonnull IBlockState state, @Nonnull BlockPos pos, @Nonnull Entity entity) {
-            if(state.getBlock().isAir(state, entity.world, pos)) return true;
+            if(state.getBlock().isAir(state, entity.world, pos) || !state.getBlock().canCollideCheck(state, false)) return true;
             final double xz = entity.width / 2;
 
             return !state.getBoundingBox(entity.world, pos).offset(pos).intersects(entity.posX - xz, entity.posY - 0.2, entity.posZ - xz, entity.posX + xz, entity.posY + 0.0001, entity.posZ + xz);
