@@ -2,11 +2,15 @@ package git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket;
 
 import com.google.common.collect.ImmutableList;
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.client.item.model.BakedEntityBucketModel;
+import git.jbredwards.subaquatic.mod.client.texture.MaskTextureAtlasSprite;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -20,7 +24,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -61,10 +64,9 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
         return subTypes;
     }
 
-    @Nonnull
+    @SideOnly(Side.CLIENT)
     @Override
-    public List<ResourceLocation> getSpriteDependencies() {
-        final ImmutableList.Builder<ResourceLocation> builder = ImmutableList.builder();
+    public void registerSprites(@Nonnull TextureMap map) {
         final IntSet primaryShapes = new IntOpenHashSet(), secondaryShapes = new IntOpenHashSet();
 
         //these are coded to randomly spawn, ensure they always have a sprite
@@ -80,24 +82,30 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
         //generate all sprites
         primaryShapes.forEach(primaryShape -> {
             final String base = "items/fish_bucket_overlays/tropical_" + primaryShape;
-            builder.add(new ResourceLocation(Subaquatic.MODID, base));
-            secondaryShapes.forEach(secondaryShape -> builder.add(new ResourceLocation(Subaquatic.MODID, base + "_pattern_" + secondaryShape)));
+            final ResourceLocation baseLocation = new ResourceLocation(Subaquatic.MODID, base);
+            secondaryShapes.forEach(secondaryShape -> {
+                final ResourceLocation maskLocation = new ResourceLocation(Subaquatic.MODID, base + "_pattern_" + secondaryShape);
+                map.setTextureEntry(new MaskTextureAtlasSprite(baseLocation, maskLocation));
+            });
         });
 
-        //add sprite for missing fish data
-        builder.add(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/tropical_missing"));
-        return builder.build();
+        super.registerSprites(map);
     }
 
     @Nonnull
     @SideOnly(Side.CLIENT)
     @Override
-    public List<ResourceLocation> getSpritesForRender() {
-        if(fishData != null) return ImmutableList.of(
-                new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/tropical_" + fishData.primaryShape),
-                new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/tropical_" + fishData.primaryShape + "_pattern_" + fishData.secondaryShape));
+    public List<BakedQuad> getRenderQuads() {
+        if(fishData != null) {
+            final String texture = "items/fish_bucket_overlays/tropical_" + fishData.primaryShape + "_pattern_" + fishData.secondaryShape;
+            final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 
-        else return Collections.singletonList(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/tropical_missing"));
+            builder.addAll(BakedEntityBucketModel.getQuadsForSprite(new ResourceLocation(Subaquatic.MODID, texture + "_base"), 3));
+            builder.addAll(BakedEntityBucketModel.getQuadsForSprite(new ResourceLocation(Subaquatic.MODID, texture), 4));
+            return builder.build();
+        }
+
+        return super.getRenderQuads();
     }
 
     @SideOnly(Side.CLIENT)

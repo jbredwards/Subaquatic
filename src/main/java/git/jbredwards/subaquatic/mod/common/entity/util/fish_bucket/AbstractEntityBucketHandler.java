@@ -1,8 +1,9 @@
 package git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket;
 
-import com.google.common.collect.ImmutableList;
+import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.model.BakedEntityBucketModel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -71,21 +72,16 @@ public abstract class AbstractEntityBucketHandler implements INBTSerializable<NB
     public List<AbstractEntityBucketHandler> getSubTypes() { return Collections.singletonList(this); }
 
     @Nonnull
-    public abstract List<ResourceLocation> getSpriteDependencies();
-
-    @Nonnull
-    @SideOnly(Side.CLIENT)
-    public List<ResourceLocation> getSpritesForRender() { return getSpriteDependencies(); }
+    protected ResourceLocation getSpriteForRender() { return new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/missing"); }
 
     @Nonnull
     @SideOnly(Side.CLIENT)
     public List<BakedQuad> getRenderQuads() {
-        final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
-        final List<ResourceLocation> sprites = getSpritesForRender();
-
-        for(int i = 0; i < sprites.size(); i++) builder.addAll(BakedEntityBucketModel.getQuadsForSprite(sprites.get(i), i + 3, i));
-        return builder.build();
+        return Collections.unmodifiableList(BakedEntityBucketModel.getQuadsForSprite(getSpriteForRender(), 3));
     }
+
+    @SideOnly(Side.CLIENT)
+    public void registerSprites(@Nonnull TextureMap map) { map.registerSprite(getSpriteForRender()); }
 
     @SideOnly(Side.CLIENT)
     public void handleTooltip(@Nonnull List<String> tooltip, @Nonnull ItemStack bucket, @Nonnull ITooltipFlag flag) {

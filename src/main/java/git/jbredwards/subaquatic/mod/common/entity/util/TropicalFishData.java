@@ -53,6 +53,7 @@ public final class TropicalFishData
     public String getTranslatedColor(@Nonnull BiFunction<String, Object[], String> translator) {
         return translator.apply("tooltip.subaquatic.fish_bucket.tropical_fish.colors", new Object[] {
                 translator.apply("color.subaquatic." + primaryColor.getTranslationKey(), new Object[0]),
-                translator.apply("color.subaquatic." + secondaryColor.getTranslationKey(), new Object[0])});
+                translator.apply("color.subaquatic." + secondaryColor.getTranslationKey(), new Object[0])
+        });
     }
 }

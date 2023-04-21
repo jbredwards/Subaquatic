@@ -6,8 +6,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 
 import javax.annotation.Nonnull;
-import java.util.Collections;
-import java.util.List;
 
 /**
  *
@@ -22,7 +20,7 @@ public class EntityBucketHandlerSalmon extends AbstractEntityBucketHandler
 
     @Nonnull
     @Override
-    public List<ResourceLocation> getSpriteDependencies() {
-        return Collections.singletonList(new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/salmon"));
+    protected ResourceLocation getSpriteForRender() {
+        return new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/salmon");
     }
 }

@@ -60,16 +60,11 @@ public class BakedEntityBucketModel extends BakedModelWrapper<IBakedModel>
     }
 
     @Nonnull
-    public static List<BakedQuad> getQuadsForSprite(@Nonnull ResourceLocation texture, int tintIndex, int layer) {
+    public static List<BakedQuad> getQuadsForSprite(@Nonnull ResourceLocation texture, int tintIndex) {
         return OVERLAY_QUADS.computeIfAbsent(texture, entity -> {
-            final Vector3f scale = new Vector3f(1 + 0.002f * layer, 1.0001f + 0.0001f * layer, 1.009f + 0.0002f * layer);
-            final Vector3f translation = new Vector3f(scale);
-            translation.sub(new Vector3f(1, 1, 1));
-            translation.scale(-0.5f);
-
             final TRSRTransformation identity = TRSRTransformation.identity();
             return ItemLayerModel.getQuadsForSprite(tintIndex, ModelLoader.defaultTextureGetter().apply(texture), DefaultVertexFormats.ITEM,
-                    Optional.of(new TRSRTransformation(translation, identity.getLeftRot(), scale, identity.getRightRot())));
+                    Optional.of(new TRSRTransformation(new Vector3f(0, -0.00005f, -0.005f), identity.getLeftRot(), new Vector3f(1, 1.0001f, 1.01f), identity.getRightRot())));
         });
     }
 

@@ -154,7 +154,7 @@ public final class ClientEventHandler
                 event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "particles/bubble_pop_" + i));
 
         //handle entity bucket sprites
-        AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler -> handler.get().getSpriteDependencies().forEach(event.getMap()::registerSprite));
+        AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler -> handler.get().registerSprites(event.getMap()));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
