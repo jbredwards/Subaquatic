@@ -58,6 +58,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
             plugins.put("net.minecraft.block.BlockGrass", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
+            plugins.put("net.minecraft.block.BlockHugeMushroom", new PluginBlockHugeMushroom()); //Allow the huge mushroom item blocks to be more accessible & useful outside just commands
             plugins.put("net.minecraft.block.BlockLever", new PluginBlockLever()); //Add lever redstone particles
             plugins.put("net.minecraft.block.BlockMycelium", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
@@ -74,7 +75,10 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityXPOrb()); //XP orbs float while in water
             plugins.put("net.minecraft.entity.player.EntityPlayerMP", new PluginEntityPlayerMP()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
+            plugins.put("net.minecraft.item.Item", new PluginItem()); //Custom ItemBlock implementation for mushroom blocks to allow for new metadata properties
             plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
+            plugins.put("net.minecraft.item.ItemExpBottle", new PluginItemExpBottle()); //Add new config option to toggle the exp bottle enchantment glint
+            plugins.put("net.minecraft.item.ItemPotion", new PluginItemPotion()); //Add new config option to toggle the potion enchantment glint
             plugins.put("net.minecraft.network.PacketBuffer", new PluginPacketBuffer()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
             plugins.put("net.minecraft.potion.PotionUtils", new PluginPotionUtils()); //Use new water fluid color
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks

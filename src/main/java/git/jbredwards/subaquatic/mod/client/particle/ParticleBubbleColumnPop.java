@@ -30,7 +30,7 @@ public class ParticleBubbleColumnPop extends Particle
         setParticleTexture(TEXTURES[0]);
         setRBGColorF(parent.getRedColorF(), parent.getGreenColorF(), parent.getBlueColorF());
 
-        if(SubaquaticConfigHandler.playBubblePopSound || parent instanceof ParticleBubbleColumn) {
+        if(SubaquaticConfigHandler.Client.Particle.playBubblePopSound || parent instanceof ParticleBubbleColumn) {
             final float pitch = Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f);
             world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 1, pitch, false);
         }

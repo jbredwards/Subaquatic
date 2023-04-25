@@ -1,5 +1,9 @@
 #Blocks
 tile.subaquatic.blue_ice.name=Blue Ice
+tile.subaquatic.brown_mushroom.name=Brown Mushroom
+tile.subaquatic.brown_mushroom.block.name=Brown Mushroom Block
+tile.subaquatic.brown_mushroom.stem.name=Brown Mushroom Stem
+tile.subaquatic.brown_mushroom.stem_all.name=Brown Mushroom Hyphae
 tile.subaquatic.bubble_column.name=Bubble Column
 tile.subaquatic.carved_pumpkin.name=Carved Pumpkin
 tile.subaquatic.dried_kelp_block.name=Block of Dried Kelp
@@ -19,6 +23,10 @@ tile.subaquatic.packed_mud_bricks_slab_double.name=Packed Mud Brick Slab
 tile.subaquatic.packed_mud_bricks_stairs.name=Packed Mud Brick Stairs
 tile.subaquatic.packed_mud_bricks_wall.name=Packed Mud Brick Wall
 tile.subaquatic.packed_mud_bricks_wall.normal.name=Packed Mud Brick Wall
+tile.subaquatic.red_mushroom.name=Red Mushroom
+tile.subaquatic.red_mushroom.block.name=Red Mushroom Block
+tile.subaquatic.red_mushroom.stem.name=Red Mushroom Stem
+tile.subaquatic.red_mushroom.stem_all.name=Red Mushroom Hyphae
 tile.subaquatic.rooted_dirt.name=Rooted Dirt
 tile.subaquatic.sea_pickle.name=Sea Pickle
 tile.subaquatic.seagrass.name=Seagrass

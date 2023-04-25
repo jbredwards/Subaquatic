@@ -9,6 +9,7 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -62,8 +63,17 @@ public class BlockRootedDirt extends Block implements IGrowable
             if(state.getBlock() instanceof BlockRootedDirt && world.isAirBlock(pos.up())) {
                 world.playSound(event.getEntityPlayer(), pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1, 1);
                 if(!world.isRemote) {
-                    spawnAsEntity(world, pos, new ItemStack(SubaquaticItems.HANGING_ROOTS));
                     world.setBlockState(pos, Blocks.FARMLAND.getDefaultState(), 11);
+                    if(world.getGameRules().getBoolean("doTileDrops")) {
+                        final EntityItem entityItem = new EntityItem(world,
+                                pos.getX() + 0.5,
+                                pos.getY() + 0.75,
+                                pos.getZ() + 0.5,
+                                new ItemStack(SubaquaticItems.HANGING_ROOTS));
+
+                        entityItem.setDefaultPickupDelay();
+                        world.spawnEntity(entityItem);
+                    }
                 }
 
                 event.setResult(Event.Result.ALLOW);

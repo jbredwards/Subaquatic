@@ -7,16 +7,13 @@ import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
 import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
-import git.jbredwards.subaquatic.mod.common.config.util.BubbleColumnPredicate;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
@@ -41,7 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -51,26 +48,20 @@ import java.util.Random;
  */
 @SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = Subaquatic.MODID)
-public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomModel
+public final class BlockBubbleColumn extends Block implements IFluidloggable, ICustomModel
 {
-    @Nonnull
-    public static final PropertyBool PULL = PropertyBool.create("pull");
-    public BlockBubbleColumn(@Nonnull Material materialIn) { this(materialIn, materialIn.getMaterialMapColor()); }
-    public BlockBubbleColumn(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn) { super(materialIn, mapColorIn); }
+    public final boolean isDown;
+    public BlockBubbleColumn(@Nonnull Material materialIn, boolean isDownIn) {
+        this(materialIn, materialIn.getMaterialMapColor(), isDownIn);
+    }
 
-    @Nonnull
-    @Override
-    protected BlockStateContainer createBlockState() { return new BlockStateContainer(this, PULL); }
-
-    @Nonnull
-    @Override
-    public IBlockState getStateFromMeta(int meta) { return getDefaultState().withProperty(PULL, (meta & 1) == 0); }
+    public BlockBubbleColumn(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn, boolean isDownIn) {
+        super(materialIn, mapColorIn);
+        isDown = isDownIn;
+    }
 
     @Override
-    public int getMetaFromState(@Nonnull IBlockState state) { return state.getValue(PULL) ? 0 : 1; }
-
-    @Override
-    public void registerModels() { ModelLoader.setCustomStateMapper(this, block -> new HashMap<>()); }
+    public void registerModels() { ModelLoader.setCustomStateMapper(this, block -> Collections.emptyMap()); }
 
     @Nonnull
     @Override
@@ -126,34 +117,31 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
 
     @Override
     public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
-        final @Nullable Fluid fluidHere = FluidState.get(worldIn, pos).getFluid();
-        final IBlockState downState = worldIn.getBlockState(pos.down());
-        final boolean isPull = state.getValue(PULL);
-
-        if(isEqualTo(downState.getBlock(), this) && isPull == downState.getValue(PULL) || canExist(isPull, downState, fluidHere)) spreadToUp(worldIn, pos, state);
-        else if(isEqualTo(downState.getBlock(), this) && isPull == !downState.getValue(PULL) || canExist(!isPull, downState, fluidHere))
-            worldIn.setBlockState(pos, state.withProperty(PULL, !isPull));
-
+        final IBlockState soil = worldIn.getBlockState(pos.down());
+        if(soil.getBlock() == this || isValidSoil(soil)) trySpreadTo(worldIn, pos.up());
         else worldIn.setBlockToAir(pos);
     }
 
-    public boolean canExist(boolean isPull, @Nonnull IBlockState soil, @Nullable Fluid fluid) {
-        final @Nullable BubbleColumnPredicate conditions = SubaquaticConfigHandler.getBubbleColumnConditions(soil.getBlock(), isPull);
-        return conditions != null && conditions.test(soil, fluid);
+    public boolean isValidSoil(@Nonnull IBlockState soil) {
+        return isDown ? SubaquaticConfigHandler.BUBBLE_COLUMN_SOIL_DOWN.contains(soil) : SubaquaticConfigHandler.BUBBLE_COLUMN_SOIL_UP.contains(soil);
     }
 
-    public void spreadToUp(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        final IBlockState upState = worldIn.getBlockState(pos.up());
-        final @Nullable Fluid fluid = FluidloggedUtils.getFluidFromState(upState);
-        if(fluid != null && isFluidValid(state, worldIn, pos.up(), fluid) && FluidloggedUtils.isFluidloggableFluid(upState, worldIn, pos.up()))
-            worldIn.setBlockState(pos.up(), state, 2);
+    public void trySpreadTo(@Nonnull World worldIn, @Nonnull BlockPos pos) {
+        final IBlockState above = worldIn.getBlockState(pos);
+        if(above.getBlock() != this && above.getBlock().isReplaceable(worldIn, pos)) {
+            final FluidState aboveFluid = FluidloggedUtils.getFluidState(worldIn, pos, above);
+
+            if(!aboveFluid.isEmpty()
+            && isFluidValid(getDefaultState(), worldIn, pos, aboveFluid.getFluid())
+            && FluidloggedUtils.isFluidloggableFluid(aboveFluid.getState(), worldIn, pos))
+                worldIn.setBlockState(pos, getDefaultState(), 2);
+        }
     }
 
     @Override
     public void onEntityCollision(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Entity entityIn) {
-        final boolean isPull = state.getValue(PULL);
         if(pos.getY() == (int)entityIn.posY) {
-            if(isPull) entityIn.motionY = Math.max(-1, entityIn.motionY - 0.08);
+            if(isDown) entityIn.motionY = Math.max(-1, entityIn.motionY - 0.08);
             else entityIn.motionY = Math.min(1.8, entityIn.motionY + 0.1);
         }
 
@@ -163,9 +151,7 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
             final @Nullable IBubbleColumn cap = IBubbleColumn.get(entityIn);
             if(cap != null && !cap.isInBubbleColumn()) {
                 cap.setInBubbleColumn(true);
-                worldIn.playSound(null, pos, isPull
-                        ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_INSIDE
-                        : SubaquaticSounds.BUBBLE_COLUMN_UP_INSIDE, SoundCategory.BLOCKS, 0.5f, 1.0f);
+                worldIn.playSound(null, pos, getInsideSound(), SoundCategory.BLOCKS, 0.5f, 1.0f);
             }
         }
     }
@@ -173,49 +159,54 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
     @SideOnly(Side.CLIENT)
     @Override
     public void randomDisplayTick(@Nonnull IBlockState stateIn, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Random rand) {
-        final boolean isPull = stateIn.getValue(PULL);
+        spawnParticles(worldIn, pos, rand);
+        if(rand.nextInt(200) == 0)
+            worldIn.playSound(
+                pos.getX() + 0.5,
+                pos.getY() + 0.5,
+                pos.getZ() + 0.5,
+                getAmbientSound(),
+                SoundCategory.BLOCKS,
+                0.2f + rand.nextFloat() * 0.2f,
+                0.9f + rand.nextFloat() * 0.15f,
+                false
+        );
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void spawnParticles(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Random rand) {
         //down particles
-        if(isPull) {
+        if(isDown) {
             final Particle particle = ParticleBubbleColumn.FACTORY.createParticle(-1, worldIn, pos.getX() + 0.5, pos.getY() + rand.nextFloat() - 0.125, pos.getZ() + 0.5, 12, -1.0 / 30, 0.4, rand.nextInt(360));
             if(particle != null) Minecraft.getMinecraft().effectRenderer.addEffect(particle);
         }
+
         //up particles
         else {
             worldIn.spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0, 0.3, 0.0);
             worldIn.spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0.0, 0.3, 0.0);
         }
-        //ambient sound effect
-        if(rand.nextInt(200) == 0)
-            worldIn.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, isPull
-                            ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_AMBIENT
-                            : SubaquaticSounds.BUBBLE_COLUMN_UP_AMBIENT,
-                    SoundCategory.BLOCKS, 0.2f + rand.nextFloat() * 0.2f,
-                    0.9f + rand.nextFloat() * 0.15f, false);
     }
 
+    @Nonnull
+    public SoundEvent getAmbientSound() { return isDown ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_AMBIENT : SubaquaticSounds.BUBBLE_COLUMN_UP_AMBIENT; }
+
+    @Nonnull
+    public SoundEvent getInsideSound() { return isDown ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_INSIDE : SubaquaticSounds.BUBBLE_COLUMN_UP_INSIDE; }
+
+    //TODO: remove
     @SubscribeEvent
     static void updateIsInBubbleColumn(@Nonnull LivingEvent.LivingUpdateEvent event) {
         final EntityLivingBase entity = event.getEntityLiving();
         final @Nullable IBubbleColumn cap = IBubbleColumn.get(entity);
-        if(cap != null && cap.isInBubbleColumn()) cap.setInBubbleColumn(entity.world.isMaterialInBB(
-                entity.getEntityBoundingBox(), SubaquaticBlocks.BUBBLE_COLUMN_MATERIAL));
+        if(cap != null && cap.isInBubbleColumn()) cap.setInBubbleColumn(entity.world.isMaterialInBB(entity.getEntityBoundingBox(), SubaquaticBlocks.BUBBLE_COLUMN_MATERIAL));
     }
 
     @SubscribeEvent
-    static void updateMagmaAndSoulSand(@Nonnull BlockEvent.NeighborNotifyEvent event) {
+    static void generateBubbleColumns(@Nonnull BlockEvent.NeighborNotifyEvent event) {
         if(event.getNotifiedSides().contains(EnumFacing.UP)) {
-            final boolean isPull = SubaquaticBlocks.BUBBLE_COLUMN.canExist(true, event.getState(), null);
-            if(isPull || SubaquaticBlocks.BUBBLE_COLUMN.canExist(false, event.getState(), null)) {
-                SubaquaticBlocks.BUBBLE_COLUMN.spreadToUp(event.getWorld(), event.getPos(), SubaquaticBlocks.BUBBLE_COLUMN.getDefaultState().withProperty(PULL, isPull));
-                return;
-            }
-        }
-
-        if(event.getNotifiedSides().contains(EnumFacing.DOWN)) {
-            final IBlockState down = event.getWorld().getBlockState(event.getPos().down());
-            final boolean isPull = SubaquaticBlocks.BUBBLE_COLUMN.canExist(true, down, null);
-            if(isPull || SubaquaticBlocks.BUBBLE_COLUMN.canExist(false, down, null))
-                SubaquaticBlocks.BUBBLE_COLUMN.spreadToUp(event.getWorld(), event.getPos().down(), SubaquaticBlocks.BUBBLE_COLUMN.getDefaultState().withProperty(PULL, isPull));
+            if(SubaquaticBlocks.BUBBLE_COLUMN_UP.isValidSoil(event.getState())) SubaquaticBlocks.BUBBLE_COLUMN_UP.trySpreadTo(event.getWorld(), event.getPos().up());
+            else if(SubaquaticBlocks.BUBBLE_COLUMN_DOWN.isValidSoil(event.getState())) SubaquaticBlocks.BUBBLE_COLUMN_DOWN.trySpreadTo(event.getWorld(), event.getPos().up());
         }
     }
 }

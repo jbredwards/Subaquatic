@@ -48,7 +48,10 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
     public void onDimensionChanged() {}
 
     @Override
-    public boolean canBeCollidedWith() { return parentBoat.canBeCollidedWith(); }
+    public void applyEntityCollision(@Nonnull Entity entityIn) {}
+
+    @Override
+    public boolean canBeCollidedWith() { return false; }
 
     @Override
     protected boolean canTriggerWalking() { return false; }
@@ -67,19 +70,6 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
     public Vec3d getContainerOffset(boolean applyBoatRotation) {
         final Vec3d offset = new Vec3d(-0.375, parentBoat.getMountedYOffset() + 0.28, 0);
         return applyBoatRotation ? offset.rotateYaw(-parentBoat.rotationYaw * 0.0175f - (float)Math.PI / 2) : offset;
-    }
-
-    @Override
-    public void applyEntityCollision(@Nonnull Entity entityIn) {
-        if(entityIn != parent) {
-            if(entityIn instanceof EntityBoat) {
-                if(entityIn.getEntityBoundingBox().minY < getEntityBoundingBox().maxY)
-                    super.applyEntityCollision(entityIn);
-            }
-
-            else if(entityIn.getEntityBoundingBox().minY <= getEntityBoundingBox().minY)
-                super.applyEntityCollision(entityIn);
-        }
     }
 
     @Override

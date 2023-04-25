@@ -37,6 +37,9 @@ final class SubaquaticRecipes
     static void registerCrafting(@Nonnull IForgeRegistry<IRecipe> registry) throws IOException {
         //added recipes
         registerCrafting(registry, "blue_ice", new ShapedOreRecipe(null, SubaquaticItems.BLUE_ICE, "###", "###", "###", '#', Blocks.PACKED_ICE));
+        registerCrafting(registry, "brown_mushroom_block", new ShapedOreRecipe(null, Blocks.BROWN_MUSHROOM_BLOCK, "##", "##", '#', Blocks.BROWN_MUSHROOM));
+        registerCrafting(registry, "brown_mushroom_hyphae", new ShapedOreRecipe(null, new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 3, 2), "##", "##", '#', new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 1, 1)));
+        registerCrafting(registry, "brown_mushroom_stem", new ShapedOreRecipe(null, new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 1, 1), "##", "##", "##", '#', Blocks.BROWN_MUSHROOM));
         registerCrafting(registry, "dried_kelp", new ShapelessOreRecipe(null, new ItemStack(SubaquaticItems.DRIED_KELP, 9), SubaquaticBlocks.DRIED_KELP_BLOCK));
         registerCrafting(registry, "dried_kelp_block", new ShapedOreRecipe(null, SubaquaticItems.DRIED_KELP_BLOCK, "###", "###", "###", '#', "foodDriedKelp"));
         registerCrafting(registry, "ender_chest_minecart", new ShapedOreRecipe(null, SubaquaticItems.ENDER_CHEST_MINECART, "A", "B", 'A', Blocks.ENDER_CHEST, 'B', Items.MINECART));
@@ -48,6 +51,9 @@ final class SubaquaticRecipes
         registerCrafting(registry, "packed_mud_bricks_wall", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.PACKED_MUD_BRICKS_WALL, 6), "###", "###", '#', SubaquaticItems.PACKED_MUD_BRICKS));
         registerCrafting(registry, "pumpkin_pie", new ShapelessOreRecipe(null, Items.PUMPKIN_PIE, "cropPumpkin", Items.SUGAR, "egg"));
         registerCrafting(registry, "pumpkin_seeds", new ShapelessOreRecipe(null, new ItemStack(Items.PUMPKIN_SEEDS, 4), "cropPumpkin"));
+        registerCrafting(registry, "red_mushroom_block", new ShapedOreRecipe(null, Blocks.RED_MUSHROOM_BLOCK, "##", "##", '#', Blocks.RED_MUSHROOM));
+        registerCrafting(registry, "red_mushroom_hyphae", new ShapedOreRecipe(null, new ItemStack(Blocks.RED_MUSHROOM_BLOCK, 3, 2), "##", "##", '#', new ItemStack(Blocks.RED_MUSHROOM_BLOCK, 1, 1)));
+        registerCrafting(registry, "red_mushroom_stem", new ShapedOreRecipe(null, new ItemStack(Blocks.RED_MUSHROOM_BLOCK, 1, 1), "##", "##", "##", '#', Blocks.RED_MUSHROOM));
         registerCrafting(registry, "rooted_dirt", new ShapelessOreRecipe(null, SubaquaticItems.ROOTED_DIRT, "dirt", SubaquaticItems.HANGING_ROOTS));
 
         //boat containers

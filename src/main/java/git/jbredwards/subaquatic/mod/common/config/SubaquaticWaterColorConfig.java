@@ -124,7 +124,7 @@ public final class SubaquaticWaterColorConfig
             //low priority
             else if(biomeTags.contains(BiomeDictionary.Type.WASTELAND)) return 0x14559B;
             else if(biomeTags.contains(BiomeDictionary.Type.MOUNTAIN)) return 0x0E63AB;
-            else if(biomeTags.contains(BiomeDictionary.Type.FOREST)) return 0x1E97F2;
+            else if(biomeTags.contains(BiomeDictionary.Type.FOREST)) return 0x3F76E4;
             else if(biomeTags.contains(BiomeDictionary.Type.PLAINS)) return 0x3F76E4;
             else if(biomeTags.contains(BiomeDictionary.Type.SNOWY)) return 0x1156A7;
             else if(biomeTags.contains(BiomeDictionary.Type.BEACH)) return 0x3F76E4;

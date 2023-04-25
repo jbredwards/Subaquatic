@@ -100,6 +100,14 @@ public final class ClientEventHandler
                 }
             }
         );
+
+        //vanilla mushroom stems
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Blocks.BROWN_MUSHROOM_BLOCK), 0, new ModelResourceLocation(Blocks.BROWN_MUSHROOM_BLOCK.delegate.name(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Blocks.BROWN_MUSHROOM_BLOCK), 1, new ModelResourceLocation(new ResourceLocation(Subaquatic.MODID, "brown_mushroom_block_stem"), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Blocks.BROWN_MUSHROOM_BLOCK), 2, new ModelResourceLocation(new ResourceLocation(Subaquatic.MODID, "brown_mushroom_block_stem_all"), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Blocks.RED_MUSHROOM_BLOCK), 0, new ModelResourceLocation(Blocks.RED_MUSHROOM_BLOCK.delegate.name(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Blocks.RED_MUSHROOM_BLOCK), 1, new ModelResourceLocation(new ResourceLocation(Subaquatic.MODID, "red_mushroom_block_stem"), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Blocks.RED_MUSHROOM_BLOCK), 2, new ModelResourceLocation(new ResourceLocation(Subaquatic.MODID, "red_mushroom_block_stem_all"), "inventory"));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

@@ -164,7 +164,7 @@ public class MultiPartFurnacePart extends MultiPartAbstractInventoryPart impleme
         final float prevBrightnessY = OpenGlHelper.lastBrightnessY;
 
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, brightness % 65536, brightness / 65536f);
-        Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(getFurnaceToRender(isChristmas), getBrightness());
+        Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(getFurnaceToRender(isChristmas), brightness / 65536f);
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, prevBrightnessX, prevBrightnessY);
 
         GlStateManager.popMatrix();
@@ -185,9 +185,6 @@ public class MultiPartFurnacePart extends MultiPartAbstractInventoryPart impleme
     public int getBrightnessForRender() {
         return burnTime > 0 ? Math.max(15728880, super.getBrightnessForRender()) : super.getBrightnessForRender();
     }
-
-    @Override
-    public float getBrightness() { return burnTime > 0 ? 1 : super.getBrightness(); }
 
     @Override
     protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {

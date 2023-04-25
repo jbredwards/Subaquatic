@@ -149,7 +149,7 @@ public final class Subaquatic
             @SideOnly(Side.CLIENT)
             @Override
             public float apply(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
-                return SubaquaticConfigHandler.translucentWaterBottles
+                return SubaquaticConfigHandler.Client.Item.translucentWaterBottles
                         && PotionUtils.getPotionFromItem(stack) != PotionTypes.EMPTY
                         && PotionUtils.getEffectsFromStack(stack).isEmpty() ? 1 : 0;
             }

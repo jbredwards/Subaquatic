@@ -43,7 +43,7 @@ public final class SubaquaticJEIPlugin implements IModPlugin
         registry.addRecipes(BlockSoakRecipe.RECIPES, BlockSoakJEICategory.ID);
 
         registry.addRecipeCatalyst(new ItemStack(SubaquaticItems.FURNACE_BOAT, 1, OreDictionary.WILDCARD_VALUE), VanillaRecipeCategoryUid.SMELTING);
-        //registry.addRecipeCatalyst(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), BlockSoakJEICategory.ID);
+        //registry.addRecipeCatalyst(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM, 1, OreDictionary.WILDCARD_VALUE), PotionTypes.WATER), BlockSoakJEICategory.ID);
     }
 
     @Override

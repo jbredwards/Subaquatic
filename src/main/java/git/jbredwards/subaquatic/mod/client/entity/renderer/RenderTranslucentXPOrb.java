@@ -25,8 +25,8 @@ public class RenderTranslucentXPOrb extends RenderXPOrb
 
     @Override
     public void doRender(@Nonnull EntityXPOrb entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        if(SubaquaticConfigHandler.translucentXPOrbs) GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+        if(SubaquaticConfigHandler.Client.Entity.translucentXPOrbs) GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
-        if(SubaquaticConfigHandler.translucentXPOrbs) GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+        if(SubaquaticConfigHandler.Client.Entity.translucentXPOrbs) GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
     }
 }

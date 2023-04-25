@@ -60,7 +60,7 @@ public final class GenLayerOceanBiomes extends GenLayer
 
                 return out;
             }
-        }, SubaquaticConfigHandler.oceanBiomeSize).getInts(areaX, areaZ, areaWidth, areaHeight);
+        }, SubaquaticConfigHandler.Server.World.oceanBiomeSize).getInts(areaX, areaZ, areaWidth, areaHeight);
 
         //re-apply old layer data to the main layer
         for(int i = 0; i < out.length; i++) {

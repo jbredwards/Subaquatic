@@ -47,11 +47,11 @@ public final class PluginBiomeColorHelper implements IASMPlugin
          * }
          */
         else if(insn.getOpcode() == ICONST_M1) {
-            instructions.insertBefore(insn, new FieldInsnNode(GETSTATIC, "git/jbredwards/subaquatic/mod/common/config/SubaquaticConfigHandler", "biomeColorBlendRadius", "I"));
+            instructions.insertBefore(insn, new FieldInsnNode(GETSTATIC, "git/jbredwards/subaquatic/mod/common/config/SubaquaticConfigHandler$Client$World", "biomeColorBlendRadius", "I"));
             instructions.insert(insn, new InsnNode(IMUL));
         }
         else if(insn.getOpcode() == ICONST_1) {
-            instructions.insert(insn, new FieldInsnNode(GETSTATIC, "git/jbredwards/subaquatic/mod/common/config/SubaquaticConfigHandler", "biomeColorBlendRadius", "I"));
+            instructions.insert(insn, new FieldInsnNode(GETSTATIC, "git/jbredwards/subaquatic/mod/common/config/SubaquaticConfigHandler$Client$World", "biomeColorBlendRadius", "I"));
             instructions.remove(insn);
         }
         /*

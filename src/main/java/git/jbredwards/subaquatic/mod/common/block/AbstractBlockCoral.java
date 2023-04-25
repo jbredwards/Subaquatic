@@ -8,6 +8,7 @@ import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -39,6 +40,17 @@ public abstract class AbstractBlockCoral extends Block implements IGrowable
 
         setTickRandomly(true);
     }
+
+    @Nonnull
+    @Override
+    protected abstract BlockStateContainer createBlockState();
+
+    @Nonnull
+    @Override
+    public abstract IBlockState getStateFromMeta(int meta);
+
+    @Override
+    public abstract int getMetaFromState(@Nonnull IBlockState state);
 
     @Override
     public int damageDropped(@Nonnull IBlockState state) { return state.getValue(ALIVE) ? 0 : 1; }

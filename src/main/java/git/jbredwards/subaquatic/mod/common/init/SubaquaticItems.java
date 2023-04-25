@@ -48,7 +48,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlockMeta HORN_CORAL_FIN = register("horn_coral_fin", new ItemBlockMeta(SubaquaticBlocks.HORN_CORAL_FIN, true, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlockCluster SEA_PICKLE = register("sea_pickle", new ItemBlockCluster(SubaquaticBlocks.SEA_PICKLE));
     @Nonnull public static final ItemBlockSeagrass SEAGRASS = register("seagrass", new ItemBlockSeagrass(SubaquaticBlocks.SEAGRASS));
-    @Nonnull public static final ItemBlock NAUTILUS_SHELL = register("nautilus_shell", new ItemBlock(SubaquaticBlocks.NAUTILUS_SHELL));
+    @Nonnull public static final ItemBlockNautilusShell NAUTILUS_SHELL = register("nautilus_shell", new ItemBlockNautilusShell(SubaquaticBlocks.NAUTILUS_SHELL));
     @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(SubaquaticBlocks.KELP));
     @Nonnull public static final ItemBlockCluster GLOW_LICHEN = register("glow_lichen", new ItemBlockCluster(SubaquaticBlocks.GLOW_LICHEN));
     @Nonnull public static final ItemBlockMeta FROGLIGHT = register("froglight", new ItemBlockMeta(SubaquaticBlocks.FROGLIGHT, true, BlockFroglight.TYPE));

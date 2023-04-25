@@ -147,7 +147,7 @@ public final class PluginBlockCauldron implements IASMPlugin
 
         @Nullable
         public static Boolean isEntityInsideCauldronMaterial(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Entity entity, double yToTest, @Nonnull Material materialIn, boolean testingHead) {
-            if(!SubaquaticConfigHandler.cauldronFluidPhysics || state.getBlock() != Blocks.CAULDRON || !doesCauldronHaveFluid(materialIn, world, pos)) return null;
+            if(!SubaquaticConfigHandler.Common.Block.cauldronFluidPhysics || state.getBlock() != Blocks.CAULDRON || !doesCauldronHaveFluid(materialIn, world, pos)) return null;
 
             final int level = state.getValue(BlockCauldron.LEVEL);
             if(!testingHead) yToTest = entity.posY;
@@ -157,12 +157,12 @@ public final class PluginBlockCauldron implements IASMPlugin
 
         @Nullable
         public static Boolean isAABBInsideCauldronMaterial(@Nonnull Block block, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB boundingBox, @Nonnull Material materialIn) {
-            return !SubaquaticConfigHandler.cauldronFluidPhysics || block != Blocks.CAULDRON || !doesCauldronHaveFluid(materialIn, world, pos) ? null : block.isAABBInsideLiquid(world, pos, boundingBox);
+            return !SubaquaticConfigHandler.Common.Block.cauldronFluidPhysics || block != Blocks.CAULDRON || !doesCauldronHaveFluid(materialIn, world, pos) ? null : block.isAABBInsideLiquid(world, pos, boundingBox);
         }
 
         @Nullable
         public static Boolean isAABBInsideCauldronLiquid(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB boundingBox) {
-            if(!SubaquaticConfigHandler.cauldronFluidPhysics) return null;
+            if(!SubaquaticConfigHandler.Common.Block.cauldronFluidPhysics) return null;
             final int level = world.getBlockState(pos).getValue(BlockCauldron.LEVEL);
             return level > 0 && boundingBox.minY < pos.getY() + getFluidHeight(level);
         }

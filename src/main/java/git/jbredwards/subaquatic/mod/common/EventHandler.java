@@ -25,7 +25,12 @@ public final class EventHandler
 {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     static void improveVanillaBlocks(@Nonnull RegistryEvent.Register<Block> event) {
+        Blocks.BROWN_MUSHROOM.setTranslationKey(Subaquatic.MODID + ".brown_mushroom");
+        Blocks.BROWN_MUSHROOM_BLOCK.setTranslationKey(Blocks.BROWN_MUSHROOM.translationKey);
         Blocks.PUMPKIN.setTranslationKey(Subaquatic.MODID + ".carved_pumpkin");
+        Blocks.RED_MUSHROOM.setTranslationKey(Subaquatic.MODID + ".red_mushroom");
+        Blocks.RED_MUSHROOM_BLOCK.setTranslationKey(Blocks.RED_MUSHROOM.translationKey);
+
         Blocks.FLOWING_WATER.setLightOpacity(2);
         Blocks.WATER.setLightOpacity(2);
         Blocks.WATERLILY.setSoundType(SubaquaticSounds.WET_GRASS);

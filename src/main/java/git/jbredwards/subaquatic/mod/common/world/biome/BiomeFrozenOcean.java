@@ -99,7 +99,7 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
                 maxHeight = d5;
             }
 
-            if(getTemperature(new BlockPos(posX, 63, posZ)) > 0.1) maxHeight -= 2;
+            if(getTemperature(new BlockPos(xNoiseIn, 63, zNoiseIn)) > 0.1) maxHeight -= 2;
             if(maxHeight > 2) {
                 minHeight = seaLevel - maxHeight - 7;
                 maxHeight = maxHeight + seaLevel;
@@ -154,7 +154,7 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
 
                     //random ice gen
                     if(posY < seaLevel && (top.getBlock() == Blocks.AIR))
-                        top = getTemperature(new BlockPos(posX, posY, posZ)) < 0.15 ? ICE : WATER;
+                        top = getTemperature(new BlockPos(xNoiseIn, posY, zNoiseIn)) < 0.15 ? ICE : WATER;
 
                     j = oceanSurfaceY;
 

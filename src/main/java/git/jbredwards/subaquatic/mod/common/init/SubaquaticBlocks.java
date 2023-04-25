@@ -61,7 +61,8 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockCoralFin BUBBLE_CORAL_FIN = register("bubble_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.PURPLE), Blocks.STONE);
     @Nonnull public static final BlockCoralFin FIRE_CORAL_FIN = register("fire_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.RED), Blocks.STONE);
     @Nonnull public static final BlockCoralFin HORN_CORAL_FIN = register("horn_coral_fin", new BlockCoralFin(FluidRegistry.WATER, Material.CORAL, MapColor.YELLOW), Blocks.STONE);
-    @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN = register("bubble_column", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL), block -> block.setLightOpacity(1));
+    @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN_DOWN = register("bubble_column_down", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL, true), block -> block.setLightOpacity(1));
+    @Nonnull public static final BlockBubbleColumn BUBBLE_COLUMN_UP = register("bubble_column_up", new BlockBubbleColumn(BUBBLE_COLUMN_MATERIAL, false), block -> block.setLightOpacity(1));
     @Nonnull public static final BlockGlowLichen GLOW_LICHEN = register("glow_lichen", new BlockGlowLichen(Material.VINE, GLOW_LICHEN_MAP_COLOR), block -> block.setSoundType(SoundType.PLANT).setLightLevel(7f/15).setHardness(0.2f).setResistance(1f/3).setHarvestLevel("axe", 0));
     @Nonnull public static final BlockFroglight FROGLIGHT = register("froglight", new BlockFroglight(FROGLIGHT_MATERIAL), block -> block.setSoundType(SubaquaticSounds.FROGLIGHT).setLightLevel(1).setHardness(0.3f).setResistance(0.5f));
     @Nonnull public static final BlockRootedDirt ROOTED_DIRT = register("rooted_dirt", new BlockRootedDirt(Material.GROUND), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.ROOTED_DIRT));

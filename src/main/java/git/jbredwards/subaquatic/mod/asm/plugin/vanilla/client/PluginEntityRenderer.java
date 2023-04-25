@@ -106,7 +106,7 @@ public final class PluginEntityRenderer implements IASMPlugin
     public static final class Hooks
     {
         public static int getColor(@Nonnull BlockPos pos) {
-            return SubaquaticConfigHandler.coloredRain
+            return SubaquaticConfigHandler.Client.World.coloredRain
                     ? BiomeColorHelper.getWaterColorAtPos(Minecraft.getMinecraft().world, pos)
                     : 0xFFFFFF;
         }
