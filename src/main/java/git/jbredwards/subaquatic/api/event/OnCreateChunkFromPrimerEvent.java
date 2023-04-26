@@ -26,7 +26,7 @@ import java.util.Random;
  * NORMAL = structures;
  * LOW = plants
  *
- * @since 1.0.2
+ * @since 1.1.0
  * @author jbred
  *
  */

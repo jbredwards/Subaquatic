@@ -81,7 +81,7 @@ public final class PluginBlock implements IASMPlugin
 
         public static void onPlantGrow(@Nonnull Block block, @Nonnull IBlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
             if(state.getMaterial() == Material.GROUND || state.getMaterial() == Material.GRASS || state.getBlock().isAir(state, world, pos)) {
-                if(SubaquaticConfigHandler.Server.World.growRootedDirt) {
+                if(SubaquaticConfigHandler.Server.World.generateRootedDirt) {
                     world.setBlockState(pos, SubaquaticBlocks.ROOTED_DIRT.getDefaultState(), 2);
                     final IBlockState down = world.getBlockState(pos.down());
                     if(down.getBlock().isAir(down, world, pos.down()) || down.getMaterial() == Material.WATER)

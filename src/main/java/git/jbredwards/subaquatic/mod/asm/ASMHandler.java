@@ -39,7 +39,8 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("biomesoplenty.common.world.BiomeProviderBOP", new PluginBOPBiomeProvider()); //Apply ocean biome generator
             plugins.put("com.blamejared.clumps.proxy.ClientProxy", new PluginClumps()); //Remove Clumps mod XP orb render override
             plugins.put("com.blamejared.clumps.entities.EntityXPOrbBig", new PluginClumps()); //Clumps mod XP orbs float while in water
-            plugins.put("com.fuzs.aquaacrobatics.client.handler.FogHandler", new PluginAquaAcrobatics()); //Improve Aqua Acrobatics mod compatibility by removing the stuff from that mod which this mod already does
+            plugins.put("com.fuzs.aquaacrobatics.block.BlockBubbleColumn", new PluginAquaAcrobatics()); //AA bubble columns implement IOxygenSupplier
+            plugins.put("com.fuzs.aquaacrobatics.client.handler.FogHandler", new PluginAquaAcrobatics()); //Improve Aqua Acrobatics mod compatibility by removing the stuff from that mod which this mod also does
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.client.ItemRendererMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.client.ModelFluidMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.BiomeColorHelperMixin", new PluginAquaAcrobatics());
@@ -48,6 +49,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.BlockMyceliumMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityItemMixin", new PluginAquaAcrobatics());
+            plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityLivingBaseMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.thaumcraft.mixin.client.TileCrucibleRendererMixin", new PluginAquaAcrobatics());
             plugins.put("git.jbredwards.fluidlogged_api.mod.common.EventHandler", new PluginFluidloggedAPI()); //Place any fish contained within the bucket when fluidlogging, and yes I'm asm-ing my own mod XD
             plugins.put("knightminer.inspirations.recipes.tileentity.TileCauldron", new PluginInspirations()); //Place fish contained within bucket
@@ -67,14 +69,17 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.client.audio.SoundManager", new PluginSoundManager()); //Allow for sounds with a high priority
             plugins.put("net.minecraft.client.particle.ParticleBubble", new PluginParticleBubble()); //Add the unused bubble pop particle from 1.13+
             plugins.put("net.minecraft.client.particle.ParticleDrip", new PluginParticleDrip()); //Water droplet particles keep the color set by this mod
+            plugins.put("net.minecraft.client.renderer.entity.RenderBoat", new PluginRenderBoat()); //Render bubble column boat rocking
             plugins.put("net.minecraft.client.renderer.entity.RenderEntityItem", new PluginRenderEntityItem()); //Don't render item bobbing while in water
             //plugins.put("net.minecraft.client.renderer.EntityRenderer", new PluginEntityRenderer()); //Colors rain according to biome color
             plugins.put("net.minecraft.client.renderer.ItemRenderer", new PluginItemRenderer()); //Apply biome colors to underwater overlay
             plugins.put("net.minecraft.client.Minecraft", new PluginMinecraft()); //Allow underwater music to be played
+            plugins.put("net.minecraft.entity.item.EntityBoat", new PluginEntityBoat()); //Bubble columns rock boats
             plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
             plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityXPOrb()); //XP orbs float while in water
             plugins.put("net.minecraft.entity.player.EntityPlayerMP", new PluginEntityPlayerMP()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
+            plugins.put("net.minecraft.entity.EntityLivingBase", new PluginEntityLivingBase()); //Backport new oxygen replenish system & add IOxygenSupplier
             plugins.put("net.minecraft.item.Item", new PluginItem()); //Custom ItemBlock implementation for mushroom blocks to allow for new metadata properties
             plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
             plugins.put("net.minecraft.item.ItemExpBottle", new PluginItemExpBottle()); //Add new config option to toggle the exp bottle enchantment glint

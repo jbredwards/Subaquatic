@@ -1,8 +1,10 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.entity;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
@@ -47,7 +49,8 @@ public final class PluginEntityItem implements IASMPlugin
     public static final class Hooks
     {
         public static boolean doesFloat(@Nonnull Entity entity) {
-            if(entity.isInsideOfMaterial(Material.WATER)) {
+            final boolean isEnabled = entity instanceof EntityItem ? SubaquaticConfigHandler.Common.Entity.itemsFloat : SubaquaticConfigHandler.Common.Entity.xpOrbsFloat;
+            if(isEnabled && entity.isInsideOfMaterial(Material.WATER)) {
                 if(entity.motionY < 0.06) entity.motionY += 5.0E-4;
                 entity.motionX *= 0.99;
                 entity.motionZ *= 0.99;

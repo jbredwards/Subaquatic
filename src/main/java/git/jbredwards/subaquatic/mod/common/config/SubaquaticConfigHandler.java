@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common.config;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -53,7 +54,6 @@ public final class SubaquaticConfigHandler
             @Config.LangKey("config.subaquatic.client.item.dragonBreathEnchantGlint")
             public static boolean dragonBreathEnchantGlint = true;
 
-            @SuppressWarnings("unused") //used through asm
             @Config.LangKey("config.subaquatic.client.item.expBottleEnchantGlint")
             public static boolean expBottleEnchantGlint = false;
 
@@ -104,15 +104,24 @@ public final class SubaquaticConfigHandler
         public static Entity entity;
         public static final class Entity
         {
-            @Nonnull
-            @Config.LangKey("config.subaquatic.fishBucketFluidBlacklist")
-            public static String[] fishBucketFluidBlacklist = new String[] {"biomesoplenty:honey","biomesoplenty:poison","biomesoplenty:sand"};
+            @Config.LangKey("config.subaquatic.common.entity.gradualAirReplenish")
+            public static boolean gradualAirReplenish = true;
+
+            @Config.LangKey("config.subaquatic.common.entity.itemsFloat")
+            public static boolean itemsFloat = true;
+
+            @Config.LangKey("config.subaquatic.common.entity.xpOrbsFloat")
+            public static boolean xpOrbsFloat = true;
         }
 
         @Config.LangKey("config.subaquatic.common.item")
         public static Item item;
         public static final class Item
         {
+            @Nonnull
+            @Config.LangKey("config.subaquatic.common.item.fishBucketFluidBlacklist")
+            public static String[] fishBucketFluidBlacklist = new String[] {"biomesoplenty:honey","biomesoplenty:poison","biomesoplenty:sand"};
+
             @Config.LangKey("config.subaquatic.common.item.placeableNautilusShell")
             public static boolean placeableNautilusShell = true;
         }
@@ -149,8 +158,12 @@ public final class SubaquaticConfigHandler
             @Config.LangKey("config.subaquatic.server.world.bubbleColumnSoilUp")
             public static String[] bubbleColumnSoilUp = new String[] {"{Name:\"minecraft:soul_sand\"}"};
 
-            @Config.LangKey("config.subaquatic.server.world.growRootedDirt")
-            public static boolean growRootedDirt = true;
+            @Config.RangeDouble(min = 0, max = 1)
+            @Config.LangKey("config.subaquatic.server.world.generateFacelessPumpkinsChance")
+            public static float generateFacelessPumpkinsChance = 1;
+
+            @Config.LangKey("config.subaquatic.server.world.generateRootedDirt")
+            public static boolean generateRootedDirt = true;
 
             @Config.RangeInt(min = 0, max = 64)
             @Config.LangKey("config.subaquatic.server.world.oceanBiomeSize")
@@ -191,11 +204,12 @@ public final class SubaquaticConfigHandler
         }
 
         FISH_BUCKET_FLUID_BLACKLIST.clear();
-        for(String id : Common.Entity.fishBucketFluidBlacklist) {
+        for(String id : Common.Item.fishBucketFluidBlacklist) {
             @Nullable Fluid fluid = FluidloggedUtils.getFluidFromBlock(Block.getBlockFromName(id));
             if(fluid == null) fluid = FluidRegistry.getFluid(id);
 
-            if(fluid != null) FISH_BUCKET_FLUID_BLACKLIST.add(fluid);
+            if(fluid != null && fluid.canBePlacedInWorld() && fluid.getBlock().getDefaultState().getMaterial() == Material.WATER)
+                FISH_BUCKET_FLUID_BLACKLIST.add(fluid); //only add to the blacklist if the fluid would normally be able to hold fish
         }
     }
 

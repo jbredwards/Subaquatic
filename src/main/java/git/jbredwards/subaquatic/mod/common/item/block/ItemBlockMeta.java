@@ -10,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
@@ -53,6 +55,7 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
         if(isInCreativeTab(tab)) for(int meta = 0; meta < variants.length; meta++) items.add(new ItemStack(this, 1, meta));
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void registerModels() {
         for(int meta = 0; meta < variants.length; meta++) {

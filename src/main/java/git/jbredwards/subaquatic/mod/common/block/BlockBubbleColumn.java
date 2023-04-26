@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common.block;
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable;
 import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.api.block.IOxygenSupplier;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
 import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumn;
@@ -18,7 +19,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -27,8 +28,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.Mod;
@@ -48,7 +49,7 @@ import java.util.Random;
  */
 @SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = Subaquatic.MODID)
-public final class BlockBubbleColumn extends Block implements IFluidloggable, ICustomModel
+public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomModel, IOxygenSupplier
 {
     public final boolean isDown;
     public BlockBubbleColumn(@Nonnull Material materialIn, boolean isDownIn) {
@@ -60,6 +61,7 @@ public final class BlockBubbleColumn extends Block implements IFluidloggable, IC
         isDown = isDownIn;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void registerModels() { ModelLoader.setCustomStateMapper(this, block -> Collections.emptyMap()); }
 
@@ -108,11 +110,16 @@ public final class BlockBubbleColumn extends Block implements IFluidloggable, IC
     }
 
     @Override
-    public void onBlockAdded(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) { worldIn.scheduleUpdate(pos, this, 1); }
+    public int tickRate(@Nonnull World worldIn) { return 5; }
+
+    @Override
+    public void onBlockAdded(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
+    }
 
     @Override
     public void neighborChanged(@Nonnull IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Block blockIn, @Nonnull BlockPos fromPos) {
-        if(fromPos.equals(pos.up()) || fromPos.equals(pos.down())) worldIn.scheduleUpdate(pos, this, 1);
+        if(fromPos.equals(pos.up()) || fromPos.equals(pos.down())) worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
     }
 
     @Override
@@ -140,19 +147,20 @@ public final class BlockBubbleColumn extends Block implements IFluidloggable, IC
 
     @Override
     public void onEntityCollision(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Entity entityIn) {
-        if(pos.getY() == (int)entityIn.posY) {
-            if(isDown) entityIn.motionY = Math.max(-1, entityIn.motionY - 0.08);
-            else entityIn.motionY = Math.min(1.8, entityIn.motionY + 0.1);
-        }
-
-        if(!worldIn.isRemote && entityIn instanceof EntityLivingBase) {
-            if(entityIn.isInsideOfMaterial(Material.WATER)) entityIn.setAir(300);
-            //checks if the player was in a bubble column last tick
-            final @Nullable IBubbleColumn cap = IBubbleColumn.get(entityIn);
-            if(cap != null && !cap.isInBubbleColumn()) {
-                cap.setInBubbleColumn(true);
-                worldIn.playSound(null, pos, getInsideSound(), SoundCategory.BLOCKS, 0.5f, 1.0f);
+        final @Nullable IBubbleColumn cap = IBubbleColumn.get(entityIn);
+        if(cap != null) {
+            //handle "air on top" bubble column collision
+            final IBlockState above = worldIn.getBlockState(pos.up());
+            if(above.getBlock().isAir(above, worldIn, pos.up())) {
+                cap.onCollideTop(entityIn, this);
+                if(worldIn instanceof WorldServer) {
+                    ((WorldServer)worldIn).spawnParticle(EnumParticleTypes.WATER_SPLASH, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 2, 0.25, 0, 0.25, 1);
+                    ((WorldServer)worldIn).spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 2, 0.25, 0, 0.25, 0.2);
+                }
             }
+
+            //handle normal bubble column collision
+            else cap.onCollide(entityIn, this);
         }
     }
 
@@ -193,14 +201,6 @@ public final class BlockBubbleColumn extends Block implements IFluidloggable, IC
 
     @Nonnull
     public SoundEvent getInsideSound() { return isDown ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_INSIDE : SubaquaticSounds.BUBBLE_COLUMN_UP_INSIDE; }
-
-    //TODO: remove
-    @SubscribeEvent
-    static void updateIsInBubbleColumn(@Nonnull LivingEvent.LivingUpdateEvent event) {
-        final EntityLivingBase entity = event.getEntityLiving();
-        final @Nullable IBubbleColumn cap = IBubbleColumn.get(entity);
-        if(cap != null && cap.isInBubbleColumn()) cap.setInBubbleColumn(entity.world.isMaterialInBB(entity.getEntityBoundingBox(), SubaquaticBlocks.BUBBLE_COLUMN_MATERIAL));
-    }
 
     @SubscribeEvent
     static void generateBubbleColumns(@Nonnull BlockEvent.NeighborNotifyEvent event) {

@@ -8,6 +8,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
@@ -25,6 +27,7 @@ public class BlockWallTypeless extends BlockWall implements ICustomModel
         items.add(new ItemStack(this));
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void registerModels() {
         ModelLoader.setCustomStateMapper(this, new StateMap.Builder().ignore(VARIANT).build());

@@ -6,7 +6,7 @@ import org.objectweb.asm.tree.ClassNode;
 import javax.annotation.Nonnull;
 
 /**
- * Improve Aqua Acrobatics mod compatibility by removing the stuff from that mod which this mod already does
+ * Improve Aqua Acrobatics mod compatibility by removing the stuff from that mod which this mod also does
  * @author jbred
  *
  */
@@ -14,7 +14,9 @@ public final class PluginAquaAcrobatics implements IASMPlugin
 {
     @Override
     public boolean transformClass(@Nonnull ClassNode classNode, boolean obfuscated) {
-        classNode.methods.removeIf(method ->
+        if("com/fuzs/aquaacrobatics/block/BlockBubbleColumn".equals(classNode.name))
+            classNode.interfaces.add("git/jbredwards/subaquatic/api/block/IOxygenSupplier");
+        else classNode.methods.removeIf(method ->
                 //remove AA EntityItemMixin
                 method.name.equals("applyFloatMotionIfInWater") ||
                 //remove AA BlockGrassMixin & BlockMyceliumMixin
@@ -35,6 +37,9 @@ public final class PluginAquaAcrobatics implements IASMPlugin
                 method.name.equals("onRenderFogColor") ||
                 //remove AA EntityMixin climbing behavior (somehow causes crash with subaquatic installed, mixin is wack)
                 method.name.equals("getFakeClimbingBlock") ||
+                //remove AA EntityLivingBaseMixin gradual air replenishing (handled by subaquatic)
+                method.name.equals("checkBubbleBreathing") ||
+                method.name.equals("getNewAirValue") ||
                 //remove AA TileCrucibleRendererMixin
                 method.name.equals("getLegacyWaterTexture")
         );

@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.math.BlockPos;
@@ -44,7 +45,7 @@ public final class PluginRenderEntityItem implements IASMPlugin
     public static final class Hooks
     {
         public static boolean shouldBob(@Nonnull RenderEntityItem renderer, @Nonnull EntityItem entity) {
-            return renderer.shouldBob() && (entity.world == null || FluidloggedUtils.getFluidState(entity.world, new BlockPos(entity.getPositionEyes(1))).isEmpty());
+            return renderer.shouldBob() && (entity.world == null || !SubaquaticConfigHandler.Common.Entity.itemsFloat || FluidloggedUtils.getFluidState(entity.world, new BlockPos(entity.getPositionEyes(1))).isEmpty());
         }
     }
 }

@@ -4,7 +4,6 @@ import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -51,10 +50,10 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
     public void applyEntityCollision(@Nonnull Entity entityIn) {}
 
     @Override
-    public boolean canBeCollidedWith() { return false; }
+    protected boolean canTriggerWalking() { return false; }
 
     @Override
-    protected boolean canTriggerWalking() { return false; }
+    public boolean canBeCollidedWith() { return parentBoat.canBeCollidedWith(); }
 
     @Override
     protected abstract void readEntityFromNBT(@Nonnull NBTTagCompound compound);

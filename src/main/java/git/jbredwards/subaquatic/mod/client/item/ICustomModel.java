@@ -1,5 +1,8 @@
 package git.jbredwards.subaquatic.mod.client.item;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 /**
  *
  * @author jbred
@@ -7,5 +10,6 @@ package git.jbredwards.subaquatic.mod.client.item;
  */
 public interface ICustomModel
 {
+    @SideOnly(Side.CLIENT)
     void registerModels();
 }

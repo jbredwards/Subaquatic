@@ -53,6 +53,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -235,6 +236,14 @@ public final class Subaquatic
             final AxisAlignedBB boxToCheck = new AxisAlignedBB(box.minX, box.maxY, box.minZ, box.maxX, box.maxY, box.minZ);
             return Boolean.TRUE.equals(FluidloggedUtils.getFluidOrReal(world, pos).getBlock().isAABBInsideMaterial(world, pos, boxToCheck, Material.WATER)) ? particle : null;
         });
+    }
+
+    @Mod.EventHandler
+    @SideOnly(Side.SERVER)
+    static void initServer(@Nonnull FMLInitializationEvent event) {
+        //ensure that the server has the water color fix as well, for correct particle color sync
+        //client handles this differently via ClientEventHandler, as to fix an F3+T bug
+        FluidRegistry.WATER.setColor(0xFF3f97e4);
     }
 
     @Mod.EventHandler

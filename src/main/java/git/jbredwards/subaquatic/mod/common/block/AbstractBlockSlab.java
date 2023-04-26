@@ -13,6 +13,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -73,6 +75,7 @@ public abstract class AbstractBlockSlab extends BlockSlab implements ICustomMode
     @Override
     public Comparable<?> getTypeForItem(@Nonnull ItemStack stack) { return SlabType.NORMAL; }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void registerModels() {
         ModelLoader.setCustomStateMapper(this, new StateMap.Builder().ignore(SLAB_TYPE).build());
