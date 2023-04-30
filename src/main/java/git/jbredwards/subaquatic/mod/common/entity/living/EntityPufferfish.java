@@ -152,6 +152,9 @@ public class EntityPufferfish extends AbstractFish
         if(entity.attackEntityFrom(DamageSource.causeMobDamage(this), puffState + 1)) {
             entity.addPotionEffect(new PotionEffect(MobEffects.POISON, puffState * 60));
             playSound(SubaquaticSounds.ENTITY_PUFFERFISH_STING, 1, 1);
+
+            for(final PotionEffect effect : getActivePotionEffects()) //consistent behavior with creeper explosions
+                entity.addPotionEffect(new PotionEffect(effect.getPotion(), puffState * 60, effect.getAmplifier()));
         }
     }
 

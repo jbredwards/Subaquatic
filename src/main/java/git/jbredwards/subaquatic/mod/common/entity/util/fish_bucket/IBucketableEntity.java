@@ -35,10 +35,28 @@ public interface IBucketableEntity
     default void postSetHandlerEntityNBT(@Nonnull AbstractEntityBucketHandler handler) {}
     default boolean tryCaptureEntity(@Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         final ItemStack held = player.getHeldItem(hand);
-        final Entity entity = (Entity)this;
+        final ItemStack fishBucket = tryCaptureToStack(held);
 
-        if(entity.isEntityAlive() && IEntityBucket.canStackHoldEntity(held) && canBucket()) {
-            final ItemStack fishBucket = ItemHandlerHelper.copyStackWithSize(held, 1);
+        if(!fishBucket.isEmpty()) {
+            if(!player.isCreative() && held.getCount() == 1) player.setHeldItem(hand, fishBucket);
+            else {
+                ItemHandlerHelper.giveItemToPlayer(player, fishBucket);
+                if(!player.isCreative()) held.shrink(1);
+            }
+
+            ((Entity)this).playSound(getBucketFillSound(), 1, 1);
+            ((Entity)this).setDead();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Nonnull
+    default ItemStack tryCaptureToStack(@Nonnull ItemStack stack) {
+        final Entity entity = (Entity)this;
+        if(entity.isEntityAlive() && IEntityBucket.canStackHoldEntity(stack) && canBucket()) {
+            final ItemStack fishBucket = ItemHandlerHelper.copyStackWithSize(stack, 1);
             final IEntityBucket cap = IEntityBucket.get(fishBucket);
             if(cap != null && cap.getHandler() == null) {
                 if(entity.hasCustomName()) fishBucket.setStackDisplayName(entity.getCustomNameTag());
@@ -48,20 +66,11 @@ public interface IBucketableEntity
                 postSetHandlerEntityNBT(handler);
                 cap.setHandler(handler);
 
-                if(!player.isCreative() && held.getCount() == 1) player.setHeldItem(hand, fishBucket);
-                else {
-                    ItemHandlerHelper.giveItemToPlayer(player, fishBucket);
-                    if(!player.isCreative()) held.shrink(1);
-                }
-
-                entity.playSound(getBucketFillSound(), 1, 1);
-                entity.setDead();
-
-                return true;
+                return fishBucket;
             }
         }
 
-        return false;
+        return ItemStack.EMPTY;
     }
 
     default void onCreatedByBucket(@Nonnull ItemStack bucket, @Nonnull AbstractEntityBucketHandler handler) {}

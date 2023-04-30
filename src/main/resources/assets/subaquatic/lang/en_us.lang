@@ -30,6 +30,20 @@ tile.subaquatic.red_mushroom.stem_all.name=Red Mushroom Hyphae
 tile.subaquatic.rooted_dirt.name=Rooted Dirt
 tile.subaquatic.sea_pickle.name=Sea Pickle
 tile.subaquatic.seagrass.name=Seagrass
+tile.subaquatic.smooth_quartz_block.name=Smooth Block of Quartz
+tile.subaquatic.smooth_quartz_block_slab.name=Smooth Block of Quartz Slab
+tile.subaquatic.smooth_quartz_block_slab_double.name=Smooth Block of Quartz Slab
+tile.subaquatic.smooth_quartz_block_stairs.name=Smooth Block of Quartz Stairs
+tile.subaquatic.smooth_red_sandstone.name=Smooth Red Sandstone
+tile.subaquatic.smooth_red_sandstone_slab.name=Smooth Red Sandstone Slab
+tile.subaquatic.smooth_red_sandstone_slab_double.name=Smooth Red Sandstone Slab
+tile.subaquatic.smooth_red_sandstone_stairs.name=Smooth Red Sandstone Stairs
+tile.subaquatic.smooth_sandstone.name=Smooth Sandstone
+tile.subaquatic.smooth_sandstone_slab.name=Smooth Sandstone Slab
+tile.subaquatic.smooth_sandstone_slab_double.name=Smooth Sandstone Slab
+tile.subaquatic.smooth_sandstone_stairs.name=Smooth Sandstone Stairs
+tile.subaquatic.smooth_stone.name=Smooth Stone
+tile.subaquatic.smooth_stone_stairs.name=Smooth Stone Stairs
 #Coral
 tile.subaquatic.brain_coral_block.name=Block of Brain Coral
 tile.subaquatic.brain_coral_block.alive.false.name=Block of Dead Brain Coral
@@ -81,12 +95,15 @@ entity.subaquatic.chest_boat.name=Boat with Chest
 entity.subaquatic.cod.name=Cod
 entity.subaquatic.ender_chest_boat.name=Boat with Ender Chest
 entity.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
+entity.subaquatic.fish.name=Fish
 entity.subaquatic.furnace_boat.name=Boat with Furnace
 entity.subaquatic.pufferfish.name=Pufferfish
 entity.subaquatic.salmon.name=Salmon
 entity.subaquatic.tropical_fish.name=Tropical Fish
 #Items
 itemGroup.subaquatic.tab=Subaquatic
+item.subaquatic.cod.name=Raw Cod
+item.subaquatic.cooked_cod.name=Cooked Cod
 item.subaquatic.dried_kelp.name=Dried Kelp
 item.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
 #Sounds

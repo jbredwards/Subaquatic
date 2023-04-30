@@ -39,11 +39,11 @@
                             "function":"furnace_smelt"
                         }
                     ],
-                    "name":"subaquatic:cod",
+                    "name":"minecraft:fish",
                     "type":"item"
                 }
             ],
-            "name":"Cod",
+            "name":"Fish",
             "rolls":1
         }
     ]

@@ -19,7 +19,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -204,7 +203,7 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
 
     @SubscribeEvent
     static void generateBubbleColumns(@Nonnull BlockEvent.NeighborNotifyEvent event) {
-        if(event.getNotifiedSides().contains(EnumFacing.UP)) {
+        if(!event.getWorld().isRemote && event.getNotifiedSides().contains(EnumFacing.UP)) {
             if(SubaquaticBlocks.BUBBLE_COLUMN_UP.isValidSoil(event.getState())) SubaquaticBlocks.BUBBLE_COLUMN_UP.trySpreadTo(event.getWorld(), event.getPos().up());
             else if(SubaquaticBlocks.BUBBLE_COLUMN_DOWN.isValidSoil(event.getState())) SubaquaticBlocks.BUBBLE_COLUMN_DOWN.trySpreadTo(event.getWorld(), event.getPos().up());
         }

@@ -66,6 +66,9 @@ public final class SubaquaticEntities
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityPufferfish.class).factory(EntityPufferfish::new).egg(16167425, 3654642)
                     .spawn(EnumCreatureType.WATER_CREATURE, 5, 1, 3, SubaquaticBiomes.LUKEWARM_OCEAN, SubaquaticBiomes.DEEP_LUKEWARM_OCEAN)
                     .spawn(EnumCreatureType.WATER_CREATURE, 15, 1, 3, SubaquaticBiomes.WARM_OCEAN, SubaquaticBiomes.DEEP_WARM_OCEAN));
+    @Nonnull
+    public static final EntityEntry FISH = register("fish",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityFish.class).factory(EntityFish::new).egg(0x6b9f93, 0xadbedb));
 
     static void handleAdditionalEntityData() {
         //fix the spawning mechanics of this mod's water creatures
@@ -78,6 +81,7 @@ public final class SubaquaticEntities
         }));
 
         //register this mod's entity bucket handlers
+        AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":fish", EntityBucketHandlerFish::new);
         AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":cod", EntityBucketHandlerCod::new);
         AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":salmon", EntityBucketHandlerSalmon::new);
         AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":pufferfish", EntityBucketHandlerPufferfish::new);

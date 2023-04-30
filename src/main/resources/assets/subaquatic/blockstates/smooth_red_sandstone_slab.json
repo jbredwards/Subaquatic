@@ -1,0 +1,28 @@
+{
+    "forge_marker":1,
+    "defaults":{
+        "model":"half_slab",
+        "textures":{
+            "bottom":"blocks/red_sandstone_top",
+            "top":"blocks/red_sandstone_top",
+            "side":"blocks/red_sandstone_top"
+        }
+    },
+    "variants":{
+        "inventory":[
+            {
+                
+            }
+        ],
+        "half=top":[
+            {
+                "model":"upper_slab"
+            }
+        ],
+        "half=bottom":[
+            {
+
+            }
+        ]
+    }
+}

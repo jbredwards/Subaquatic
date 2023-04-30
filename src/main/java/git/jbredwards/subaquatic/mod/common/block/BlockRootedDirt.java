@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.common.block;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
 import net.minecraft.block.Block;
@@ -64,7 +65,7 @@ public class BlockRootedDirt extends Block implements IGrowable
                 world.playSound(event.getEntityPlayer(), pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1, 1);
                 if(!world.isRemote) {
                     world.setBlockState(pos, Blocks.FARMLAND.getDefaultState(), 11);
-                    if(world.getGameRules().getBoolean("doTileDrops")) {
+                    if(SubaquaticConfigHandler.Server.Block.tillRootedDirtGivesRoot && world.getGameRules().getBoolean("doTileDrops")) {
                         final EntityItem entityItem = new EntityItem(world,
                                 pos.getX() + 0.5,
                                 pos.getY() + 0.75,

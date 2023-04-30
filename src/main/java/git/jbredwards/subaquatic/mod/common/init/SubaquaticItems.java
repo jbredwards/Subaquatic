@@ -58,18 +58,25 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock MUD = register("mud", new ItemBlock(SubaquaticBlocks.MUD));
     @Nonnull public static final ItemBlock PACKED_MUD = register("packed_mud", new ItemBlock(SubaquaticBlocks.PACKED_MUD));
     @Nonnull public static final ItemBlock PACKED_MUD_BRICKS = register("packed_mud_bricks", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS));
-
-    // Stairs
     @Nonnull public static final ItemBlock PACKED_MUD_BRICKS_STAIRS = register("packed_mud_bricks_stairs", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS_STAIRS));
-
-    // Slabs
     @Nonnull public static final ItemSlab PACKED_MUD_BRICKS_SLAB = register("packed_mud_bricks_slab", new ItemSlab(SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB, SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB, SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB_DOUBLE));
-
-    // Walls
     @Nonnull public static final ItemBlock PACKED_MUD_BRICKS_WALL = register("packed_mud_bricks_wall", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS_WALL));
+    @Nonnull public static final ItemBlock SMOOTH_STONE = register("smooth_stone", new ItemBlock(SubaquaticBlocks.SMOOTH_STONE));
+    @Nonnull public static final ItemBlock SMOOTH_STONE_STAIRS = register("smooth_stone_stairs", new ItemBlock(SubaquaticBlocks.SMOOTH_STONE_STAIRS));
+    @Nonnull public static final ItemBlock SMOOTH_SANDSTONE = register("smooth_sandstone", new ItemBlock(SubaquaticBlocks.SMOOTH_SANDSTONE));
+    @Nonnull public static final ItemBlock SMOOTH_SANDSTONE_STAIRS = register("smooth_sandstone_stairs", new ItemBlock(SubaquaticBlocks.SMOOTH_SANDSTONE_STAIRS));
+    @Nonnull public static final ItemSlab SMOOTH_SANDSTONE_SLAB = register("smooth_sandstone_slab", new ItemSlab(SubaquaticBlocks.SMOOTH_SANDSTONE_SLAB, SubaquaticBlocks.SMOOTH_SANDSTONE_SLAB, SubaquaticBlocks.SMOOTH_SANDSTONE_SLAB_DOUBLE));
+    @Nonnull public static final ItemBlock SMOOTH_RED_SANDSTONE = register("smooth_red_sandstone", new ItemBlock(SubaquaticBlocks.SMOOTH_RED_SANDSTONE));
+    @Nonnull public static final ItemBlock SMOOTH_RED_SANDSTONE_STAIRS = register("smooth_red_sandstone_stairs", new ItemBlock(SubaquaticBlocks.SMOOTH_RED_SANDSTONE_STAIRS));
+    @Nonnull public static final ItemSlab SMOOTH_RED_SANDSTONE_SLAB = register("smooth_red_sandstone_slab", new ItemSlab(SubaquaticBlocks.SMOOTH_RED_SANDSTONE_SLAB, SubaquaticBlocks.SMOOTH_RED_SANDSTONE_SLAB, SubaquaticBlocks.SMOOTH_RED_SANDSTONE_SLAB_DOUBLE));
+    @Nonnull public static final ItemBlock SMOOTH_QUARTZ_BLOCK = register("smooth_quartz_block", new ItemBlock(SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK));
+    @Nonnull public static final ItemBlock SMOOTH_QUARTZ_BLOCK_STAIRS = register("smooth_quartz_block_stairs", new ItemBlock(SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK_STAIRS));
+    @Nonnull public static final ItemSlab SMOOTH_QUARTZ_BLOCK_SLAB = register("smooth_quartz_block_slab", new ItemSlab(SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK_SLAB, SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK_SLAB, SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK_SLAB_DOUBLE));
 
     // Items
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.itemUseDuration = 16);
+    @Nonnull public static final ItemFood COD = register("cod", new ItemDurationFood(2, 0.1f, false));
+    @Nonnull public static final ItemFood COOKED_COD = register("cooked_cod", new ItemDurationFood(6, 0.8f, false));
     @Nonnull public static final ItemMinecartTypeless ENDER_CHEST_MINECART = register("ender_chest_minecart", new ItemMinecartTypeless(EntityMinecartEnderChest::new));
 
     // Boat containers

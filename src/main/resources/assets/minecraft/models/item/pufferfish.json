@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "subaquatic:items/fish_cod_cooked"
+        "layer0": "subaquatic:items/fish_pufferfish_raw"
     }
 }

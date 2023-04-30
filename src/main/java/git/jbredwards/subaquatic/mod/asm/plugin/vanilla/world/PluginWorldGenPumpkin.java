@@ -48,7 +48,7 @@ public final class PluginWorldGenPumpkin implements IASMPlugin
     {
         @Nonnull
         public static IBlockState getPumpkinForGen(@Nonnull Random rand) {
-            final float chance = SubaquaticConfigHandler.Server.World.generateFacelessPumpkinsChance;
+            final double chance = SubaquaticConfigHandler.Server.World.General.generateFacelessPumpkinsChance;
             if(chance == 1) return SubaquaticBlocks.PUMPKIN.getDefaultState();
             if(chance == 0) return Blocks.PUMPKIN.getDefaultState().withProperty(BlockHorizontal.FACING, EnumFacing.Plane.HORIZONTAL.random(rand));
 

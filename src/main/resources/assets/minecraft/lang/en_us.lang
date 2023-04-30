@@ -1,2 +1,3 @@
-item.fish.cod.raw.name=Raw Cod
-item.fish.cod.cooked.name=Cooked Cod
+tile.redSandStone.smooth.name=Cut Red Sandstone
+tile.sandStone.smooth.name=Cut Sandstone
+tile.stoneSlab.stone.name=Smooth Stone Slab

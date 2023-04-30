@@ -2,9 +2,7 @@ package git.jbredwards.subaquatic.api.biome;
 
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeManager;
 
@@ -55,7 +53,6 @@ public interface IOceanBiome extends IOceanSurfaceProvider
     IntSet SHALLOW_OCEAN_IDS = new IntOpenHashSet(new int[] {0, 10});
     static boolean isShallowOcean(int biome) { return SHALLOW_OCEAN_IDS.contains(biome); }
     static boolean isShallowOcean(@Nonnull Biome biome) {
-        if(biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1) return true;
-        else return biome == Biomes.OCEAN; //vanilla special case
+        return biome == Biomes.OCEAN || biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1;
     }
 }

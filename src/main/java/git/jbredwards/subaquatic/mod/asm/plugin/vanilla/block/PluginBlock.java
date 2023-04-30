@@ -81,12 +81,18 @@ public final class PluginBlock implements IASMPlugin
 
         public static void onPlantGrow(@Nonnull Block block, @Nonnull IBlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
             if(state.getMaterial() == Material.GROUND || state.getMaterial() == Material.GRASS || state.getBlock().isAir(state, world, pos)) {
-                if(SubaquaticConfigHandler.Server.World.generateRootedDirt) {
+                if(SubaquaticConfigHandler.Server.World.General.generateRootedDirt) {
                     world.setBlockState(pos, SubaquaticBlocks.ROOTED_DIRT.getDefaultState(), 2);
                     final IBlockState down = world.getBlockState(pos.down());
-                    if(down.getBlock().isAir(down, world, pos.down()) || down.getMaterial() == Material.WATER)
+
+                    //convert grass below to rooted dirt too if possible
+                    if(down != state && down.getMaterial() == Material.GRASS) down.getBlock().onPlantGrow(down, world, pos.down(), pos);
+
+                    //add roots below if possible
+                    else if(down.getMaterial() == Material.WATER || down.getBlock().isAir(down, world, pos.down()))
                         world.setBlockState(pos.down(), SubaquaticBlocks.HANGING_ROOTS.getDefaultState(), 2);
                 }
+
                 //vanilla behavior
                 else if(state != Blocks.DIRT.getDefaultState()) world.setBlockState(pos, Blocks.DIRT.getDefaultState(), 2);
             }

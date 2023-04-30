@@ -23,10 +23,7 @@ import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import git.jbredwards.subaquatic.mod.common.message.*;
 import git.jbredwards.subaquatic.mod.common.recipe.BlockSoakRecipe;
 import git.jbredwards.subaquatic.mod.common.world.biome.BiomeFrozenOcean;
-import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorCoral;
-import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorKelp;
-import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeaPickle;
-import git.jbredwards.subaquatic.mod.common.world.gen.feature.GeneratorSeagrass;
+import git.jbredwards.subaquatic.mod.common.world.gen.feature.*;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
@@ -144,6 +141,7 @@ public final class Subaquatic
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
         GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
         //MinecraftForge.TERRAIN_GEN_BUS.register(PrimerSeaPickle.class);
+        GameRegistry.registerWorldGenerator(GeneratorGlowLichen.INSTANCE, 6);
 
         //new water bottle property
         final IItemPropertyGetter waterProperty = new IItemPropertyGetter() {
@@ -167,6 +165,7 @@ public final class Subaquatic
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCod.class, RenderCod::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFish.class, RenderFish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPufferfish.class, RenderPufferfish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTropicalFish.class, RenderTropicalFish::new);

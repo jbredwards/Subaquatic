@@ -25,18 +25,18 @@ import java.util.function.Supplier;
  * @author jbred
  *
  */
-public abstract class AbstractBlockSlab extends BlockSlab implements ICustomModel
+public abstract class BlockSlabTypeless extends BlockSlab implements ICustomModel
 {
     @Nonnull
     private static final PropertyEnum<SlabType> SLAB_TYPE = PropertyEnum.create("slab_type", SlabType.class);
 
     @Nonnull
     public final Supplier<Item> itemDropped;
-    public AbstractBlockSlab(@Nonnull Material materialIn, @Nonnull Supplier<Item> itemDroppedIn) {
+    public BlockSlabTypeless(@Nonnull Material materialIn, @Nonnull Supplier<Item> itemDroppedIn) {
         this(materialIn, materialIn.getMaterialMapColor(), itemDroppedIn);
     }
 
-    public AbstractBlockSlab(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn, @Nonnull Supplier<Item> itemDroppedIn) {
+    public BlockSlabTypeless(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn, @Nonnull Supplier<Item> itemDroppedIn) {
         super(materialIn, mapColorIn);
         itemDropped = itemDroppedIn;
         useNeighborBrightness = true;
@@ -90,7 +90,7 @@ public abstract class AbstractBlockSlab extends BlockSlab implements ICustomMode
         public String getName() { return "normal"; }
     }
 
-    public static class Single extends AbstractBlockSlab
+    public static class Single extends BlockSlabTypeless
     {
         public Single(@Nonnull Material materialIn, @Nonnull Supplier<Item> itemDroppedIn) { super(materialIn, itemDroppedIn); }
         public Single(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn, @Nonnull Supplier<Item> itemDroppedIn) {
@@ -101,7 +101,7 @@ public abstract class AbstractBlockSlab extends BlockSlab implements ICustomMode
         public boolean isDouble() { return false; }
     }
 
-    public static class Double extends AbstractBlockSlab
+    public static class Double extends BlockSlabTypeless
     {
         public Double(@Nonnull Material materialIn, @Nonnull Supplier<Item> itemDroppedIn) { super(materialIn, itemDroppedIn); }
         public Double(@Nonnull Material materialIn, @Nonnull MapColor mapColorIn, @Nonnull Supplier<Item> itemDroppedIn) {

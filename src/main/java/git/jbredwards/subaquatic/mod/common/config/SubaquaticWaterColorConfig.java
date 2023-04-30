@@ -256,13 +256,13 @@ public final class SubaquaticWaterColorConfig
             "    },\n" +
             "    //Cold Ocean\n" +
             "    \"subaquatic:cold_ocean\":{\n" +
-            "        \"Surface\":\"0x2080C9\",\n" +
-            "        \"Fog\":\"0x14559B\"\n" +
+            "        \"Surface\":\"0x6092f2\",\n" +
+            "        \"Fog\":\"0x6092f2\"\n" +
             "    },\n" +
             "    //Deep Cold Ocean\n" +
             "    \"subaquatic:deep_cold_ocean\":{\n" +
-            "        \"Surface\":\"0x2080C9\",\n" +
-            "        \"Fog\":\"0x185390\"\n" +
+            "        \"Surface\":\"0x6092f2\",\n" +
+            "        \"Fog\":\"0x6092f2\"\n" +
             "    },\n" +
             "    //Frozen Ocean\n" +
             "    \"minecraft:frozen_ocean\":{\n" +

@@ -7,6 +7,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
@@ -19,6 +21,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -55,6 +58,13 @@ final class SubaquaticRecipes
         registerCrafting(registry, "red_mushroom_hyphae", new ShapedOreRecipe(null, new ItemStack(Blocks.RED_MUSHROOM_BLOCK, 3, 2), "##", "##", '#', new ItemStack(Blocks.RED_MUSHROOM_BLOCK, 1, 1)));
         registerCrafting(registry, "red_mushroom_stem", new ShapedOreRecipe(null, new ItemStack(Blocks.RED_MUSHROOM_BLOCK, 1, 1), "##", "##", "##", '#', Blocks.RED_MUSHROOM));
         registerCrafting(registry, "rooted_dirt", new ShapelessOreRecipe(null, SubaquaticItems.ROOTED_DIRT, "dirt", SubaquaticItems.HANGING_ROOTS));
+        registerCrafting(registry, "smooth_quartz_block_slab", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.SMOOTH_QUARTZ_BLOCK_SLAB, 6), "###", '#', SubaquaticItems.SMOOTH_QUARTZ_BLOCK));
+        registerCrafting(registry, "smooth_quartz_block_stairs", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.SMOOTH_QUARTZ_BLOCK_STAIRS, 4), "#  ", "## ", "###", '#', SubaquaticItems.SMOOTH_QUARTZ_BLOCK));
+        registerCrafting(registry, "smooth_red_sandstone_slab", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.SMOOTH_RED_SANDSTONE_SLAB, 6), "###", '#', SubaquaticItems.SMOOTH_RED_SANDSTONE));
+        registerCrafting(registry, "smooth_red_sandstone_stairs", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.SMOOTH_RED_SANDSTONE_STAIRS, 4), "#  ", "## ", "###", '#', SubaquaticItems.SMOOTH_RED_SANDSTONE));
+        registerCrafting(registry, "smooth_sandstone_slab", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.SMOOTH_SANDSTONE_SLAB, 6), "###", '#', SubaquaticItems.SMOOTH_SANDSTONE));
+        registerCrafting(registry, "smooth_sandstone_stairs", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.SMOOTH_SANDSTONE_STAIRS, 4), "#  ", "## ", "###", '#', SubaquaticItems.SMOOTH_SANDSTONE));
+        registerCrafting(registry, "smooth_stone_stairs", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.SMOOTH_STONE_STAIRS, 4), "#  ", "## ", "###", '#', SubaquaticItems.SMOOTH_STONE));
 
         //boat containers
         SubaquaticBoatTypesConfig.buildBoatTypes();
@@ -63,23 +73,30 @@ final class SubaquaticRecipes
             final String recipeId = '/' + typeName.getNamespace() + '/' + typeName.getPath() + '/' + type.boatMeta;
 
             //chest boat recipes
-            registry.register(new ShapedOreRecipe(null,
+            registerCrafting(registry, "chest_boat" + recipeId, new ShapedOreRecipe(null,
                     ItemBoatContainer.createStackWithType(SubaquaticItems.CHEST_BOAT, type),
-                    "C", "B", 'C', Blocks.CHEST, 'B', new ItemStack(type.boat, 1, type.boatMeta))
-                    .setRegistryName(Subaquatic.MODID, "chest_boat" + recipeId));
+                    "C", "B", 'C', Blocks.CHEST, 'B', new ItemStack(type.boat, 1, type.boatMeta)));
 
             //ender chest boat recipes
-            registry.register(new ShapedOreRecipe(null,
+            registerCrafting(registry, "ender_chest_boat" + recipeId, new ShapedOreRecipe(null,
                     ItemBoatContainer.createStackWithType(SubaquaticItems.ENDER_CHEST_BOAT, type),
-                    "C", "B", 'C', Blocks.ENDER_CHEST, 'B', new ItemStack(type.boat, 1, type.boatMeta))
-                    .setRegistryName(Subaquatic.MODID, "ender_chest_boat" + recipeId));
+                    "C", "B", 'C', Blocks.ENDER_CHEST, 'B', new ItemStack(type.boat, 1, type.boatMeta)));
 
             //furnace boat recipes
-            registry.register(new ShapedOreRecipe(null,
+            registerCrafting(registry, "furnace_boat" + recipeId, new ShapedOreRecipe(null,
                     ItemBoatContainer.createStackWithType(SubaquaticItems.FURNACE_BOAT, type),
-                    "C", "B", 'C', Blocks.FURNACE, 'B', new ItemStack(type.boat, 1, type.boatMeta))
-                    .setRegistryName(Subaquatic.MODID, "furnace_boat" + recipeId));
+                    "C", "B", 'C', Blocks.FURNACE, 'B', new ItemStack(type.boat, 1, type.boatMeta)));
         });
+
+        //replace the stone in certain recipes with smooth stone
+        for(IRecipe recipe : new IRecipe[] {registry.getValue(new ResourceLocation("comparator")), registry.getValue(new ResourceLocation("repeater")), registry.getValue(new ResourceLocation("stone_slab"))}) {
+            if(recipe instanceof ShapedRecipes) {
+                final List<Ingredient> ingredients = ((ShapedRecipes)recipe).recipeItems;
+                for(int i = 0; i < ingredients.size(); i++)
+                    if(ingredients.get(i).apply(new ItemStack(Blocks.STONE)))
+                        ingredients.set(i, Ingredient.fromItem(SubaquaticItems.SMOOTH_STONE));
+            }
+        }
     }
 
     static void registerCrafting(@Nonnull IForgeRegistry<IRecipe> registry, @Nonnull String id, @Nonnull IRecipe recipe) {
@@ -92,8 +109,15 @@ final class SubaquaticRecipes
     }
 
     static void registerSmelting() {
+        GameRegistry.addSmelting(SubaquaticItems.COD, new ItemStack(SubaquaticItems.COOKED_COD), 0.35f);
         GameRegistry.addSmelting(SubaquaticItems.KELP, new ItemStack(SubaquaticItems.DRIED_KELP), 0.1f);
         GameRegistry.addSmelting(SubaquaticItems.SEA_PICKLE, new ItemStack(Items.DYE, 1, 10), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(Blocks.QUARTZ_BLOCK, 1, 0), new ItemStack(SubaquaticItems.SMOOTH_QUARTZ_BLOCK, 1, 0), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(Blocks.RED_SANDSTONE, 1, 0), new ItemStack(SubaquaticItems.SMOOTH_RED_SANDSTONE, 1, 0), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(Blocks.SANDSTONE, 1, 0), new ItemStack(SubaquaticItems.SMOOTH_SANDSTONE, 1, 0), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STONE, 1, 0), new ItemStack(SubaquaticItems.SMOOTH_STONE, 1, 0), 0.1f);
+
+        //corals
         GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_BLOCK, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_BLOCK, 1, 1), 0.1f);
         GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_FAN, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_FAN, 1, 1), 0.1f);
         GameRegistry.addSmelting(new ItemStack(SubaquaticItems.BRAIN_CORAL_FIN, 1, 0), new ItemStack(SubaquaticItems.BRAIN_CORAL_FIN, 1, 1), 0.1f);

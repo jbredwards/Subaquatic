@@ -7,11 +7,15 @@ import git.jbredwards.subaquatic.mod.common.entity.ai.pathfinding.PathNavigateFi
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.IBucketableEntity;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -21,7 +25,10 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -152,4 +159,20 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
 
     @Override
     public boolean canBucket() { return true; }
+
+    @Override
+    public void fall(float distance, float damageMultiplier) {}
+
+    /*@Nonnull
+    @SideOnly(Side.CLIENT)
+    @Override
+    public ItemStack getPickedResult(@Nonnull RayTraceResult target) {
+        //allow players to pick-block fish buckets while holding ctrl
+        if(GuiScreen.isCtrlKeyDown() || !Minecraft.getMinecraft().player.isCreative()) {
+            final ItemStack fishBucket = tryCaptureToStack(new ItemStack(Items.WATER_BUCKET));
+            if(!fishBucket.isEmpty()) return fishBucket;
+        }
+
+        return super.getPickedResult(target);
+    }*/
 }

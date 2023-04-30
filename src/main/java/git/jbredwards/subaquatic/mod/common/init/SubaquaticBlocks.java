@@ -70,18 +70,24 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockMud MUD = register("mud", new BlockMud(Material.GROUND, MapColor.CYAN_STAINED_HARDENED_CLAY), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.MUD));
     @Nonnull public static final Block PACKED_MUD = register("packed_mud", new Block(Material.GROUND), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.PACKED_MUD).setHardness(1).setResistance(5));
     @Nonnull public static final Block PACKED_MUD_BRICKS = register("packed_mud_bricks", new Block(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY), block -> block.setSoundType(SubaquaticSounds.PACKED_MUD_BRICKS).setHardness(1.5f).setResistance(5).setHarvestLevel("pickaxe", 0));
-
-    // Stairs
-    @Nonnull public static final BlockStairs PACKED_MUD_BRICKS_STAIRS = register("packed_mud_bricks_stairs", new BlockStairs(PACKED_MUD_BRICKS.getDefaultState()), PACKED_MUD_BRICKS, block -> {block.blockMapColor = MapColor.SILVER_STAINED_HARDENED_CLAY; block.useNeighborBrightness = true;});
-
-    // Slabs
-    @Nonnull public static final AbstractBlockSlab PACKED_MUD_BRICKS_SLAB = register("packed_mud_bricks_slab", new AbstractBlockSlab.Single(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY, () -> SubaquaticItems.PACKED_MUD_BRICKS_SLAB), PACKED_MUD_BRICKS);
-    @Nonnull public static final AbstractBlockSlab PACKED_MUD_BRICKS_SLAB_DOUBLE = register("packed_mud_bricks_slab_double", new AbstractBlockSlab.Double(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY, () -> SubaquaticItems.PACKED_MUD_BRICKS_SLAB), PACKED_MUD_BRICKS);
-
-    // Walls
-    @Nonnull public static final BlockWallTypeless PACKED_MUD_BRICKS_WALL = register("packed_mud_bricks_wall", new BlockWallTypeless(PACKED_MUD_BRICKS), PACKED_MUD_BRICKS, block -> block.blockMapColor = MapColor.SILVER_STAINED_HARDENED_CLAY);
-
-    // Fences & Fence Gates
+    @Nonnull public static final BlockStairs PACKED_MUD_BRICKS_STAIRS = register("packed_mud_bricks_stairs", new BlockStairs(PACKED_MUD_BRICKS.getDefaultState()), PACKED_MUD_BRICKS, block -> block.useNeighborBrightness = true);
+    @Nonnull public static final BlockSlabTypeless PACKED_MUD_BRICKS_SLAB = register("packed_mud_bricks_slab", new BlockSlabTypeless.Single(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY, () -> SubaquaticItems.PACKED_MUD_BRICKS_SLAB), PACKED_MUD_BRICKS);
+    @Nonnull public static final BlockSlabTypeless PACKED_MUD_BRICKS_SLAB_DOUBLE = register("packed_mud_bricks_slab_double", new BlockSlabTypeless.Double(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY, () -> SubaquaticItems.PACKED_MUD_BRICKS_SLAB), PACKED_MUD_BRICKS);
+    @Nonnull public static final BlockWallTypeless PACKED_MUD_BRICKS_WALL = register("packed_mud_bricks_wall", new BlockWallTypeless(PACKED_MUD_BRICKS), PACKED_MUD_BRICKS);
+    @Nonnull public static final Block SMOOTH_STONE = register("smooth_stone", new Block(Material.ROCK), Blocks.STONE);
+    @Nonnull public static final BlockStairs SMOOTH_STONE_STAIRS = register("smooth_stone_stairs", new BlockStairs(SMOOTH_STONE.getDefaultState()), SMOOTH_STONE, block -> block.useNeighborBrightness = true);
+    @Nonnull public static final Block SMOOTH_SANDSTONE = register("smooth_sandstone", new Block(Material.ROCK, MapColor.SAND), Blocks.SANDSTONE);
+    @Nonnull public static final BlockStairs SMOOTH_SANDSTONE_STAIRS = register("smooth_sandstone_stairs", new BlockStairs(SMOOTH_SANDSTONE.getDefaultState()), SMOOTH_SANDSTONE, block -> block.useNeighborBrightness = true);
+    @Nonnull public static final BlockSlabTypeless SMOOTH_SANDSTONE_SLAB = register("smooth_sandstone_slab", new BlockSlabTypeless.Single(Material.ROCK, MapColor.SAND, () -> SubaquaticItems.SMOOTH_SANDSTONE_SLAB), SMOOTH_SANDSTONE);
+    @Nonnull public static final BlockSlabTypeless SMOOTH_SANDSTONE_SLAB_DOUBLE = register("smooth_sandstone_slab_double", new BlockSlabTypeless.Double(Material.ROCK, MapColor.SAND, () -> SubaquaticItems.SMOOTH_SANDSTONE_SLAB), SMOOTH_SANDSTONE);
+    @Nonnull public static final Block SMOOTH_RED_SANDSTONE = register("smooth_red_sandstone", new Block(Material.ROCK, MapColor.ADOBE), Blocks.RED_SANDSTONE);
+    @Nonnull public static final BlockStairs SMOOTH_RED_SANDSTONE_STAIRS = register("smooth_red_sandstone_stairs", new BlockStairs(SMOOTH_SANDSTONE.getDefaultState()), SMOOTH_RED_SANDSTONE, block -> block.useNeighborBrightness = true);
+    @Nonnull public static final BlockSlabTypeless SMOOTH_RED_SANDSTONE_SLAB = register("smooth_red_sandstone_slab", new BlockSlabTypeless.Single(Material.ROCK, MapColor.ADOBE, () -> SubaquaticItems.SMOOTH_RED_SANDSTONE_SLAB), SMOOTH_RED_SANDSTONE);
+    @Nonnull public static final BlockSlabTypeless SMOOTH_RED_SANDSTONE_SLAB_DOUBLE = register("smooth_red_sandstone_slab_double", new BlockSlabTypeless.Double(Material.ROCK, MapColor.ADOBE, () -> SubaquaticItems.SMOOTH_RED_SANDSTONE_SLAB), SMOOTH_RED_SANDSTONE);
+    @Nonnull public static final Block SMOOTH_QUARTZ_BLOCK = register("smooth_quartz_block", new Block(Material.ROCK, MapColor.QUARTZ), Blocks.QUARTZ_BLOCK);
+    @Nonnull public static final BlockStairs SMOOTH_QUARTZ_BLOCK_STAIRS = register("smooth_quartz_block_stairs", new BlockStairs(SMOOTH_QUARTZ_BLOCK.getDefaultState()), SMOOTH_QUARTZ_BLOCK, block -> block.useNeighborBrightness = true);
+    @Nonnull public static final BlockSlabTypeless SMOOTH_QUARTZ_BLOCK_SLAB = register("smooth_quartz_block_slab", new BlockSlabTypeless.Single(Material.ROCK, MapColor.QUARTZ, () -> SubaquaticItems.SMOOTH_QUARTZ_BLOCK_SLAB), SMOOTH_QUARTZ_BLOCK);
+    @Nonnull public static final BlockSlabTypeless SMOOTH_QUARTZ_BLOCK_SLAB_DOUBLE = register("smooth_quartz_block_slab_double", new BlockSlabTypeless.Double(Material.ROCK, MapColor.QUARTZ, () -> SubaquaticItems.SMOOTH_QUARTZ_BLOCK_SLAB), SMOOTH_QUARTZ_BLOCK);
 
     //register burnables & tile entities
     public static void postRegistry() {
