@@ -1,5 +1,6 @@
 package git.jbredwards.subaquatic.mod.common;
 
+import git.jbredwards.subaquatic.api.event.OnGetEntityFromFishingEvent;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
@@ -12,15 +13,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -81,38 +81,27 @@ public final class EventHandler
     static void realisticFishing(@Nonnull ItemFishedEvent event) {
         if(SubaquaticConfigHandler.Server.Item.realisticFishing) {
             for(final Iterator<ItemStack> it = event.getDrops().iterator(); it.hasNext();) {
-                final ItemStack stack = it.next();
-                if(stack.getItem() == Items.FISH || stack.getItem() == SubaquaticItems.COD) {
-                    final EntityFishHook hook = event.getHookEntity();
-                    final AbstractFish fish;
-
-                    if(stack.getItem() == SubaquaticItems.COD) fish = new EntityCod(hook.world);
-                    else switch(stack.getMetadata()) {
-                        case 0: fish = new EntityFish(hook.world);
-                            break;
-                        case 1: fish = new EntitySalmon(hook.world);
-                            break;
-                        case 2: fish = new EntityTropicalFish(hook.world);
-                            break;
-                        default: fish = new EntityPufferfish(hook.world);
-                    }
-
-                    fish.setPosition(hook.posX, hook.posY, hook.posZ);
-                    hook.world.spawnEntity(fish);
-                    fish.attackEntityFrom(DamageSource.causeIndirectDamage(hook, event.getEntityPlayer()), event.getRodDamage());
-
-                    final double diffX = (event.getEntityPlayer().posX - hook.posX) * 0.125;
-                    final double diffY = (event.getEntityPlayer().posY - hook.posY) * 0.125;
-                    final double diffZ = (event.getEntityPlayer().posZ - hook.posZ) * 0.125;
-                    fish.motionX = diffX;
-                    fish.motionY = diffY + Math.pow(diffX * diffX + diffY * diffY + diffZ * diffZ, 0.25) * 0.5;
-                    fish.motionZ = diffZ;
-
+                final OnGetEntityFromFishingEvent entityEvent = new OnGetEntityFromFishingEvent(it.next(), event.getHookEntity(), event.getRodDamage());
+                if(MinecraftForge.EVENT_BUS.post(entityEvent)) {
                     it.remove();
                     event.setCanceled(true);
-                    event.getEntityPlayer().addStat(StatList.FISH_CAUGHT, 1);
+                    event.damageRodBy(entityEvent.rodDamage);
                 }
             }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    static void getEntityFromFishing(@Nonnull OnGetEntityFromFishingEvent event) {
+        if(event.itemToFish.getItem() == SubaquaticItems.COD) event.spawnEntity(new EntityCod(event.getWorld()));
+        else if(event.itemToFish.getItem() == Items.FISH) switch(event.itemToFish.getMetadata()) {
+            case 0: event.spawnEntity(new EntityFish(event.getWorld()));
+                break;
+            case 1: event.spawnEntity(new EntitySalmon(event.getWorld()));
+                break;
+            case 2: event.spawnEntity(new EntityTropicalFish(event.getWorld()));
+                break;
+            default: event.spawnEntity(new EntityPufferfish(event.getWorld()));
         }
     }
 }
