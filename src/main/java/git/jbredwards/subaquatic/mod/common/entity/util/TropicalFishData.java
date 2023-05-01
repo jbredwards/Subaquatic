@@ -16,6 +16,9 @@ import java.util.function.Predicate;
 public final class TropicalFishData
 {
     @Nonnull
+    public static final TropicalFishData DEFAULT = new TropicalFishData(0, EnumDyeColor.ORANGE, 0, EnumDyeColor.WHITE);
+
+    @Nonnull
     public final EnumDyeColor primaryColor, secondaryColor;
     public final int primaryShape, secondaryShape;
 

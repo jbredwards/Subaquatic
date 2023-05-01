@@ -1,6 +1,7 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
@@ -89,13 +90,16 @@ public final class PluginBlock implements IASMPlugin
                     if(down != state && down.getMaterial() == Material.GRASS) down.getBlock().onPlantGrow(down, world, pos.down(), pos);
 
                     //add roots below if possible
-                    else if(down.getMaterial() == Material.WATER || down.getBlock().isAir(down, world, pos.down()))
+                    else if(down.getBlock().isAir(down, world, pos.down()) || FluidloggedUtils.isFluid(down))
                         world.setBlockState(pos.down(), SubaquaticBlocks.HANGING_ROOTS.getDefaultState(), 2);
                 }
 
                 //vanilla behavior
                 else if(state != Blocks.DIRT.getDefaultState()) world.setBlockState(pos, Blocks.DIRT.getDefaultState(), 2);
             }
+
+            //hanging roots while in water
+            else if(FluidloggedUtils.isFluid(state)) world.setBlockState(pos.down(), SubaquaticBlocks.HANGING_ROOTS.getDefaultState(), 2);
         }
     }
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.model.BakedEntityBucketModel;
 import git.jbredwards.subaquatic.mod.client.texture.MaskTextureAtlasSprite;
+import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
@@ -23,9 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -51,17 +50,15 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
         if(nbt.hasKey("Variant", Constants.NBT.TAG_INT)) fishData = TropicalFishData.deserialize(nbt.getInteger("Variant"));
     }
 
-    @Nonnull
     @Override
-    public List<AbstractEntityBucketHandler> getSubTypes() {
-        final List<AbstractEntityBucketHandler> subTypes = new LinkedList<>();
+    public void getSubTypes(@Nonnull List<ItemStack> items, @Nonnull ItemStack parentBucket) {
         SubaquaticTropicalFishConfig.DEFAULT_TYPES.forEach(data -> {
             final EntityBucketHandlerTropicalFish handler = new EntityBucketHandlerTropicalFish();
             handler.fishData = data;
-            subTypes.add(handler);
-        });
 
-        return subTypes;
+            final ItemStack bucket = parentBucket.copy();
+            items.add(handler.applyEntry(bucket, Objects.requireNonNull(IEntityBucket.get(bucket))));
+        });
     }
 
     @SideOnly(Side.CLIENT)
@@ -113,10 +110,11 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
     public void handleTooltip(@Nonnull List<String> tooltip, @Nonnull ItemStack bucket, @Nonnull ITooltipFlag flag) {
         if(fishData != null) {
             //for testing purposes
-            /*if(flag.isAdvanced()) {
+            if(flag.isAdvanced()) {
                 tooltip.add(1, "Secondary Shape: " + fishData.secondaryShape);
                 tooltip.add(1, "Primary Shape: " + fishData.primaryShape);
-            }*/
+                tooltip.add(1, "Serialized: " + fishData.serialize());
+            }
 
             if(fishData.hasTranslation(I18n::hasKey)) tooltip.add(1, fishData.getTranslatedName(I18n::format));
             else {
@@ -141,5 +139,35 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
             case 4: return fishData.secondaryColor.getColorValue();
             default: return -1;
         }
+    }
+
+    @Nonnull
+    @Override
+    public ItemStack createNewStack(@Nonnull ItemStack bucket) {
+        final IEntityBucket cap = IEntityBucket.get(bucket);
+        assert cap != null;
+        fishData = TropicalFishData.DEFAULT;
+
+        return applyEntry(bucket, cap);
+    }
+
+    @Nonnull
+    public ItemStack createNewStackRandom(@Nonnull ItemStack bucket, @Nonnull Random random) {
+        final IEntityBucket cap = IEntityBucket.get(bucket);
+        assert cap != null;
+        fishData = !SubaquaticTropicalFishConfig.DEFAULT_TYPES.isEmpty()
+                ? SubaquaticTropicalFishConfig.DEFAULT_TYPES.get(random.nextInt(SubaquaticTropicalFishConfig.DEFAULT_TYPES.size()))
+                : TropicalFishData.DEFAULT;
+
+        return applyEntry(bucket, cap);
+    }
+
+    @Nonnull
+    public ItemStack createNewStackTrueRandom(@Nonnull ItemStack bucket, @Nonnull Random random) {
+        final IEntityBucket cap = IEntityBucket.get(bucket);
+        assert cap != null;
+        fishData = TropicalFishData.deserialize(random.nextInt(2) | random.nextInt(6) << 8 | random.nextInt(15) << 16 | random.nextInt(15) << 24);
+
+        return applyEntry(bucket, cap);
     }
 }

@@ -10,6 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import net.minecraftforge.registries.DataSerializerEntry;
 
 import javax.annotation.Nonnull;
@@ -54,6 +55,11 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerPotions(@Nonnull RegistryEvent.Register<Potion> event) {
         SubaquaticPotions.INIT.forEach(event.getRegistry()::register);
+    }
+
+    @SubscribeEvent
+    static void registerProfessions(@Nonnull RegistryEvent.Register<VillagerRegistry.VillagerProfession> event) {
+        SubaquaticProfessions.INIT.forEach(event.getRegistry()::register);
     }
 
     @SubscribeEvent

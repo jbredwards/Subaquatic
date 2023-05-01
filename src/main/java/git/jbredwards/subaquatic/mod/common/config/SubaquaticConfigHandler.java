@@ -447,6 +447,7 @@ public final class SubaquaticConfigHandler
 
         //per-biome rarity world gen
         ConfigUtils.readPerBiomeRarity(Server.World.Coral.perBiomeRarity, Server.World.Coral.PER_BIOME_RARITY);
+        ConfigUtils.readPerBiomeRarity(Server.World.GlowLichen.perBiomeRarity, Server.World.GlowLichen.PER_BIOME_RARITY);
         ConfigUtils.readPerBiomeRarity(Server.World.Kelp.perBiomeRarity, Server.World.Kelp.PER_BIOME_RARITY);
         ConfigUtils.readPerBiomeRarity(Server.World.Seagrass.perBiomeRarity, Server.World.Seagrass.PER_BIOME_RARITY);
         ConfigUtils.readPerBiomeRarity(Server.World.SeaPickle.perBiomeRarity, Server.World.SeaPickle.PER_BIOME_RARITY);

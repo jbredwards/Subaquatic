@@ -128,9 +128,9 @@ public final class SubaquaticTropicalFishConfig
             "    },\n" +
             "    {\n" +
             "        //sunstreak\n" +
-            "        \"primaryShape\":1,\n" +
-            "        \"primaryColor\":\"gray\",\n" +
-            "        \"secondaryShape\":0,\n" +
+            "        \"primaryShape\":0,\n" +
+            "        \"primaryColor\":\"blue\",\n" +
+            "        \"secondaryShape\":1,\n" +
             "        \"secondaryColor\":\"gray\"\n" +
             "    },\n" +
             "    {\n" +

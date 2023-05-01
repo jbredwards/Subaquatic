@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.model.BakedEntityBucketModel;
+import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
@@ -17,10 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -69,7 +67,23 @@ public abstract class AbstractEntityBucketHandler implements INBTSerializable<NB
     protected void readFromNBT(@Nonnull NBTTagCompound nbt) {}
 
     @Nonnull
-    public List<AbstractEntityBucketHandler> getSubTypes() { return Collections.singletonList(this); }
+    public ItemStack createNewStack(@Nonnull ItemStack bucket) {
+        return applyEntry(bucket, Objects.requireNonNull(IEntityBucket.get(bucket)));
+    }
+
+    public void getSubTypes(@Nonnull List<ItemStack> items, @Nonnull ItemStack parentBucket) {
+        items.add(createNewStack(parentBucket.copy()));
+    }
+
+    @Nonnull
+    protected final ItemStack applyEntry(@Nonnull ItemStack bucket, @Nonnull IEntityBucket cap) {
+        final NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setString("id", getEntityEntry().delegate.name().toString());
+        entityNbt = nbt;
+
+        cap.setHandler(this);
+        return bucket;
+    }
 
     @Nonnull
     protected ResourceLocation getSpriteForRender() { return new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/missing"); }

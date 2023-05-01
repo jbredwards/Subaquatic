@@ -15,7 +15,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeModContainer;
@@ -28,7 +27,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -66,7 +65,7 @@ public final class SubaquaticCreativeTab extends CreativeTabs
 
     @Nonnull
     public static List<ItemStack> generateEntityBuckets() {
-        final List<ItemStack> buckets = new ArrayList<>();
+        final List<ItemStack> buckets = new LinkedList<>();
         final List<Fluid> validFluids = ImmutableList.<Fluid>builder()
                 .add(FluidRegistry.WATER)
                 .add(FluidRegistry.getBucketFluids().stream().filter(IEntityBucket::isFluidValid).toArray(Fluid[]::new))
@@ -74,7 +73,7 @@ public final class SubaquaticCreativeTab extends CreativeTabs
 
         //handle vanilla & forge buckets
         validFluids.forEach(fluid -> AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler ->
-                buckets.addAll(getEntityBucket(FluidUtil.getFilledBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME)), handler.get()))));
+                handler.get().getSubTypes(buckets, FluidUtil.getFilledBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME)))));
 
         //handle modded buckets
         IEntityBucket.getValidBuckets().forEach(bucket -> {
@@ -83,35 +82,12 @@ public final class SubaquaticCreativeTab extends CreativeTabs
                     final ItemStack stack = new ItemStack(bucket);
                     final IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(stack);
 
-                    if(fluidHandler != null && fluidHandler.fill(new FluidStack(fluid, Fluid.BUCKET_VOLUME), true) >= Fluid.BUCKET_VOLUME)
-                        buckets.addAll(getEntityBucket(stack, handler.get()));
+                    if(fluidHandler != null && fluidHandler.fill(new FluidStack(fluid, Fluid.BUCKET_VOLUME), true) >= Fluid.BUCKET_VOLUME) handler.get().getSubTypes(buckets, stack);
                 }));
             }
         });
 
         return buckets;
-    }
-
-    @Nonnull
-    static List<ItemStack> getEntityBucket(@Nonnull ItemStack stackIn, @Nonnull AbstractEntityBucketHandler handlerIn) {
-        final String entityId = handlerIn.getEntityEntry().delegate.name().toString();
-        final List<ItemStack> items = new ArrayList<>();
-
-        handlerIn.getSubTypes().forEach(handler -> {
-            final ItemStack stack = stackIn.copy();
-            final IEntityBucket cap = IEntityBucket.get(stack);
-
-            if(cap != null) {
-                final NBTTagCompound nbt = new NBTTagCompound();
-                nbt.setString("id", entityId);
-                handler.entityNbt = nbt;
-
-                cap.setHandler(handler);
-                items.add(stack);
-            }
-        });
-
-        return items;
     }
 
     @Override

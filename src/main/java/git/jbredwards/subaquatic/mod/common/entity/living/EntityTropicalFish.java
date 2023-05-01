@@ -40,7 +40,7 @@ public class EntityTropicalFish extends AbstractGroupFish
     @Override
     protected void entityInit() {
         super.entityInit();
-        dataManager.register(VARIANT, TropicalFishData.deserialize(0));
+        dataManager.register(VARIANT, TropicalFishData.DEFAULT);
     }
 
     @Nonnull
@@ -52,8 +52,7 @@ public class EntityTropicalFish extends AbstractGroupFish
         //generate random variant
         if(rand.nextFloat() < 0.1) return TropicalFishData.deserialize(rand.nextInt(2) | rand.nextInt(6) << 8 | rand.nextInt(15) << 16 | rand.nextInt(15) << 24);
         //get from config
-        return SubaquaticTropicalFishConfig.DEFAULT_TYPES.isEmpty()
-                ? TropicalFishData.deserialize(0)
+        return SubaquaticTropicalFishConfig.DEFAULT_TYPES.isEmpty() ? TropicalFishData.DEFAULT
                 : SubaquaticTropicalFishConfig.DEFAULT_TYPES.get(rand.nextInt(SubaquaticTropicalFishConfig.DEFAULT_TYPES.size()));
     }
 
