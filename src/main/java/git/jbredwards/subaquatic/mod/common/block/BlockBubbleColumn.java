@@ -6,7 +6,8 @@ import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.block.IOxygenSupplier;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
-import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumn;
+import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumnDown;
+import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumnUp;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
@@ -17,7 +18,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -182,16 +183,13 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
 
     @SideOnly(Side.CLIENT)
     public void spawnParticles(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Random rand) {
+        final ParticleManager manager = Minecraft.getMinecraft().effectRenderer;
         //down particles
-        if(isDown) {
-            final Particle particle = ParticleBubbleColumn.FACTORY.createParticle(-1, worldIn, pos.getX() + 0.5, pos.getY() + rand.nextFloat() - 0.125, pos.getZ() + 0.5, 12, -1.0 / 30, 0.4, rand.nextInt(360));
-            if(particle != null) Minecraft.getMinecraft().effectRenderer.addEffect(particle);
-        }
-
+        if(isDown) manager.addEffect(ParticleBubbleColumnDown.FACTORY.createParticle(-1, worldIn, pos.getX() + 0.5, pos.getY() + rand.nextFloat() - 0.125, pos.getZ() + 0.5, 12, -1.0 / 30, 0.4, rand.nextInt(360)));
         //up particles
         else {
-            worldIn.spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0, 0.3, 0.0);
-            worldIn.spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0.0, 0.3, 0.0);
+            manager.addEffect(ParticleBubbleColumnUp.FACTORY.createParticle(-1, worldIn, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0, 0.4, 0.0));
+            manager.addEffect(ParticleBubbleColumnUp.FACTORY.createParticle(-1, worldIn, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0.0, 0.4, 0.0));
         }
     }
 
@@ -203,9 +201,18 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
 
     @SubscribeEvent
     static void generateBubbleColumns(@Nonnull BlockEvent.NeighborNotifyEvent event) {
-        if(!event.getWorld().isRemote && event.getNotifiedSides().contains(EnumFacing.UP)) {
-            if(SubaquaticBlocks.BUBBLE_COLUMN_UP.isValidSoil(event.getState())) SubaquaticBlocks.BUBBLE_COLUMN_UP.trySpreadTo(event.getWorld(), event.getPos().up());
-            else if(SubaquaticBlocks.BUBBLE_COLUMN_DOWN.isValidSoil(event.getState())) SubaquaticBlocks.BUBBLE_COLUMN_DOWN.trySpreadTo(event.getWorld(), event.getPos().up());
+        if(!event.getWorld().isRemote) {
+            //placing bubble column support block into fluid
+            if(event.getNotifiedSides().contains(EnumFacing.UP)) {
+                if(SubaquaticBlocks.BUBBLE_COLUMN_UP.isValidSoil(event.getState())) SubaquaticBlocks.BUBBLE_COLUMN_UP.trySpreadTo(event.getWorld(), event.getPos().up());
+                else if(SubaquaticBlocks.BUBBLE_COLUMN_DOWN.isValidSoil(event.getState())) SubaquaticBlocks.BUBBLE_COLUMN_DOWN.trySpreadTo(event.getWorld(), event.getPos().up());
+            }
+            //placing fluid onto bubble column support block
+            if(event.getState().getBlock() instanceof BlockBubbleColumn && event.getNotifiedSides().contains(EnumFacing.DOWN)) {
+                final IBlockState state = event.getWorld().getBlockState(event.getPos().down());
+                if(SubaquaticBlocks.BUBBLE_COLUMN_UP.isValidSoil(state)) SubaquaticBlocks.BUBBLE_COLUMN_UP.trySpreadTo(event.getWorld(), event.getPos());
+                else if(SubaquaticBlocks.BUBBLE_COLUMN_DOWN.isValidSoil(state)) SubaquaticBlocks.BUBBLE_COLUMN_DOWN.trySpreadTo(event.getWorld(), event.getPos());
+            }
         }
     }
 }

@@ -32,6 +32,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraftforge.common.util.PacketUtil", new PluginPacketUtil()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
             plugins.put("net.minecraftforge.fluids.FluidRegistry", new PluginFluidRegistry()); //Changes the water textures to allow for better coloring
             plugins.put("net.minecraftforge.fluids.FluidUtil", new PluginFluidUtil()); //Place fish contained within bucket
+            plugins.put("net.minecraftforge.fml.common.registry.VillagerRegistry", new PluginVillagerRegistry()); //Add IConditionalProfession functionality
             //modded
             plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBOPFogEventHandler()); //Don't change the underwater fog color while this mod is installed
             plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginBOPGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
@@ -51,11 +52,13 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityItemMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityLivingBaseMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.thaumcraft.mixin.client.TileCrucibleRendererMixin", new PluginAquaAcrobatics());
+            plugins.put("com.sewef.burnbabyburn.MainMod", new PluginBurnBabyBurn()); //Remove duplicate mod functionality
             plugins.put("git.jbredwards.fluidlogged_api.mod.common.EventHandler", new PluginFluidloggedAPI()); //Place any fish contained within the bucket when fluidlogging, and yes I'm asm-ing my own mod XD
             plugins.put("knightminer.inspirations.recipes.tileentity.TileCauldron", new PluginInspirations()); //Place fish contained within bucket
             plugins.put("net.optifine.CustomColors", new PluginOptifine()); //Fix possible Optifine NPE with bubble particles
             plugins.put("thaumcraft.client.renderers.tile.TileCrucibleRenderer", new PluginThaumcraft()); //Use old water texture
             plugins.put("thebetweenlands.common.world.biome.BiomeBetweenlands", new PluginBetweenlands()); //Preserve betweenlands biome colors
+            plugins.put("vazkii.quark.tweaks.feature.BabyZombiesBurn", new PluginQuark()); //Remove duplicate mod functionality
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
@@ -77,6 +80,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.entity.item.EntityBoat", new PluginEntityBoat()); //Bubble columns rock boats
             plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
             plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityXPOrb()); //XP orbs float while in water
+            plugins.put("net.minecraft.entity.monster.EntityZombie", new PluginEntityZombie()); //Baby zombies burn in daylight if enabled
             plugins.put("net.minecraft.entity.player.EntityPlayerMP", new PluginEntityPlayerMP()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.EntityLivingBase", new PluginEntityLivingBase()); //Backport new oxygen replenish system & add IOxygenSupplier

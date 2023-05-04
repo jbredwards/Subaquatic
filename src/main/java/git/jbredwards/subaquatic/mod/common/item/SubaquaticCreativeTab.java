@@ -17,7 +17,6 @@ import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -71,13 +70,12 @@ public final class SubaquaticCreativeTab extends CreativeTabs
                 .add(FluidRegistry.getBucketFluids().stream().filter(IEntityBucket::isFluidValid).toArray(Fluid[]::new))
                 .build();
 
-        //handle vanilla & forge buckets
-        validFluids.forEach(fluid -> AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler ->
-                handler.get().getSubTypes(buckets, FluidUtil.getFilledBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME)))));
-
         //handle modded buckets
         IEntityBucket.getValidBuckets().forEach(bucket -> {
-            if(bucket != Items.WATER_BUCKET && bucket != ForgeModContainer.getInstance().universalBucket) {
+            if(bucket == Items.WATER_BUCKET) AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler ->
+                    handler.get().getSubTypes(buckets, new ItemStack(bucket)));
+
+            else {
                 validFluids.forEach(fluid -> AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler -> {
                     final ItemStack stack = new ItemStack(bucket);
                     final IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(stack);

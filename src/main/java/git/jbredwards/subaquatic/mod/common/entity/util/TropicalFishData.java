@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common.entity.util;
 import net.minecraft.item.EnumDyeColor;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
@@ -13,7 +14,7 @@ import java.util.function.Predicate;
  *
  */
 @Immutable
-public final class TropicalFishData
+public final class TropicalFishData implements Comparable<TropicalFishData>
 {
     @Nonnull
     public static final TropicalFishData DEFAULT = new TropicalFishData(0, EnumDyeColor.ORANGE, 0, EnumDyeColor.WHITE);
@@ -31,7 +32,7 @@ public final class TropicalFishData
 
     @Nonnull
     public static TropicalFishData deserialize(int serialized) {
-        return new TropicalFishData(serialized & 255, EnumDyeColor.byMetadata(serialized >> 16 & 255), serialized >> 8 & 255, EnumDyeColor.byMetadata(serialized >> 24 & 255));
+        return new TropicalFishData(serialized & 255, EnumDyeColor.byMetadata(serialized >>> 16 & 255), serialized >>> 8 & 255, EnumDyeColor.byMetadata(serialized >>> 24 & 255));
     }
 
     public int serialize() {
@@ -59,4 +60,12 @@ public final class TropicalFishData
                 translator.apply("color.subaquatic." + secondaryColor.getTranslationKey(), new Object[0])
         });
     }
+
+    @Override
+    public boolean equals(@Nullable Object o) {
+        return o instanceof TropicalFishData && ((TropicalFishData)o).serialize() == serialize();
+    }
+
+    @Override
+    public int compareTo(@Nonnull TropicalFishData o) { return Integer.compare(o.serialize(), serialize()); }
 }

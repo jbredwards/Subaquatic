@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.entity.util.villager;
+package git.jbredwards.subaquatic.mod.common.entity.util.villager.career;
 
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.*;
 import net.minecraft.entity.IMerchant;

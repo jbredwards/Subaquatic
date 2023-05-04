@@ -1374,17 +1374,6 @@
         ],
         "subtitle":"subtitles.block.generic.footsteps"
     },
-    "entity.fish.swim":{
-        "sounds":[
-            "subaquatic:entity/fish/swim1",
-            "subaquatic:entity/fish/swim2",
-            "subaquatic:entity/fish/swim3",
-            "subaquatic:entity/fish/swim4",
-            "subaquatic:entity/fish/swim5",
-            "subaquatic:entity/fish/swim6",
-            "subaquatic:entity/fish/swim7"
-        ]
-    },
     "entity.cod.death":{
         "sounds":[
             "subaquatic:entity/fish/hurt1",
@@ -1423,6 +1412,56 @@
             "subaquatic:entity/fish/hurt4"
         ],
         "subtitle":"subtitles.subaquatic.entity.cod.hurt"
+    },
+    "entity.fish.death":{
+        "sounds":[
+            "subaquatic:entity/fish/hurt1",
+            "subaquatic:entity/fish/hurt2",
+            "subaquatic:entity/fish/hurt3",
+            "subaquatic:entity/fish/hurt4"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.fish.death"
+    },
+    "entity.fish.flop":{
+        "sounds":[
+            {
+                "name":"subaquatic:entity/fish/flop1",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop2",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop3",
+                "volume":0.3
+            },
+            {
+                "name":"subaquatic:entity/fish/flop4",
+                "volume":0.3
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.entity.fish.flop"
+    },
+    "entity.fish.hurt":{
+        "sounds":[
+            "subaquatic:entity/fish/hurt1",
+            "subaquatic:entity/fish/hurt2",
+            "subaquatic:entity/fish/hurt3",
+            "subaquatic:entity/fish/hurt4"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.fish.hurt"
+    },
+    "entity.fish.swim":{
+        "sounds":[
+            "subaquatic:entity/fish/swim1",
+            "subaquatic:entity/fish/swim2",
+            "subaquatic:entity/fish/swim3",
+            "subaquatic:entity/fish/swim4",
+            "subaquatic:entity/fish/swim5",
+            "subaquatic:entity/fish/swim6",
+            "subaquatic:entity/fish/swim7"
+        ]
     },
     "entity.pufferfish.death":{
         "sounds":[

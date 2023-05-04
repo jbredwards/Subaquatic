@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 
 /**
  * Called by this mod's {@link git.jbredwards.subaquatic.mod.common.EventHandler#realisticFishing EventHandler},
- * and is fired serverside only.
+ * and is fired serverside only. This is used to spawn entities in place of items when fishing (enabled by default in the config).
  * @author jbred
  *
  */
@@ -36,7 +36,7 @@ public class OnGetEntityFromFishingEvent extends Event
 
     /**
      * Spawns and positions the entity to be fished, applies the correct motion, increments the player's fishing stat,
-     * and deals {@link OnGetEntityFromFishingEvent#rodDamage} damage (having a hook in your mouth hurts).
+     * and deals {@link OnGetEntityFromFishingEvent#rodDamage} damage (having a hook in your lip hurts).
      */
     public void spawnEntity(@Nonnull Entity entity) {
         entity.setPosition(hook.posX, hook.posY, hook.posZ);

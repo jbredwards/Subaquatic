@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.client.particle;
 
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleBubble;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -17,22 +18,31 @@ import javax.annotation.Nonnull;
  *
  */
 @SideOnly(Side.CLIENT)
-public class ParticleBubbleColumnPop extends Particle
+public class ParticleBubblePop extends Particle
 {
     @Nonnull
     public static final TextureAtlasSprite[] TEXTURES = new TextureAtlasSprite[5];
-    public ParticleBubbleColumnPop(@Nonnull ParticleBubble parent) {
+    public ParticleBubblePop(@Nonnull ParticleBubble parent) {
         super(parent.world, parent.posX, parent.posY, parent.posZ);
         particleScale = parent.particleScale * 2.75f;
+        canCollide = false;
 
         setMaxAge(4);
         setSize(0.02f, 0.02f);
         setParticleTexture(TEXTURES[0]);
         setRBGColorF(parent.getRedColorF(), parent.getGreenColorF(), parent.getBlueColorF());
 
-        if(SubaquaticConfigHandler.Client.Particle.playBubblePopSound || parent instanceof ParticleBubbleColumn) {
+        if((SubaquaticConfigHandler.Client.Particle.playBubblePopSound || parent instanceof IParticleBubbleColumn)) {
             final float pitch = Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f);
-            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 1, pitch, false);
+            if(Minecraft.getMinecraft().player.getPositionEyes(1).squareDistanceTo(posX, posY, posZ) < 8)
+                world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 0.5f, pitch, false);
+
+            /*Minecraft.getMinecraft().getSoundHandler().playSound(new BubblePopSound(
+                    SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP,
+                    SoundCategory.BLOCKS,
+                    0.2f,
+                    Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f),
+                    (float)posX, (float)posY, (float)posZ));*/
         }
     }
 

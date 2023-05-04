@@ -1,12 +1,14 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.entity;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
@@ -107,14 +109,15 @@ public final class PluginEntity implements IASMPlugin
             BlockPos pos = new BlockPos(entity);
             IBlockState state = entity.world.getBlockState(pos);
 
-            if(hasNoCollision(state, pos, entity)) {
+            if(!canCollideCheck(entity.world, pos, state, true)) return;
+            else if(hasNoCollision(state, pos, entity)) {
                 pos = pos.down();
                 state = entity.world.getBlockState(pos);
             }
 
             if(!state.getBlock().addRunningEffects(state, entity.world, pos, entity)
             && state.getRenderType() != EnumBlockRenderType.INVISIBLE //prevent barrier particles & the like
-            && state.getBlock().canCollideCheck(state, false)) { //prevent water breaking particles & the like
+            && canCollideCheck(entity.world, pos, state, false)) { //prevent water breaking particles & the like
                 final Random rand = entity.world.rand;
                 entity.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK,
                         entity.posX + (rand.nextFloat() - 0.5) * entity.width,
@@ -129,6 +132,15 @@ public final class PluginEntity implements IASMPlugin
             final double xz = entity.width / 2;
 
             return !state.getBoundingBox(entity.world, pos).offset(pos).intersects(entity.posX - xz, entity.posY - 0.2, entity.posZ - xz, entity.posX + xz, entity.posY + 0.0001, entity.posZ + xz);
+        }
+
+        //helper
+        public static boolean canCollideCheck(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean allowAir) {
+            if(allowAir && state.getBlock().isAir(state, world, pos)) return true;
+            else if(!state.getBlock().canCollideCheck(state, false)) return false;
+
+            final FluidState fluidState = FluidState.get(world, pos);
+            return fluidState.isEmpty() || fluidState.getBlock().canCollideCheck(fluidState.getState(), false);
         }
     }
 }

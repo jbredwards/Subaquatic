@@ -1,4 +1,4 @@
-package git.jbredwards.subaquatic.mod.common.entity.util.villager;
+package git.jbredwards.subaquatic.mod.common.entity.util.villager.career;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;

@@ -54,14 +54,6 @@ public final class EventHandler
         Blocks.WATERLILY.setSoundType(SubaquaticSounds.WET_GRASS);
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    static void marineBiologistBreathesUnderwater(@Nonnull LivingAttackEvent event) {
-        if(event.getSource() == DamageSource.DROWN
-        && event.getEntity() instanceof EntityVillager
-        && ((EntityVillager)event.getEntity()).getProfessionForge() == SubaquaticProfessions.MARINE_BIOLOGIST
-        && event.getEntity().isInsideOfMaterial(Material.WATER)) event.setCanceled(true);
-    }
-
     @SubscribeEvent
     static void modifyLootTables(@Nonnull LootTableLoadEvent event) throws NullPointerException { //should never throw
         if("minecraft:gameplay/fishing/fish".equals(event.getName().toString())) event.getTable().getPool("main").addEntry(

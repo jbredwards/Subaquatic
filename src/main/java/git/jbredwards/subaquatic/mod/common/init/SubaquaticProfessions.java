@@ -1,7 +1,9 @@
 package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.entity.util.villager.*;
+import git.jbredwards.subaquatic.mod.common.entity.util.villager.career.*;
+import git.jbredwards.subaquatic.mod.common.entity.util.villager.profession.IProfessionSupplier;
+import git.jbredwards.subaquatic.mod.common.entity.util.villager.profession.VillagerProfessionMarineBiologist;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -23,7 +25,7 @@ public final class SubaquaticProfessions
     @Nonnull public static final List<VillagerProfession> INIT = new LinkedList<>();
 
     //professions
-    @Nonnull public static final VillagerProfession MARINE_BIOLOGIST = register("marine_biologist", career -> career
+    @Nonnull public static final VillagerProfessionMarineBiologist MARINE_BIOLOGIST = register("marine_biologist", VillagerProfessionMarineBiologist::new, career -> career
             .addTrade(1,
                     TradeForEntityBucket.FISH_BUCKET,
                     TradeUtil.newTrade(Items.EMERALD, 1, 1, SubaquaticItems.KELP, 1, 3),
@@ -41,7 +43,7 @@ public final class SubaquaticProfessions
             .addTrade(3,
                     TradeForEntityBucket.TROPICAL_FISH_BUCKET,
                     TradeUtil.newTrade(Items.EMERALD, 4, 5, Items.PRISMARINE_CRYSTALS, 5, 8),
-                    TradeUtil.newTrade(SubaquaticItems.NAUTILUS_SHELL, 2, 4, Items.EMERALD, 2, 3),
+                    TradeUtil.newTrade(SubaquaticItems.NAUTILUS_SHELL, 2, 4, Items.EMERALD, 1, 1),
                     TradeUtil.newTrade(Items.EMERALD, 7, 10, SubaquaticItems.NAUTILUS_SHELL, 1, 1))
             .addTrade(4,
                     TradeForEntityBucket.TROPICAL_FISH_BUCKET_ANY,
@@ -50,14 +52,14 @@ public final class SubaquaticProfessions
 
     //register a profession with one career
     @Nonnull
-    static VillagerProfession register(@Nonnull String name, @Nonnull Consumer<VillagerCareerRandom> consumer) {
-        return registerMulti(name, profession -> consumer.accept(new VillagerCareerRandom(profession, Subaquatic.MODID + "." + name, 2)));
+    static <T extends VillagerProfession> T register(@Nonnull String name, @Nonnull IProfessionSupplier<T> supplier, @Nonnull Consumer<VillagerCareerRandom> consumer) {
+        return registerMulti(name, supplier, profession -> consumer.accept(new VillagerCareerRandom(profession, Subaquatic.MODID + "." + name, 2)));
     }
 
     //register a profession with multiple careers
     @Nonnull
-    static VillagerProfession registerMulti(@Nonnull String name, @Nonnull Consumer<VillagerProfession> consumer) {
-        final VillagerProfession profession = new VillagerProfession(
+    static <T extends VillagerProfession> T registerMulti(@Nonnull String name, @Nonnull IProfessionSupplier<T> supplier, @Nonnull Consumer<T> consumer) {
+        final T profession = supplier.get(
                 Subaquatic.MODID + ":" + name,
                 Subaquatic.MODID + ":textures/entity/villager/" + name + ".png",
                 Subaquatic.MODID + ":textures/entity/villager/" + name + "_zombie.png");

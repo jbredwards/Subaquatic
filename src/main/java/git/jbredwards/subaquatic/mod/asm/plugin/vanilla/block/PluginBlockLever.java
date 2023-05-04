@@ -1,6 +1,7 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
@@ -24,7 +25,7 @@ public final class PluginBlockLever implements IASMPlugin
         /*
          * randomDisplayTick:
          * New code:
-         * //PluginWorldClient removes the hardcoded barrier particle spawning system, this reimplements it
+         * //add lever redstone particles
          * @ASMGenerated
          * @SideOnly(Side.CLIENT)
          * public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand)
@@ -51,7 +52,7 @@ public final class PluginBlockLever implements IASMPlugin
     public static final class Hooks
     {
         public static void addLeverParticles(@Nonnull IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Random rand) {
-            if(state.getValue(BlockLever.POWERED) && rand.nextFloat() < 0.25) {
+            if(SubaquaticConfigHandler.Client.Block.leverRedstoneParticles && state.getValue(BlockLever.POWERED) && rand.nextBoolean()) {
                 final EnumFacing facing = state.getValue(BlockLever.FACING).getFacing().getOpposite();
                 world.spawnParticle(EnumParticleTypes.REDSTONE,
                         pos.getX() + 0.5 + 0.3 * facing.getXOffset(),

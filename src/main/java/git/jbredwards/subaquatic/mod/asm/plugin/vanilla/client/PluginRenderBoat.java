@@ -47,6 +47,9 @@ public final class PluginRenderBoat implements IASMPlugin
         return false;
     }
 
+    @Override
+    public boolean recalcFrames(boolean obfuscated) { return true; }
+
     @SuppressWarnings("unused")
     public static final class Hooks
     {

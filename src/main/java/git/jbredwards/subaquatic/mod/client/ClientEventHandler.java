@@ -5,7 +5,7 @@ import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
 import git.jbredwards.subaquatic.mod.client.item.model.BakedEntityBucketModel;
 import git.jbredwards.subaquatic.mod.client.item.model.ModelContainerBoat;
-import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumnPop;
+import git.jbredwards.subaquatic.mod.client.particle.ParticleBubblePop;
 import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
@@ -194,7 +194,7 @@ public final class ClientEventHandler
         event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_overlay"));
         event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "blocks/water_still"));
         event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "misc/underwater"));
-        for(int i = 0; i < 5; i++) ParticleBubbleColumnPop.TEXTURES[i] =
+        for(int i = 0; i < 5; i++) ParticleBubblePop.TEXTURES[i] =
                 event.getMap().registerSprite(new ResourceLocation(Subaquatic.MODID, "particles/bubble_pop_" + i));
 
         //handle entity bucket sprites

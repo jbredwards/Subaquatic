@@ -6,6 +6,8 @@ import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
@@ -44,6 +46,7 @@ public final class PluginRenderEntityItem implements IASMPlugin
     @SuppressWarnings("unused")
     public static final class Hooks
     {
+        @SideOnly(Side.CLIENT)
         public static boolean shouldBob(@Nonnull RenderEntityItem renderer, @Nonnull EntityItem entity) {
             return renderer.shouldBob() && (entity.world == null || !SubaquaticConfigHandler.Common.Entity.itemsFloat || FluidloggedUtils.getFluidState(entity.world, new BlockPos(entity.getPositionEyes(1))).isEmpty());
         }

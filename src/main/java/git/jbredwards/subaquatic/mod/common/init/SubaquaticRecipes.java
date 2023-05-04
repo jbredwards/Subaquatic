@@ -112,7 +112,7 @@ final class SubaquaticRecipes
         GameRegistry.addSmelting(SubaquaticItems.COD, new ItemStack(SubaquaticItems.COOKED_COD), 0.35f);
         GameRegistry.addSmelting(SubaquaticItems.KELP, new ItemStack(SubaquaticItems.DRIED_KELP), 0.1f);
         GameRegistry.addSmelting(SubaquaticItems.SEA_PICKLE, new ItemStack(Items.DYE, 1, 10), 0.1f);
-        GameRegistry.addSmelting(new ItemStack(Blocks.QUARTZ_BLOCK, 1, 0), new ItemStack(SubaquaticItems.SMOOTH_QUARTZ_BLOCK, 1, 0), 0.1f);
+        GameRegistry.addSmelting(Blocks.QUARTZ_BLOCK, new ItemStack(SubaquaticItems.SMOOTH_QUARTZ_BLOCK, 1, 0), 0.1f);
         GameRegistry.addSmelting(Blocks.RED_SANDSTONE, new ItemStack(SubaquaticItems.SMOOTH_RED_SANDSTONE, 1, 0), 0.1f);
         GameRegistry.addSmelting(Blocks.SANDSTONE, new ItemStack(SubaquaticItems.SMOOTH_SANDSTONE, 1, 0), 0.1f);
         GameRegistry.addSmelting(new ItemStack(Blocks.STONE, 1, 0), new ItemStack(SubaquaticItems.SMOOTH_STONE, 1, 0), 0.1f);

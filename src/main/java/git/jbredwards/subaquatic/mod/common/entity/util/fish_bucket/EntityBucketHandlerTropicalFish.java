@@ -110,11 +110,11 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
     public void handleTooltip(@Nonnull List<String> tooltip, @Nonnull ItemStack bucket, @Nonnull ITooltipFlag flag) {
         if(fishData != null) {
             //for testing purposes
-            if(flag.isAdvanced()) {
+            /*if(flag.isAdvanced()) {
                 tooltip.add(1, "Secondary Shape: " + fishData.secondaryShape);
                 tooltip.add(1, "Primary Shape: " + fishData.primaryShape);
                 tooltip.add(1, "Serialized: " + fishData.serialize());
-            }
+            }*/
 
             if(fishData.hasTranslation(I18n::hasKey)) tooltip.add(1, fishData.getTranslatedName(I18n::format));
             else {

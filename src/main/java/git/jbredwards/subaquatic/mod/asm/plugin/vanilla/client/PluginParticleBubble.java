@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import git.jbredwards.subaquatic.mod.client.particle.ParticleBubbleColumnPop;
+import git.jbredwards.subaquatic.mod.client.particle.ParticleBubblePop;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleBubble;
 import org.objectweb.asm.tree.ClassNode;
@@ -42,7 +42,7 @@ public final class PluginParticleBubble implements IASMPlugin
     public static final class Hooks
     {
         public static void setExpired(@Nonnull ParticleBubble particle) {
-            Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleBubbleColumnPop(particle));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleBubblePop(particle));
         }
     }
 }

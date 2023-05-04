@@ -46,6 +46,14 @@ public final class SubaquaticConfigHandler
     public static Client client;
     public static final class Client
     {
+        @Config.LangKey("config.subaquatic.client.block")
+        public static Block block;
+        public static final class Block
+        {
+            @Config.LangKey("config.subaquatic.client.block.leverRedstoneParticles")
+            public static boolean leverRedstoneParticles = true;
+        }
+
         @Config.LangKey("config.subaquatic.client.entity")
         public static Entity entity;
         public static final class Entity
@@ -76,7 +84,7 @@ public final class SubaquaticConfigHandler
         public static final class Particle
         {
             @Config.LangKey("config.subaquatic.client.particle.playBubblePopSound")
-            public static boolean playBubblePopSound = false;
+            public static boolean playBubblePopSound = true;
         }
 
         @Config.LangKey("config.subaquatic.client.world")
@@ -143,11 +151,11 @@ public final class SubaquaticConfigHandler
         public static final class Block
         {
             @Nonnull
-            @Config.LangKey("config.subaquatic.server.world.bubbleColumnSoilDown")
+            @Config.LangKey("config.subaquatic.server.block.bubbleColumnSoilDown")
             public static String[] bubbleColumnSoilDown = new String[] {"{Name:\"minecraft:magma\"}"};
 
             @Nonnull
-            @Config.LangKey("config.subaquatic.server.world.bubbleColumnSoilUp")
+            @Config.LangKey("config.subaquatic.server.block.bubbleColumnSoilUp")
             public static String[] bubbleColumnSoilUp = new String[] {"{Name:\"minecraft:soul_sand\"}"};
 
             @Config.LangKey("config.subaquatic.server.block.mushroomBlockFortune")
@@ -162,6 +170,20 @@ public final class SubaquaticConfigHandler
 
             @Config.LangKey("config.subaquatic.server.block.tillRootedDirtGivesRoot")
             public static boolean tillRootedDirtGivesRoot = true;
+        }
+
+        @Config.LangKey("config.subaquatic.server.entity")
+        public static Entity entity;
+        public static final class Entity
+        {
+            @Config.LangKey("config.subaquatic.server.entity.babyZombiesBurnInDaylight")
+            public static boolean babyZombiesBurnInDaylight = true;
+
+            @Config.LangKey("config.subaquatic.server.entity.villagerMarineBiologist")
+            public static boolean villagerMarineBiologist = false;
+
+            @Config.LangKey("config.subaquatic.server.entity.zombieVillagerMarineBiologist")
+            public static boolean zombieVillagerMarineBiologist = true;
         }
 
         @Config.LangKey("config.subaquatic.server.item")
@@ -202,15 +224,15 @@ public final class SubaquaticConfigHandler
                 @Config.Ignore
                 public static final Object2IntMap<Biome> PER_BIOME_RARITY = new Object2IntOpenHashMap<>();
 
-                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
-                public static boolean enabled = true;
-
                 @Config.LangKey("config.subaquatic.server.world.generic.defaultAmount")
                 public static int defaultAmount = 0;
 
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.dimensions")
                 public static int[] dimensions = new int[] {0};
+
+                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
+                public static boolean enabled = true;
 
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.perBiomeRarity")
@@ -229,9 +251,6 @@ public final class SubaquaticConfigHandler
                 @Config.Ignore
                 public static final Object2IntMap<Biome> PER_BIOME_RARITY = new Object2IntOpenHashMap<>();
 
-                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
-                public static boolean enabled = true;
-
                 @Config.LangKey("config.subaquatic.server.world.generic.defaultAmount")
                 public static int defaultAmount = 130;
 
@@ -239,19 +258,22 @@ public final class SubaquaticConfigHandler
                 @Config.LangKey("config.subaquatic.server.world.generic.dimensions")
                 public static int[] dimensions = new int[] {0};
 
+                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
+                public static boolean enabled = true;
+
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.perBiomeRarity")
                 public static String[] perBiomeRarity = new String[] {};
 
-                //glow lichen specific
-
                 @Config.RangeInt(min = 1, max = 256)
-                @Config.LangKey("config.subaquatic.server.world.glowLichen.maxHeight")
+                @Config.LangKey("config.subaquatic.server.world.generic.maxHeight")
                 public static int maxHeight = 120;
 
                 @Config.RangeInt(min = 1, max = 256)
-                @Config.LangKey("config.subaquatic.server.world.glowLichen.minHeight")
+                @Config.LangKey("config.subaquatic.server.world.generic.minHeight")
                 public static int minHeight = 1;
+
+                //glow lichen specific
 
                 @Config.RangeInt(min = 0, max = 15)
                 @Config.LangKey("config.subaquatic.server.world.glowLichen.maxLight")
@@ -268,15 +290,15 @@ public final class SubaquaticConfigHandler
                 @Config.Ignore
                 public static final Object2IntMap<Biome> PER_BIOME_RARITY = new Object2IntOpenHashMap<>();
 
-                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
-                public static boolean enabled = true;
-
                 @Config.LangKey("config.subaquatic.server.world.generic.defaultAmount")
                 public static int defaultAmount = 0;
 
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.dimensions")
                 public static int[] dimensions = new int[] {0};
+
+                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
+                public static boolean enabled = true;
 
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.perBiomeRarity")
@@ -307,15 +329,15 @@ public final class SubaquaticConfigHandler
                 @Config.Ignore
                 public static final Object2IntMap<Biome> PER_BIOME_RARITY = new Object2IntOpenHashMap<>();
 
-                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
-                public static boolean enabled = true;
-
                 @Config.LangKey("config.subaquatic.server.world.generic.defaultAmount")
                 public static int defaultAmount = 32;
 
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.dimensions")
                 public static int[] dimensions = new int[] {0};
+
+                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
+                public static boolean enabled = true;
 
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.perBiomeRarity")
@@ -345,15 +367,15 @@ public final class SubaquaticConfigHandler
                 @Config.Ignore
                 public static final Object2IntMap<Biome> PER_BIOME_RARITY = new Object2IntOpenHashMap<>();
 
-                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
-                public static boolean enabled = true;
-
                 @Config.LangKey("config.subaquatic.server.world.generic.defaultAmount")
                 public static int defaultAmount = 0;
 
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.dimensions")
                 public static int[] dimensions = new int[] {0};
+
+                @Config.LangKey("config.subaquatic.server.world.generic.enabled")
+                public static boolean enabled = true;
 
                 @Nonnull
                 @Config.LangKey("config.subaquatic.server.world.generic.perBiomeRarity")

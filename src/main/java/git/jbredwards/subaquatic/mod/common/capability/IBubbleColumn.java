@@ -151,7 +151,8 @@ public interface IBubbleColumn extends INBTSerializable<NBTBase>
                                 boat.removePassengers();
                             }
 
-                            else boat.motionY = 0.6; //boat.getRecursivePassengersByType(EntityPlayer.class).isEmpty() ? 0.6 : 2.7
+                            //vanilla behavior commented out below, causes buggy behavior with upward bubble columns
+                            //else boat.motionY = boat.getRecursivePassengersByType(EntityPlayer.class).isEmpty() ? 0.6 : 2.7;
                         }
                     }
 
