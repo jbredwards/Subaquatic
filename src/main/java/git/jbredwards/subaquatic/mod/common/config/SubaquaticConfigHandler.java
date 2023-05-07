@@ -83,8 +83,23 @@ public final class SubaquaticConfigHandler
         public static Particle particle;
         public static final class Particle
         {
+            @Config.LangKey("config.subaquatic.client.particle.longerLastingBubbles")
+            public static boolean longerLastingBubbles = true;
+
             @Config.LangKey("config.subaquatic.client.particle.playBubblePopSound")
             public static boolean playBubblePopSound = true;
+
+            @Config.RangeInt(min = 0)
+            @Config.LangKey("config.subaquatic.client.particle.underwaterChestMaxBubbleCount")
+            public static int underwaterChestMaxBubbleCount = 10;
+
+            @Config.RangeInt(min = 0)
+            @Config.LangKey("config.subaquatic.client.particle.underwaterChestMinBubbleCount")
+            public static int underwaterChestMinBubbleCount = 5;
+
+            @Config.RangeInt(min = 0)
+            @Config.LangKey("config.subaquatic.client.particle.underwaterExplosionBubbleCount")
+            public static int underwaterExplosionBubbleCount = 4;
         }
 
         @Config.LangKey("config.subaquatic.client.world")

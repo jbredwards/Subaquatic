@@ -140,6 +140,15 @@
         ],
         "subtitle":"subtitles.subaquatic.block.bubble_column.up.inside"
     },
+    "blocks.chest.open_underwater":{
+        "sounds":[
+            {
+                "name":"subaquatic:blocks/bubble_column/whirlpool_inside",
+                "pitch":1.3
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.block.chest.open_underwater"
+    },
     "blocks.coral.break":{
         "sounds":[
             "subaquatic:blocks/coral/break1",

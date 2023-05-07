@@ -2,7 +2,7 @@ package git.jbredwards.subaquatic.mod.client.entity.renderer;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.entity.model.ModelCod;
-import git.jbredwards.subaquatic.mod.common.entity.living.EntityCod;
+import git.jbredwards.subaquatic.mod.common.entity.living.AbstractFish;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
  *
  */
 @SideOnly(Side.CLIENT)
-public class RenderCod extends RenderLiving<EntityCod>
+public class RenderCod extends RenderLiving<AbstractFish>
 {
     @Nonnull
     private static final ResourceLocation TEXTURE = new ResourceLocation(Subaquatic.MODID, "textures/entity/fish/cod.png");
@@ -27,10 +27,10 @@ public class RenderCod extends RenderLiving<EntityCod>
 
     @Nonnull
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityCod entity) { return TEXTURE; }
+    protected ResourceLocation getEntityTexture(@Nonnull AbstractFish entity) { return TEXTURE; }
 
     @Override
-    protected void applyRotations(@Nonnull EntityCod entityLiving, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void applyRotations(@Nonnull AbstractFish entityLiving, float ageInTicks, float rotationYaw, float partialTicks) {
         super.applyRotations(entityLiving, ageInTicks, rotationYaw, partialTicks);
         GlStateManager.rotate(4.3f * MathHelper.sin(0.6f * ageInTicks), 0, 1, 1);
 

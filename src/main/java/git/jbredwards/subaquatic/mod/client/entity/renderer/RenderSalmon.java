@@ -2,7 +2,7 @@ package git.jbredwards.subaquatic.mod.client.entity.renderer;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.entity.model.ModelSalmon;
-import git.jbredwards.subaquatic.mod.common.entity.living.EntitySalmon;
+import git.jbredwards.subaquatic.mod.common.entity.living.AbstractFish;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
  *
  */
 @SideOnly(Side.CLIENT)
-public class RenderSalmon extends RenderLiving<EntitySalmon>
+public class RenderSalmon extends RenderLiving<AbstractFish>
 {
     @Nonnull
     private static final ResourceLocation TEXTURE = new ResourceLocation(Subaquatic.MODID, "textures/entity/fish/salmon.png");
@@ -27,10 +27,10 @@ public class RenderSalmon extends RenderLiving<EntitySalmon>
 
     @Nonnull
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntitySalmon entity) { return TEXTURE; }
+    protected ResourceLocation getEntityTexture(@Nonnull AbstractFish entity) { return TEXTURE; }
 
     @Override
-    protected void applyRotations(@Nonnull EntitySalmon entityLiving, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void applyRotations(@Nonnull AbstractFish entityLiving, float ageInTicks, float rotationYaw, float partialTicks) {
         super.applyRotations(entityLiving, ageInTicks, rotationYaw, partialTicks);
         float magnitude = 1;
         float frequency = 1;

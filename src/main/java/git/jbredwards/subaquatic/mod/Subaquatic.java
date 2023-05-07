@@ -2,7 +2,6 @@ package git.jbredwards.subaquatic.mod;
 
 import com.cleanroommc.assetmover.AssetMoverAPI;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
@@ -55,7 +54,6 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -74,6 +72,7 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -103,13 +102,7 @@ public final class Subaquatic
                 Loader.class.getResourceAsStream(String.format("/assets/%s/assetmover.jsonc", MODID)))),
                 String[][].class);
 
-        final ProgressManager.ProgressBar progressBar = ProgressManager.push("AssetMover", assets.length);
-        for(String[] asset : assets) { //display progress, otherwise it looks like the game froze
-            progressBar.step(asset[2].replaceFirst(String.format("assets/%s/", MODID), ""));
-            AssetMoverAPI.fromMinecraft(asset[0], ImmutableMap.of(asset[1], asset[2]));
-        }
-
-        ProgressManager.pop(progressBar);
+        for(String[] asset : assets) AssetMoverAPI.fromMinecraft(asset[0], Collections.singletonMap(asset[1], asset[2]));
         LOGGER.info("Success!");
     }
 
@@ -140,7 +133,6 @@ public final class Subaquatic
         GameRegistry.registerWorldGenerator(GeneratorKelp.INSTANCE, 4);
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
         GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
-        //MinecraftForge.TERRAIN_GEN_BUS.register(PrimerSeaPickle.class);
         GameRegistry.registerWorldGenerator(GeneratorGlowLichen.INSTANCE, 6);
 
         //new water bottle property
@@ -233,7 +225,11 @@ public final class Subaquatic
             final AxisAlignedBB box = particle.getBoundingBox();
 
             final AxisAlignedBB boxToCheck = new AxisAlignedBB(box.minX, box.maxY, box.minZ, box.maxX, box.maxY, box.minZ);
-            return Boolean.TRUE.equals(FluidloggedUtils.getFluidOrReal(world, pos).getBlock().isAABBInsideMaterial(world, pos, boxToCheck, Material.WATER)) ? particle : null;
+            if(!Boolean.TRUE.equals(FluidloggedUtils.getFluidOrReal(world, pos).getBlock().isAABBInsideMaterial(world, pos, boxToCheck, Material.WATER))) return null;
+
+            //longer lasting bubble particles, if enabled in the config
+            else if(SubaquaticConfigHandler.Client.Particle.longerLastingBubbles) particle.setMaxAge(particle.particleAge * 5);
+            return particle;
         });
     }
 

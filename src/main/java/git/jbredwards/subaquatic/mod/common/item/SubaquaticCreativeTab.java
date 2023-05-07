@@ -1,6 +1,5 @@
 package git.jbredwards.subaquatic.mod.common.item;
 
-import com.google.common.collect.ImmutableList;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
@@ -17,6 +16,7 @@ import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,6 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -65,17 +66,26 @@ public final class SubaquaticCreativeTab extends CreativeTabs
     @Nonnull
     public static List<ItemStack> generateEntityBuckets() {
         final List<ItemStack> buckets = new LinkedList<>();
-        final List<Fluid> validFluids = ImmutableList.<Fluid>builder()
-                .add(FluidRegistry.WATER)
-                .add(FluidRegistry.getBucketFluids().stream().filter(IEntityBucket::isFluidValid).toArray(Fluid[]::new))
-                .build();
+        final List<Fluid> validFluids = FluidRegistry.getBucketFluids().stream().filter(IEntityBucket::isFluidValid).collect(Collectors.toList());
 
-        //handle modded buckets
         IEntityBucket.getValidBuckets().forEach(bucket -> {
-            if(bucket == Items.WATER_BUCKET) AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler ->
-                    handler.get().getSubTypes(buckets, new ItemStack(bucket)));
+            //handle vanilla bucket
+            if(bucket == Items.WATER_BUCKET) AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler -> handler.get().getSubTypes(buckets, new ItemStack(bucket)));
 
+            //handle forge buckets
+            else if(FluidRegistry.isUniversalBucketEnabled() && bucket == ForgeModContainer.getInstance().universalBucket) {
+                validFluids.forEach(fluid -> AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler -> {
+                    final IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(new ItemStack(bucket));
+                    if(fluidHandler != null) {
+                        final FluidStack fluidStack = new FluidStack(fluid, Fluid.BUCKET_VOLUME);
+                        if(fluidHandler.fill(fluidStack, false) >= Fluid.BUCKET_VOLUME) handler.get().getSubTypes(buckets, FluidUtil.getFilledBucket(fluidStack));
+                    }
+                }));
+            }
+
+            //handle modded buckets
             else {
+                validFluids.add(0, FluidRegistry.WATER);
                 validFluids.forEach(fluid -> AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler -> {
                     final ItemStack stack = new ItemStack(bucket);
                     final IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(stack);

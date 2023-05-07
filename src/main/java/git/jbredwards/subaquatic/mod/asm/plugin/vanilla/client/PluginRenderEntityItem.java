@@ -1,11 +1,12 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.api.item.IFloatingBehavior;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.objectweb.asm.tree.*;
@@ -48,7 +49,15 @@ public final class PluginRenderEntityItem implements IASMPlugin
     {
         @SideOnly(Side.CLIENT)
         public static boolean shouldBob(@Nonnull RenderEntityItem renderer, @Nonnull EntityItem entity) {
-            return renderer.shouldBob() && (entity.world == null || !SubaquaticConfigHandler.Common.Entity.itemsFloat || FluidloggedUtils.getFluidState(entity.world, new BlockPos(entity.getPositionEyes(1))).isEmpty());
+            if(!renderer.shouldBob()) return false;
+            else if(entity.world == null) return true;
+
+            final Item item = entity.getItem().getItem();
+            final boolean configEnabled = SubaquaticConfigHandler.Common.Entity.itemsFloat;
+
+            return item instanceof IFloatingBehavior
+                    ? !((IFloatingBehavior)item).canEntityFloat(entity, configEnabled)
+                    : !configEnabled || !entity.isInsideOfMaterial(Material.WATER);
         }
     }
 }

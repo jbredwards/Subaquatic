@@ -16,9 +16,12 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public class EntityFish extends EntityCod
+public class EntityFish extends AbstractGroupFish
 {
-    public EntityFish(@Nonnull World worldIn) { super(worldIn); }
+    public EntityFish(@Nonnull World worldIn) {
+        super(worldIn);
+        setSize(0.5f, 0.3f);
+    }
 
     @Nonnull
     @Override

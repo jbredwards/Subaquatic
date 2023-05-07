@@ -1,7 +1,7 @@
 package git.jbredwards.subaquatic.mod.client.entity.renderer;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.entity.living.EntityCod;
+import git.jbredwards.subaquatic.mod.common.entity.living.AbstractFish;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,5 +25,5 @@ public class RenderFish extends RenderCod
 
     @Nonnull
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityCod entity) { return TEXTURE; }
+    protected ResourceLocation getEntityTexture(@Nonnull AbstractFish entity) { return TEXTURE; }
 }

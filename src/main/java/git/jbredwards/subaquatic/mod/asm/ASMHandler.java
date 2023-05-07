@@ -34,6 +34,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraftforge.fluids.FluidUtil", new PluginFluidUtil()); //Place fish contained within bucket
             plugins.put("net.minecraftforge.fml.common.registry.VillagerRegistry", new PluginVillagerRegistry()); //Add IConditionalProfession functionality
             //modded
+            plugins.put("appeng.api.implementations.items.IGrowableCrystal", new PluginNoItemBobbing()); //Crystal seeds don't bob at the surface
             plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBOPFogEventHandler()); //Don't change the underwater fog color while this mod is installed
             plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginBOPGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
             plugins.put("biomesoplenty.common.world.layer.GenLayerShoreBOP", new PluginBOPGenLayerShore()); //Account for all ocean biomes when generating shores
@@ -54,6 +55,10 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("com.fuzs.aquaacrobatics.core.thaumcraft.mixin.client.TileCrucibleRendererMixin", new PluginAquaAcrobatics());
             plugins.put("com.sewef.burnbabyburn.MainMod", new PluginBurnBabyBurn()); //Remove duplicate mod functionality
             plugins.put("git.jbredwards.fluidlogged_api.mod.common.EventHandler", new PluginFluidloggedAPI()); //Place any fish contained within the bucket when fluidlogging, and yes I'm asm-ing my own mod XD
+            plugins.put("hellfirepvp.astralsorcery.common.item.crystal.base.ItemRockCrystalBase", new PluginNoItemBobbing()); //Rock crystals don't bob at the surface
+            plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalSword", new PluginNoItemBobbing()); //Crystal swords don't bob at the surface
+            plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalToolBase", new PluginNoItemBobbing()); //Crystal tools don't bob at the surface
+            plugins.put("hellfirepvp.astralsorcery.common.item.ItemCraftingComponent", new PluginAstralSorcery()); //Stardust don't bob at the surface
             plugins.put("knightminer.inspirations.recipes.tileentity.TileCauldron", new PluginInspirations()); //Place fish contained within bucket
             plugins.put("net.optifine.CustomColors", new PluginOptifine()); //Fix possible Optifine NPE with bubble particles
             plugins.put("thaumcraft.client.renderers.tile.TileCrucibleRenderer", new PluginThaumcraft()); //Use old water texture
@@ -72,6 +77,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.client.audio.SoundManager", new PluginSoundManager()); //Allow for sounds with a high priority
             plugins.put("net.minecraft.client.particle.ParticleBubble", new PluginParticleBubble()); //Add the unused bubble pop particle from 1.13+
             plugins.put("net.minecraft.client.particle.ParticleDrip", new PluginParticleDrip()); //Water droplet particles keep the color set by this mod
+            plugins.put("net.minecraft.client.particle.ParticleExplosionHuge", new PluginParticleExplosionHuge()); //Spawn bubbles for underwater explosions
             plugins.put("net.minecraft.client.renderer.entity.RenderBoat", new PluginRenderBoat()); //Render bubble column boat rocking
             plugins.put("net.minecraft.client.renderer.entity.RenderEntityItem", new PluginRenderEntityItem()); //Don't render item bobbing while in water
             //plugins.put("net.minecraft.client.renderer.EntityRenderer", new PluginEntityRenderer()); //Colors rain according to biome color
@@ -90,6 +96,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.item.ItemPotion", new PluginItemPotion()); //Add new config option to toggle the potion enchantment glint
             plugins.put("net.minecraft.network.PacketBuffer", new PluginPacketBuffer()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
             plugins.put("net.minecraft.potion.PotionUtils", new PluginPotionUtils()); //Use new water fluid color
+            plugins.put("net.minecraft.tileentity.TileEntityChest", new PluginTileEntityChest()); //Add bubble particles for chests when they open underwater
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
             plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config
