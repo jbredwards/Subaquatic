@@ -228,7 +228,7 @@ public final class Subaquatic
             if(!Boolean.TRUE.equals(FluidloggedUtils.getFluidOrReal(world, pos).getBlock().isAABBInsideMaterial(world, pos, boxToCheck, Material.WATER))) return null;
 
             //longer lasting bubble particles, if enabled in the config
-            else if(SubaquaticConfigHandler.Client.Particle.longerLastingBubbles) particle.setMaxAge(particle.particleAge * 5);
+            else if(SubaquaticConfigHandler.Client.Particle.longerLastingBubbles) particle.setMaxAge(particle.particleMaxAge * 5);
             return particle;
         });
     }
