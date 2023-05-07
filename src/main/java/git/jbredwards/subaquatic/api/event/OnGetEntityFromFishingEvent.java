@@ -16,6 +16,8 @@ import javax.annotation.Nonnull;
 /**
  * Called by this mod's {@link git.jbredwards.subaquatic.mod.common.EventHandler#realisticFishing EventHandler},
  * and is fired serverside only. This is used to spawn entities in place of items when fishing (enabled by default in the config).
+ *
+ * @since 1.1.0
  * @author jbred
  *
  */

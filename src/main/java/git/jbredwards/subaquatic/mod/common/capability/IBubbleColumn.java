@@ -8,7 +8,6 @@ import git.jbredwards.subaquatic.mod.common.block.BlockBubbleColumn;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
@@ -67,7 +66,7 @@ public interface IBubbleColumn extends INBTSerializable<NBTBase>
      * All subclasses are handled automatically as needed.
      */
     @Nonnull
-    Map<Class<?>, Supplier<IBubbleColumn>> BUBBLE_COLUMN_FACTORY = new HashMap<>(ImmutableMap.of(Entity.class, Impl::new, EntityBoat.class, Boat::new, EntityPlayer.class, Player::new, EntitySquid.class, () -> null, FakePlayer.class, () -> null));
+    Map<Class<?>, Supplier<IBubbleColumn>> BUBBLE_COLUMN_FACTORY = new HashMap<>(ImmutableMap.of(Entity.class, Impl::new, EntityBoat.class, Boat::new, EntityPlayer.class, Player::new, FakePlayer.class, () -> null));
     static Supplier<IBubbleColumn> getHandlerForClass(@Nonnull Class<?> clazzIn) {
         if(clazzIn == Object.class) throw new IllegalArgumentException("Class has no bubble column handler, this should never happen!");
         return BUBBLE_COLUMN_FACTORY.computeIfAbsent(clazzIn, clazz -> getHandlerForClass(clazz.getSuperclass()));
@@ -77,14 +76,18 @@ public interface IBubbleColumn extends INBTSerializable<NBTBase>
     {
         @Override
         public void onCollide(@Nonnull Entity entity, @Nonnull BlockBubbleColumn column) {
-            if(column.isDown) entity.motionY = Math.max(-0.3, entity.motionY - 0.03);
-            else entity.motionY = Math.min(0.7, entity.motionY + 0.06);
+            if(entity.isPushedByWater()) {
+                if(column.isDown) entity.motionY = Math.max(-0.3, entity.motionY - 0.03);
+                else entity.motionY = Math.min(0.7, entity.motionY + 0.06);
+            }
         }
 
         @Override
         public void onCollideTop(@Nonnull Entity entity, @Nonnull BlockBubbleColumn column) {
-            if(column.isDown) entity.motionY = Math.max(-0.9, entity.motionY - 0.03);
-            else entity.motionY = Math.min(1.8, entity.motionY + 0.1);
+            if(entity.isPushedByWater()) {
+                if(column.isDown) entity.motionY = Math.max(-0.9, entity.motionY - 0.03);
+                else entity.motionY = Math.min(1.8, entity.motionY + 0.1);
+            }
         }
 
         @Nonnull
