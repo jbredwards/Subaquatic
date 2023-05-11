@@ -88,6 +88,10 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockStairs SMOOTH_QUARTZ_BLOCK_STAIRS = register("smooth_quartz_block_stairs", new BlockStairs(SMOOTH_QUARTZ_BLOCK.getDefaultState()), SMOOTH_QUARTZ_BLOCK, block -> block.useNeighborBrightness = true);
     @Nonnull public static final BlockSlabTypeless SMOOTH_QUARTZ_BLOCK_SLAB = register("smooth_quartz_block_slab", new BlockSlabTypeless.Single(Material.ROCK, MapColor.QUARTZ, () -> SubaquaticItems.SMOOTH_QUARTZ_BLOCK_SLAB), SMOOTH_QUARTZ_BLOCK);
     @Nonnull public static final BlockSlabTypeless SMOOTH_QUARTZ_BLOCK_SLAB_DOUBLE = register("smooth_quartz_block_slab_double", new BlockSlabTypeless.Double(Material.ROCK, MapColor.QUARTZ, () -> SubaquaticItems.SMOOTH_QUARTZ_BLOCK_SLAB), SMOOTH_QUARTZ_BLOCK);
+    @Nonnull public static final Block SMOOTH_LAPIS_BLOCK = register("smooth_lapis_block", new Block(Material.ROCK, MapColor.LAPIS), Blocks.LAPIS_BLOCK);
+    @Nonnull public static final BlockStairs SMOOTH_LAPIS_BLOCK_STAIRS = register("smooth_lapis_block_stairs", new BlockStairs(SMOOTH_LAPIS_BLOCK.getDefaultState()), SMOOTH_LAPIS_BLOCK, block -> block.useNeighborBrightness = true);
+    @Nonnull public static final BlockSlabTypeless SMOOTH_LAPIS_BLOCK_SLAB = register("smooth_lapis_block_slab", new BlockSlabTypeless.Single(Material.ROCK, MapColor.LAPIS, () -> SubaquaticItems.SMOOTH_LAPIS_BLOCK_SLAB), SMOOTH_LAPIS_BLOCK);
+    @Nonnull public static final BlockSlabTypeless SMOOTH_LAPIS_BLOCK_SLAB_DOUBLE = register("smooth_lapis_block_slab_double", new BlockSlabTypeless.Double(Material.ROCK, MapColor.LAPIS, () -> SubaquaticItems.SMOOTH_LAPIS_BLOCK_SLAB), SMOOTH_LAPIS_BLOCK);
 
     //register burnables & tile entities
     public static void postRegistry() {

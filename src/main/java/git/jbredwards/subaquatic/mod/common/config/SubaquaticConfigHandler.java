@@ -128,6 +128,9 @@ public final class SubaquaticConfigHandler
         {
             @Config.LangKey("config.subaquatic.common.block.cauldronFluidPhysics")
             public static boolean cauldronFluidPhysics = true;
+
+            @Config.LangKey("config.subaquatic.common.block.deadCoralBonemeal")
+            public static boolean deadCoralBonemeal = true;
         }
 
         @Config.LangKey("config.subaquatic.common.entity")

@@ -128,7 +128,7 @@ public final class Subaquatic
         WRAPPER.registerMessage(SMessageBottleParticles.Handler.INSTANCE, SMessageBottleParticles.class, 4, Side.CLIENT);
 
         //world generators
-        GeneratorCoral.initDefaults();
+        GeneratorCoral.registerDefaults();
         GameRegistry.registerWorldGenerator(GeneratorCoral.INSTANCE, 3);
         GameRegistry.registerWorldGenerator(GeneratorKelp.INSTANCE, 4);
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);

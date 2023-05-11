@@ -21,15 +21,15 @@ public enum TradeForCoral implements ITradeList
 {
     CORAL_BLOCK((merchant, recipeList, random) -> recipeList.add(new MerchantRecipe(
             new ItemStack(Items.EMERALD, MathHelper.getInt(random, 4, 5)),
-            new ItemStack(GeneratorCoral.CORAL_BLOCKS.get(random.nextInt(GeneratorCoral.CORAL_BLOCKS.size())))
+            new ItemStack(GeneratorCoral.CORAL_BLOCKS.get(random.nextInt(GeneratorCoral.CORAL_BLOCKS.size())).getBlock())
     ))),
     CORAL_FAN((merchant, recipeList, random) -> recipeList.add(new MerchantRecipe(
             new ItemStack(Items.EMERALD, 3),
-            new ItemStack(GeneratorCoral.CORAL_FANS.get(random.nextInt(GeneratorCoral.CORAL_FANS.size())))
+            new ItemStack(GeneratorCoral.CORAL_FANS.get(random.nextInt(GeneratorCoral.CORAL_FANS.size())).getBlock())
     ))),
     CORAL_FIN((merchant, recipeList, random) -> recipeList.add(new MerchantRecipe(
             new ItemStack(Items.EMERALD, 3),
-            new ItemStack(GeneratorCoral.CORAL_FINS.get(random.nextInt(GeneratorCoral.CORAL_FINS.size())))
+            new ItemStack(GeneratorCoral.CORAL_FINS.get(random.nextInt(GeneratorCoral.CORAL_FINS.size())).getBlock())
     )));
 
     @Nonnull

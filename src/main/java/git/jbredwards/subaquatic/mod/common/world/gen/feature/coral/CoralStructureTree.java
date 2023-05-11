@@ -1,6 +1,5 @@
 package git.jbredwards.subaquatic.mod.common.world.gen.feature.coral;
 
-import git.jbredwards.subaquatic.mod.common.block.BlockCoral;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,11 +20,11 @@ public enum CoralStructureTree implements ICoralStructure
     INSTANCE;
 
     @Override
-    public void generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockCoral coral) {
+    public void generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull ICoralBlockSupplier coralBlock) {
         final BlockPos.MutableBlockPos posToGen = new BlockPos.MutableBlockPos(pos);
         final int max = rand.nextInt(3 + 1);
         for(int i = 0; i < max; i++) {
-            if(!placeCoralBlock(world, rand, posToGen.toImmutable(), coral)) return;
+            if(!placeCoralBlock(world, rand, posToGen.toImmutable(), coralBlock)) return;
             posToGen.move(EnumFacing.UP);
         }
 
@@ -37,7 +36,7 @@ public enum CoralStructureTree implements ICoralStructure
 
             int branchHeight = 0;
             final int maxHeight = rand.nextInt(5) + 2;
-            for(int i = 0; i < maxHeight && placeCoralBlock(world, rand, posToGen.toImmutable(), coral); i++) {
+            for(int i = 0; i < maxHeight && placeCoralBlock(world, rand, posToGen.toImmutable(), coralBlock); i++) {
                 posToGen.move(EnumFacing.UP);
                 if(i == 0 || ++branchHeight >= 2 && rand.nextFloat() < 0.25) {
                     posToGen.move(side);

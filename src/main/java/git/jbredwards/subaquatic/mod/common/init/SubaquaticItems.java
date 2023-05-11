@@ -72,12 +72,16 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock SMOOTH_QUARTZ_BLOCK = register("smooth_quartz_block", new ItemBlock(SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK));
     @Nonnull public static final ItemBlock SMOOTH_QUARTZ_BLOCK_STAIRS = register("smooth_quartz_block_stairs", new ItemBlock(SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK_STAIRS));
     @Nonnull public static final ItemSlab SMOOTH_QUARTZ_BLOCK_SLAB = register("smooth_quartz_block_slab", new ItemSlab(SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK_SLAB, SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK_SLAB, SubaquaticBlocks.SMOOTH_QUARTZ_BLOCK_SLAB_DOUBLE));
+    @Nonnull public static final ItemBlock SMOOTH_LAPIS_BLOCK = register("smooth_lapis_block", new ItemBlock(SubaquaticBlocks.SMOOTH_LAPIS_BLOCK));
+    @Nonnull public static final ItemBlock SMOOTH_LAPIS_BLOCK_STAIRS = register("smooth_lapis_block_stairs", new ItemBlock(SubaquaticBlocks.SMOOTH_LAPIS_BLOCK_STAIRS));
+    @Nonnull public static final ItemSlab SMOOTH_LAPIS_BLOCK_SLAB = register("smooth_lapis_block_slab", new ItemSlab(SubaquaticBlocks.SMOOTH_LAPIS_BLOCK_SLAB, SubaquaticBlocks.SMOOTH_LAPIS_BLOCK_SLAB, SubaquaticBlocks.SMOOTH_LAPIS_BLOCK_SLAB_DOUBLE));
 
     // Items
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.itemUseDuration = 16);
+    @Nonnull public static final ItemMinecartTypeless ENDER_CHEST_MINECART = register("ender_chest_minecart", new ItemMinecartTypeless(EntityMinecartEnderChest::new));
     @Nonnull public static final ItemFood COD = register("cod", new ItemDurationFood(2, 0.1f, false));
     @Nonnull public static final ItemFood COOKED_COD = register("cooked_cod", new ItemDurationFood(6, 0.8f, false));
-    @Nonnull public static final ItemMinecartTypeless ENDER_CHEST_MINECART = register("ender_chest_minecart", new ItemMinecartTypeless(EntityMinecartEnderChest::new));
+    @Nonnull public static final ItemAquaticBoneMeal AQUATIC_BONE_MEAL = register("aquatic_bone_meal", new ItemAquaticBoneMeal());
 
     // Boat containers
     @Nonnull public static final ItemBoatContainer CHEST_BOAT = register("chest_boat", new ItemBoatContainer(EntityBoatChest::new));
@@ -86,6 +90,8 @@ public final class SubaquaticItems
 
     //ore dict registration
     public static void postRegistry() {
+        OreDictionary.registerOre("blockLapis", SMOOTH_LAPIS_BLOCK);
+        OreDictionary.registerOre("blockQuartz", SMOOTH_QUARTZ_BLOCK);
         OreDictionary.registerOre("cropPumpkin", PUMPKIN);
         OreDictionary.registerOre("cropPumpkin", Blocks.PUMPKIN);
         OreDictionary.registerOre("cropKelp", KELP);
@@ -95,7 +101,11 @@ public final class SubaquaticItems
         OreDictionary.registerOre("mud", MUD);
         OreDictionary.registerOre("mudPacked", PACKED_MUD);
         OreDictionary.registerOre("mudPacked", PACKED_MUD_BRICKS);
+        OreDictionary.registerOre("sandstone", SMOOTH_RED_SANDSTONE);
+        OreDictionary.registerOre("sandstone", SMOOTH_SANDSTONE);
         OreDictionary.registerOre("shellNautilus", NAUTILUS_SHELL);
+        OreDictionary.registerOre("stone", SMOOTH_STONE);
+        OreDictionary.registerOre("stoneSmooth", SMOOTH_STONE);
     }
 
     @Nonnull

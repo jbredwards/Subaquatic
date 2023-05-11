@@ -1,5 +1,6 @@
 package git.jbredwards.subaquatic.mod.common.block;
 
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
@@ -83,18 +84,18 @@ public abstract class AbstractBlockCoral extends Block implements IGrowable
 
     @Override
     public boolean canGrow(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
-        return hasNeededFluid(worldIn, pos, state);
+        return (SubaquaticConfigHandler.Common.Block.deadCoralBonemeal || state.getValue(ALIVE)) && hasNeededFluid(worldIn, pos, state);
     }
 
     @Override
     public boolean canUseBonemeal(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        return canGrow(worldIn, pos, state, worldIn.isRemote);
+        return true;
     }
 
     @Override
     public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        if(!state.getValue(ALIVE)) worldIn.setBlockState(pos, state.withProperty(ALIVE, true));
-        else onGrowSpread(worldIn, rand, pos, state);
+        if(state.getValue(ALIVE)) onGrowSpread(worldIn, rand, pos, state);
+        else if(SubaquaticConfigHandler.Common.Block.deadCoralBonemeal) worldIn.setBlockState(pos, state.withProperty(ALIVE, true));
     }
 
     public abstract boolean hasNeededFluid(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state);

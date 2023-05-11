@@ -92,6 +92,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.entity.EntityLivingBase", new PluginEntityLivingBase()); //Backport new oxygen replenish system & add IOxygenSupplier
             plugins.put("net.minecraft.item.Item", new PluginItem()); //Custom ItemBlock implementation for mushroom blocks to allow for new metadata properties
             plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
+            plugins.put("net.minecraft.item.ItemDye", new PluginItemDye()); //Fix multiple issues with bonemeal particles
             plugins.put("net.minecraft.item.ItemExpBottle", new PluginItemExpBottle()); //Add new config option to toggle the exp bottle enchantment glint
             plugins.put("net.minecraft.item.ItemPotion", new PluginItemPotion()); //Add new config option to toggle the potion enchantment glint
             plugins.put("net.minecraft.network.PacketBuffer", new PluginPacketBuffer()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client

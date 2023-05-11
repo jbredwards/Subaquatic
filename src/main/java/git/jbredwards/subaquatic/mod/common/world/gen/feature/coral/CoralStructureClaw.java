@@ -1,7 +1,6 @@
 package git.jbredwards.subaquatic.mod.common.world.gen.feature.coral;
 
 import com.google.common.collect.Lists;
-import git.jbredwards.subaquatic.mod.common.block.BlockCoral;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,8 +20,8 @@ public enum CoralStructureClaw implements ICoralStructure
     INSTANCE;
 
     @Override
-    public void generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockCoral coral) {
-        if(placeCoralBlock(world, rand, pos, coral)) {
+    public void generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull ICoralBlockSupplier coralBlock) {
+        if(placeCoralBlock(world, rand, pos, coralBlock)) {
             final EnumFacing primarySide = EnumFacing.HORIZONTALS[rand.nextInt(EnumFacing.HORIZONTALS.length)];
             final List<EnumFacing> sidesToGen = Lists.newArrayList(primarySide, primarySide.rotateY(), primarySide.rotateYCCW());
             Collections.shuffle(sidesToGen);
@@ -40,7 +39,7 @@ public enum CoralStructureClaw implements ICoralStructure
                 }
 
                 final int max = rand.nextInt(2) + 1;
-                for(int i = 0; i < max && placeCoralBlock(world, rand, posToGen.toImmutable(), coral); i++)
+                for(int i = 0; i < max && placeCoralBlock(world, rand, posToGen.toImmutable(), coralBlock); i++)
                     posToGen.move(side);
 
                 posToGen.move(side.getOpposite());
@@ -48,7 +47,7 @@ public enum CoralStructureClaw implements ICoralStructure
 
                 for(int i = 0; i < amountToGen; i++) {
                     posToGen.move(primarySide);
-                    if(!placeCoralBlock(world, rand, posToGen.toImmutable(), coral)) break;
+                    if(!placeCoralBlock(world, rand, posToGen.toImmutable(), coralBlock)) break;
                     if(rand.nextFloat() < 0.25) posToGen.move(EnumFacing.UP);
                 }
             });
