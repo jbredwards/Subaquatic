@@ -1,0 +1,32 @@
+{
+    //Deep Mushroom Forest
+    "twilightforest:deep_mushroom_forest":{
+        "Surface":4159204,
+        "Fog":329011
+    },
+    //Dense Twilight Forest
+    "twilightforest:dense_twilight_forest":{
+        "Surface":21794,
+        "Fog":329011
+    },
+    //Fire Swamp
+    "twilightforest:fire_swamp":{
+        "Surface":7089196,
+        "Fog":329011
+    },
+    //Mushroom Forest
+    "twilightforest:mushroom_forest":{
+        "Surface":4159204,
+        "Fog":329011
+    },
+    //Spooky Forest
+    "twilightforest:spooky_forest":{
+        "Surface":12355671,
+        "Fog":329011
+    },
+    //Twilight Swamp
+    "twilightforest:twilight_swamp":{
+        "Surface":9811295,
+        "Fog":329011
+    }
+}

@@ -208,6 +208,17 @@ public final class SubaquaticConfigHandler
         public static Item item;
         public static final class Item
         {
+            /*@Config.RangeDouble(min = -1)
+            @Config.LangKey("config.subaquatic.server.item.aquaticBonemealHealWaterCreature")
+            public static float aquaticBonemealHealWaterCreature = -1;
+
+            @Config.RangeDouble(min = -1)
+            @Config.LangKey("config.subaquatic.server.item.aquaticBonemealHealWaterBreathingCreature")
+            public static float aquaticBonemealHealWaterBreathingCreature = -1;*/
+
+            @Config.LangKey("config.subaquatic.server.item.compactFishingMending")
+            public static boolean compactFishingMending = false;
+
             @Config.LangKey("config.subaquatic.server.item.realisticFishing")
             public static boolean realisticFishing = true;
         }

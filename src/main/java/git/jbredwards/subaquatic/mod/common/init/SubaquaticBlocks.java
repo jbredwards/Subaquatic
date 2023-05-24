@@ -5,7 +5,7 @@ import git.jbredwards.subaquatic.mod.common.block.*;
 import git.jbredwards.subaquatic.mod.common.block.BlockCoral;
 import git.jbredwards.subaquatic.mod.common.block.BlockKelp;
 import git.jbredwards.subaquatic.mod.common.block.material.MaterialOceanPlant;
-import git.jbredwards.subaquatic.mod.common.item.SubaquaticCreativeTab;
+import git.jbredwards.subaquatic.mod.common.item.tab.SubaquaticCreativeTab;
 import git.jbredwards.subaquatic.mod.common.tileentity.TileEntityGlowLichen;
 import net.minecraft.block.*;
 import net.minecraft.block.material.MapColor;
@@ -69,6 +69,7 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockHangingRoots HANGING_ROOTS = register("hanging_roots", new BlockHangingRoots(Material.VINE, MapColor.DIRT), block -> block.setSoundType(SubaquaticSounds.HANGING_ROOTS));
     @Nonnull public static final BlockMud MUD = register("mud", new BlockMud(Material.GROUND, MapColor.CYAN_STAINED_HARDENED_CLAY), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.MUD));
     @Nonnull public static final Block PACKED_MUD = register("packed_mud", new Block(Material.GROUND), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.PACKED_MUD).setHardness(1).setResistance(5));
+    //@Nonnull public static final BlockColored COLORED_PACKED_MUD = register("colored_packed_mud", new BlockColored(Material.GROUND), PACKED_MUD);
     @Nonnull public static final Block PACKED_MUD_BRICKS = register("packed_mud_bricks", new Block(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY), block -> block.setSoundType(SubaquaticSounds.PACKED_MUD_BRICKS).setHardness(1.5f).setResistance(5).setHarvestLevel("pickaxe", 0));
     @Nonnull public static final BlockStairs PACKED_MUD_BRICKS_STAIRS = register("packed_mud_bricks_stairs", new BlockStairs(PACKED_MUD_BRICKS.getDefaultState()), PACKED_MUD_BRICKS, block -> block.useNeighborBrightness = true);
     @Nonnull public static final BlockSlabTypeless PACKED_MUD_BRICKS_SLAB = register("packed_mud_bricks_slab", new BlockSlabTypeless.Single(Material.ROCK, MapColor.SILVER_STAINED_HARDENED_CLAY, () -> SubaquaticItems.PACKED_MUD_BRICKS_SLAB), PACKED_MUD_BRICKS);
@@ -94,7 +95,7 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockSlabTypeless SMOOTH_LAPIS_BLOCK_SLAB_DOUBLE = register("smooth_lapis_block_slab_double", new BlockSlabTypeless.Double(Material.ROCK, MapColor.LAPIS, () -> SubaquaticItems.SMOOTH_LAPIS_BLOCK_SLAB), SMOOTH_LAPIS_BLOCK);
 
     //register burnables & tile entities
-    public static void postRegistry() {
+    static void postRegistry() {
         Blocks.FIRE.setFireInfo(DRIED_KELP_BLOCK, 30, 60);
         TileEntity.register(Subaquatic.MODID + ":glow_lichen", TileEntityGlowLichen.class);
     }

@@ -6,6 +6,7 @@ import net.minecraft.entity.item.EntityItem;
 import javax.annotation.Nonnull;
 
 /**
+ * Items should implement this if they have custom floating behavior that differs from vanilla 1.13+.
  *
  * @since 1.1.0
  * @author jbred

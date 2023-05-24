@@ -12,6 +12,8 @@ import net.minecraft.world.biome.Biome;
  * To only implement this while Subaquatic is installed, use forge's
  * {@link net.minecraftforge.fml.common.Optional.Interface @Optional.Interface} and
  * {@link net.minecraftforge.fml.common.Optional.Method @Optional.Method} annotations.
+ *
+ * @since 1.1.0
  * @author jbred
  *
  */

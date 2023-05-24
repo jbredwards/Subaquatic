@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,7 +25,7 @@ import java.util.List;
  */
 public final class SubaquaticBoatTypesConfig
 {
-    @Nonnull public static final List<BoatType> BOAT_TYPES = new ArrayList<>();
+    @Nonnull public static final List<BoatType> BOAT_TYPES = new LinkedList<>();
     @Nonnull public static final Int2ObjectMap<BoatType> BOAT_TYPES_LOOKUP = new Int2ObjectOpenHashMap<>();
 
     @SuppressWarnings("UnstableApiUsage")
@@ -59,14 +59,16 @@ public final class SubaquaticBoatTypesConfig
                     final JsonObject configElement = element.getValue().getAsJsonObject();
                     final int meta = configElement.has("meta") ? Math.max(configElement.get("meta").getAsInt(), 0) : 0;
 
-                    final BoatType type = new BoatType(item, meta);
-                    if(FMLCommonHandler.instance().getSide().isClient() && configElement.has("texture")) {
-                        final ResourceLocation texture = new ResourceLocation(configElement.get("texture").getAsString());
-                        type.entityTexture = new ResourceLocation(texture.getNamespace(), String.format("textures/%s.png", texture.getPath()));
-                    }
+                    if(getTypeFrom(item, meta) == null) { //no duplicate boat types
+                        final BoatType type = new BoatType(item, meta);
+                        if(FMLCommonHandler.instance().getSide().isClient() && configElement.has("texture")) {
+                            final ResourceLocation texture = new ResourceLocation(configElement.get("texture").getAsString());
+                            type.entityTexture = new ResourceLocation(texture.getNamespace(), String.format("textures/%s.png", texture.getPath()));
+                        }
 
-                    BOAT_TYPES.add(type);
-                    BOAT_TYPES_LOOKUP.put(getIndex(item, meta), type);
+                        BOAT_TYPES.add(type);
+                        BOAT_TYPES_LOOKUP.put(getIndex(item, meta), type);
+                    }
                 }
             }
         });
@@ -106,53 +108,6 @@ public final class SubaquaticBoatTypesConfig
             "    },\n" +
             "    \"minecraft:dark_oak_boat\":{\n" +
             "        \"texture\":\"entity/boat/boat_darkoak\"\n" +
-            "    },\n" +
-            "\n" +
-            "    //biomes o plenty\n" +
-            "    \"biomesoplenty:boat_sacred_oak\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_sacred_oak\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_cherry\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_cherry\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_umbran\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_umbran\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_fir\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_fir\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_ethereal\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_ethereal\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_magic\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_magic\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_mangrove\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_mangrove\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_palm\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_palm\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_redwood\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_redwood\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_willow\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_willow\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_pine\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_pine\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_hellbark\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_hellbark\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_jacaranda\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_jacaranda\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_mahogany\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_mahogany\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:boat_ebony\":{\n" +
-            "        \"texture\":\"biomesoplenty:entity/boats/boat_ebony\"\n" +
             "    }\n" +
             "}";
 }

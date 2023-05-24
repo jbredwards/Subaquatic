@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -54,12 +53,6 @@ public abstract class MultiPartContainerPart extends MultiPartEntityPart
 
     @Override
     public boolean canBeCollidedWith() { return parentBoat.canBeCollidedWith(); }
-
-    @Override
-    protected abstract void readEntityFromNBT(@Nonnull NBTTagCompound compound);
-
-    @Override
-    protected abstract void writeEntityToNBT(@Nonnull NBTTagCompound compound);
 
     @Nonnull
     @Override

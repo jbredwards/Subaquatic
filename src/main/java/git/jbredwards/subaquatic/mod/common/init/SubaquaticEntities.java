@@ -44,6 +44,12 @@ public final class SubaquaticEntities
     @Nonnull
     public static final EntityEntry FURNACE_BOAT = register("furnace_boat",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityBoatFurnace.class).factory(EntityBoatFurnace::new));
+    @Nonnull
+    public static final EntityEntry CRAFTING_TABLE_BOAT = register("crafting_table_boat",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityBoatWorkbench.class).factory(EntityBoatWorkbench::new));
+    @Nonnull
+    public static final EntityEntry CRAFTING_TABLE_MINECART = register("crafting_table_minecart",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityMinecartWorkbench.class).factory(EntityMinecartWorkbench::new));
 
     // Living Entities
     @Nonnull

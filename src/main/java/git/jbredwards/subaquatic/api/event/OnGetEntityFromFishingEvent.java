@@ -27,13 +27,15 @@ public class OnGetEntityFromFishingEvent extends Event
     @Nonnull public final ItemStack itemToFish;
     @Nonnull public final EntityFishHook hook;
     @Nonnull public final EntityPlayer player;
+    public final int compactFishingLvl; //the level of this mod's compact fishing enchantment on the fishing rod
     public int rodDamage; //the amount of durability the fishing rod will lose
 
-    public OnGetEntityFromFishingEvent(@Nonnull ItemStack itemToFishIn, @Nonnull EntityFishHook hookIn, int rodDamageIn) {
+    public OnGetEntityFromFishingEvent(@Nonnull ItemStack itemToFishIn, @Nonnull EntityFishHook hookIn, int compactFishingLvlIn, int rodDamageIn) {
         itemToFish = itemToFishIn;
         hook = hookIn;
         player = hookIn.getAngler();
         rodDamage = rodDamageIn;
+        compactFishingLvl = compactFishingLvlIn;
     }
 
     /**

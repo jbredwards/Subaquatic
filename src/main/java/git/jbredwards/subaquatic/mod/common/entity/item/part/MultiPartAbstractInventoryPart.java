@@ -19,7 +19,6 @@ import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.LockCode;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -33,7 +32,7 @@ import javax.annotation.Nonnull;
  *
  */
 @Mod.EventBusSubscriber(modid = Subaquatic.MODID, value = Side.CLIENT)
-public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerPart implements ILockableContainer
+public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerPart implements ILockableContainer, UIProviderPart
 {
     public boolean dropContentsWhenDead = true;
     public MultiPartAbstractInventoryPart(@Nonnull IEntityMultiPart parent, @Nonnull String partName, float width, float height) {
@@ -55,9 +54,7 @@ public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerP
 
     @Override
     public boolean processInitialInteract(@Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
-        if(!world.isRemote && !(player instanceof FakePlayer) && !parentBoat.isPassenger(player))
-            player.displayGUIChest(getInventory(player));
-
+        if(!world.isRemote && !parentBoat.isPassenger(player)) openUI(player);
         return true;
     }
 
@@ -72,7 +69,7 @@ public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerP
     static void cancelGui(@Nonnull GuiOpenEvent event) {
         if(event.getGui() instanceof GuiInventory && Minecraft.getMinecraft().player != null) {
             final Entity riding = Minecraft.getMinecraft().player.getRidingEntity();
-            if(riding instanceof AbstractBoatContainer && ((AbstractBoatContainer)riding).containerPart instanceof MultiPartAbstractInventoryPart) {
+            if(riding instanceof AbstractBoatContainer && ((AbstractBoatContainer)riding).containerPart instanceof UIProviderPart) {
                 final CMessageOpenBoatInventory message = new CMessageOpenBoatInventory();
                 message.isValid = true;
 
@@ -85,6 +82,9 @@ public abstract class MultiPartAbstractInventoryPart extends MultiPartContainerP
     //=======================
     //GENERIC INVENTORY STUFF
     //=======================
+
+    @Override
+    public void openUI(@Nonnull EntityPlayer player) { player.displayGUIChest(getInventory(player)); }
 
     @Override
     public boolean isUsableByPlayer(@Nonnull EntityPlayer player) { return !isDead && player.getDistanceSq(this) <= 64; }

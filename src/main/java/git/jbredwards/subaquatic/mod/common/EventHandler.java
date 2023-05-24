@@ -3,6 +3,7 @@ package git.jbredwards.subaquatic.mod.common;
 import git.jbredwards.subaquatic.api.event.OnGetEntityFromFishingEvent;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
+import git.jbredwards.subaquatic.mod.common.capability.ICompactFishing;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.entity.living.*;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
@@ -58,12 +59,15 @@ public final class EventHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     static void realisticFishing(@Nonnull ItemFishedEvent event) {
         if(SubaquaticConfigHandler.Server.Item.realisticFishing) {
+            final ICompactFishing cap = ICompactFishing.get(event.getHookEntity());
+            final int compactFishingLvl = cap != null ? cap.getLevel() : 0;
+
             for(final Iterator<ItemStack> it = event.getDrops().iterator(); it.hasNext();) {
-                final OnGetEntityFromFishingEvent entityEvent = new OnGetEntityFromFishingEvent(it.next(), event.getHookEntity(), event.getRodDamage());
+                final OnGetEntityFromFishingEvent entityEvent = new OnGetEntityFromFishingEvent(it.next(), event.getHookEntity(), compactFishingLvl, event.getRodDamage());
                 if(MinecraftForge.EVENT_BUS.post(entityEvent)) {
                     it.remove();
                     event.setCanceled(true);
-                    event.damageRodBy(entityEvent.rodDamage);
+                    event.damageRodBy(compactFishingLvl != 0 ? entityEvent.rodDamage << 1 : entityEvent.rodDamage);
                 }
             }
         }
@@ -71,15 +75,17 @@ public final class EventHandler
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     static void realisticFishingResult(@Nonnull OnGetEntityFromFishingEvent event) {
-        if(event.itemToFish.getItem() == SubaquaticItems.COD) event.spawnEntity(new EntityCod(event.getWorld()));
-        else if(event.itemToFish.getItem() == Items.FISH) switch(event.itemToFish.getMetadata()) {
-            case 0: event.spawnEntity(new EntityFish(event.getWorld()));
-                break;
-            case 1: event.spawnEntity(new EntitySalmon(event.getWorld()));
-                break;
-            case 2: event.spawnEntity(new EntityTropicalFish(event.getWorld()));
-                break;
-            default: event.spawnEntity(new EntityPufferfish(event.getWorld()));
+        if(event.compactFishingLvl == 0) {
+            if(event.itemToFish.getItem() == SubaquaticItems.COD) event.spawnEntity(new EntityCod(event.getWorld()));
+            else if(event.itemToFish.getItem() == Items.FISH) switch(event.itemToFish.getMetadata()) {
+                case 0: event.spawnEntity(new EntityFish(event.getWorld()));
+                    break;
+                case 1: event.spawnEntity(new EntitySalmon(event.getWorld()));
+                    break;
+                case 2: event.spawnEntity(new EntityTropicalFish(event.getWorld()));
+                    break;
+                default: event.spawnEntity(new EntityPufferfish(event.getWorld()));
+            }
         }
     }
 

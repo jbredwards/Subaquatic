@@ -11,7 +11,6 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -92,12 +91,6 @@ public class MultiPartEnderChestPart extends MultiPartAbstractChestPart
     //=================================================
     //INVENTORY IS LOCAL TO THE PLAYER, NOT THIS ENTITY
     //=================================================
-
-    @Override
-    protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {}
-
-    @Override
-    protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {}
 
     @Override
     public int getSizeInventory() { return 0; }

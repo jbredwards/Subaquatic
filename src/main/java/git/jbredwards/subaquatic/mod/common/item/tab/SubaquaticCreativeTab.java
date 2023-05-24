@@ -1,8 +1,9 @@
-package git.jbredwards.subaquatic.mod.common.item;
+package git.jbredwards.subaquatic.mod.common.item.tab;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticEnchantments;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
 import net.minecraft.client.Minecraft;
@@ -11,7 +12,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -60,6 +63,12 @@ public final class SubaquaticCreativeTab extends CreativeTabs
                 ItemMonsterPlacer.applyEntityIdToItemStack(spawnEgg, entry.getEgg().spawnedID);
                 items.add(spawnEgg);
             }
+        });
+
+        //dynamically add all enchanted books to tab
+        SubaquaticEnchantments.INIT.forEach(ench -> {
+            for(int lvl = ench.getMinLevel(); lvl <= ench.getMaxLevel(); lvl++)
+                items.add(ItemEnchantedBook.getEnchantedItemStack(new EnchantmentData(ench, lvl)));
         });
     }
 

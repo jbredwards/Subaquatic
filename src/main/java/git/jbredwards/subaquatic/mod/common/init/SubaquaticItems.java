@@ -2,12 +2,10 @@ package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.block.*;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatChest;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatEnderChest;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatFurnace;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityMinecartEnderChest;
+import git.jbredwards.subaquatic.mod.common.entity.item.*;
 import git.jbredwards.subaquatic.mod.common.item.*;
 import git.jbredwards.subaquatic.mod.common.item.block.*;
+import git.jbredwards.subaquatic.mod.common.item.tab.SubaquaticCreativeTab;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
 import net.minecraftforge.oredict.OreDictionary;
@@ -57,6 +55,7 @@ public final class SubaquaticItems
     //@Nonnull public static final ItemBlockMeta MANGROVE_ROOTS = register("mangrove_roots", new ItemBlockMeta(SubaquaticBlocks.MANGROVE_ROOTS, true, BlockMangroveRoots.HAS_MUD));
     @Nonnull public static final ItemBlock MUD = register("mud", new ItemBlock(SubaquaticBlocks.MUD));
     @Nonnull public static final ItemBlock PACKED_MUD = register("packed_mud", new ItemBlock(SubaquaticBlocks.PACKED_MUD));
+    //@Nonnull public static final ItemBlock COLORED_PACKED_MUD = register("colored_packed_mud", new ItemBlockMeta(SubaquaticBlocks.COLORED_PACKED_MUD, false, BlockColored.COLOR));
     @Nonnull public static final ItemBlock PACKED_MUD_BRICKS = register("packed_mud_bricks", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS));
     @Nonnull public static final ItemBlock PACKED_MUD_BRICKS_STAIRS = register("packed_mud_bricks_stairs", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS_STAIRS));
     @Nonnull public static final ItemSlab PACKED_MUD_BRICKS_SLAB = register("packed_mud_bricks_slab", new ItemSlab(SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB, SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB, SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB_DOUBLE));
@@ -78,18 +77,22 @@ public final class SubaquaticItems
 
     // Items
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.itemUseDuration = 16);
-    @Nonnull public static final ItemMinecartTypeless ENDER_CHEST_MINECART = register("ender_chest_minecart", new ItemMinecartTypeless(EntityMinecartEnderChest::new));
     @Nonnull public static final ItemFood COD = register("cod", new ItemDurationFood(2, 0.1f, false));
     @Nonnull public static final ItemFood COOKED_COD = register("cooked_cod", new ItemDurationFood(6, 0.8f, false));
-    @Nonnull public static final ItemAquaticBoneMeal AQUATIC_BONE_MEAL = register("aquatic_bone_meal", new ItemAquaticBoneMeal());
+    //TODO @Nonnull public static final ItemAquaticBoneMeal AQUATIC_BONE_MEAL = register("aquatic_bone_meal", new ItemAquaticBoneMeal(1, 0, false));
+
+    // Minecarts
+    @Nonnull public static final ItemMinecartTypeless ENDER_CHEST_MINECART = register("ender_chest_minecart", new ItemMinecartTypeless(EntityMinecartEnderChest::new));
+    @Nonnull public static final ItemMinecartTypeless CRAFTING_TABLE_MINECART = register("crafting_table_minecart", new ItemMinecartTypeless(EntityMinecartWorkbench::new));
 
     // Boat containers
     @Nonnull public static final ItemBoatContainer CHEST_BOAT = register("chest_boat", new ItemBoatContainer(EntityBoatChest::new));
     @Nonnull public static final ItemBoatContainer ENDER_CHEST_BOAT = register("ender_chest_boat", new ItemBoatContainer(EntityBoatEnderChest::new));
+    @Nonnull public static final ItemBoatContainer CRAFTING_TABLE_BOAT = register("crafting_table_boat", new ItemBoatContainer(EntityBoatWorkbench::new));
     @Nonnull public static final ItemBoatContainer FURNACE_BOAT = register("furnace_boat", new ItemBoatContainer(EntityBoatFurnace::new));
 
     //ore dict registration
-    public static void postRegistry() {
+    static void postRegistry() {
         OreDictionary.registerOre("blockLapis", SMOOTH_LAPIS_BLOCK);
         OreDictionary.registerOre("blockQuartz", SMOOTH_QUARTZ_BLOCK);
         OreDictionary.registerOre("cropPumpkin", PUMPKIN);
@@ -99,6 +102,7 @@ public final class SubaquaticItems
         OreDictionary.registerOre("foodDriedKelp", DRIED_KELP);
         OreDictionary.registerOre("froglight", new ItemStack(FROGLIGHT, 1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("mud", MUD);
+        //OreDictionary.registerOre("mudPacked", new ItemStack(COLORED_PACKED_MUD, 1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("mudPacked", PACKED_MUD);
         OreDictionary.registerOre("mudPacked", PACKED_MUD_BRICKS);
         OreDictionary.registerOre("sandstone", SMOOTH_RED_SANDSTONE);

@@ -42,6 +42,7 @@ final class SubaquaticRecipes
         registerCrafting(registry, "brown_mushroom_block", new ShapedOreRecipe(null, Blocks.BROWN_MUSHROOM_BLOCK, "##", "##", '#', Blocks.BROWN_MUSHROOM));
         registerCrafting(registry, "brown_mushroom_hyphae", new ShapedOreRecipe(null, new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 3, 2), "##", "##", '#', new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 1, 1)));
         registerCrafting(registry, "brown_mushroom_stem", new ShapedOreRecipe(null, new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 1, 1), "##", "##", "##", '#', Blocks.BROWN_MUSHROOM));
+        registerCrafting(registry, "crafting_table_minecart", new ShapedOreRecipe(null, SubaquaticItems.CRAFTING_TABLE_MINECART, "A", "B", 'A', Blocks.CRAFTING_TABLE, 'B', Items.MINECART));
         registerCrafting(registry, "dried_kelp", new ShapelessOreRecipe(null, new ItemStack(SubaquaticItems.DRIED_KELP, 9), SubaquaticBlocks.DRIED_KELP_BLOCK));
         registerCrafting(registry, "dried_kelp_block", new ShapedOreRecipe(null, SubaquaticItems.DRIED_KELP_BLOCK, "###", "###", "###", '#', "foodDriedKelp"));
         registerCrafting(registry, "ender_chest_minecart", new ShapedOreRecipe(null, SubaquaticItems.ENDER_CHEST_MINECART, "A", "B", 'A', Blocks.ENDER_CHEST, 'B', Items.MINECART));
@@ -82,6 +83,11 @@ final class SubaquaticRecipes
             registerCrafting(registry, "ender_chest_boat" + recipeId, new ShapedOreRecipe(null,
                     ItemBoatContainer.createStackWithType(SubaquaticItems.ENDER_CHEST_BOAT, type),
                     "C", "B", 'C', Blocks.ENDER_CHEST, 'B', new ItemStack(type.boat, 1, type.boatMeta)));
+
+            //crafting table boat recipes
+            registerCrafting(registry, "crafting_table_boat" + recipeId, new ShapedOreRecipe(null,
+                    ItemBoatContainer.createStackWithType(SubaquaticItems.CRAFTING_TABLE_BOAT, type),
+                    "C", "B", 'C', Blocks.CRAFTING_TABLE, 'B', new ItemStack(type.boat, 1, type.boatMeta)));
 
             //furnace boat recipes
             registerCrafting(registry, "furnace_boat" + recipeId, new ShapedOreRecipe(null,

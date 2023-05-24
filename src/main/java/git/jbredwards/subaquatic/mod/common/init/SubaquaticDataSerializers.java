@@ -28,12 +28,10 @@ public final class SubaquaticDataSerializers
     public static final DataSerializer<TropicalFishData> TROPICAL_FISH_DATA = register("tropical_fish_data", new DataSerializerGeneric<>(
             (buf, value) -> buf.writeVarInt(value.serialize()),
             buf -> TropicalFishData.deserialize(buf.readVarInt())));
-
     @Nonnull
     public static final DataSerializer<OptionalInt> OPTIONAL_INT = register("optional_int", new DataSerializerGeneric<>(
             (buf, value) -> { buf.writeBoolean(value.isPresent()); if(value.isPresent()) buf.writeVarInt(value.getAsInt()); },
             buf -> buf.readBoolean() ? OptionalInt.of(buf.readVarInt()) : OptionalInt.empty()));
-
     @Nonnull
     public static final DataSerializer<FrogData> FROG_DATA = register("frog_data", new DataSerializerGeneric<>(
             (buf, value) -> buf.writeString(value.name),

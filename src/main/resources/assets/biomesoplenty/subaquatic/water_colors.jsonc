@@ -1,0 +1,97 @@
+{
+    //Bamboo Forest
+    "biomesoplenty:bamboo_forest":{
+        "Surface":"0x85CE71",
+        "Fog":"0x63BF66"
+    },
+    //Bayou
+    "biomesoplenty:bayou":{
+        "Surface":"0x62AF84",
+        "Fog":"0x0C211C"
+    },
+    //Bog
+    "biomesoplenty:bog":{
+        "Surface":"0xA89557",
+        "Fog":"0xC67F5B"
+    },
+    //Cherry Blossom Grove
+    "biomesoplenty:cherry_blossom_grove":{
+        "Surface":"0x85CE71",
+        "Fog":"0x63BF66"
+    },
+    //Cold Desert
+    "biomesoplenty:cold_desert":{
+        "Surface":"0xAD9364",
+        "Fog":"0xB5A76C"
+    },
+    //Coral Reef
+    "biomesoplenty:coral_reef":{
+        "Surface":"0x45ADF2",
+        "Fog":"0x45ADF2"
+    },
+    //Dead Forest
+    "biomesoplenty:dead_forest":{
+        "Surface":"0xBAAD64",
+        "Fog":"0xB7B763"
+    },
+    //Dead Swamp
+    "biomesoplenty:dead_swamp":{
+        "Surface":"0xBAAD64",
+        "Fog":"0xB7B763"
+    },
+    //Kelp Forest
+    "biomesoplenty:kelp_forest":{
+        "Surface":"0x1787D4",
+        "Fog":"0x1165B0"
+    },
+    //Lavender Fields
+    "biomesoplenty:lavender_fields":{
+        "Surface":"0xA1C36D",
+        "Fog":"0xA1C36D"
+    },
+    //Mangrove
+    "biomesoplenty:mangrove":{
+        "Surface":"0x62AF84",
+        "Fog":"0x0C211C"
+    },
+    //Moor
+    "biomesoplenty:moor":{
+        "Surface":"0x3F76E4",
+        "Fog":"0x050533"
+    },
+    //Mystic Grove
+    "biomesoplenty:mystic_grove":{
+        "Surface":"0x9C3FE4",
+        "Fog":"0x2E0533"
+    },
+    //Ominous Woods
+    "biomesoplenty:ominous_woods":{
+        "Surface":"0x312346",
+        "Fog":"0x0A030C"
+    },
+    //Glenn
+    "biomesoplenty:quagmire":{
+        "Surface":"0x643d28",
+        "Fog":"0x643d28"
+    },
+    //Tropical Rainforest
+    "biomesoplenty:tropical_rainforest":{
+        "Surface":"0x1B9ED8",
+        "Fog":"0x1B9ED8"
+    },
+    //Wasteland
+    "biomesoplenty:wasteland":{
+        "Surface":"0x433721",
+        "Fog":"0x0C0C03"
+    },
+    //Wetland
+    "biomesoplenty:wetland":{
+        "Surface":"0x272179",
+        "Fog":"0x0C031B"
+    },
+    //Woodland
+    "biomesoplenty:woodland":{
+        "Surface":"0x9CC439",
+        "Fog":"0x85B408"
+    }
+}

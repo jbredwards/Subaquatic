@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -267,6 +268,9 @@ public class MultiPartFurnacePart extends MultiPartAbstractInventoryPart impleme
         //don't extract fuel from the fuel slot
         return direction != EnumFacing.DOWN || index != 1 || stack.getItem() == Items.WATER_BUCKET || stack.getItem() == Items.BUCKET;
     }
+
+    @Override
+    public void openInventory(@Nonnull EntityPlayer player) { player.addStat(StatList.FURNACE_INTERACTION); }
 
     @Nonnull
     @Override

@@ -10,7 +10,7 @@ package git.jbredwards.subaquatic.api.entity;
 public interface INextAirEntity
 {
     /**
-     * Serves as the counterpart to {@link net.minecraft.entity.EntityLivingBase#decreaseAirSupply decreaseAirSupply}.
+     * Serves as the counterpart to {@link net.minecraft.entity.EntityLivingBase#decreaseAirSupply EntityLivingBase::decreaseAirSupply}.
      */
     int increaseAirSupply(int totalAir, int airToGain, boolean instantReplenish);
 }

@@ -35,6 +35,8 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraftforge.fml.common.registry.VillagerRegistry", new PluginVillagerRegistry()); //Add IConditionalProfession functionality
             //modded
             plugins.put("appeng.api.implementations.items.IGrowableCrystal", new PluginNoItemBobbing()); //Crystal seeds don't bob at the surface
+            plugins.put("biomesoplenty.common.block.BlockBOPDirt", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
+            plugins.put("biomesoplenty.common.block.BlockBOPGrass", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
             plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBOPFogEventHandler()); //Don't change the underwater fog color while this mod is installed
             plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginBOPGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
             plugins.put("biomesoplenty.common.world.layer.GenLayerShoreBOP", new PluginBOPGenLayerShore()); //Account for all ocean biomes when generating shores
@@ -54,6 +56,8 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityLivingBaseMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.thaumcraft.mixin.client.TileCrucibleRendererMixin", new PluginAquaAcrobatics());
             plugins.put("com.sewef.burnbabyburn.MainMod", new PluginBurnBabyBurn()); //Remove duplicate mod functionality
+            plugins.put("com.teammetallurgy.aquaculture.items.ItemAdminFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
+            plugins.put("com.teammetallurgy.aquaculture.items.ItemAquacultureFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
             plugins.put("git.jbredwards.fluidlogged_api.mod.common.EventHandler", new PluginFluidloggedAPI()); //Place any fish contained within the bucket when fluidlogging, and yes I'm asm-ing my own mod XD
             plugins.put("hellfirepvp.astralsorcery.common.item.crystal.base.ItemRockCrystalBase", new PluginNoItemBobbing()); //Rock crystals don't bob at the surface
             plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalSword", new PluginNoItemBobbing()); //Crystal swords don't bob at the surface
@@ -63,14 +67,16 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.optifine.CustomColors", new PluginOptifine()); //Fix possible Optifine NPE with bubble particles
             plugins.put("thaumcraft.client.renderers.tile.TileCrucibleRenderer", new PluginThaumcraft()); //Use old water texture
             plugins.put("thebetweenlands.common.world.biome.BiomeBetweenlands", new PluginBetweenlands()); //Preserve betweenlands biome colors
+            plugins.put("vazkii.botania.client.render.tile.RenderTileAltar", new PluginBotania()); //Water inside petal apothecaries have their biome colors applied
             plugins.put("vazkii.quark.tweaks.feature.BabyZombiesBurn", new PluginQuark()); //Remove duplicate mod functionality
+            plugins.put("vibrantjourneys.entities.item.EntityPVJBoat", new PluginEntityBoat()); //Bubble columns rock boats (why does PVJ duplicate boat code...?)
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
-            plugins.put("net.minecraft.block.BlockGrass", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
+            plugins.put("net.minecraft.block.BlockGrass", new PluginBlockGrass()); //Fix grass growing underwater, also fixes MC-130137
             plugins.put("net.minecraft.block.BlockHugeMushroom", new PluginBlockHugeMushroom()); //Allow the huge mushroom item blocks to be more accessible & useful outside just commands
             plugins.put("net.minecraft.block.BlockLever", new PluginBlockLever()); //Add lever redstone particles
-            plugins.put("net.minecraft.block.BlockMycelium", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
+            plugins.put("net.minecraft.block.BlockMycelium", new PluginBlockGrass()); //Fix mycelium growing underwater, also fixes MC-130137
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
             plugins.put("net.minecraft.block.BlockSnow", new PluginBlockSnow()); //Prevent snow layers from being placeable on blue ice
             plugins.put("net.minecraft.block.BlockStem", new PluginBlockStem()); //Update pumpkin reference to the correct block
@@ -94,6 +100,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
             plugins.put("net.minecraft.item.ItemDye", new PluginItemDye()); //Fix multiple issues with bonemeal particles
             plugins.put("net.minecraft.item.ItemExpBottle", new PluginItemExpBottle()); //Add new config option to toggle the exp bottle enchantment glint
+            plugins.put("net.minecraft.item.ItemFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
             plugins.put("net.minecraft.item.ItemPotion", new PluginItemPotion()); //Add new config option to toggle the potion enchantment glint
             plugins.put("net.minecraft.network.PacketBuffer", new PluginPacketBuffer()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
             plugins.put("net.minecraft.potion.PotionUtils", new PluginPotionUtils()); //Use new water fluid color

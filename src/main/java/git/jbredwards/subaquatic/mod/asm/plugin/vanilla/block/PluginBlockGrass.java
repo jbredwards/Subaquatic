@@ -1,6 +1,11 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import net.minecraft.block.BlockSnow;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nonnull;
@@ -26,19 +31,53 @@ public final class PluginBlockGrass implements IASMPlugin
          * }
          *
          * New code:
-         * if (worldIn.getBlockState(pos.up()).getLightOpacity(worldIn, pos.up()) > 1)
+         * if (cannotSurviveAt(worldIn, pos.up()))
          * {
          *     ...
          * }
          */
-        if(checkMethod(getPrevious(insn, 2), obfuscated ? "func_175671_l" : "getLightFromNeighbors") && insn.getPrevious().getOpcode() == ICONST_4) removeFrom(instructions, insn, -5);
-        else if(insn.getOpcode() == ICONST_2) {
-            final boolean isFinished = insn.getNext().getOpcode() == IF_ICMPGT;
-            instructions.insert(insn, new InsnNode(ICONST_1));
-            instructions.remove(insn);
-            return isFinished;
+        if(insn.getOpcode() == ICONST_2 && insn.getNext().getOpcode() == IF_ICMPLE) {
+            ((JumpInsnNode)insn.getNext()).setOpcode(IFEQ);
+            instructions.insert(insn, genMethodNode("cannotSurviveAt", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)Z"));
+            removeFrom(instructions, insn, -11);
+        }
+        /*
+         * updateTick: (changes are around line 46)
+         * Old code:
+         * if (iblockstate1.getBlock() == Blocks.DIRT && iblockstate1.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT && worldIn.getLightFromNeighbors(blockpos.up()) >= 4 && iblockstate.getLightOpacity(worldIn, pos.up()) <= 2)
+         * {
+         *     ...
+         * }
+         *
+         * New code:
+         * if (iblockstate1.getBlock() == Blocks.DIRT && iblockstate1.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT && canSpreadTo(worldIn, blockpos.up()))
+         * {
+         *     ...
+         * }
+         */
+        else if(insn.getOpcode() == ICONST_2 && insn.getNext().getOpcode() == IF_ICMPGT) {
+            ((JumpInsnNode)insn.getNext()).setOpcode(IFEQ);
+            instructions.insert(insn, genMethodNode("canSpreadTo", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)Z"));
+            removeFrom(instructions, insn, -8);
+            return true;
         }
 
         return false;
+    }
+
+    @SuppressWarnings("unused")
+    public static final class Hooks
+    {
+        public static boolean cannotSurviveAt(@Nonnull World world, @Nonnull BlockPos pos) {
+            final IBlockState state = world.getBlockState(pos);
+            if(state.getBlock() instanceof BlockSnow && state.getValue(BlockSnow.LAYERS) == 1) return false;
+            return !FluidloggedUtils.getFluidState(world, pos, state).isEmpty() || state.getLightOpacity(world, pos) > 2 && world.getLightFromNeighbors(pos) < 4;
+        }
+
+        public static boolean canSpreadTo(@Nonnull World world, @Nonnull BlockPos pos) {
+            final IBlockState state = world.getBlockState(pos);
+            if(state.getBlock() instanceof BlockSnow && state.getValue(BlockSnow.LAYERS) == 1) return true;
+            return FluidloggedUtils.getFluidState(world, pos, state).isEmpty() && state.getLightOpacity(world, pos) <= 2 && world.getLightFromNeighbors(pos) >= 4;
+        }
     }
 }

@@ -9,6 +9,7 @@ import git.jbredwards.subaquatic.mod.client.entity.renderer.*;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
+import git.jbredwards.subaquatic.mod.common.capability.ICompactFishing;
 import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticBlockSoakRecipesConfig;
@@ -82,7 +83,7 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.1.0", dependencies = "required-after:fluidlogged_api@[2.1.2,);required-client:assetmover@[2.5,);")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.1.0", dependencies = "required-after:fluidlogged_api@[2.2.0,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -97,7 +98,7 @@ public final class Subaquatic
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
     static void constructClient(@Nonnull FMLConstructionEvent event) {
-        LOGGER.info("Attempting to gather the vanilla assets required by this mod, this may take a while if it's your first load...");
+        LOGGER.info("Reading vanilla assets required by this mod...");
         final String[][] assets = new Gson().fromJson(new InputStreamReader(Objects.requireNonNull(
                 Loader.class.getResourceAsStream(String.format("/assets/%s/assetmover.jsonc", MODID)))),
                 String[][].class);
@@ -114,9 +115,11 @@ public final class Subaquatic
         //capabilities
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         CapabilityManager.INSTANCE.register(IBoatType.class, IBoatType.Storage.INSTANCE, IBoatType.Impl::new);
+        CapabilityManager.INSTANCE.register(ICompactFishing.class, ICompactFishing.Storage.INSTANCE, ICompactFishing.Impl::new);
         CapabilityManager.INSTANCE.register(IEntityBucket.class, IEntityBucket.Storage.INSTANCE, IEntityBucket.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         MinecraftForge.EVENT_BUS.register(IBoatType.class);
+        MinecraftForge.EVENT_BUS.register(ICompactFishing.class);
         MinecraftForge.EVENT_BUS.register(IEntityBucket.class);
 
         //message registries

@@ -8,6 +8,9 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  *
@@ -33,10 +36,15 @@ public final class TradeUtil
 
     @Nonnull
     public static ITradeList newTrade(@Nonnull ItemStack input, int minIn, int maxIn, @Nonnull ItemStack output, int minOut, int maxOut) {
-        return (merchant, recipeList, random) -> recipeList.add(new MerchantRecipe(
+        return of(random -> new MerchantRecipe(
                 ItemHandlerHelper.copyStackWithSize(input, MathHelper.getInt(random, minIn, maxIn)),
                 ItemHandlerHelper.copyStackWithSize(output, MathHelper.getInt(random, minOut, maxOut))
         ));
+    }
+
+    @Nonnull
+    public static ITradeList of(@Nonnull Function<Random, MerchantRecipe> recipeSupplier) {
+        return ((merchant, recipeList, random) -> recipeList.add(recipeSupplier.apply(random)));
     }
 
     @Nonnull

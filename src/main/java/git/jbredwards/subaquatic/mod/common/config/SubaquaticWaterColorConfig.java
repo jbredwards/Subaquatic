@@ -7,6 +7,7 @@ import com.google.gson.JsonPrimitive;
 import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IWaterColorProvider;
+import git.jbredwards.subaquatic.mod.common.config.util.ConfigUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.client.Minecraft;
@@ -44,9 +45,12 @@ public final class SubaquaticWaterColorConfig
 
     @SuppressWarnings("UnstableApiUsage")
     public static void buildWaterColors() throws IOException {
+        //external configs
+        ConfigUtils.parseFromMods("subaquatic/water_colors.jsonc", SubaquaticWaterColorConfig::parseWaterColors);
+
+        //modpack config
         final File file = new File("config/subaquatic", "water_colors.jsonc");
-        //read from existing
-        try { parseWaterColors(new FileReader(file)); }
+        try { parseWaterColors(new FileReader(file)); } //read from existing
         catch(FileNotFoundException e) {
             //generate from default values
             parseWaterColors(new StringReader(defaultConfigValues));
@@ -85,13 +89,11 @@ public final class SubaquaticWaterColorConfig
 
     public static float[] getFogColorAt(@Nonnull IBlockAccess worldIn, @Nonnull BlockPos posIn) {
         return new Color(BiomeColorHelper.getColorAtPos(worldIn, posIn,
-            (biomeIn, pos) -> computeIfAbsentSafe(FOG_COLORS, biomeIn, biome ->
-                biome instanceof IWaterColorProvider
-                    ? ((IWaterColorProvider)biome).getWaterFogColor()
-                    : biome.getWaterColorMultiplier()
-                )
-            )
-        ).getColorComponents(new float[3]);
+                (biomeIn, pos) -> computeIfAbsentSafe(FOG_COLORS, biomeIn,
+                        biome -> biome instanceof IWaterColorProvider
+                                ? ((IWaterColorProvider)biome).getWaterFogColor()
+                                : biome.getWaterColorMultiplier())
+        )).getColorComponents(new float[3]);
     }
 
     public static int getSurfaceColor(@Nonnull Biome biomeIn, int originalColor) {
@@ -132,7 +134,7 @@ public final class SubaquaticWaterColorConfig
             else if(biomeTags.contains(BiomeDictionary.Type.HOT)) return 0x1A7AA1;
 
             //should never pass, but if it does apply the default 1.13 water color
-            return emulateLegacyColor(originalColor);
+            return DEFAULT_WATER_COLOR;
         });
     }
 
@@ -214,25 +216,10 @@ public final class SubaquaticWaterColorConfig
     @Nonnull
     public static final String defaultConfigValues =
             "{\n" +
-            "    //River\n" +
-            "    \"minecraft:river\":{\n" +
-            "        \"Surface\":\"0x3F76E4\",\n" +
-            "        \"Fog\":\"0x3F76E4\"\n" +
-            "    },\n" +
             "    //Frozen River\n" +
             "    \"minecraft:frozen_river\":{\n" +
             "        \"Surface\":\"0x185390\",\n" +
             "        \"Fog\":\"0x185390\"\n" +
-            "    },\n" +
-            "    //Ocean\n" +
-            "    \"minecraft:ocean\":{\n" +
-            "        \"Surface\":\"0x3F76E4\",\n" +
-            "        \"Fog\":\"0x3F76E4\"\n" +
-            "    },\n" +
-            "    //Deep Ocean\n" +
-            "    \"minecraft:deep_ocean\":{\n" +
-            "        \"Surface\":\"0x3F76E4\",\n" +
-            "        \"Fog\":\"0x3F76E4\"\n" +
             "    },\n" +
             "    //Warm Ocean\n" +
             "    \"subaquatic:warm_ocean\":{\n" +
@@ -273,105 +260,6 @@ public final class SubaquaticWaterColorConfig
             "    \"subaquatic:deep_frozen_ocean\":{\n" +
             "        \"Surface\":\"0x77a9ff\",\n" +
             "        \"Fog\":\"0x77a9ff\"\n" +
-            "    },\n" +
-            "\n" +
-            "    //===============\n" +
-            "    //BIOMES O'PLENTY\n" +
-            "    //===============\n" +
-            "\n" +
-            "    //Bamboo Forest\n" +
-            "    \"biomesoplenty:bamboo_forest\":{\n" +
-            "        \"Surface\":\"0x85CE71\",\n" +
-            "        \"Fog\":\"0x63BF66\"\n" +
-            "    },\n" +
-            "    //Bayou\n" +
-            "    \"biomesoplenty:bayou\":{\n" +
-            "        \"Surface\":\"0x62AF84\",\n" +
-            "        \"Fog\":\"0x0C211C\"\n" +
-            "    },\n" +
-            "    //Bog\n" +
-            "    \"biomesoplenty:bog\":{\n" +
-            "        \"Surface\":\"0xA89557\",\n" +
-            "        \"Fog\":\"0xC67F5B\"\n" +
-            "    },\n" +
-            "    //Cherry Blossom Grove\n" +
-            "    \"biomesoplenty:cherry_blossom_grove\":{\n" +
-            "        \"Surface\":\"0x85CE71\",\n" +
-            "        \"Fog\":\"0x63BF66\"\n" +
-            "    },\n" +
-            "    //Cold Desert\n" +
-            "    \"biomesoplenty:cold_desert\":{\n" +
-            "        \"Surface\":\"0xAD9364\",\n" +
-            "        \"Fog\":\"0xB5A76C\"\n" +
-            "    },\n" +
-            "    //Coral Reef\n" +
-            "    \"biomesoplenty:coral_reef\":{\n" +
-            "        \"Surface\":\"0x45ADF2\",\n" +
-            "        \"Fog\":\"0x45ADF2\"\n" +
-            "    },\n" +
-            "    //Dead Forest\n" +
-            "    \"biomesoplenty:dead_forest\":{\n" +
-            "        \"Surface\":\"0xBAAD64\",\n" +
-            "        \"Fog\":\"0xB7B763\"\n" +
-            "    },\n" +
-            "    //Dead Swamp\n" +
-            "    \"biomesoplenty:dead_swamp\":{\n" +
-            "        \"Surface\":\"0xBAAD64\",\n" +
-            "        \"Fog\":\"0xB7B763\"\n" +
-            "    },\n" +
-            "    //Kelp Forest\n" +
-            "    \"biomesoplenty:kelp_forest\":{\n" +
-            "        \"Surface\":\"0x1787D4\",\n" +
-            "        \"Fog\":\"0x1165B0\"\n" +
-            "    },\n" +
-            "    //Lavender Fields\n" +
-            "    \"biomesoplenty:lavender_fields\":{\n" +
-            "        \"Surface\":\"0xA1C36D\",\n" +
-            "        \"Fog\":\"0xA1C36D\"\n" +
-            "    },\n" +
-            "    //Mangrove\n" +
-            "    \"biomesoplenty:mangrove\":{\n" +
-            "        \"Surface\":\"0x62AF84\",\n" +
-            "        \"Fog\":\"0x0C211C\"\n" +
-            "    },\n" +
-            "    //Moor\n" +
-            "    \"biomesoplenty:moor\":{\n" +
-            "        \"Surface\":\"0x3F76E4\",\n" +
-            "        \"Fog\":\"0x050533\"\n" +
-            "    },\n" +
-            "    //Mystic Grove\n" +
-            "    \"biomesoplenty:mystic_grove\":{\n" +
-            "        \"Surface\":\"0x9C3FE4\",\n" +
-            "        \"Fog\":\"0x2E0533\"\n" +
-            "    },\n" +
-            "    //Ominous Woods\n" +
-            "    \"biomesoplenty:ominous_woods\":{\n" +
-            "        \"Surface\":\"0x312346\",\n" +
-            "        \"Fog\":\"0x0A030C\"\n" +
-            "    },\n" +
-            "    //Glenn\n" +
-            "    \"biomesoplenty:quagmire\":{\n" +
-            "        \"Surface\":\"0x643d28\",\n" +
-            "        \"Fog\":\"0x643d28\"\n" +
-            "    },\n" +
-            "    //Tropical Rainforest\n" +
-            "    \"biomesoplenty:tropical_rainforest\":{\n" +
-            "        \"Surface\":\"0x1B9ED8\",\n" +
-            "        \"Fog\":\"0x1B9ED8\"\n" +
-            "    },\n" +
-            "    \"biomesoplenty:wasteland\":{\n" +
-            "        \"Surface\":\"0x433721\",\n" +
-            "        \"Fog\":\"0x0C0C03\"\n" +
-            "    },\n" +
-            "    //Wetland\n" +
-            "    \"biomesoplenty:wetland\":{\n" +
-            "        \"Surface\":\"0x272179\",\n" +
-            "        \"Fog\":\"0x0C031B\"\n" +
-            "    },\n" +
-            "    //Woodland\n" +
-            "    \"biomesoplenty:woodland\":{\n" +
-            "        \"Surface\":\"0x9CC439\",\n" +
-            "        \"Fog\":\"0x85B408\"\n" +
             "    }\n" +
             "}";
 }

@@ -2,6 +2,7 @@ package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.SoundEvent;
@@ -41,6 +42,11 @@ final class RegistryHandler
     }
 
     @SubscribeEvent
+    static void registerEnchantments(@Nonnull RegistryEvent.Register<Enchantment> event) {
+        SubaquaticEnchantments.INIT.forEach(event.getRegistry()::register);
+    }
+
+    @SubscribeEvent
     static void registerEntities(@Nonnull RegistryEvent.Register<EntityEntry> event) {
         SubaquaticEntities.INIT.forEach(event.getRegistry()::register);
         SubaquaticEntities.handleAdditionalEntityData();
@@ -60,6 +66,7 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerProfessions(@Nonnull RegistryEvent.Register<VillagerRegistry.VillagerProfession> event) {
         SubaquaticProfessions.INIT.forEach(event.getRegistry()::register);
+        SubaquaticProfessions.handleAdditionalTrades();
     }
 
     @SubscribeEvent

@@ -34,6 +34,7 @@ public final class SubaquaticJEIPlugin implements IModPlugin
     public void registerItemSubtypes(@Nonnull ISubtypeRegistry subtypeRegistry) {
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.CHEST_BOAT, boatContainerInterpreter);
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.ENDER_CHEST_BOAT, boatContainerInterpreter);
+        subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.CRAFTING_TABLE_BOAT, boatContainerInterpreter);
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.FURNACE_BOAT, boatContainerInterpreter);
     }
 
@@ -42,6 +43,8 @@ public final class SubaquaticJEIPlugin implements IModPlugin
         registry.handleRecipes(BlockSoakRecipe.class, BlockSoakJEIRecipeWrapper::new, BlockSoakJEICategory.ID);
         registry.addRecipes(BlockSoakRecipe.RECIPES, BlockSoakJEICategory.ID);
 
+        registry.addRecipeCatalyst(new ItemStack(SubaquaticItems.CRAFTING_TABLE_MINECART), VanillaRecipeCategoryUid.CRAFTING);
+        registry.addRecipeCatalyst(new ItemStack(SubaquaticItems.CRAFTING_TABLE_BOAT, 1, OreDictionary.WILDCARD_VALUE), VanillaRecipeCategoryUid.CRAFTING);
         registry.addRecipeCatalyst(new ItemStack(SubaquaticItems.FURNACE_BOAT, 1, OreDictionary.WILDCARD_VALUE), VanillaRecipeCategoryUid.SMELTING);
         //registry.addRecipeCatalyst(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM, 1, OreDictionary.WILDCARD_VALUE), PotionTypes.WATER), BlockSoakJEICategory.ID);
     }
