@@ -20,13 +20,16 @@ public class EnchantmentCompactFishing extends Enchantment
     }
 
     @Override
-    public int getMinEnchantability(int enchantmentLevel) { return 20; }
+    public int getMaxLevel() { return SubaquaticConfigHandler.Common.Item.compactFishingMaxLvl; }
 
     @Override
-    public int getMaxEnchantability(int enchantmentLevel) { return 50; }
+    public int getMinEnchantability(int enchantmentLevel) { return super.getMinEnchantability(enchantmentLevel) + 20; }
+
+    @Override
+    public int getMaxEnchantability(int enchantmentLevel) { return super.getMaxEnchantability(enchantmentLevel) + 50; }
 
     @Override
     protected boolean canApplyTogether(@Nonnull Enchantment ench) {
-        return (SubaquaticConfigHandler.Server.Item.compactFishingMending || !(ench instanceof EnchantmentMending)) && super.canApplyTogether(ench);
+        return (SubaquaticConfigHandler.Common.Item.compactFishingMending || !(ench instanceof EnchantmentMending)) && super.canApplyTogether(ench);
     }
 }

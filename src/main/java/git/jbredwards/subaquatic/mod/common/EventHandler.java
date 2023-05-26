@@ -61,31 +61,33 @@ public final class EventHandler
         if(SubaquaticConfigHandler.Server.Item.realisticFishing) {
             final ICompactFishing cap = ICompactFishing.get(event.getHookEntity());
             final int compactFishingLvl = cap != null ? cap.getLevel() : 0;
+            int rodDamage = 0;
 
             for(final Iterator<ItemStack> it = event.getDrops().iterator(); it.hasNext();) {
-                final OnGetEntityFromFishingEvent entityEvent = new OnGetEntityFromFishingEvent(it.next(), event.getHookEntity(), compactFishingLvl, event.getRodDamage());
+                final OnGetEntityFromFishingEvent entityEvent = new OnGetEntityFromFishingEvent(it.next(), event.getHookEntity(), event.getRodDamage(), compactFishingLvl);
                 if(MinecraftForge.EVENT_BUS.post(entityEvent)) {
                     it.remove();
                     event.setCanceled(true);
-                    event.damageRodBy(compactFishingLvl != 0 ? entityEvent.rodDamage << 1 : entityEvent.rodDamage);
                 }
+
+                rodDamage += entityEvent.rodDamage;
             }
+
+            if(rodDamage != 0) event.damageRodBy(rodDamage);
         }
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     static void realisticFishingResult(@Nonnull OnGetEntityFromFishingEvent event) {
-        if(event.compactFishingLvl == 0) {
-            if(event.itemToFish.getItem() == SubaquaticItems.COD) event.spawnEntity(new EntityCod(event.getWorld()));
-            else if(event.itemToFish.getItem() == Items.FISH) switch(event.itemToFish.getMetadata()) {
-                case 0: event.spawnEntity(new EntityFish(event.getWorld()));
-                    break;
-                case 1: event.spawnEntity(new EntitySalmon(event.getWorld()));
-                    break;
-                case 2: event.spawnEntity(new EntityTropicalFish(event.getWorld()));
-                    break;
-                default: event.spawnEntity(new EntityPufferfish(event.getWorld()));
-            }
+        if(event.itemToFish.getItem() == SubaquaticItems.COD) event.spawnEntityOrTryCompact(new EntityCod(event.getWorld()));
+        else if(event.itemToFish.getItem() == Items.FISH) switch(event.itemToFish.getMetadata()) {
+            case 0: event.spawnEntityOrTryCompact(new EntityFish(event.getWorld()));
+                break;
+            case 1: event.spawnEntityOrTryCompact(new EntitySalmon(event.getWorld()));
+                break;
+            case 2: event.spawnEntityOrTryCompact(new EntityTropicalFish(event.getWorld()));
+                break;
+            default: event.spawnEntityOrTryCompact(new EntityPufferfish(event.getWorld()));
         }
     }
 

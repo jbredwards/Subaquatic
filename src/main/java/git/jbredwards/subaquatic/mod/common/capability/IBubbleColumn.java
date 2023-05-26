@@ -24,6 +24,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -98,6 +99,7 @@ public interface IBubbleColumn extends INBTSerializable<NBTBase>
         public void deserializeNBT(@Nonnull NBTBase nbt) {}
     }
 
+    @Mod.EventBusSubscriber(modid = Subaquatic.MODID)
     class Boat extends Impl
     {
         protected boolean isRocking;
@@ -164,6 +166,11 @@ public interface IBubbleColumn extends INBTSerializable<NBTBase>
 
                 else setRockingTicks(boat, 0);
             }
+        }
+
+        @SubscribeEvent
+        static void registerRockingTicks(@Nonnull EntityEvent.EntityConstructing event) {
+            if(event.getEntity() instanceof EntityBoat) event.getEntity().getDataManager().register(PluginEntityBoat.Hooks.ROCKING_TICKS, 0);
         }
     }
 

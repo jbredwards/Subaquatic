@@ -8,6 +8,8 @@ import javax.annotation.Nonnull;
 /**
  * Biomes that implement this can specify a custom block for their ocean surface.
  * This is used by beach biomes & warm ocean biomes to generate sand instead of gravel.
+ *
+ * @since 1.0.0
  * @author jbred
  *
  */

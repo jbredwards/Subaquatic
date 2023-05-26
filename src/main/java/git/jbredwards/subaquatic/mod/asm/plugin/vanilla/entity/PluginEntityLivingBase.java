@@ -52,7 +52,7 @@ public final class PluginEntityLivingBase implements IASMPlugin
          * //remove old code (this was handled by Hooks.hasNoOxygen)
          * ...
          */
-        else if(checkMethod(insn, obfuscated ? "func_70055_a" : "setAir")) {
+        else if(checkMethod(insn, obfuscated ? "func_70050_g" : "setAir")) {
             removeFrom(instructions, insn, -2);
             return true;
         }

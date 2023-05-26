@@ -19,8 +19,13 @@ import javax.annotation.Nullable;
  */
 public final class PluginRenderBoat implements IASMPlugin
 {
+    //bad modded boat renderers re-code the whole class for no reason, so this is needed for those (BOP & PVJ)
+    //good renderers will just extend the vanilla RenderBoat class, and thus automatically inherit this transformer's changes
+    final boolean isVanilla;
+    public PluginRenderBoat(boolean isVanilla) { this.isVanilla = isVanilla; }
+
     @Override
-    public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals(obfuscated ? "func_188311_a" : "setupRotation"); }
+    public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals(isVanilla && obfuscated ? "func_188311_a" : "setupRotation"); }
 
     @Override
     public boolean transform(@Nonnull InsnList instructions, @Nonnull MethodNode method, @Nonnull AbstractInsnNode insn, boolean obfuscated, int index) {

@@ -2,11 +2,13 @@ package git.jbredwards.subaquatic.api.event;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -27,10 +29,10 @@ public class OnGetEntityFromFishingEvent extends Event
     @Nonnull public final ItemStack itemToFish;
     @Nonnull public final EntityFishHook hook;
     @Nonnull public final EntityPlayer player;
-    public final int compactFishingLvl; //the level of this mod's compact fishing enchantment on the fishing rod
     public int rodDamage; //the amount of durability the fishing rod will lose
+    public int compactFishingLvl; //the level of this mod's compact fishing enchantment on the fishing rod
 
-    public OnGetEntityFromFishingEvent(@Nonnull ItemStack itemToFishIn, @Nonnull EntityFishHook hookIn, int compactFishingLvlIn, int rodDamageIn) {
+    public OnGetEntityFromFishingEvent(@Nonnull ItemStack itemToFishIn, @Nonnull EntityFishHook hookIn, int rodDamageIn, int compactFishingLvlIn) {
         itemToFish = itemToFishIn;
         hook = hookIn;
         player = hookIn.getAngler();
@@ -39,18 +41,33 @@ public class OnGetEntityFromFishingEvent extends Event
     }
 
     /**
-     * Spawns and positions the entity to be fished, applies the correct motion, increments the player's fishing stat,
-     * and deals {@link OnGetEntityFromFishingEvent#rodDamage} damage (having a hook in your lip hurts).
+     * Spawns and positions the entity to be fished, if the compact fishing enchantment is not present.
      */
-    public void spawnEntity(@Nonnull Entity entity) {
+    public void spawnEntityOrTryCompact(@Nonnull Entity entity) {
+        if(compactFishingLvl != 0 && entity instanceof EntityLivingBase) {
+            final float maxHealth = ((EntityLivingBase)entity).getMaxHealth();
+            final int maxDamage = (1 << compactFishingLvl) + 1;
+
+            rodDamage += Math.min(compactFishingLvl, MathHelper.ceil(Math.log(maxHealth)));
+            if(maxHealth > maxDamage) spawnEntity(entity, maxDamage);
+        }
+
+        else spawnEntity(entity, 1);
+    }
+
+    /**
+     * Spawns and positions the entity to be fished, applies the correct motion, increments the player's fishing stat,
+     * and deals `damageDealt` damage (having a hook in your lip hurts).
+     */
+    public void spawnEntity(@Nonnull Entity entity, int damageDealt) {
         entity.setPosition(hook.posX, hook.posY, hook.posZ);
-        getWorld().spawnEntity(entity);
+        if(getWorld().spawnEntity(entity)) {
+            if(damageDealt > 0) entity.attackEntityFrom(DamageSource.causeIndirectDamage(hook, player), damageDealt);
+            applyMotion(entity);
 
-        entity.attackEntityFrom(DamageSource.causeIndirectDamage(hook, player), rodDamage);
-        applyMotion(entity);
-
-        setCanceled(true);
-        if(entity instanceof EntityLiving) player.addStat(StatList.FISH_CAUGHT, 1);
+            setCanceled(true);
+            if(entity instanceof EntityLiving) player.addStat(StatList.FISH_CAUGHT, 1);
+        }
     }
 
     /**
@@ -66,5 +83,5 @@ public class OnGetEntityFromFishingEvent extends Event
     }
 
     @Nonnull
-    public World getWorld() { return hook.world; }
+    public World getWorld() { return hook.getEntityWorld(); }
 }

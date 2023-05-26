@@ -151,6 +151,13 @@ public final class SubaquaticConfigHandler
         public static Item item;
         public static final class Item
         {
+            @Config.RangeInt(min = 0, max = 16)
+            @Config.LangKey("config.subaquatic.common.item.compactFishingMaxLvl")
+            public static int compactFishingMaxLvl = 5;
+
+            @Config.LangKey("config.subaquatic.common.item.compactFishingMending")
+            public static boolean compactFishingMending = false;
+
             @Nonnull
             @Config.LangKey("config.subaquatic.common.item.fishBucketFluidBlacklist")
             public static String[] fishBucketFluidBlacklist = new String[] {"biomesoplenty:honey","biomesoplenty:poison","biomesoplenty:sand"};
@@ -215,9 +222,6 @@ public final class SubaquaticConfigHandler
             @Config.RangeDouble(min = -1)
             @Config.LangKey("config.subaquatic.server.item.aquaticBonemealHealWaterBreathingCreature")
             public static float aquaticBonemealHealWaterBreathingCreature = -1;*/
-
-            @Config.LangKey("config.subaquatic.server.item.compactFishingMending")
-            public static boolean compactFishingMending = false;
 
             @Config.LangKey("config.subaquatic.server.item.realisticFishing")
             public static boolean realisticFishing = true;

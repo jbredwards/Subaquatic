@@ -96,7 +96,7 @@ tile.subaquatic.tube_coral_fin.alive.false.name=Dead Tube Coral Fin
 tile.subaquatic.tube_coral_fin.alive.true.name=Tube Coral Fin
 #Enchantments
 enchantment.subaquatic.compact_fishing=Compacting
-enchantment.subaquatic.compact_fishing.desc=Compacts fish entities into fish items, at the cost of using twice the amount of durability.
+enchantment.subaquatic.compact_fishing.desc=Deals 2 to the power of x damage to reeled in fish (2 ^ x), where x represents this enchantment's level. If the damage is enough to kill the fish, it gets compressed into an item instead when reeled in. The drawback to this is that the more damage it deals, the more durability it steals (logarithmically).
 #Entities
 entity.subaquatic.chest_boat.name=Boat with Chest
 entity.subaquatic.cod.name=Cod
@@ -263,6 +263,10 @@ config.subaquatic.common.entity.xpOrbsFloat=Experience Orbs Float
 config.subaquatic.common.entity.xpOrbsFloat.tooltip=Experience orb entities float in water (or any other fluid).
 config.subaquatic.common.item=Items
 config.subaquatic.common.item.tooltip=Commonside item settings.
+config.subaquatic.common.item.compactFishingMaxLvl=Compacting Maximum Level
+config.subaquatic.common.item.compactFishingMaxLvl.tooltip=The maximum level the Compacting enchantment can go up to.
+config.subaquatic.common.item.compactFishingMending=Compacting + Mending
+config.subaquatic.common.item.compactFishingMending.tooltip=The Compacting enchantment can be applied alongside the Mending enchantment.
 config.subaquatic.common.item.fishBucketFluidBlacklist=Entity Bucket Fluid Blacklist
 config.subaquatic.common.item.fishBucketFluidBlacklist.tooltip=All fluids fish can breath in are able hold entities in buckets. This list contains all the fluids that should not be able to sustain entities in buckets.
 config.subaquatic.common.item.placeableNautilusShell=Placeable Nautilus Shell
@@ -293,10 +297,8 @@ config.subaquatic.server.entity.zombieVillagerMarineBiologist=Natural Zombie Vil
 config.subaquatic.server.entity.zombieVillagerMarineBiologist.tooltip=When a zombie villager spawns, it chooses a random profession. This config option toggles whether or not the marine biologist profession may be one of those random professions. Current marine biologist zombie villagers will be uneffected.
 config.subaquatic.server.item=Items
 config.subaquatic.server.item.tooltip=Serverside item settings.
-config.subaquatic.server.item.compactFishingMending=Compacting + Mending
-config.subaquatic.server.item.compactFishingMending.tooltip=The Compacting enchantment can be applied alongside the Mending enchantment.
 config.subaquatic.server.item.realisticFishing=Realistic Fishing
-config.subaquatic.server.item.realisticFishing.tooltip=Fishing creates actual fish entities instead of just the fish items. For more customization with this, use GroovyScript!
+config.subaquatic.server.item.realisticFishing.tooltip=Fishing creates actual fish entities instead of just the fish items (note that this mod adds an enchantment to undo this). For more customization with realistic fishing, use GroovyScript!
 config.subaquatic.server.world=World
 config.subaquatic.server.world.tooltip=Serveride world settings.
 config.subaquatic.server.world.generic.defaultAmount=Default Amount
@@ -314,7 +316,7 @@ config.subaquatic.server.world.generic.perBiomeRarity.tooltip=Contains all the B
 config.subaquatic.server.world.general=Miscellaneous
 config.subaquatic.server.world.general.tooltip=Miscellaneous generation settings.
 config.subaquatic.server.world.general.generateFacelessPumpkinsChance=Faceless Pumpkins
-config.subaquatic.server.world.general.generateFacelessPumpkinsChance.tooltip=The chance that a faceless pumpkins generate in place of a vanilla one (where 0 = 0 percent, and 1 = 100 percent).
+config.subaquatic.server.world.general.generateFacelessPumpkinsChance.tooltip=The chance that a faceless pumpkin generates in place of a vanilla one (where 0 = 0 percent, and 1 = 100 percent).
 config.subaquatic.server.world.general.generateRootedDirt=Rooted Dirt
 config.subaquatic.server.world.general.generateRootedDirt.tooltip=Rooted Dirt generates underneath all correctly programmed trees.
 config.subaquatic.server.world.general.oceanBiomeSize=Ocean Biome Size

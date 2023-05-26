@@ -118,7 +118,7 @@ public class BlockSoakRecipe
             @Nonnull
             @Override
             protected ItemStack dispenseStack(@Nonnull IBlockSource source, @Nonnull ItemStack stack) {
-                final EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING).getOpposite();
+                final EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
                 if(facing != EnumFacing.UP) {
                     final PotionType potion = PotionUtils.getPotionFromItem(stack);
                     if(potion != null) {

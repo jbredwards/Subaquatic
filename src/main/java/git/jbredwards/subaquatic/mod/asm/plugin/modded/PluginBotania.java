@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 public final class PluginBotania implements IASMPlugin
 {
     @Override
-    public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals(obfuscated ? "func_192841_a" : "render"); }
+    public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals("render"); }
 
     @Override
     public boolean transform(@Nonnull InsnList instructions, @Nonnull MethodNode method, @Nonnull AbstractInsnNode insn, boolean obfuscated, int index) {
@@ -31,7 +31,7 @@ public final class PluginBotania implements IASMPlugin
          * //water inside petal apothecaries have their biome colors applied
          * Hooks.applyColor(alpha, altar);
          */
-        if(checkMethod(insn, obfuscated ? "func_179124_c" : "color") && insn.getPrevious().getOpcode() == FLOAD) {
+        if(checkMethod(insn, obfuscated ? "func_179131_c" : "color") && insn.getPrevious().getOpcode() == FLOAD) {
             instructions.insert(insn, genMethodNode("applyColor", "(FLnet/minecraft/tileentity/TileEntity;)V"));
             instructions.insert(insn, new VarInsnNode(ALOAD, 1));
             removeFrom(instructions, getPrevious(insn, 2), -2);

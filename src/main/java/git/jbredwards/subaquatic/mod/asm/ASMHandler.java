@@ -37,6 +37,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("appeng.api.implementations.items.IGrowableCrystal", new PluginNoItemBobbing()); //Crystal seeds don't bob at the surface
             plugins.put("biomesoplenty.common.block.BlockBOPDirt", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
             plugins.put("biomesoplenty.common.block.BlockBOPGrass", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
+            plugins.put("biomesoplenty.common.entities.item.RenderBOPBoat", new PluginRenderBoat(false)); //Render bubble column boat rocking
             plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBOPFogEventHandler()); //Don't change the underwater fog color while this mod is installed
             plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginBOPGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
             plugins.put("biomesoplenty.common.world.layer.GenLayerShoreBOP", new PluginBOPGenLayerShore()); //Account for all ocean biomes when generating shores
@@ -69,7 +70,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("thebetweenlands.common.world.biome.BiomeBetweenlands", new PluginBetweenlands()); //Preserve betweenlands biome colors
             plugins.put("vazkii.botania.client.render.tile.RenderTileAltar", new PluginBotania()); //Water inside petal apothecaries have their biome colors applied
             plugins.put("vazkii.quark.tweaks.feature.BabyZombiesBurn", new PluginQuark()); //Remove duplicate mod functionality
-            plugins.put("vibrantjourneys.entities.item.EntityPVJBoat", new PluginEntityBoat()); //Bubble columns rock boats (why does PVJ duplicate boat code...?)
+            plugins.put("vibrantjourneys.entities.renderer.RenderPVJBoat", new PluginRenderBoat(false)); //Render bubble column boat rocking
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
@@ -84,7 +85,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.client.particle.ParticleBubble", new PluginParticleBubble()); //Add the unused bubble pop particle from 1.13+
             plugins.put("net.minecraft.client.particle.ParticleDrip", new PluginParticleDrip()); //Water droplet particles keep the color set by this mod
             plugins.put("net.minecraft.client.particle.ParticleExplosionHuge", new PluginParticleExplosionHuge()); //Spawn bubbles for underwater explosions
-            plugins.put("net.minecraft.client.renderer.entity.RenderBoat", new PluginRenderBoat()); //Render bubble column boat rocking
+            plugins.put("net.minecraft.client.renderer.entity.RenderBoat", new PluginRenderBoat(true)); //Render bubble column boat rocking
             plugins.put("net.minecraft.client.renderer.entity.RenderEntityItem", new PluginRenderEntityItem()); //Don't render item bobbing while in water
             //plugins.put("net.minecraft.client.renderer.EntityRenderer", new PluginEntityRenderer()); //Colors rain according to biome color
             plugins.put("net.minecraft.client.renderer.ItemRenderer", new PluginItemRenderer()); //Apply biome colors to underwater overlay
@@ -111,6 +112,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             //plugins.put("net.minecraft.world.chunk.Chunk", new PluginChunk()); //Add call to OnCreateChunkFromPrimerEvent
             plugins.put("net.minecraft.world.gen.feature.WorldGenBigTree", new PluginWorldGenBigTree()); //Fix bug where the block under tall trees is not converted to dirt
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
+            plugins.put("net.minecraft.world.gen.feature.WorldGenShrub", new PluginWorldGenShrub()); //Fix bug where the block under the log of a shrub is not converted to dirt
             plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Apply ocean biome generator
             plugins.put("net.minecraft.world.gen.layer.GenLayerAddIsland", new PluginGenLayerAddIsland()); //Account for modded shallow ocean biomes
             plugins.put("net.minecraft.world.gen.layer.GenLayerAddMushroomIsland", new PluginGenLayerAddMushroomIsland()); //Account for modded shallow ocean biomes

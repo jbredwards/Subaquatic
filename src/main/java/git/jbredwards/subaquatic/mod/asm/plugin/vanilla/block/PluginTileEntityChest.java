@@ -1,8 +1,10 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
+import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
+import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -48,16 +50,29 @@ public final class PluginTileEntityChest implements IASMPlugin
     {
         public static void addBubbles(@Nonnull TileEntityChest tile) {
             if(tile.hasWorld() && tile.getWorld().isRemote) {
+                final Random rand = tile.getWorld().rand;
+                int remainingParticles = MathHelper.getInt(rand, SubaquaticConfigHandler.Client.Particle.underwaterChestMinBubbleCount, SubaquaticConfigHandler.Client.Particle.underwaterChestMaxBubbleCount);
+
+                final boolean xPos = tile.adjacentChestXPos != null && FluidState.get(tile.adjacentChestXPos.getPos()).getMaterial() == Material.WATER;
+                final boolean xNeg = tile.adjacentChestXNeg != null && FluidState.get(tile.adjacentChestXNeg.getPos()).getMaterial() == Material.WATER;
+                final boolean zPos = tile.adjacentChestZPos != null && FluidState.get(tile.adjacentChestZPos.getPos()).getMaterial() == Material.WATER;
+                final boolean zNeg = tile.adjacentChestZNeg != null && FluidState.get(tile.adjacentChestZNeg.getPos()).getMaterial() == Material.WATER;
+
+                if(xPos || xNeg || zPos || zNeg) remainingParticles <<= 1;
+                else if(FluidState.get(tile.getPos()).getMaterial() != Material.WATER) return;
+
                 final double x = tile.getPos().getX();
                 final double y = tile.getPos().getY();
                 final double z = tile.getPos().getZ();
                 tile.getWorld().playSound(x + 0.5, y + 0.5, z + 0.5, SubaquaticSounds.CHEST_OPEN_UNDERWATER, SoundCategory.BLOCKS, 0.5f, 1, false);
 
-                final Random rand = tile.getWorld().rand;
-                int remainingParticles = MathHelper.getInt(rand, SubaquaticConfigHandler.Client.Particle.underwaterChestMinBubbleCount, SubaquaticConfigHandler.Client.Particle.underwaterChestMaxBubbleCount);
-                while(remainingParticles --> 0) tile.getWorld().spawnParticle(EnumParticleTypes.WATER_BUBBLE,
-                        x + rand.nextDouble() * 0.6 + 0.2, y + rand.nextDouble() * 0.5 + 0.4, z + rand.nextDouble() * 0.6 + 0.2,
-                        rand.nextDouble() * 0.2 - 0.1, rand.nextDouble(), rand.nextDouble() * 0.2 - 0.1);
+                while(remainingParticles --> 0) {
+                    final double posY = y + rand.nextDouble() * 0.5 + 0.4;
+                    final double posX = x + MathHelper.nextDouble(rand, xNeg ? 0.2 : 1.2, xPos ? 2.8 : 1.8) - 1;
+                    final double posZ = z + MathHelper.nextDouble(rand, zNeg ? 0.2 : 1.2, zPos ? 2.8 : 1.8) - 1;
+
+                    tile.getWorld().spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX, posY, posZ, rand.nextDouble() * 0.2 - 0.1, rand.nextDouble(), rand.nextDouble() * 0.2 - 0.1);
+                }
             }
         }
     }
