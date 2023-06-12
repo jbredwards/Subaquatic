@@ -8,9 +8,10 @@ import git.jbredwards.subaquatic.mod.common.world.gen.NoiseGeneratorOceans;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.layer.GenLayer;
+import net.minecraft.world.gen.layer.GenLayerVoronoiZoom;
 import net.minecraft.world.gen.layer.GenLayerZoom;
 import net.minecraft.world.gen.layer.IntCache;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.terraingen.WorldTypeEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -29,46 +30,36 @@ public final class GenLayerOceanBiomes extends GenLayer
     static final int DEEP_OCEAN = Biome.getIdForBiome(Biomes.DEEP_OCEAN);
     static final int DEEP_FROZEN_OCEAN = Biome.getIdForBiome(SubaquaticBiomes.DEEP_FROZEN_OCEAN);
 
+    @Nonnull
+    private final GenLayer wrapped;
     private NoiseGeneratorOceans temperatureGenerator;
-    public GenLayerOceanBiomes(long seed, @Nonnull GenLayer parentIn) {
+
+    public GenLayerOceanBiomes(long seed, @Nonnull GenLayer wrappedIn) {
         super(seed);
-        parent = parentIn;
+        wrapped = wrappedIn;
     }
 
     @Nonnull
     @Override
     public int[] getInts(int areaX, int areaZ, int areaWidth, int areaHeight) {
-        final int[] biomeInts = parent.getInts(areaX, areaZ, areaWidth, areaHeight).clone();
+        final int[] biomeInts = wrapped.getInts(areaX-1, areaZ-1, areaWidth+2, areaHeight+2).clone();
         IntCache.resetIntCache();
-
         //create separate ocean biomes layer
         //this is merged into the main layer wherever the main layer has an ocean biome
-        final int[] out = GenLayerZoom.magnify(2001, new GenLayer(baseSeed) {
-            @Nonnull
-            @Override
-            public int[] getInts(int areaX, int areaZ, int areaWidth, int areaHeight) {
-                final int[] out = IntCache.getIntCache(areaWidth * areaHeight);
-                for(int x = 0; x < areaWidth; x++) {
-                    for(int z = 0; z < areaHeight; z++) {
-                        final GetOceanForGenEvent event = new GetOceanForGenEvent(
-                                temperatureGenerator.getValue((areaX + x) / 8f, (areaZ + z) / 8f, 0));
+        final int[] out = GenLayerZoom.magnify(2001,
+                        new GenLayerOceanBiomeMask(baseSeed, temperatureGenerator),
+                        SubaquaticConfigHandler.Server.World.General.oceanBiomeSize)
+                .getInts(areaX, areaZ, areaWidth, areaHeight);
 
-                        if(!MinecraftForge.TERRAIN_GEN_BUS.post(event)) out[x + z * areaHeight] = OCEAN;
-                        else out[x + z * areaHeight] = Biome.getIdForBiome(event.getOcean());
-                    }
-                }
-
-                return out;
+        //merge two layers
+        for(int x = 0; x < areaWidth; x++) {
+            for(int z = 0; z < areaHeight; z++) {
+                final int biomeId = biomeInts[x + 1 + (z + 1) * (areaWidth + 2)];
+                //convert ocean biomes to deep ocean ones if necessary
+                if(biomeId == DEEP_OCEAN) out[x + z * areaWidth] = handleDeepOceanGen(Biome.getBiomeForId(out[x + z * areaWidth]));
+                //re-apply old layer data to the main layer
+                else if(biomeId != OCEAN) out[x + z * areaWidth] = biomeId;
             }
-        }, SubaquaticConfigHandler.Server.World.General.oceanBiomeSize).getInts(areaX, areaZ, areaWidth, areaHeight);
-
-        //re-apply old layer data to the main layer
-        for(int i = 0; i < out.length; i++) {
-            final int biomeId = biomeInts[i];
-            //convert ocean biomes to deep ocean ones if necessary
-            if(biomeId == DEEP_OCEAN) out[i] = handleDeepOceanGen(Biome.getBiomeForId(out[i]));
-            //re-apply old layer data to the main layer
-            else if(biomeId != OCEAN) out[i] = biomeId;
         }
 
         return out;
@@ -90,6 +81,22 @@ public final class GenLayerOceanBiomes extends GenLayer
 
         //vanilla ocean biomes
         return shallowOcean == Biomes.FROZEN_OCEAN ? DEEP_FROZEN_OCEAN : DEEP_OCEAN;
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    static void handleGenLayerWrappers(@Nonnull WorldTypeEvent.InitBiomeGens event) {
+        final GenLayer[] wrappedLayers = new GenLayer[event.getNewBiomeGens().length];
+        for(int i = 0; i < wrappedLayers.length; i++) {
+            final GenLayer layer = event.getNewBiomeGens()[i];
+            if(layer instanceof GenLayerVoronoiZoom) {
+                (layer.parent = new GenLayerOceanBiomes(2, layer.parent)).initWorldGenSeed(event.getSeed());
+                wrappedLayers[i] = layer;
+            }
+
+            else (wrappedLayers[i] = new GenLayerOceanBiomes(2, layer)).initWorldGenSeed(event.getSeed());
+        }
+
+        event.setNewBiomeGens(wrappedLayers);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

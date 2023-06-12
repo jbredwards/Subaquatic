@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public final class PluginBOPFogEventHandler implements IASMPlugin
+public final class PluginBiomesOPlenty implements IASMPlugin
 {
     @Override
     public boolean isMethodValid(@Nonnull MethodNode method, boolean obfuscated) { return method.name.equals("onGetFogColor"); }

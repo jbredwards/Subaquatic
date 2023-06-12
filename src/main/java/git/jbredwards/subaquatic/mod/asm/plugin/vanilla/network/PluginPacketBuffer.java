@@ -18,10 +18,10 @@ public final class PluginPacketBuffer implements IASMPlugin
 {
     @Override
     public boolean transformClass(@Nonnull ClassNode classNode, boolean obfuscated) {
-        overrideMethod(classNode, method -> method.name.equals(obfuscated ? "" : "readItemStack"),
+        overrideMethod(classNode, method -> method.name.equals(obfuscated ? "func_150791_c" : "readItemStack"),
             "readItemStack", "(Lnet/minecraft/network/PacketBuffer;)Lnet/minecraft/item/ItemStack;", generator -> generator.visitVarInsn(ALOAD, 0));
 
-        overrideMethod(classNode, method -> method.name.equals(obfuscated ? "" : "writeItemStack"),
+        overrideMethod(classNode, method -> method.name.equals(obfuscated ? "func_150788_a" : "writeItemStack"),
             "writeItemStack", "(Lnet/minecraft/network/PacketBuffer;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/network/PacketBuffer;", generator -> {
                 generator.visitVarInsn(ALOAD, 0);
                 generator.visitVarInsn(ALOAD, 1);

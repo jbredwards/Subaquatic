@@ -112,12 +112,17 @@ public class MultiPartFurnacePart extends MultiPartAbstractInventoryPart impleme
     @SideOnly(Side.CLIENT)
     public void spawnBurningParticles() {
         if(rand.nextFloat() < 0.1) world.playSound(posX, posY, posZ, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, getSoundCategory(), 1, 1, false);
-        if(parentBoat.getPassengers().isEmpty()) {
+        //currently don't spawn these due to boat noWater mask rendering issues
+        /*if(parentBoat.getPassengers().isEmpty()) {
             final Vec3d offset = new Vec3d(-0.5, rand.nextFloat() * 6 / 16, rand.nextFloat() * 0.6 - 0.3).rotateYaw(-parentBoat.rotationYaw * 0.0175f + ((float)Math.PI / 2));
 
             world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + offset.x, posY + offset.y, posZ + offset.z, 0, 0, 0);
             world.spawnParticle(EnumParticleTypes.FLAME, posX + offset.x, posY + offset.y, posZ + offset.z, 0, 0, 0);
-        }
+        }*/
+
+        //use these placeholder effects until I'm able to fix the issues mentioned above
+        if(rand.nextInt(4) == 0) world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX, posY + 0.9, posZ, 0, 0, 0);
+        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + rand.nextFloat() * 0.5 - 0.25, posY + 0.9, posZ + rand.nextFloat() * 0.5 - 0.25, 0, 0, 0);
     }
 
     public boolean canSmeltItem() {

@@ -29,7 +29,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.IParticleFactory;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.init.Biomes;
@@ -208,35 +210,6 @@ public final class Subaquatic
     }
 
     @Mod.EventHandler
-    @SideOnly(Side.CLIENT)
-    static void initClient(@Nonnull FMLInitializationEvent event) {
-        //override some vanilla particle factories to allow for custom coloring
-        final ParticleManager manager = Minecraft.getMinecraft().effectRenderer;
-        manager.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new ParticleFactoryColorize(new ParticleDrip.WaterFactory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
-        manager.registerParticle(EnumParticleTypes.SUSPENDED.getParticleID(), new ParticleFactoryColorize(new ParticleSuspend.Factory(), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
-        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), new ParticleFactoryColorize(new ParticleBubble.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
-        manager.registerParticle(EnumParticleTypes.WATER_DROP.getParticleID(), new ParticleFactoryColorize(new ParticleRain.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
-        manager.registerParticle(EnumParticleTypes.WATER_SPLASH.getParticleID(), new ParticleFactoryColorize(new ParticleSplash.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
-        manager.registerParticle(EnumParticleTypes.WATER_WAKE.getParticleID(), new ParticleFactoryColorize(new ParticleWaterWake.Factory(), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
-        //fix bubble particles spawning in illegal blocks (like cauldrons)
-        final IParticleFactory bubbleFactory = manager.particleTypes.get(EnumParticleTypes.WATER_BUBBLE.getParticleID());
-        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args) -> {
-            final Particle particle = bubbleFactory.createParticle(particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args);
-            if(particle == null) return null;
-
-            final BlockPos pos = new BlockPos(x, y, z);
-            final AxisAlignedBB box = particle.getBoundingBox();
-
-            final AxisAlignedBB boxToCheck = new AxisAlignedBB(box.minX, box.maxY, box.minZ, box.maxX, box.maxY, box.minZ);
-            if(!Boolean.TRUE.equals(FluidloggedUtils.getFluidOrReal(world, pos).getBlock().isAABBInsideMaterial(world, pos, boxToCheck, Material.WATER))) return null;
-
-            //longer lasting bubble particles, if enabled in the config
-            else if(SubaquaticConfigHandler.Client.Particle.longerLastingBubbles) particle.setMaxAge(particle.particleMaxAge * 5);
-            return particle;
-        });
-    }
-
-    @Mod.EventHandler
     @SideOnly(Side.SERVER)
     static void initServer(@Nonnull FMLInitializationEvent event) {
         //ensure that the server has the water color fix as well, for correct particle color sync
@@ -254,5 +227,34 @@ public final class Subaquatic
         Optional.ofNullable(Block.getBlockFromName("biomesoplenty:waterlily")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
         Optional.ofNullable(Block.getBlockFromName("twilightforest:huge_lilypad")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
         Optional.ofNullable(Block.getBlockFromName("twilightforest:huge_waterlily")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));
+    }
+
+    @Mod.EventHandler
+    @SideOnly(Side.CLIENT)
+    static void postInitClient(@Nonnull FMLPostInitializationEvent event) {
+        //override some vanilla particle factories to allow for custom coloring
+        final ParticleManager manager = Minecraft.getMinecraft().effectRenderer;
+        manager.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new ParticleFactoryColorize(manager.particleTypes.get(EnumParticleTypes.DRIP_WATER.getParticleID()), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
+        manager.registerParticle(EnumParticleTypes.SUSPENDED.getParticleID(), new ParticleFactoryColorize(manager.particleTypes.get(EnumParticleTypes.SUSPENDED.getParticleID()), isInspirationsInstalled ? InspirationsHandler::getCauldronColor : BiomeColorHelper::getWaterColorAtPos));
+        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), new ParticleFactoryColorize(manager.particleTypes.get(EnumParticleTypes.WATER_BUBBLE.getParticleID()), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
+        manager.registerParticle(EnumParticleTypes.WATER_DROP.getParticleID(), new ParticleFactoryColorize(manager.particleTypes.get(EnumParticleTypes.WATER_DROP.getParticleID()), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
+        manager.registerParticle(EnumParticleTypes.WATER_SPLASH.getParticleID(), new ParticleFactoryColorize(manager.particleTypes.get(EnumParticleTypes.WATER_SPLASH.getParticleID()), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
+        manager.registerParticle(EnumParticleTypes.WATER_WAKE.getParticleID(), new ParticleFactoryColorize(manager.particleTypes.get(EnumParticleTypes.WATER_WAKE.getParticleID()), isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt));
+        //fix bubble particles spawning in illegal blocks (like cauldrons)
+        final IParticleFactory bubbleFactory = manager.particleTypes.get(EnumParticleTypes.WATER_BUBBLE.getParticleID());
+        manager.registerParticle(EnumParticleTypes.WATER_BUBBLE.getParticleID(), (particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args) -> {
+            final Particle particle = bubbleFactory.createParticle(particleID, world, x, y, z, xSpeed, ySpeed, zSpeed, args);
+            if(particle == null) return null;
+
+            final BlockPos pos = new BlockPos(x, y, z);
+            final AxisAlignedBB box = particle.getBoundingBox();
+
+            final AxisAlignedBB boxToCheck = new AxisAlignedBB(box.minX, box.maxY, box.minZ, box.maxX, box.maxY, box.minZ);
+            if(!Boolean.TRUE.equals(FluidloggedUtils.getFluidOrReal(world, pos).getBlock().isAABBInsideMaterial(world, pos, boxToCheck, Material.WATER))) return null;
+
+            //longer lasting bubble particles, if enabled in the config
+            else if(SubaquaticConfigHandler.Client.Particle.longerLastingBubbles) particle.setMaxAge(particle.particleMaxAge * 5);
+            return particle;
+        });
     }
 }

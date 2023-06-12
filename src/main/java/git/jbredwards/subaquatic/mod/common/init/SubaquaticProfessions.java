@@ -52,7 +52,7 @@ public final class SubaquaticProfessions
             .addTrade(4,
                     TradeForEntityBucket.TROPICAL_FISH_BUCKET_ANY,
                     TradeUtil.newTrade(Items.EMERALD, 32, 40, new ItemStack(Blocks.SPONGE), 1, 1),
-                    TradeUtil.of(random -> new MerchantRecipe(new ItemStack(Items.EMERALD, MathHelper.getInt(random, 32, 40)), new ItemStack(Items.MAGMA_CREAM, 4), new ItemStack(SubaquaticItems.FROGLIGHT, 1, random.nextInt(3))))));
+                    TradeUtil.of(random -> new MerchantRecipe(new ItemStack(Items.EMERALD, MathHelper.getInt(random, 20, 25)), new ItemStack(Items.MAGMA_CREAM, 4), new ItemStack(SubaquaticItems.FROGLIGHT, 1, random.nextInt(3))))));
 
     //add additional trades
     static void handleAdditionalTrades() {

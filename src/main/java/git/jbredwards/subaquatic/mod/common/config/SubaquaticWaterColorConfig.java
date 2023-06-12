@@ -29,6 +29,8 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -41,6 +43,7 @@ import java.util.function.Predicate;
 public final class SubaquaticWaterColorConfig
 {
     @Nonnull static final Object2IntMap<Biome> FOG_COLORS = new Object2IntOpenHashMap<>(), SURFACE_COLORS = new Object2IntOpenHashMap<>();
+    @Nonnull static final Lock colorLock = new ReentrantLock(); //fixes a fast-util crash
     @Nonnull public static final Map<Fluid, Color> FLUID_PIXEL_BASE_COLORS = new HashMap<>();
 
     @SuppressWarnings("UnstableApiUsage")
@@ -141,11 +144,9 @@ public final class SubaquaticWaterColorConfig
     //fixes a rare, but possible, array out of bounds exception
     @Nonnull
     static <K, V> V computeIfAbsentSafe(@Nonnull Map<K, V> map, @Nonnull K key, @Nonnull Function<? super K, ? extends V> mappingFunction) {
-        if(map.containsKey(key)) return map.get(key);
-        final V value = mappingFunction.apply(key);
-
-        map.put(key, value);
-        return value;
+        colorLock.lock();
+        try { return map.computeIfAbsent(key, mappingFunction); }
+        finally { colorLock.unlock(); }
     }
 
     /**

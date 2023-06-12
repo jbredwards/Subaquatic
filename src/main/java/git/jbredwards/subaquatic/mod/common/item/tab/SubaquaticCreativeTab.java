@@ -124,7 +124,7 @@ public final class SubaquaticCreativeTab extends CreativeTabs
     @Override
     public boolean hasScrollbar() {
         applyTabsTexture();
-        return true;
+        return super.hasScrollbar();
     }
 
     @SideOnly(Side.CLIENT)

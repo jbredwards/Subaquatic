@@ -2,13 +2,9 @@ package git.jbredwards.subaquatic.mod.client.entity.renderer;
 
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.entity.item.AbstractBoatContainer;
-import git.jbredwards.subaquatic.mod.common.entity.item.EntityBoatFurnace;
-import git.jbredwards.subaquatic.mod.common.entity.item.part.MultiPartFurnacePart;
-import net.minecraft.client.model.ModelBoat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderBoat;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
@@ -32,14 +28,6 @@ public class RenderBoatContainer extends RenderBoat
         super(renderManagerIn);
         final Calendar calendar = Calendar.getInstance();
         isChristmas = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26;
-        modelBoat = new ModelBoat() { //soft-fix for unwanted particle culling with furnace boat's lit furnace particles
-            public void renderMultipass(@Nonnull Entity entityIn, float partialTicks, float unused1, float unused2, float unused3, float unused4, float scale) {
-                if(entityIn instanceof EntityBoatFurnace) noWater.rotationPointY = entityIn.getPassengers().isEmpty()
-                        && ((MultiPartFurnacePart)((EntityBoatFurnace)entityIn).containerPart).getField(0) > 0 ? 1.85f : -3;
-
-                super.renderMultipass(entityIn, partialTicks, unused1, unused2, unused3, unused4, scale);
-            }
-        };
     }
 
     @Override

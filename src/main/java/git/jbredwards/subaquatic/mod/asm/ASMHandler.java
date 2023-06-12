@@ -38,10 +38,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("biomesoplenty.common.block.BlockBOPDirt", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
             plugins.put("biomesoplenty.common.block.BlockBOPGrass", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
             plugins.put("biomesoplenty.common.entities.item.RenderBOPBoat", new PluginRenderBoat(false)); //Render bubble column boat rocking
-            plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBOPFogEventHandler()); //Don't change the underwater fog color while this mod is installed
-            plugins.put("biomesoplenty.common.world.layer.GenLayerRiverMixBOP", new PluginBOPGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
-            plugins.put("biomesoplenty.common.world.layer.GenLayerShoreBOP", new PluginBOPGenLayerShore()); //Account for all ocean biomes when generating shores
-            plugins.put("biomesoplenty.common.world.BiomeProviderBOP", new PluginBOPBiomeProvider()); //Apply ocean biome generator
+            plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBiomesOPlenty()); //Don't change the underwater fog color while this mod is installed
             plugins.put("com.blamejared.clumps.proxy.ClientProxy", new PluginClumps()); //Remove Clumps mod XP orb render override
             plugins.put("com.blamejared.clumps.entities.EntityXPOrbBig", new PluginClumps()); //Clumps mod XP orbs float while in water
             plugins.put("com.fuzs.aquaacrobatics.block.BlockBubbleColumn", new PluginAquaAcrobatics()); //AA bubble columns implement IOxygenSupplier
@@ -59,6 +56,18 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("com.sewef.burnbabyburn.MainMod", new PluginBurnBabyBurn()); //Remove duplicate mod functionality
             plugins.put("com.teammetallurgy.aquaculture.items.ItemAdminFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
             plugins.put("com.teammetallurgy.aquaculture.items.ItemAquacultureFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.IgneousGravel", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.IgneousOvergrown", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.IgneousOvergrownSnowed", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.IgneousSand", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.MetamorphicGravel", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.MetamorphicOvergrown", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.MetamorphicOvergrownSnowed", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.MetamorphicSand", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.SedimentaryGravel", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.SedimentaryOvergrown", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.SedimentaryOvergrownSnowed", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
+            plugins.put("exterminatorjeff.undergroundbiomes.common.block.SedimentarySand", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
             plugins.put("git.jbredwards.fluidlogged_api.mod.common.EventHandler", new PluginFluidloggedAPI()); //Place any fish contained within the bucket when fluidlogging, and yes I'm asm-ing my own mod XD
             plugins.put("hellfirepvp.astralsorcery.common.item.crystal.base.ItemRockCrystalBase", new PluginNoItemBobbing()); //Rock crystals don't bob at the surface
             plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalSword", new PluginNoItemBobbing()); //Crystal swords don't bob at the surface
@@ -66,6 +75,9 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("hellfirepvp.astralsorcery.common.item.ItemCraftingComponent", new PluginAstralSorcery()); //Stardust don't bob at the surface
             plugins.put("knightminer.inspirations.recipes.tileentity.TileCauldron", new PluginInspirations()); //Place fish contained within bucket
             plugins.put("net.optifine.CustomColors", new PluginOptifine()); //Fix possible Optifine NPE with bubble particles
+            plugins.put("org.orecruncher.dsurround.client.fx.particle.ParticleDripOverride", new PluginDynamicSurroundings()); //Water droplet particles keep the color set by this mod, and account for FluidStates when creating steam
+            plugins.put("org.orecruncher.lib.chunk.DirectChunkCache", new PluginOreLib(true)); //Allow OreLib's IBlockAccessEx to read FluidStates
+            plugins.put("org.orecruncher.lib.chunk.PassThroughChunkCache", new PluginOreLib(false)); //Allow OreLib's IBlockAccessEx to read FluidStates
             plugins.put("thaumcraft.client.renderers.tile.TileCrucibleRenderer", new PluginThaumcraft()); //Use old water texture
             plugins.put("thebetweenlands.common.world.biome.BiomeBetweenlands", new PluginBetweenlands()); //Preserve betweenlands biome colors
             plugins.put("vazkii.botania.client.render.tile.RenderTileAltar", new PluginBotania()); //Water inside petal apothecaries have their biome colors applied
@@ -113,15 +125,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.world.gen.feature.WorldGenBigTree", new PluginWorldGenBigTree()); //Fix bug where the block under tall trees is not converted to dirt
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.feature.WorldGenShrub", new PluginWorldGenShrub()); //Fix bug where the block under the log of a shrub is not converted to dirt
-            plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Apply ocean biome generator
-            plugins.put("net.minecraft.world.gen.layer.GenLayerAddIsland", new PluginGenLayerAddIsland()); //Account for modded shallow ocean biomes
-            plugins.put("net.minecraft.world.gen.layer.GenLayerAddMushroomIsland", new PluginGenLayerAddMushroomIsland()); //Account for modded shallow ocean biomes
-            plugins.put("net.minecraft.world.gen.layer.GenLayerDeepOcean", new PluginGenLayerDeepOcean()); //Take modded ocean biomes into account when determining whether to generate a deep ocean
-            plugins.put("net.minecraft.world.gen.layer.GenLayerEdge", new PluginGenLayerEdge()); //Account for modded shallow oceans
-            plugins.put("net.minecraft.world.gen.layer.GenLayerRemoveTooMuchOcean", new PluginGenLayerRemoveTooMuchOcean()); //Account for modded shallow ocean biomes
-            plugins.put("net.minecraft.world.gen.layer.GenLayerRiverInit", new PluginGenLayerRiverInit()); //Account for modded shallow ocean biomes
-            plugins.put("net.minecraft.world.gen.layer.GenLayerRiverMix", new PluginGenLayerRiverMix()); //Account for all ocean biomes when generating rivers
-            plugins.put("net.minecraft.world.gen.layer.GenLayerShore", new PluginGenLayerShore()); //Account for all ocean biomes when generating shores
+            plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Optimize GenLayer::isBiomeOceanic
         }
 
         @Nonnull

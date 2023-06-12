@@ -31,19 +31,10 @@ public class ParticleBubblePop extends Particle
         setSize(0.02f, 0.02f);
         setParticleTexture(TEXTURES[0]);
         setRBGColorF(parent.getRedColorF(), parent.getGreenColorF(), parent.getBlueColorF());
+        setAlphaF(parent.particleAlpha); //compat with dynamic surroundings' translucent air bubbles
 
-        if((SubaquaticConfigHandler.Client.Particle.playBubblePopSound || parent instanceof IParticleBubbleColumn)) {
-            final float pitch = Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f);
-            if(Minecraft.getMinecraft().player.getPositionEyes(1).squareDistanceTo(posX, posY, posZ) < 8)
-                world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 0.5f, pitch, false);
-
-            /*Minecraft.getMinecraft().getSoundHandler().playSound(new BubblePopSound(
-                    SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP,
-                    SoundCategory.BLOCKS,
-                    0.2f,
-                    Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f),
-                    (float)posX, (float)posY, (float)posZ));*/
-        }
+        if((SubaquaticConfigHandler.Client.Particle.playBubblePopSound || parent instanceof IParticleBubbleColumn) && Minecraft.getMinecraft().player.getPositionEyes(1).squareDistanceTo(posX, posY, posZ) < 8)
+            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 0.5f, Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f), false);
     }
 
     @Override
