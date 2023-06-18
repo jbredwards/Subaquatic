@@ -87,7 +87,9 @@ public final class SubaquaticCreativeTab extends CreativeTabs
                     final IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(new ItemStack(bucket));
                     if(fluidHandler != null) {
                         final FluidStack fluidStack = new FluidStack(fluid, Fluid.BUCKET_VOLUME);
-                        if(fluidHandler.fill(fluidStack, false) >= Fluid.BUCKET_VOLUME) handler.get().getSubTypes(buckets, FluidUtil.getFilledBucket(fluidStack));
+                        final ItemStack stack = FluidUtil.getFilledBucket(fluidStack);
+
+                        if(IEntityBucket.get(stack) != null && fluidHandler.fill(fluidStack, false) >= Fluid.BUCKET_VOLUME) handler.get().getSubTypes(buckets, stack);
                     }
                 }));
             }

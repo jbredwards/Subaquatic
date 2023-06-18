@@ -10,7 +10,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import javax.annotation.Nonnull;
 import java.util.Random;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  *
