@@ -94,6 +94,12 @@ public class BlockSeagrass extends BlockWaterloggedPlant implements IShearable, 
     }
 
     @Override
+    public net.minecraftforge.common.EnumPlantType getPlantType(IBlockAccess world, BlockPos pos)
+    {
+        return net.minecraftforge.common.EnumPlantType.Water;
+    }
+
+    @Override
     protected boolean canSustainBush(@Nonnull IBlockState state) {
         if(isEqualTo(state.getBlock(), Blocks.MAGMA)) return false;
         else if(isEqualTo(state.getBlock(), this)) return state.getValue(TYPE) != Type.TOP;

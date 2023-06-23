@@ -85,6 +85,12 @@ public class BlockKelp extends BlockWaterloggedPlant implements IGrowable
     }
 
     @Override
+    public net.minecraftforge.common.EnumPlantType getPlantType(IBlockAccess world, BlockPos pos)
+    {
+        return net.minecraftforge.common.EnumPlantType.Water;
+    }
+
+    @Override
     protected boolean canSustainBush(@Nonnull IBlockState state) {
         if(isEqualTo(state.getBlock(), Blocks.MAGMA)) return false;
         return isEqualTo(state.getBlock(), this) || state.isTopSolid();

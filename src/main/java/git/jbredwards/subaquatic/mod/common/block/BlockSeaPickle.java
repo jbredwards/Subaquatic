@@ -92,6 +92,12 @@ public class BlockSeaPickle extends BlockBush implements IGrowable, IFluidloggab
         return aabb[state.getValue(PICKLES)];
     }
 
+    @Override
+    public net.minecraftforge.common.EnumPlantType getPlantType(IBlockAccess world, BlockPos pos)
+    {
+        return net.minecraftforge.common.EnumPlantType.Water;
+    }
+
     @Nonnull
     @Override
     public AxisAlignedBB getCollisionBoundingBox(@Nonnull IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
