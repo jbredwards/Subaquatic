@@ -133,7 +133,7 @@ public final class SubaquaticCreativeTab extends CreativeTabs
     @Override
     public int getColumn() {
         applyTabsTexture();
-        return ((getIndex() - 12) % 10) % 5;
+        return super.getColumn();
     }
 
     //this is a very hacky way to apply the custom tabs texture, will probably be improved in the future

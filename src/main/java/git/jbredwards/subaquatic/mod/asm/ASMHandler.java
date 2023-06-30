@@ -74,6 +74,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalToolBase", new PluginNoItemBobbing()); //Crystal tools don't bob at the surface
             plugins.put("hellfirepvp.astralsorcery.common.item.ItemCraftingComponent", new PluginAstralSorcery()); //Stardust don't bob at the surface
             plugins.put("knightminer.inspirations.recipes.tileentity.TileCauldron", new PluginInspirations()); //Place fish contained within bucket
+            plugins.put("mod.acgaming.extrasounds.mixin.TileEntityBeaconMixin", new PluginExtraSoundsLegacy()); //Remove duplicate mod functionality
             plugins.put("net.optifine.CustomColors", new PluginOptifine()); //Fix possible Optifine NPE with bubble particles
             plugins.put("org.orecruncher.dsurround.client.fx.particle.ParticleDripOverride", new PluginDynamicSurroundings()); //Water droplet particles keep the color set by this mod, and account for FluidStates when creating steam
             plugins.put("org.orecruncher.lib.chunk.DirectChunkCache", new PluginOreLib(true)); //Allow OreLib's IBlockAccessEx to read FluidStates
@@ -117,6 +118,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.item.ItemPotion", new PluginItemPotion()); //Add new config option to toggle the potion enchantment glint
             plugins.put("net.minecraft.network.PacketBuffer", new PluginPacketBuffer()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
             plugins.put("net.minecraft.potion.PotionUtils", new PluginPotionUtils()); //Use new water fluid color
+            plugins.put("net.minecraft.tileentity.TileEntityBeacon", new PluginTileEntityBeacon()); //Backport the vanilla 1.13+ beacon sounds
             plugins.put("net.minecraft.tileentity.TileEntityChest", new PluginTileEntityChest()); //Add bubble particles for chests when they open underwater
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level

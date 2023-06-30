@@ -1,5 +1,11 @@
 [
     //block sounds
+    ["1.18.2", "assets/minecraft/sounds/block/beacon/activate.ogg", "assets/subaquatic/sounds/blocks/beacon/activate.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/beacon/ambient.ogg", "assets/subaquatic/sounds/blocks/beacon/ambient.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/beacon/deactivate.ogg", "assets/subaquatic/sounds/blocks/beacon/deactivate.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/beacon/power1.ogg", "assets/subaquatic/sounds/blocks/beacon/power1.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/beacon/power2.ogg", "assets/subaquatic/sounds/blocks/beacon/power2.ogg"],
+    ["1.18.2", "assets/minecraft/sounds/block/beacon/power3.ogg", "assets/subaquatic/sounds/blocks/beacon/power3.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/bubble1.ogg", "assets/subaquatic/sounds/blocks/bubble_column/bubble1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/bubble2.ogg", "assets/subaquatic/sounds/blocks/bubble_column/bubble2.ogg"],
     ["1.18.2", "assets/minecraft/sounds/block/bubble_column/bubble3.ogg", "assets/subaquatic/sounds/blocks/bubble_column/bubble3.ogg"],

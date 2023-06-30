@@ -91,6 +91,36 @@
             }
         ]
     },
+    "blocks.beacon.activate":{
+        "category":"blocks",
+        "sounds":[
+            "subaquatic:blocks/beacon/activate"
+        ],
+        "subtitle":"subtitles.subaquatic.block.beacon.activate"
+    },
+    "blocks.beacon.ambient":{
+        "category":"blocks",
+        "sounds":[
+            "subaquatic:blocks/beacon/ambient"
+        ],
+        "subtitle":"subtitles.subaquatic.block.beacon.ambient"
+    },
+    "blocks.beacon.deactivate":{
+        "category":"blocks",
+        "sounds":[
+            "subaquatic:blocks/beacon/deactivate"
+        ],
+        "subtitle":"subtitles.subaquatic.block.beacon.deactivate"
+    },
+    "blocks.beacon.power_select":{
+        "category":"blocks",
+        "sounds":[
+            "subaquatic:blocks/beacon/power1",
+            "subaquatic:blocks/beacon/power2",
+            "subaquatic:blocks/beacon/power3"
+        ],
+        "subtitle":"subtitles.subaquatic.block.beacon.power_select"
+    },
     "blocks.bubble_column.bubble_pop":{
         "sounds":[
             {

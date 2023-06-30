@@ -20,6 +20,10 @@ public final class SubaquaticSounds
     @Nonnull public static final List<SoundEvent> INIT = new LinkedList<>();
 
     //block sounds
+    @Nonnull public static final SoundEvent BEACON_ACTIVATE = register("blocks.beacon.activate");
+    @Nonnull public static final SoundEvent BEACON_AMBIENT = register("blocks.beacon.ambient");
+    @Nonnull public static final SoundEvent BEACON_DEACTIVATE = register("blocks.beacon.deactivate");
+    @Nonnull public static final SoundEvent BEACON_POWER_SELECT = register("blocks.beacon.power_select");
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_BUBBLE_POP = register("blocks.bubble_column.bubble_pop");
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_AMBIENT = register("blocks.bubble_column.down.ambient");
     @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_INSIDE = register("blocks.bubble_column.down.inside");

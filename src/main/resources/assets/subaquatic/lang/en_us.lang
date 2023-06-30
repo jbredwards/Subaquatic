@@ -116,6 +116,10 @@ item.subaquatic.crafting_table_minecart.name=Minecart with Crafting Table
 item.subaquatic.dried_kelp.name=Dried Kelp
 item.subaquatic.ender_chest_minecart.name=Minecart with Ender Chest
 #Sounds
+subtitles.subaquatic.block.beacon.activate=Beacon activates
+subtitles.subaquatic.block.beacon.ambient=Beacon hums
+subtitles.subaquatic.block.beacon.deactivate=Beacon deactivates
+subtitles.subaquatic.block.beacon.power_select=Beacon power selected
 subtitles.subaquatic.block.bubble_column.bubble_pop=Bubbles pop
 subtitles.subaquatic.block.bubble_column.down.ambient=Bubbles whirl
 subtitles.subaquatic.block.bubble_column.down.inside=Bubbles zoom
