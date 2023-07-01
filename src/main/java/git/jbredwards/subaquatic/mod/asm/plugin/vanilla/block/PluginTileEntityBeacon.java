@@ -111,17 +111,17 @@ public final class PluginTileEntityBeacon implements IASMPlugin
     public static final class Hooks
     {
         public static void playAmbientSound(@Nonnull TileEntity tile, boolean isComplete) {
-            if(tile.hasWorld() && !tile.getWorld().isRemote && isComplete)
+            if(isComplete && !tile.getWorld().isRemote)
                 tile.getWorld().playSound(null, tile.getPos(), SubaquaticSounds.BEACON_AMBIENT, SoundCategory.BLOCKS, 1, 1);
         }
 
         public static void playPowerSelectSound(@Nonnull TileEntity tile, boolean isComplete) {
-            if(tile.hasWorld() && !tile.getWorld().isRemote && isComplete)
+            if(isComplete && !tile.getWorld().isRemote)
                 tile.getWorld().playSound(null, tile.getPos(), SubaquaticSounds.BEACON_POWER_SELECT, SoundCategory.BLOCKS, 1, 1);
         }
 
         public static void playUpdateSound(@Nonnull TileEntity tile, boolean isComplete, boolean prevIsComplete) {
-            if(tile.hasWorld() && !tile.getWorld().isRemote && isComplete != prevIsComplete)
+            if(isComplete != prevIsComplete && !tile.getWorld().isRemote)
                 tile.getWorld().playSound(null, tile.getPos(), isComplete ? SubaquaticSounds.BEACON_ACTIVATE : SubaquaticSounds.BEACON_DEACTIVATE, SoundCategory.BLOCKS, 1, 1);
         }
     }

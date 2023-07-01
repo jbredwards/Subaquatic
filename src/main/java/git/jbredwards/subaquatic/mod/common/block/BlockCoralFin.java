@@ -3,12 +3,15 @@ package git.jbredwards.subaquatic.mod.common.block;
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable;
 import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.BlockRenderLayer;
@@ -17,6 +20,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.relauncher.Side;
@@ -107,17 +111,27 @@ public class BlockCoralFin extends AbstractBlockCoral implements IFluidloggable,
     public int quantityDropped(@Nonnull Random random) { return 0; }
 
     @Override
-    public boolean isShearable(@Nonnull ItemStack item, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) { return true; }
+    public boolean isShearable(@Nonnull ItemStack item, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+        return SubaquaticConfigHandler.Server.Block.coralPlantsShearable;
+    }
 
     @Nonnull
     @Override
     public List<ItemStack> onSheared(@Nonnull ItemStack item, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, int fortune) {
-        return Collections.singletonList(new ItemStack(this, 1, damageDropped(world.getBlockState(pos))));
+        return Collections.singletonList(getSilkTouchDrop(world.getBlockState(pos)));
     }
 
     @Override
     public boolean hasNeededFluid(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
         return FluidloggedUtils.isCompatibleFluid(neededFluid, FluidState.get(world, pos).getFluid())
                 || FluidloggedUtils.isCompatibleFluid(neededFluid, FluidState.get(world, pos.down()).getFluid());
+    }
+
+    @Override
+    public float getPlayerRelativeBlockHardness(@Nonnull IBlockState state, @Nonnull EntityPlayer player, @Nonnull World worldIn, @Nonnull BlockPos pos) {
+        if(state.getValue(ALIVE)) return Float.MAX_VALUE;
+
+        final ItemStack tool = player.getHeldItemMainhand();
+        return tool.getItem() instanceof ItemShears && isShearable(tool, worldIn, pos) ? Float.MAX_VALUE : ForgeHooks.blockStrength(state, player, worldIn, pos);
     }
 }

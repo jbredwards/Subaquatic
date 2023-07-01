@@ -86,6 +86,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("vibrantjourneys.entities.renderer.RenderPVJBoat", new PluginRenderBoat(false)); //Render bubble column boat rocking
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
+            plugins.put("net.minecraft.block.BlockBeacon", new PluginBlockBeacon()); //Destroying an active beacon block plays the deactivation sound
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
             plugins.put("net.minecraft.block.BlockGrass", new PluginBlockGrass()); //Fix grass growing underwater, also fixes MC-130137
             plugins.put("net.minecraft.block.BlockHugeMushroom", new PluginBlockHugeMushroom()); //Allow the huge mushroom item blocks to be more accessible & useful outside just commands

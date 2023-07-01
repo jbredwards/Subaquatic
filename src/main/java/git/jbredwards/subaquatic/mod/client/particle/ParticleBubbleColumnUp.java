@@ -5,7 +5,6 @@ import git.jbredwards.subaquatic.mod.client.particle.factory.IParticleConstructo
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
-import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleBubble;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,7 +21,7 @@ import javax.annotation.Nonnull;
 public class ParticleBubbleColumnUp extends ParticleBubble implements IParticleBubbleColumn
 {
     @Nonnull
-    public static final IParticleFactory FACTORY = new ParticleFactoryColorize((IParticleConstructor)ParticleBubbleColumnUp::new,
+    public static final IParticleConstructor FACTORY = new ParticleFactoryColorize((IParticleConstructor)ParticleBubbleColumnUp::new,
             Subaquatic.isInspirationsInstalled ? InspirationsHandler::getParticleColorAt : SubaquaticWaterColorConfig::getParticleColorAt);
 
     protected ParticleBubbleColumnUp(@Nonnull World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... args) {

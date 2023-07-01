@@ -183,6 +183,12 @@ public final class SubaquaticConfigHandler
             @Config.LangKey("config.subaquatic.server.block.bubbleColumnSoilUp")
             public static String[] bubbleColumnSoilUp = new String[] {"{Name:\"minecraft:soul_sand\"}"};
 
+            @Config.LangKey("config.subaquatic.server.block.coralNeedsSilkTouch")
+            public static boolean coralNeedsSilkTouch = true;
+
+            @Config.LangKey("config.subaquatic.server.block.coralPlantsShearable")
+            public static boolean coralPlantsShearable = true;
+
             @Config.LangKey("config.subaquatic.server.block.mushroomBlockFortune")
             public static boolean mushroomBlockFortune = true;
 

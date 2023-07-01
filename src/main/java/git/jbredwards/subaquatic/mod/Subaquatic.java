@@ -85,7 +85,7 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.1.0", dependencies = "required-after:fluidlogged_api@[2.2.0,);required-client:assetmover@[2.5,);")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.2.0", dependencies = "required-after:fluidlogged_api@[2.2.5,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -94,7 +94,6 @@ public final class Subaquatic
     @SuppressWarnings("NotNullFieldNotInitialized")
     @Nonnull public static SimpleNetworkWrapper WRAPPER;
 
-    public static final boolean isBOPInstalled = Loader.isModLoaded("biomesoplenty");
     public static final boolean isInspirationsInstalled = Loader.isModLoaded("inspirations");
 
     @Mod.EventHandler

@@ -32,7 +32,7 @@ public final class PluginOreLib implements IASMPlugin
          * }
          */
         addMethod(classNode, "getChunkFromBlockCoords", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/chunk/Chunk;",
-            "getChunk", "(Lgit/jbredwards/fluidlogged_api/api/asm/impl/IChunkProvider;)Lnet/minecraft/world/chunk/Chunk;", generator -> {
+            "getChunk", "(Lgit/jbredwards/fluidlogged_api/api/asm/impl/IChunkProvider;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/chunk/Chunk;", generator -> {
                 generator.visitVarInsn(ALOAD, 0);
                 generator.visitFieldInsn(GETFIELD, classNode.name, useWorld ? "world" : "cache", useWorld ? "Lnet/minecraft/world/World;" : "Lnet/minecraft/world/ChunkCache;");
                 generator.visitVarInsn(ALOAD, 1);

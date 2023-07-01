@@ -1,41 +1,29 @@
 package git.jbredwards.subaquatic.mod.common.block;
 
-import git.jbredwards.fluidlogged_api.api.block.IFluidloggable;
 import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 /**
  *
  * @author jbred
  *
  */
-public class BlockCoralFan extends AbstractBlockCoral implements IFluidloggable, IShearable
+public class BlockCoralFan extends BlockCoralFin
 {
     @Nonnull
     public static final PropertyDirection SIDE = PropertyDirection.create("side", side -> side != EnumFacing.DOWN);
@@ -77,12 +65,6 @@ public class BlockCoralFan extends AbstractBlockCoral implements IFluidloggable,
         return AABB[state.getValue(SIDE).getIndex()];
     }
 
-    @Nullable
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(@Nonnull IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
-        return NULL_AABB;
-    }
-
     @Nonnull
     @Override
     public IBlockState getStateForPlacement(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer) {
@@ -119,45 +101,6 @@ public class BlockCoralFan extends AbstractBlockCoral implements IFluidloggable,
     @Override
     public void neighborChanged(@Nonnull IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Block blockIn, @Nonnull BlockPos fromPos) {
         if(!canPlaceBlockOnSide(worldIn, pos, state.getValue(SIDE))) worldIn.destroyBlock(pos, true);
-    }
-
-    @Override
-    public boolean isOpaqueCube(@Nonnull IBlockState state) { return false; }
-
-    @Override
-    public boolean isFullCube(@Nonnull IBlockState state) { return false; }
-
-    @Override
-    public boolean isSideSolid(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
-        return false;
-    }
-
-    @Override
-    public BlockFaceShape getBlockFaceShape(@Nonnull IBlockAccess worldIn, @Nonnull IBlockState state, @Nonnull BlockPos pos, @Nonnull EnumFacing face) {
-        return BlockFaceShape.UNDEFINED;
-    }
-
-    @Nullable
-    @Override
-    public PathNodeType getAiPathNodeType(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
-        return PathNodeType.OPEN;
-    }
-
-    @Nonnull
-    @SideOnly(Side.CLIENT)
-    @Override
-    public BlockRenderLayer getRenderLayer() { return BlockRenderLayer.CUTOUT; }
-
-    @Override
-    public int quantityDropped(@Nonnull Random random) { return 0; }
-
-    @Override
-    public boolean isShearable(@Nonnull ItemStack item, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) { return true; }
-
-    @Nonnull
-    @Override
-    public List<ItemStack> onSheared(@Nonnull ItemStack item, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, int fortune) {
-        return Collections.singletonList(new ItemStack(this, 1, damageDropped(world.getBlockState(pos))));
     }
 
     @Override

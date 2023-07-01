@@ -12,6 +12,8 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -54,7 +56,29 @@ public abstract class AbstractBlockCoral extends Block implements IGrowable
     public abstract int getMetaFromState(@Nonnull IBlockState state);
 
     @Override
-    public int damageDropped(@Nonnull IBlockState state) { return state.getValue(ALIVE) ? 0 : 1; }
+    public int quantityDropped(@Nonnull Random random) {
+        return SubaquaticConfigHandler.Server.Block.coralNeedsSilkTouch ? 0 : 1;
+    }
+
+    @Override
+    public int damageDropped(@Nonnull IBlockState state) {
+        return !SubaquaticConfigHandler.Server.Block.coralNeedsSilkTouch && state.getValue(ALIVE) ? 0 : 1;
+    }
+
+    @Override
+    protected boolean canSilkHarvest() { return true; }
+
+    @Nonnull
+    @Override
+    protected ItemStack getSilkTouchDrop(@Nonnull IBlockState state) {
+        return new ItemStack(this, 1, state.getValue(ALIVE) ? 0 : 1);
+    }
+
+    @Nonnull
+    @Override
+    public ItemStack getItem(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        return getSilkTouchDrop(state);
+    }
 
     @Nonnull
     @Override

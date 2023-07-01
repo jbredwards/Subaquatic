@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.awt.*;
+import java.util.Objects;
 import java.util.function.ToIntBiFunction;
 
 /**
@@ -18,7 +19,7 @@ import java.util.function.ToIntBiFunction;
  *
  */
 @SideOnly(Side.CLIENT)
-public class ParticleFactoryColorize implements IParticleFactory
+public class ParticleFactoryColorize implements IParticleConstructor
 {
     @Nonnull public final IParticleColorGetter colorSupplier;
     @Nonnull public final IParticleFactory particleFactory;
@@ -34,10 +35,16 @@ public class ParticleFactoryColorize implements IParticleFactory
         particleFactory = factoryIn;
     }
 
+    @Nonnull
+    @Override
+    public Particle generate(@Nonnull World world, double x, double y, double z, double speedX, double speedY, double speedZ, @Nonnull int... args) {
+        return Objects.requireNonNull(createParticle(-1, world, x, y, z, speedX, speedY, speedZ, args));
+    }
+
     @Nullable
     @Override
-    public Particle createParticle(int particleID, @Nonnull World worldIn, double x, double y, double z, double xSpeedIn, double ySpeedIn, double zSpeedIn, @Nonnull int... args) {
-        final @Nullable Particle particle = particleFactory.createParticle(particleID, worldIn, x, y, z, xSpeedIn, ySpeedIn, zSpeedIn, args);
+    public Particle createParticle(int particleID, @Nonnull World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, @Nonnull int... args) {
+        final @Nullable Particle particle = particleFactory.createParticle(particleID, worldIn, x, y, z, xSpeed, ySpeed, zSpeed, args);
         if(particle != null) {
             final float[] rgb = colorSupplier.get(worldIn, x, y, z).getRGBColorComponents(null);
             particle.setRBGColorF(rgb[0], rgb[1], rgb[2]);
