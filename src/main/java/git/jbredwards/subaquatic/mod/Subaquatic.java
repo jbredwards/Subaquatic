@@ -85,7 +85,7 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.2.0", dependencies = "required-after:fluidlogged_api@[2.2.5,);required-client:assetmover@[2.5,);")
+@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.2.1", dependencies = "required-after:fluidlogged_api@[2.2.5,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";

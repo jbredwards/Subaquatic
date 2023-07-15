@@ -19,6 +19,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
@@ -111,6 +112,7 @@ public final class SubaquaticWaterColorConfig
             else if(originalColor != 16777215) return emulateLegacyColor(originalColor);
 
             //biome has no special color, give it one that applies to its biome tag
+            else if(!ForgeRegistries.BIOMES.containsValue(biome)) return DEFAULT_WATER_COLOR; //catch unregistered biomes
             final Set<BiomeDictionary.Type> biomeTags = BiomeDictionary.getTypes(biome);
 
             //high priority
