@@ -41,6 +41,7 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBiomesOPlenty()); //Don't change the underwater fog color while this mod is installed
             plugins.put("com.blamejared.clumps.proxy.ClientProxy", new PluginClumps()); //Remove Clumps mod XP orb render override
             plugins.put("com.blamejared.clumps.entities.EntityXPOrbBig", new PluginClumps()); //Clumps mod XP orbs float while in water
+            plugins.put("com.ferreusveritas.dynamictrees.models.ModelRootyWater", new PluginDynamicTrees()); //Fix dynamic trees water roots not using the correct water textures
             plugins.put("com.fuzs.aquaacrobatics.block.BlockBubbleColumn", new PluginAquaAcrobatics()); //AA bubble columns implement IOxygenSupplier
             plugins.put("com.fuzs.aquaacrobatics.client.handler.FogHandler", new PluginAquaAcrobatics()); //Improve Aqua Acrobatics mod compatibility by removing the stuff from that mod which this mod also does
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.client.ItemRendererMixin", new PluginAquaAcrobatics());
