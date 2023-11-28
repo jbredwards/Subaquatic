@@ -33,6 +33,7 @@ public class EntityPufferfish extends AbstractFish
 {
     @Nonnull
     private static final DataParameter<Integer> PUFF_STATE = EntityDataManager.createKey(EntityPufferfish.class, DataSerializers.VARINT);
+    public static final ResourceLocation LOOT = new ResourceLocation(Subaquatic.MODID, "entities/pufferfish");
     protected float originalWidth = -1;
     protected float originalHeight;
     public int deflateTimer;
@@ -171,7 +172,7 @@ public class EntityPufferfish extends AbstractFish
 
     @Nonnull
     @Override
-    protected ResourceLocation getLootTable() { return new ResourceLocation(Subaquatic.MODID, "entities/pufferfish"); }
+    protected ResourceLocation getLootTable() { return LOOT; }
 
     @Nonnull
     @Override

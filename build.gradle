@@ -38,6 +38,7 @@ dependencies {
     deobfProvided 'curse.maven:inspirations-284007:2843007'
     deobfProvided "curse.maven:mantle-74924:2713386:"
     //deobfProvided "curse.maven:open-terrain-generator-265894:4473430"
+    deobfProvided "curse.maven:just-enough-resources-jer-240630:2728585"
 }
 
 repositories {

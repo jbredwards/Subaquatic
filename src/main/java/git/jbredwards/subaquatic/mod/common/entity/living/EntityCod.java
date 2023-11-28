@@ -18,6 +18,8 @@ import javax.annotation.Nonnull;
  */
 public class EntityCod extends AbstractGroupFish
 {
+    public static final ResourceLocation LOOT = new ResourceLocation(Subaquatic.MODID, "entities/cod");
+
     public EntityCod(@Nonnull World worldIn) {
         super(worldIn);
         setSize(0.5f, 0.3f);
@@ -25,7 +27,7 @@ public class EntityCod extends AbstractGroupFish
 
     @Nonnull
     @Override
-    protected ResourceLocation getLootTable() { return new ResourceLocation(Subaquatic.MODID, "entities/cod"); }
+    protected ResourceLocation getLootTable() { return LOOT; }
 
     @Nonnull
     @Override

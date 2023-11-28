@@ -32,6 +32,8 @@ public class EntityTropicalFish extends AbstractGroupFish
 {
     @Nonnull
     private static final DataParameter<TropicalFishData> VARIANT = EntityDataManager.createKey(EntityTropicalFish.class, SubaquaticDataSerializers.TROPICAL_FISH_DATA);
+    public static final ResourceLocation LOOT = new ResourceLocation(Subaquatic.MODID, "entities/tropical_fish");
+
     public EntityTropicalFish(@Nonnull World worldIn) {
         super(worldIn);
         setSize(0.5f, 0.4f);
@@ -100,7 +102,7 @@ public class EntityTropicalFish extends AbstractGroupFish
 
     @Nonnull
     @Override
-    protected ResourceLocation getLootTable() { return new ResourceLocation(Subaquatic.MODID, "entities/tropical_fish"); }
+    protected ResourceLocation getLootTable() { return LOOT; }
 
     @Nonnull
     @Override

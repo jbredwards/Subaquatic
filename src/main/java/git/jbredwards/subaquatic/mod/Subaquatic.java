@@ -12,6 +12,7 @@ import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.capability.ICompactFishing;
 import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
+import git.jbredwards.subaquatic.mod.common.compat.jer.SubaquaticJERPlugin;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticBlockSoakRecipesConfig;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
@@ -25,6 +26,7 @@ import git.jbredwards.subaquatic.mod.common.recipe.BlockSoakRecipe;
 import git.jbredwards.subaquatic.mod.common.world.biome.BiomeFrozenOcean;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.*;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
+import jeresources.reference.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
@@ -255,5 +257,10 @@ public final class Subaquatic
             else if(SubaquaticConfigHandler.Client.Particle.longerLastingBubbles) particle.setMaxAge(particle.particleMaxAge * 5);
             return particle;
         });
+
+        //Initializing JER integration if loaded
+        if(Loader.isModLoaded(Reference.ID)) {
+            SubaquaticJERPlugin.init();
+        }
     }
 }

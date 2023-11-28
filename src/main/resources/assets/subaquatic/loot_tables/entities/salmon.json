@@ -27,6 +27,10 @@
                 {
                     "functions":[
                         {
+                            "data":1,
+                            "function":"minecraft:set_data"
+                        },
+                        {
                             "conditions":[
                                 {
                                     "condition":"entity_properties",
@@ -37,10 +41,6 @@
                                 }
                             ],
                             "function":"furnace_smelt"
-                        },
-                        {
-                            "data":1,
-                            "function":"minecraft:set_data"
                         }
                     ],
                     "name":"minecraft:fish",
