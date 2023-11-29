@@ -12,6 +12,7 @@ import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.capability.ICompactFishing;
 import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
+import git.jbredwards.subaquatic.mod.common.compat.jer.SubaquaticJERPlugin;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticBlockSoakRecipesConfig;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
@@ -95,6 +96,7 @@ public final class Subaquatic
     @Nonnull public static SimpleNetworkWrapper WRAPPER;
 
     public static final boolean isInspirationsInstalled = Loader.isModLoaded("inspirations");
+    public static final boolean isJERInstalled = Loader.isModLoaded("jeresources");
 
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
@@ -255,5 +257,8 @@ public final class Subaquatic
             else if(SubaquaticConfigHandler.Client.Particle.longerLastingBubbles) particle.setMaxAge(particle.particleMaxAge * 5);
             return particle;
         });
+
+        //Initializing JER integration if loaded
+        if(isJERInstalled) SubaquaticJERPlugin.init();
     }
 }
