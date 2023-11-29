@@ -1,9 +1,6 @@
 package git.jbredwards.subaquatic.mod.common.compat.jer;
 
-import git.jbredwards.subaquatic.mod.common.entity.living.EntityCod;
-import git.jbredwards.subaquatic.mod.common.entity.living.EntityFish;
-import git.jbredwards.subaquatic.mod.common.entity.living.EntityPufferfish;
-import git.jbredwards.subaquatic.mod.common.entity.living.EntitySalmon;
+import git.jbredwards.subaquatic.mod.common.entity.living.*;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import jeresources.api.IJERAPI;
 import jeresources.api.IMobRegistry;
@@ -35,6 +32,9 @@ public class SubaquaticJERPlugin {
 
         String[] salmonSpawnBiomes = getBiomeNames(Biomes.RIVER, Biomes.FROZEN_RIVER, Biomes.FROZEN_OCEAN, SubaquaticBiomes.DEEP_FROZEN_OCEAN, SubaquaticBiomes.COLD_OCEAN, SubaquaticBiomes.DEEP_COLD_OCEAN);
         registry.register(new EntitySalmon(world), LightLevel.any, salmonSpawnBiomes, EntitySalmon.LOOT);
+
+        String[] tropicalFishSpawnBiomes = getBiomeNames(SubaquaticBiomes.LUKEWARM_OCEAN, SubaquaticBiomes.DEEP_LUKEWARM_OCEAN, SubaquaticBiomes.WARM_OCEAN, SubaquaticBiomes.DEEP_WARM_OCEAN);
+        registry.register(new EntityTropicalFish(world), LightLevel.any, tropicalFishSpawnBiomes, EntityTropicalFish.LOOT);
     }
 
     private static String[] getBiomeNames(Biome... biomes) {
