@@ -26,7 +26,6 @@ import git.jbredwards.subaquatic.mod.common.recipe.BlockSoakRecipe;
 import git.jbredwards.subaquatic.mod.common.world.biome.BiomeFrozenOcean;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.*;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
-import jeresources.reference.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
@@ -97,6 +96,7 @@ public final class Subaquatic
     @Nonnull public static SimpleNetworkWrapper WRAPPER;
 
     public static final boolean isInspirationsInstalled = Loader.isModLoaded("inspirations");
+    public static final boolean isJERInstalled = Loader.isModLoaded("jeresources");
 
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
@@ -259,8 +259,6 @@ public final class Subaquatic
         });
 
         //Initializing JER integration if loaded
-        if(Loader.isModLoaded(Reference.ID)) {
-            SubaquaticJERPlugin.init();
-        }
+        if(isJERInstalled) SubaquaticJERPlugin.init();
     }
 }
