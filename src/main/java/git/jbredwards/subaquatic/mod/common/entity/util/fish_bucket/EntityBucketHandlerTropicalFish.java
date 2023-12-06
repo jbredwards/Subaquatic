@@ -92,17 +92,17 @@ public class EntityBucketHandlerTropicalFish extends AbstractEntityBucketHandler
     @Nonnull
     @SideOnly(Side.CLIENT)
     @Override
-    public List<BakedQuad> getRenderQuads() {
+    public List<BakedQuad> getRenderQuads(boolean flipped) {
         if(fishData != null) {
             final String texture = "items/fish_bucket_overlays/tropical_" + fishData.primaryShape + "_pattern_" + fishData.secondaryShape;
             final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 
-            builder.addAll(BakedEntityBucketModel.getQuadsForSprite(new ResourceLocation(Subaquatic.MODID, texture + "_base"), 3));
-            builder.addAll(BakedEntityBucketModel.getQuadsForSprite(new ResourceLocation(Subaquatic.MODID, texture), 4));
+            builder.addAll(BakedEntityBucketModel.getQuadsForSprite(new ResourceLocation(Subaquatic.MODID, texture + "_base"), 3, flipped));
+            builder.addAll(BakedEntityBucketModel.getQuadsForSprite(new ResourceLocation(Subaquatic.MODID, texture), 4, flipped));
             return builder.build();
         }
 
-        return super.getRenderQuads();
+        return super.getRenderQuads(flipped);
     }
 
     @SideOnly(Side.CLIENT)

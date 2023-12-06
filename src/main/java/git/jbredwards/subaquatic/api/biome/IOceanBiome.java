@@ -7,6 +7,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeManager;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Custom ocean biomes don't have to implement this, but it's heavily recommended. Some reasons to implement this are:
@@ -38,6 +39,15 @@ public interface IOceanBiome extends IOceanSurfaceProvider
      */
     @Nonnull
     Biome getMixOceanBiome();
+
+    /**
+     * This method is used to automatically register this biome for generation during runtime, with a generation weight of 100.
+     * Returning null on this method will cause subaquatic to not automatically register this biome for generation.
+     * @return this biome's ocean type.
+     * @since 1.3.0
+     */
+    @Nullable
+    default OceanType getOceanType() { return null; }
 
     /**
      * This is auto-generated at runtime, all ocean biomes are added.

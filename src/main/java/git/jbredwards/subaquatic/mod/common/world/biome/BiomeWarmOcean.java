@@ -1,5 +1,6 @@
 package git.jbredwards.subaquatic.mod.common.world.biome;
 
+import git.jbredwards.subaquatic.api.biome.OceanType;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import net.minecraft.world.biome.Biome;
 
@@ -20,4 +21,8 @@ public class BiomeWarmOcean extends BiomeSandOcean
     @Nonnull
     @Override
     public Biome getMixOceanBiome() { return SubaquaticBiomes.LUKEWARM_OCEAN; }
+
+    @Nullable
+    @Override
+    public OceanType getOceanType() { return OceanType.WARM; }
 }

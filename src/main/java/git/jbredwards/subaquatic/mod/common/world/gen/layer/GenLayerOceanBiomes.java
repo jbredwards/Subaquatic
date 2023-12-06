@@ -1,6 +1,7 @@
 package git.jbredwards.subaquatic.mod.common.world.gen.layer;
 
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
+import git.jbredwards.subaquatic.api.biome.OceanType;
 import git.jbredwards.subaquatic.api.event.GetOceanForGenEvent;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
@@ -34,14 +35,14 @@ public final class GenLayerOceanBiomes extends GenLayer
     private final GenLayer wrapped;
     private NoiseGeneratorOceans temperatureGenerator;
 
-    public GenLayerOceanBiomes(long seed, @Nonnull GenLayer wrappedIn) {
+    public GenLayerOceanBiomes(final long seed, @Nonnull final GenLayer wrappedIn) {
         super(seed);
         wrapped = wrappedIn;
     }
 
     @Nonnull
     @Override
-    public int[] getInts(int areaX, int areaZ, int areaWidth, int areaHeight) {
+    public int[] getInts(final int areaX, final int areaZ, final int areaWidth, final int areaHeight) {
         final int[] biomeInts = wrapped.getInts(areaX-1, areaZ-1, areaWidth+2, areaHeight+2).clone();
         IntCache.resetIntCache();
         //create separate ocean biomes layer
@@ -67,12 +68,12 @@ public final class GenLayerOceanBiomes extends GenLayer
 
     //seed to test ocean gen: -4426319367184787986
     @Override
-    public void initWorldGenSeed(long seed) {
+    public void initWorldGenSeed(final long seed) {
         super.initWorldGenSeed(seed);
         temperatureGenerator = new NoiseGeneratorOceans(new Random(seed));
     }
 
-    static int handleDeepOceanGen(@Nullable Biome shallowOcean) {
+    static int handleDeepOceanGen(@Nullable final Biome shallowOcean) {
         //modded ocean biomes
         if(shallowOcean instanceof IOceanBiome) {
             final int deepOcean = ((IOceanBiome)shallowOcean).getDeepOceanBiomeId();
@@ -84,7 +85,7 @@ public final class GenLayerOceanBiomes extends GenLayer
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    static void handleGenLayerWrappers(@Nonnull WorldTypeEvent.InitBiomeGens event) {
+    static void handleGenLayerWrappers(@Nonnull final WorldTypeEvent.InitBiomeGens event) {
         final GenLayer[] wrappedLayers = new GenLayer[event.getNewBiomeGens().length];
         for(int i = 0; i < wrappedLayers.length; i++) {
             final GenLayer layer = event.getNewBiomeGens()[i];
@@ -99,11 +100,8 @@ public final class GenLayerOceanBiomes extends GenLayer
         event.setNewBiomeGens(wrappedLayers);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    static void handleShallowOceanGen(@Nonnull GetOceanForGenEvent event) {
-        if(event.temperatureNoise > 0.4) event.setOcean(SubaquaticBiomes.WARM_OCEAN);
-        else if(event.temperatureNoise > 0.2) event.setOcean(SubaquaticBiomes.LUKEWARM_OCEAN);
-        else if(event.temperatureNoise < -0.4) event.setOcean(Biomes.FROZEN_OCEAN);
-        else if(event.temperatureNoise < -0.2) event.setOcean(SubaquaticBiomes.COLD_OCEAN);
+    @SubscribeEvent(priority = EventPriority.LOW)
+    static void handleShallowOceanGen(@Nonnull final GetOceanForGenEvent event) {
+        event.setOcean(OceanType.getTypeForTemperature(event.temperatureNoise).getRandomBiome(event::getRandomInt));
     }
 }

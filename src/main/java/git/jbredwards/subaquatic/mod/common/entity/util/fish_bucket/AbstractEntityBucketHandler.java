@@ -90,8 +90,8 @@ public abstract class AbstractEntityBucketHandler implements INBTSerializable<NB
 
     @Nonnull
     @SideOnly(Side.CLIENT)
-    public List<BakedQuad> getRenderQuads() {
-        return Collections.unmodifiableList(BakedEntityBucketModel.getQuadsForSprite(getSpriteForRender(), 3));
+    public List<BakedQuad> getRenderQuads(boolean flipped) {
+        return Collections.unmodifiableList(BakedEntityBucketModel.getQuadsForSprite(getSpriteForRender(), 3, flipped));
     }
 
     @SideOnly(Side.CLIENT)

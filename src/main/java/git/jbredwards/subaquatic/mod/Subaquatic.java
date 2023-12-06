@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
+import git.jbredwards.subaquatic.api.biome.OceanType;
 import git.jbredwards.subaquatic.mod.client.entity.renderer.*;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
@@ -181,7 +182,14 @@ public final class Subaquatic
         MultiPartAbstractInventoryPart.registerFixer(FMLCommonHandler.instance().getDataFixer());
 
         //automatically add all IOceanBiome instances to the Forge ocean biomes list
-        ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome) BiomeManager.oceanBiomes.add(biome); });
+        OceanType.DEFAULT.registerBiome(Biomes.OCEAN, 100);
+        ForgeRegistries.BIOMES.forEach(biome -> {
+            if(biome instanceof IOceanBiome) {
+                if(!BiomeManager.oceanBiomes.contains(biome)) BiomeManager.oceanBiomes.add(biome);
+                final IOceanBiome ocean = (IOceanBiome)biome;
+                if(ocean.getDeepOceanBiomeId() != -1 && ocean.getOceanType() != null) ocean.getOceanType().registerBiome(biome, 100);
+            }
+        });
 
         //generate ocean biome id sets
         BiomeManager.oceanBiomes.forEach(biome -> {

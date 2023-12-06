@@ -19,8 +19,8 @@ public class BiomeSubaquaticOcean extends BiomeOcean implements IOceanBiome
     @Nonnull
     protected IBlockState surfaceBlock;
 
-    @Nullable
-    protected final Biome deepOceanBiome; //null if this itself is a deep ocean biome
+    @Nullable protected final Biome deepOceanBiome; // null if this itself is a deep ocean biome
+    @Nullable protected OceanType oceanType; // null if this biome's generation should be handled manually
     protected int deepOceanBiomeIdCache;
 
     public BiomeSubaquaticOcean(@Nullable Biome deepOceanBiomeIn, @Nonnull BiomeProperties propertiesIn) {
@@ -36,6 +36,11 @@ public class BiomeSubaquaticOcean extends BiomeOcean implements IOceanBiome
     @Nonnull
     @Override
     public Biome getMixOceanBiome() { return this; }
+
+    @Nullable
+    @Override
+    public OceanType getOceanType() { return oceanType; }
+    public void setOceanType(@Nullable final OceanType type) { oceanType = type; }
 
     @Override
     public int getDeepOceanBiomeId() {

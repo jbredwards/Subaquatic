@@ -96,7 +96,7 @@ public final class SubaquaticCreativeTab extends CreativeTabs
 
             //handle modded buckets
             else {
-                validFluids.add(0, FluidRegistry.WATER);
+                if(validFluids.isEmpty() || validFluids.get(0) != FluidRegistry.WATER) validFluids.add(0, FluidRegistry.WATER);
                 validFluids.forEach(fluid -> AbstractEntityBucketHandler.BUCKET_HANDLERS.values().forEach(handler -> {
                     final ItemStack stack = new ItemStack(bucket);
                     final IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(stack);

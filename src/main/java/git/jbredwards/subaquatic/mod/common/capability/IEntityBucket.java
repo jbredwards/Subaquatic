@@ -58,7 +58,7 @@ public interface IEntityBucket
     }
 
     static boolean isFluidValid(@Nullable Fluid fluid) {
-        return fluid != null && fluid.canBePlacedInWorld()
+        return fluid != null && fluid.canBePlacedInWorld() // && !fluid.isLighterThanAir()
                 && fluid.getBlock().getDefaultState().getMaterial() == Material.WATER
                 && !SubaquaticConfigHandler.FISH_BUCKET_FLUID_BLACKLIST.contains(fluid);
     }

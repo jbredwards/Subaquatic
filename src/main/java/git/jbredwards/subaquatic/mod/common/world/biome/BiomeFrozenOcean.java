@@ -1,6 +1,7 @@
 package git.jbredwards.subaquatic.mod.common.world.biome;
 
 import git.jbredwards.subaquatic.api.biome.BiomeSubaquaticOcean;
+import git.jbredwards.subaquatic.api.biome.OceanType;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.WorldGenBlueIce;
@@ -45,6 +46,10 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
     @Nonnull
     @Override
     public Biome getMixOceanBiome() { return SubaquaticBiomes.COLD_OCEAN; }
+
+    @Nullable
+    @Override
+    public OceanType getOceanType() { return OceanType.FROZEN; }
 
     @Nonnull
     @Override

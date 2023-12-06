@@ -1,15 +1,18 @@
 package git.jbredwards.subaquatic.mod.common.init;
 
+import git.jbredwards.subaquatic.api.biome.OceanType;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.world.biome.BiomeFrozenOcean;
 import git.jbredwards.subaquatic.mod.common.world.biome.BiomeSandOcean;
 import git.jbredwards.subaquatic.mod.common.world.biome.BiomeWarmOcean;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeManager;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  *
@@ -39,10 +42,10 @@ public final class SubaquaticBiomes
             new BiomeWarmOcean(DEEP_WARM_OCEAN, new Biome.BiomeProperties("Warm Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
 
     @Nonnull public static final BiomeSandOcean LUKEWARM_OCEAN = register("lukewarm_ocean",
-            new BiomeSandOcean(DEEP_LUKEWARM_OCEAN, new Biome.BiomeProperties("Lukewarm Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
+            new BiomeSandOcean(DEEP_LUKEWARM_OCEAN, new Biome.BiomeProperties("Lukewarm Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)), biome -> biome.setOceanType(OceanType.LUKEWARM));
 
     @Nonnull public static final BiomeSandOcean COLD_OCEAN = register("cold_ocean",
-            new BiomeSandOcean(DEEP_COLD_OCEAN, new Biome.BiomeProperties("Cold Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
+            new BiomeSandOcean(DEEP_COLD_OCEAN, new Biome.BiomeProperties("Cold Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)), biome -> biome.setOceanType(OceanType.COLD));
 
     // Biome Dictionary
     static void registerBiomeDictionary() {
@@ -60,5 +63,11 @@ public final class SubaquaticBiomes
     static <T extends Biome> T register(@Nonnull String name, @Nonnull T biome) {
         INIT.add(biome.setRegistryName(Subaquatic.MODID, name));
         return biome;
+    }
+
+    @Nonnull
+    static <T extends Biome> T register(@Nonnull String name, @Nonnull T biome, @Nonnull final Consumer<T> properties) {
+        properties.accept(biome);
+        return register(name, biome);
     }
 }

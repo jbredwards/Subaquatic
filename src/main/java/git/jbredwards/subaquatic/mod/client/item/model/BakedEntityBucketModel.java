@@ -18,6 +18,8 @@ import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.client.model.ItemLayerModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.model.TRSRTransformation;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,6 +27,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.vecmath.Matrix4f;
+import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 import java.util.*;
 
@@ -37,15 +40,18 @@ import java.util.*;
 public class BakedEntityBucketModel extends BakedModelWrapper<IBakedModel>
 {
     @Nonnull
-    protected static final Map<ResourceLocation, List<BakedQuad>> OVERLAY_QUADS = new HashMap<>();
-    public static void clearQuadsCache() { OVERLAY_QUADS.clear(); }
+    protected static final Map<ResourceLocation, List<BakedQuad>> OVERLAY_QUADS = new HashMap<>(), OVERLAY_QUADS_FLIPPED = new HashMap<>();
+    public static void clearQuadsCache() { OVERLAY_QUADS.clear(); OVERLAY_QUADS_FLIPPED.clear(); }
 
     @Nullable
     protected final AbstractEntityBucketHandler entityData;
-    public BakedEntityBucketModel(@Nonnull IBakedModel originalModel) { this(originalModel, null); }
-    public BakedEntityBucketModel(@Nonnull IBakedModel originalModel, @Nullable AbstractEntityBucketHandler entityDataIn) {
+    protected final boolean flipped;
+
+    public BakedEntityBucketModel(@Nonnull IBakedModel originalModel) { this(originalModel, null, false); }
+    public BakedEntityBucketModel(@Nonnull IBakedModel originalModel, @Nullable AbstractEntityBucketHandler entityDataIn, boolean flippedIn) {
         super(originalModel);
         entityData = entityDataIn;
+        flipped = flippedIn;
     }
 
     @Nonnull
@@ -55,17 +61,16 @@ public class BakedEntityBucketModel extends BakedModelWrapper<IBakedModel>
         final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 
         builder.addAll(super.getQuads(state, null, rand));
-        builder.addAll(entityData.getRenderQuads());
+        builder.addAll(entityData.getRenderQuads(flipped));
         return builder.build();
     }
 
     @Nonnull
-    public static List<BakedQuad> getQuadsForSprite(@Nonnull ResourceLocation texture, int tintIndex) {
-        return OVERLAY_QUADS.computeIfAbsent(texture, entity -> {
-            final TRSRTransformation identity = TRSRTransformation.identity();
-            return ItemLayerModel.getQuadsForSprite(tintIndex, ModelLoader.defaultTextureGetter().apply(texture), DefaultVertexFormats.ITEM,
-                    Optional.of(new TRSRTransformation(new Vector3f(0, -0.00005f, -0.005f), identity.getLeftRot(), new Vector3f(1, 1.0001f, 1.01f), identity.getRightRot())));
-        });
+    public static List<BakedQuad> getQuadsForSprite(@Nonnull ResourceLocation texture, int tintIndex, boolean flipped) {
+        return (flipped ? OVERLAY_QUADS_FLIPPED : OVERLAY_QUADS).computeIfAbsent(texture, entity -> ItemLayerModel.getQuadsForSprite(tintIndex,
+                ModelLoader.defaultTextureGetter().apply(texture), DefaultVertexFormats.ITEM,
+                Optional.of(new TRSRTransformation(new Vector3f(0, -0.00005f, -0.005f), flipped ? new Quat4f(0, 0, 1, 0) : null, new Vector3f(1, 1.0001f, 1.01f), null))
+        ));
     }
 
     @Nonnull
@@ -77,8 +82,12 @@ public class BakedEntityBucketModel extends BakedModelWrapper<IBakedModel>
             public IBakedModel handleItemState(@Nonnull IBakedModel originalModelIn, @Nonnull ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
                 final IBakedModel bucketOverride = originalModel.getOverrides().handleItemState(originalModel, stack, world, entity);
                 final IEntityBucket cap = IEntityBucket.get(stack);
+                if(cap != null) {
+                    final FluidStack fluid = FluidUtil.getFluidContained(stack);
+                    return new BakedEntityBucketModel(bucketOverride, cap.getHandler(), fluid != null && fluid.getFluid().isLighterThanAir());
+                }
 
-                return cap != null ? new BakedEntityBucketModel(bucketOverride, cap.getHandler()) : bucketOverride;
+                return bucketOverride;
             }
         };
     }
@@ -87,6 +96,6 @@ public class BakedEntityBucketModel extends BakedModelWrapper<IBakedModel>
     @Override
     public Pair<? extends IBakedModel, Matrix4f> handlePerspective(@Nonnull ItemCameraTransforms.TransformType cameraTransformType) {
         final Pair<? extends IBakedModel, Matrix4f> oldPerspective = super.handlePerspective(cameraTransformType);
-        return Pair.of(new BakedEntityBucketModel(oldPerspective.getKey(), entityData), oldPerspective.getValue());
+        return Pair.of(new BakedEntityBucketModel(oldPerspective.getKey(), entityData, flipped), oldPerspective.getValue());
     }
 }

@@ -1,14 +1,19 @@
 package git.jbredwards.subaquatic.mod.common.block;
 
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.fluidlogged_api.mod.asm.plugins.vanilla.block.PluginBlockBush;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
 
 import javax.annotation.Nonnull;
 
@@ -31,10 +36,16 @@ public class BlockMud extends Block
         return COLLISION_BOX;
     }
 
-    @Nonnull
     @Override
-    public PathNodeType getAiPathNodeType(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
-        return PathNodeType.BLOCKED;
+    public boolean canSustainPlant(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing direction, @Nonnull IPlantable plantable) {
+        if(plantable instanceof PluginBlockBush.Accessor && ((PluginBlockBush.Accessor)plantable).canSustainBush_Public(state)) return true;
+        final EnumPlantType plant = plantable.getPlantType(world, pos.offset(direction));
+        return plant == EnumPlantType.Plains || plant == EnumPlantType.Beach && (
+                   FluidloggedUtils.getFluidOrReal(world, pos.east()).getMaterial() == Material.WATER
+                || FluidloggedUtils.getFluidOrReal(world, pos.west()).getMaterial() == Material.WATER
+                || FluidloggedUtils.getFluidOrReal(world, pos.north()).getMaterial() == Material.WATER
+                || FluidloggedUtils.getFluidOrReal(world, pos.south()).getMaterial() == Material.WATER
+        );
     }
 
     @Override
