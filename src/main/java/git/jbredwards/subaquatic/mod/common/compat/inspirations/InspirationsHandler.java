@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.compat.inspirations;
 
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;

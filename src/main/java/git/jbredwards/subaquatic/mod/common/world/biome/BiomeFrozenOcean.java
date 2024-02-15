@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.world.biome;
 
 import git.jbredwards.subaquatic.api.biome.BiomeSubaquaticOcean;

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.item;
 
 import git.jbredwards.subaquatic.mod.common.entity.util.PositionedEntitySupplier;

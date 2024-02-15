@@ -3,14 +3,13 @@
   "modid": "subaquatic",
   "name": "Subaquatic",
   "description": "Adds a whole bunch of stuff for better underwater gameplay!",
-  "version": "${version}",
+  "version": "${mod_version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["jbredwards"],
   "credits": "jbredwards",
   "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
+  "screenshots": []
 }
 ]

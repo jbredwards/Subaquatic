@@ -1413,6 +1413,39 @@
         ],
         "subtitle":"subtitles.block.generic.footsteps"
     },
+    "entity.bogged.ambient":{
+        "sounds":[
+            "subaquatic:entity/bogged/ambient1",
+            "subaquatic:entity/bogged/ambient2",
+            "subaquatic:entity/bogged/ambient3",
+            "subaquatic:entity/bogged/ambient4"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.bogged.ambient"
+    },
+    "entity.bogged.death":{
+        "sounds":[
+            "subaquatic:entity/bogged/death"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.bogged.death"
+    },
+    "entity.bogged.hurt":{
+        "sounds":[
+            "subaquatic:entity/bogged/hurt1",
+            "subaquatic:entity/bogged/hurt2",
+            "subaquatic:entity/bogged/hurt3",
+            "subaquatic:entity/bogged/hurt4"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.bogged.hurt"
+    },
+    "entity.bogged.step":{
+        "sounds":[
+            "subaquatic:entity/bogged/step1",
+            "subaquatic:entity/bogged/step2",
+            "subaquatic:entity/bogged/step3",
+            "subaquatic:entity/bogged/step4"
+        ],
+        "subtitle":"subtitles.subaquatic.entity.bogged.step"
+    },
     "entity.cod.death":{
         "sounds":[
             "subaquatic:entity/fish/hurt1",
@@ -1501,6 +1534,16 @@
             "subaquatic:entity/fish/swim6",
             "subaquatic:entity/fish/swim7"
         ]
+    },
+    "entity.parrot.imitate.bogged":{
+        "sounds":[
+            {
+                "name":"subaquatic:entity.bogged.ambient",
+                "pitch":1.7,
+                "type":"event"
+            }
+        ],
+        "subtitle":"subtitles.subaquatic.entity.parrot.imitate.bogged"
     },
     "entity.pufferfish.death":{
         "sounds":[

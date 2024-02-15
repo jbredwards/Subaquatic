@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.entity.item.part;
 
 import git.jbredwards.subaquatic.mod.common.inventory.InventoryWrapper;

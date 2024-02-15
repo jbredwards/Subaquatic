@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod;
 
 import com.cleanroommc.assetmover.AssetMoverAPI;
@@ -87,7 +92,7 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, name = Subaquatic.NAME, version = "1.2.1", dependencies = "required-after:fluidlogged_api@[2.2.5,);required-client:assetmover@[2.5,);")
+@Mod(modid = Subaquatic.MODID, useMetadata = true, dependencies = "required-after:fluidlogged_api@[2.2.5,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -163,6 +168,7 @@ public final class Subaquatic
     @SideOnly(Side.CLIENT)
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBogged.class, RenderBogged::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCod.class, RenderCod::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFish.class, RenderFish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPufferfish.class, RenderPufferfish::new);

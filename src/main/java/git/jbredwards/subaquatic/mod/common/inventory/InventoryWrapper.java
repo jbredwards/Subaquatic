@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;

@@ -149,6 +149,19 @@
     ["1.18.2", "assets/minecraft/sounds/step/wet_grass6.ogg", "assets/subaquatic/sounds/blocks/wet_grass/step6.ogg"],
 
     //entity sounds
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/ambient1.ogg", "assets/subaquatic/sounds/entity/bogged/ambient1.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/ambient2.ogg", "assets/subaquatic/sounds/entity/bogged/ambient2.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/ambient3.ogg", "assets/subaquatic/sounds/entity/bogged/ambient3.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/ambient4.ogg", "assets/subaquatic/sounds/entity/bogged/ambient4.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/death.ogg", "assets/subaquatic/sounds/entity/bogged/death.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/hurt1.ogg", "assets/subaquatic/sounds/entity/bogged/hurt1.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/hurt2.ogg", "assets/subaquatic/sounds/entity/bogged/hurt2.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/hurt3.ogg", "assets/subaquatic/sounds/entity/bogged/hurt3.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/hurt4.ogg", "assets/subaquatic/sounds/entity/bogged/hurt4.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/step1.ogg", "assets/subaquatic/sounds/entity/bogged/step1.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/step2.ogg", "assets/subaquatic/sounds/entity/bogged/step2.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/step3.ogg", "assets/subaquatic/sounds/entity/bogged/step3.ogg"],
+    ["24w07a", "assets/minecraft/sounds/mob/bogged/step4.ogg", "assets/subaquatic/sounds/entity/bogged/step4.ogg"],
     ["1.18.2", "assets/minecraft/sounds/entity/fish/flop1.ogg", "assets/subaquatic/sounds/entity/fish/flop1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/entity/fish/flop2.ogg", "assets/subaquatic/sounds/entity/fish/flop2.ogg"],
     ["1.18.2", "assets/minecraft/sounds/entity/fish/flop3.ogg", "assets/subaquatic/sounds/entity/fish/flop3.ogg"],
@@ -289,6 +302,8 @@
     ["1.18.2", "assets/minecraft/textures/block/water_overlay.png", "assets/subaquatic/textures/blocks/water_overlay.png"],
 
     //entity textures
+    ["24w07a", "assets/minecraft/textures/entity/skeleton/bogged.png", "assets/subaquatic/textures/entity/bogged/base.png"],
+    ["24w07a", "assets/minecraft/textures/entity/skeleton/bogged_overlay.png", "assets/subaquatic/textures/entity/bogged/overlay.png"],
     ["1.18.2", "assets/minecraft/textures/entity/fish/cod.png", "assets/subaquatic/textures/entity/fish/cod.png"],
     ["1.18.2", "assets/minecraft/textures/entity/fish/pufferfish.png", "assets/subaquatic/textures/entity/fish/pufferfish.png"],
     ["1.18.2", "assets/minecraft/textures/entity/fish/salmon.png", "assets/subaquatic/textures/entity/fish/salmon.png"],

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.block;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.client.entity.layer;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;

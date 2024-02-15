@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.entity.util.villager.profession;
 
 import git.jbredwards.subaquatic.api.entity.IConditionalProfession;

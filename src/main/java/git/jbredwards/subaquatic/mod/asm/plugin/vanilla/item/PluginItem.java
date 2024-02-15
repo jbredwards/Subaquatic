@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.asm.plugin.vanilla.item;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;

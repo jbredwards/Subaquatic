@@ -14,7 +14,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.matthewprenger.cursegradle'
 apply plugin: 'maven-publish'
 
-version = 'v1.2.1-mc1.12.2'
+version = "v${mod_version}-mc1.12.2"
 group = 'git.jbredwards.subaquatic'
 archivesBaseName = 'Subaquatic'
 sourceCompatibility = targetCompatibility = '1.8'
@@ -59,7 +59,7 @@ repositories {
 
 processResources {
     // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
+    inputs.property "mod_version", project.mod_version
     inputs.property "mcversion", project.minecraft.version
 
     // replace stuff in mcmod.info, nothing else
@@ -67,7 +67,7 @@ processResources {
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'mod_version':project.mod_version, 'mcversion':project.minecraft.version
     }
         
     // copy everything else except the mcmod.info

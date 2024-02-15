@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.item.tab;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;

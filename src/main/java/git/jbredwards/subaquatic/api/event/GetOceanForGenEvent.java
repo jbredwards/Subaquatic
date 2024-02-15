@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.api.event;
 
 import git.jbredwards.subaquatic.api.biome.OceanType;

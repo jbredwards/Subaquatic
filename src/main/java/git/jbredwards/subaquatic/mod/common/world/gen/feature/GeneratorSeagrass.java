@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.world.gen.feature;
 
 import git.jbredwards.subaquatic.mod.common.block.BlockSeagrass;

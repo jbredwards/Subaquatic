@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
@@ -7,10 +12,12 @@ import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.*;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -31,7 +38,10 @@ public final class SubaquaticEntities
     public static final List<EntityEntry> INIT = new LinkedList<>();
     static int id = 0;
 
+    // =============
     // Item Entities
+    // =============
+
     @Nonnull
     public static final EntityEntry CHEST_BOAT = register("chest_boat",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityBoatChest.class).factory(EntityBoatChest::new));
@@ -51,7 +61,10 @@ public final class SubaquaticEntities
     public static final EntityEntry CRAFTING_TABLE_MINECART = register("crafting_table_minecart",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityMinecartWorkbench.class).factory(EntityMinecartWorkbench::new));
 
+    // ===============
     // Living Entities
+    // ===============
+
     @Nonnull
     public static final EntityEntry COD = register("cod",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityCod.class).factory(EntityCod::new).egg(12691306, 15058059)
@@ -76,17 +89,25 @@ public final class SubaquaticEntities
     public static final EntityEntry FISH = register("fish",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityFish.class).factory(EntityFish::new).egg(0x6b9f93, 0xadbedb));
 
+    @Nonnull
+    public static final EntityEntry BOGGED = register("bogged",
+            EntityEntryBuilder.create().tracker(128, 3, true).entity(EntityBogged.class).factory(EntityBogged::new).egg(9084018, 3231003)
+                    .spawn(EnumCreatureType.MONSTER, 50, 4, 4, BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP)));
+
     static void handleAdditionalEntityData() {
-        //fix the spawning mechanics of this mod's water creatures
+        // fix the spawning mechanics of this mod's water creatures
         INIT.forEach(entry -> { if(EntityWaterCreature.class.isAssignableFrom(entry.getEntityClass()) || EntityWaterMob.class.isAssignableFrom(entry.getEntityClass()))
                 EntitySpawnPlacementRegistry.setPlacementType(entry.getEntityClass(), EntityLiving.SpawnPlacementType.IN_WATER); });
 
-        //globally adjust the spawn rates of squids
+        // globally adjust the spawn rates of squids
         ForgeRegistries.BIOMES.forEach(biome -> biome.getSpawnableList(EnumCreatureType.WATER_CREATURE).forEach(entry -> {
             if(entry.entityClass == EntitySquid.class) { entry.minGroupCount = 1; entry.itemWeight = 2; }
         }));
 
-        //register this mod's entity bucket handlers
+        // remove vanilla skeleton spawns from swamps
+        BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.getSpawnableList(EnumCreatureType.MONSTER).removeIf(entry -> entry.entityClass == EntitySkeleton.class));
+
+        // register this mod's entity bucket handlers
         AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":fish", EntityBucketHandlerFish::new);
         AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":cod", EntityBucketHandlerCod::new);
         AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":salmon", EntityBucketHandlerSalmon::new);

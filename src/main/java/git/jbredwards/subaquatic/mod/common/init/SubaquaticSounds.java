@@ -1,7 +1,14 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.entity.living.EntityBogged;
 import net.minecraft.block.SoundType;
+import net.minecraft.entity.passive.EntityParrot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
@@ -34,6 +41,10 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundEvent PUMPKIN_CARVE = register("blocks.pumpkin.carve");
 
     //entity sounds
+    @Nonnull public static final SoundEvent ENTITY_BOGGED_AMBIENT = register("entity.bogged.ambient");
+    @Nonnull public static final SoundEvent ENTITY_BOGGED_DEATH = register("entity.bogged.death");
+    @Nonnull public static final SoundEvent ENTITY_BOGGED_HURT = register("entity.bogged.hurt");
+    @Nonnull public static final SoundEvent ENTITY_BOGGED_STEP = register("entity.bogged.step");
     @Nonnull public static final SoundEvent ENTITY_COD_DEATH = register("entity.cod.death");
     @Nonnull public static final SoundEvent ENTITY_COD_FLOP = register("entity.cod.flop");
     @Nonnull public static final SoundEvent ENTITY_COD_HURT = register("entity.cod.hurt");
@@ -41,6 +52,7 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundEvent ENTITY_FISH_FLOP = register("entity.fish.flop");
     @Nonnull public static final SoundEvent ENTITY_FISH_HURT = register("entity.fish.hurt");
     @Nonnull public static final SoundEvent ENTITY_FISH_SWIM = register("entity.fish.swim");
+    @Nonnull public static final SoundEvent ENTITY_PARROT_IMITATE_BOGGED = register("entity.parrot.imitate.bogged");
     @Nonnull public static final SoundEvent ENTITY_PUFFERFISH_DEATH = register("entity.pufferfish.death");
     @Nonnull public static final SoundEvent ENTITY_PUFFERFISH_DEFLATE = register("entity.pufferfish.deflate");
     @Nonnull public static final SoundEvent ENTITY_PUFFERFISH_FLOP = register("entity.pufferfish.flop");
@@ -76,6 +88,11 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundType PACKED_MUD_BRICKS = registerType("packed_mud_bricks", 1, 1);
     @Nonnull public static final SoundType ROOTED_DIRT = registerType("rooted_dirt", 1, 1);
     @Nonnull public static final SoundType WET_GRASS = registerType("wet_grass", 1, 1);
+
+    //parrot imitate sounds
+    static void handleParrotImitateSounds() {
+        EntityParrot.registerMimicSound(EntityBogged.class, ENTITY_PARROT_IMITATE_BOGGED);
+    }
 
     @Nonnull
     public static SoundEvent register(@Nonnull String name) {

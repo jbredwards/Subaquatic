@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
@@ -72,5 +77,6 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerSounds(@Nonnull RegistryEvent.Register<SoundEvent> event) {
         SubaquaticSounds.INIT.forEach(event.getRegistry()::register);
+        SubaquaticSounds.handleParrotImitateSounds();
     }
 }

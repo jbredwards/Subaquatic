@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024. jbredwards
+ * All rights reserved.
+ */
+
 package git.jbredwards.subaquatic.mod.client.particle.factory;
 
 import net.minecraft.client.particle.IParticleFactory;
