@@ -80,11 +80,10 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 /**
@@ -92,7 +91,9 @@ import java.util.stream.Collectors;
  * @author jbred
  *
  */
-@Mod(modid = Subaquatic.MODID, useMetadata = true, dependencies = "required-after:fluidlogged_api@[2.2.5,);required-client:assetmover@[2.5,);")
+@Mod(modid = Subaquatic.MODID, version = "1.2.1", useMetadata = true,
+updateJSON = "https://api.modrinth.com/updates/subaquatic/forge_updates.json",
+dependencies = "required-after:fluidlogged_api@[3.1.0,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -106,14 +107,17 @@ public final class Subaquatic
 
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
-    static void constructClient(@Nonnull FMLConstructionEvent event) {
-        LOGGER.info("Reading vanilla assets required by this mod...");
-        final String[][] assets = new Gson().fromJson(new InputStreamReader(Objects.requireNonNull(
-                Loader.class.getResourceAsStream(String.format("/assets/%s/assetmover.jsonc", MODID)))),
-                String[][].class);
+    static void constructClient(@Nonnull FMLConstructionEvent event) throws IOException {
+        @Nonnull final String[][] assets;
+        try(@Nonnull final JarFile file = new JarFile(Objects.requireNonNull(Loader.instance().activeModContainer()).getSource())) {
+            try(@Nonnull final InputStream is = file.getInputStream(file.getEntry("META-INF/assetmover.jsonc"))) {
+                assets = new Gson().fromJson(new InputStreamReader(is), String[][].class);
+            }
+        }
 
-        for(String[] asset : assets) AssetMoverAPI.fromMinecraft(asset[0], Collections.singletonMap(asset[1], asset[2]));
-        LOGGER.info("Success!");
+        @Nonnull final Map<String, Map<String, String>> sortedAssets = new HashMap<>();
+        for(@Nonnull final String[] asset : assets) sortedAssets.computeIfAbsent(asset[0], key -> new HashMap<>()).put(asset[1], asset[2]);
+        sortedAssets.forEach(AssetMoverAPI::fromMinecraft);
     }
 
     @Mod.EventHandler

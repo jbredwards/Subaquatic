@@ -6,9 +6,8 @@
 package git.jbredwards.subaquatic.mod.asm.plugin.modded;
 
 import git.jbredwards.fluidlogged_api.api.asm.IASMPlugin;
-import git.jbredwards.fluidlogged_api.api.asm.impl.IChunkProvider;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.chunk.Chunk;
+import git.jbredwards.fluidlogged_api.api.util.FluidState;
+import git.jbredwards.fluidlogged_api.api.world.IFluidStateProvider;
 import org.objectweb.asm.tree.ClassNode;
 
 import javax.annotation.Nonnull;
@@ -26,21 +25,23 @@ public final class PluginOreLib implements IASMPlugin
 
     @Override
     public boolean transformClass(@Nonnull ClassNode classNode, boolean obfuscated) {
-        classNode.interfaces.add("git/jbredwards/fluidlogged_api/api/asm/impl/IChunkProvider");
+        classNode.interfaces.add("git/jbredwards/fluidlogged_api/api/world/IFluidStateProvider");
         /*
          * New code:
          * //allow OreLib's IBlockAccessEx to read FluidStates
          * @ASMGenerated
-         * public Chunk getChunkFromBlockCoords(BlockPos pos)
+         * public git.jbredwards.fluidlogged_api.api.util.FluidState getFluidState(int x, int y, int z)
          * {
-         *     return Hooks.getChunk(this.cache, pos);
+         *     return Hooks.getFluidState(this.cache, x, y, z);
          * }
          */
-        addMethod(classNode, "getChunkFromBlockCoords", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/chunk/Chunk;",
-            "getChunk", "(Lgit/jbredwards/fluidlogged_api/api/asm/impl/IChunkProvider;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/chunk/Chunk;", generator -> {
+        addMethod(classNode, "getFluidState", "(III)Lgit/jbredwards/fluidlogged_api/api/util/FluidState;",
+            "getFluidState", "(Lgit/jbredwards/fluidlogged_api/api/world/IFluidStateProvider;III)Lgit/jbredwards/fluidlogged_api/api/util/FluidState;", generator -> {
                 generator.visitVarInsn(ALOAD, 0);
                 generator.visitFieldInsn(GETFIELD, classNode.name, useWorld ? "world" : "cache", useWorld ? "Lnet/minecraft/world/World;" : "Lnet/minecraft/world/ChunkCache;");
-                generator.visitVarInsn(ALOAD, 1);
+                generator.visitVarInsn(ILOAD, 1);
+                generator.visitVarInsn(ILOAD, 2);
+                generator.visitVarInsn(ILOAD, 3);
             }
         );
 
@@ -50,9 +51,9 @@ public final class PluginOreLib implements IASMPlugin
     @SuppressWarnings("unused")
     public static final class Hooks
     {
-        @Nullable
-        public static Chunk getChunk(@Nullable IChunkProvider cache, @Nonnull BlockPos pos) {
-            return cache == null ? null : cache.getChunkFromBlockCoords(pos);
+        @Nonnull
+        public static FluidState getFluidState(@Nullable final IFluidStateProvider provider, final int x, final int y, final int z) {
+            return provider == null ? FluidState.EMPTY : provider.getFluidState(x, y, z);
         }
     }
 }

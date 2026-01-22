@@ -29,7 +29,7 @@ minecraft {
 dependencies {
     //required
     deobfCompile "com.cleanroommc:assetmover:${assetmover_version}"
-    deobfCompile "com.github.jbredwards:fluidlogged-api:${fluidlogged_api_version}"
+    deobfCompile "curse.maven:fluidlogged-api-485654:${fluidlogged_api_version}"
 
     //optional
     deobfCompile "mezz.jei:jei_1.12.2:${jei_version}"
@@ -42,7 +42,6 @@ dependencies {
 }
 
 repositories {
-    maven { url 'https://jitpack.io' }
     maven { url 'https://cursemaven.com' }
     maven { url 'https://maven.cleanroommc.com' }
     maven {

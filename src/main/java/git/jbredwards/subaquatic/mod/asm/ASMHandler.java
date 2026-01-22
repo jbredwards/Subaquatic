@@ -6,7 +6,6 @@
 package git.jbredwards.subaquatic.mod.asm;
 
 import git.jbredwards.fluidlogged_api.api.asm.AbstractClassTransformer;
-import git.jbredwards.fluidlogged_api.api.asm.BasicLoadingPlugin;
 import git.jbredwards.subaquatic.mod.asm.plugin.forge.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.modded.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block.*;
@@ -16,18 +15,21 @@ import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.item.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.network.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.potion.PluginPotionUtils;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world.*;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  *
  * @author jbred
  *
  */
-@BasicLoadingPlugin.Name("Subaquatic Plugin")
-@BasicLoadingPlugin.MCVersion("1.12.2")
-@BasicLoadingPlugin.SortingIndex(1001)
-public final class ASMHandler implements BasicLoadingPlugin
+@IFMLLoadingPlugin.Name("Subaquatic Plugin")
+@IFMLLoadingPlugin.MCVersion("1.12.2")
+@IFMLLoadingPlugin.SortingIndex(1001)
+public final class ASMHandler implements IFMLLoadingPlugin
 {
     @SuppressWarnings("unused")
     public static final class Transformer extends AbstractClassTransformer
@@ -40,13 +42,10 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraftforge.fml.common.registry.VillagerRegistry", new PluginVillagerRegistry()); //Add IConditionalProfession functionality
             //modded
             plugins.put("appeng.api.implementations.items.IGrowableCrystal", new PluginNoItemBobbing()); //Crystal seeds don't bob at the surface
-            plugins.put("biomesoplenty.common.block.BlockBOPDirt", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
-            plugins.put("biomesoplenty.common.block.BlockBOPGrass", new PluginBlockGrass()); //Fix grass & mycelium growing underwater, also fixes MC-130137
             plugins.put("biomesoplenty.common.entities.item.RenderBOPBoat", new PluginRenderBoat(false)); //Render bubble column boat rocking
             plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBiomesOPlenty()); //Don't change the underwater fog color while this mod is installed
             plugins.put("com.blamejared.clumps.proxy.ClientProxy", new PluginClumps()); //Remove Clumps mod XP orb render override
             plugins.put("com.blamejared.clumps.entities.EntityXPOrbBig", new PluginClumps()); //Clumps mod XP orbs float while in water
-            plugins.put("com.ferreusveritas.dynamictrees.models.ModelRootyWater", new PluginDynamicTrees()); //Fix dynamic trees water roots not using the correct water textures
             plugins.put("com.fuzs.aquaacrobatics.block.BlockBubbleColumn", new PluginAquaAcrobatics()); //AA bubble columns implement IOxygenSupplier
             plugins.put("com.fuzs.aquaacrobatics.client.handler.FogHandler", new PluginAquaAcrobatics()); //Improve Aqua Acrobatics mod compatibility by removing the stuff from that mod which this mod also does
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.client.ItemRendererMixin", new PluginAquaAcrobatics());
@@ -94,10 +93,8 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockBeacon", new PluginBlockBeacon()); //Destroying an active beacon block plays the deactivation sound
             plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
-            plugins.put("net.minecraft.block.BlockGrass", new PluginBlockGrass()); //Fix grass growing underwater, also fixes MC-130137
             plugins.put("net.minecraft.block.BlockHugeMushroom", new PluginBlockHugeMushroom()); //Allow the huge mushroom item blocks to be more accessible & useful outside just commands
             plugins.put("net.minecraft.block.BlockLever", new PluginBlockLever()); //Add lever redstone particles
-            plugins.put("net.minecraft.block.BlockMycelium", new PluginBlockGrass()); //Fix mycelium growing underwater, also fixes MC-130137
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
             plugins.put("net.minecraft.block.BlockSnow", new PluginBlockSnow()); //Prevent snow layers from being placeable on blue ice
             plugins.put("net.minecraft.block.BlockStem", new PluginBlockStem()); //Update pumpkin reference to the correct block
@@ -130,7 +127,6 @@ public final class ASMHandler implements BasicLoadingPlugin
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
             plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config
-            //plugins.put("net.minecraft.world.chunk.Chunk", new PluginChunk()); //Add call to OnCreateChunkFromPrimerEvent
             plugins.put("net.minecraft.world.gen.feature.WorldGenBigTree", new PluginWorldGenBigTree()); //Fix bug where the block under tall trees is not converted to dirt
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.feature.WorldGenShrub", new PluginWorldGenShrub()); //Fix bug where the block under the log of a shrub is not converted to dirt
@@ -140,5 +136,38 @@ public final class ASMHandler implements BasicLoadingPlugin
         @Nonnull
         @Override
         public String getPluginName() { return "Subaquatic Plugin"; }
+    }
+
+    // ===================================================================
+    // Moved from BasicLoadingPlugin, to prevent issues with FileDirector:
+    // ===================================================================
+
+    @Nonnull
+    @Override
+    public String[] getASMTransformerClass() {
+        return new String[] {getClass().getName() + "$Transformer"};
+    }
+
+    @Nullable
+    @Override
+    public String getModContainerClass() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getSetupClass() {
+        return null;
+    }
+
+    @Override
+    public void injectData(@Nonnull final Map<String, Object> data) {
+        // NO-OP
+    }
+
+    @Nullable
+    @Override
+    public String getAccessTransformerClass() {
+        return null;
     }
 }
