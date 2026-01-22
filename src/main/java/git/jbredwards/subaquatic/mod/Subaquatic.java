@@ -6,7 +6,7 @@
 package git.jbredwards.subaquatic.mod;
 
 import com.cleanroommc.assetmover.AssetMoverAPI;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
@@ -29,7 +29,6 @@ import git.jbredwards.subaquatic.mod.common.entity.living.*;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import git.jbredwards.subaquatic.mod.common.message.*;
 import git.jbredwards.subaquatic.mod.common.recipe.BlockSoakRecipe;
-import git.jbredwards.subaquatic.mod.common.world.biome.BiomeFrozenOcean;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.*;
 import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.Block;
@@ -84,7 +83,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.jar.JarFile;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -192,37 +190,20 @@ public final class Subaquatic
         MultiPartAbstractInventoryPart.registerFixer(FMLCommonHandler.instance().getDataFixer());
 
         //automatically add all IOceanBiome instances to the Forge ocean biomes list
-        OceanType.DEFAULT.registerBiome(Biomes.OCEAN, 100);
-        ForgeRegistries.BIOMES.forEach(biome -> {
-            if(biome instanceof IOceanBiome) {
-                if(!BiomeManager.oceanBiomes.contains(biome)) BiomeManager.oceanBiomes.add(biome);
-                final IOceanBiome ocean = (IOceanBiome)biome;
-                if(ocean.getDeepOceanBiomeId() != -1 && ocean.getOceanType() != null) ocean.getOceanType().registerBiome(biome, 100);
-            }
-        });
-
-        //generate ocean biome id sets
-        BiomeManager.oceanBiomes.forEach(biome -> {
-            final int biomeId = Biome.getIdForBiome(biome);
-            IOceanBiome.OCEAN_IDS.add(biomeId);
-
-            if(biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1) IOceanBiome.SHALLOW_OCEAN_IDS.add(biomeId);
-        });
+        ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome && !BiomeManager.oceanBiomes.contains(biome)) BiomeManager.oceanBiomes.add(biome); });
 
         //automatically update valid ocean monument spawn biomes
-        StructureOceanMonument.SPAWN_BIOMES = new ArrayList<>(ImmutableList.<Biome>builder()
-                .add(Biomes.DEEP_OCEAN)
-                .addAll(BiomeManager.oceanBiomes.stream()
-                        .filter(biome -> biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() == -1)
-                        .collect(Collectors.toList()))
+        StructureOceanMonument.SPAWN_BIOMES = new ArrayList<>(ImmutableSet.<Biome>builder()
+                .addAll(StructureOceanMonument.SPAWN_BIOMES)
+                .add(BiomeManager.oceanBiomes.stream().filter(biome -> biome instanceof IOceanBiome && ((IOceanBiome)biome).generatesOceanMonument()).toArray(Biome[]::new))
                 .build());
+
         //automatically update valid ocean monument neighbor biomes
-        StructureOceanMonument.WATER_BIOMES = new ArrayList<>(ImmutableList.<Biome>builder()
+        StructureOceanMonument.WATER_BIOMES = new ArrayList<>(ImmutableSet.<Biome>builder()
+                .addAll(StructureOceanMonument.WATER_BIOMES)
                 .addAll(BiomeManager.oceanBiomes)
                 .addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER))
                 .build());
-        //ocean monuments spawning in these biomes causes problems
-        StructureOceanMonument.SPAWN_BIOMES.removeIf(biome -> biome instanceof BiomeFrozenOcean);
 
         //add block soak recipe functionality to dispensers
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.POTIONITEM, BlockSoakRecipe.getDispenserHandler());

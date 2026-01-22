@@ -32,6 +32,8 @@ public enum OceanType implements IStringSerializable
     COLD("cold", 0, t -> t < -0.2),
     LUKEWARM("lukewarm", 0, t -> t > 0.2);
 
+    public static final int DEFAULT_WEIGHT = 1000;
+
     @Nonnull final String name;
     @Nonnull DoublePredicate temperatureChecker;
     final int fallbackIndex;
@@ -58,7 +60,7 @@ public enum OceanType implements IStringSerializable
     @Nonnull
     public static Biome ensureIsOcean(@Nonnull final Biome biome) {
         Preconditions.checkArgument(Preconditions.checkNotNull(biome).delegate != null, "Biome \"%s\" is not registered!", biome.biomeName);
-        Preconditions.checkArgument(BiomeManager.oceanBiomes.contains(biome), "Biome \"%s\" is not an ocean biome!", biome.delegate.name());
+        Preconditions.checkArgument(biome == Biomes.OCEAN || biome instanceof IOceanBiome, "Biome \"%s\" is not an ocean biome!", biome.delegate.name());
         return biome;
     }
 

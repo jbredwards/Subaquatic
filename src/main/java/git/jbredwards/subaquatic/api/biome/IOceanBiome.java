@@ -5,8 +5,6 @@
 
 package git.jbredwards.subaquatic.api.biome;
 
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeManager;
@@ -33,42 +31,97 @@ import javax.annotation.Nullable;
 public interface IOceanBiome extends IOceanSurfaceProvider
 {
     /**
-     * Returns -1 if this is a deep ocean.
-     * This is called often during world gen, so it's recommended to return a constant instead of using Biome.getIdForBiome.
+     * @return This biome as a deep ocean.
+     * @since 1.3.0
      */
-    int getDeepOceanBiomeId();
+    @Nonnull
+    Biome getAsDeepOcean();
 
     /**
-     * Returns itself if this has no mix ocean biome.
+     * @return This biome as a shallow ocean.
+     * @since 1.3.0
+     */
+    @Nonnull
+    Biome getAsShallowOcean();
+
+    /**
      * Used to gradually transition from shore/beach biomes.
+     * @return Itself if this has no mix ocean biome.
+     * @since 1.0.0
      */
     @Nonnull
     Biome getMixOceanBiome();
 
     /**
-     * This method is used to automatically register this biome for generation during runtime, with a generation weight of 100.
-     * Returning null on this method will cause subaquatic to not automatically register this biome for generation.
-     * @return this biome's ocean type.
+     * @return True if this is a valid biome for Ocean Monuments structure generation.
+     * @since 1.3.0
+     */
+    default boolean generatesOceanMonument() { return getAsDeepOcean() == this; }
+
+    /**
+     * @return The provided biome as a deep ocean.
      * @since 1.3.0
      */
     @Nullable
-    default OceanType getOceanType() { return null; }
+    static Biome getDeepOcean(@Nonnull final Biome biome) {
+        if(biome instanceof IOceanBiome) return ((IOceanBiome)biome).getAsDeepOcean();
+        else return biome == Biomes.OCEAN || biome == Biomes.DEEP_OCEAN ? Biomes.DEEP_OCEAN : null;
+    }
 
     /**
-     * This is auto-generated at runtime, all ocean biomes are added.
+     * @return The provided biome as a shallow ocean.
+     * @since 1.3.0
      */
-    @Nonnull
-    IntSet OCEAN_IDS = new IntOpenHashSet();
-    static boolean isOcean(int biome) { return OCEAN_IDS.contains(biome); }
-    static boolean isOcean(@Nonnull Biome biome) { return BiomeManager.oceanBiomes.contains(biome); }
+    @Nullable
+    static Biome getShallowOcean(@Nonnull final Biome biome) {
+        if(biome instanceof IOceanBiome) return ((IOceanBiome)biome).getAsShallowOcean();
+        else return biome == Biomes.OCEAN || biome == Biomes.DEEP_OCEAN ? Biomes.OCEAN : null;
+    }
 
     /**
-     * This is auto-generated at runtime, all ocean biomes that have their getDeepOceanBiomeId() not return -1 are added.
+     * Use {@link IOceanBiome#getAsDeepOcean()} instead.
+     * @since 1.0.0
      */
-    @Nonnull
-    IntSet SHALLOW_OCEAN_IDS = new IntOpenHashSet(new int[] {0, 10});
-    static boolean isShallowOcean(int biome) { return SHALLOW_OCEAN_IDS.contains(biome); }
-    static boolean isShallowOcean(@Nonnull Biome biome) {
-        return biome == Biomes.OCEAN || biome instanceof IOceanBiome && ((IOceanBiome)biome).getDeepOceanBiomeId() != -1;
+    @Deprecated
+    default int getDeepOceanBiomeId() {
+        @Nonnull final Biome deepOcean = getAsDeepOcean();
+        return deepOcean != this ? Biome.getIdForBiome(deepOcean) : -1;
+    }
+
+    /**
+     * Use {@link BiomeManager#oceanBiomes} instead.
+     * @since 1.0.0
+     */
+    @Deprecated
+    static boolean isOcean(final int biomeId) {
+        return isOcean(Biome.getBiomeForId(biomeId));
+    }
+
+    /**
+     * Use {@link BiomeManager#oceanBiomes} instead.
+     * @since 1.0.0
+     */
+    @Deprecated
+    static boolean isOcean(@Nullable final Biome biome) {
+        return biome != null && BiomeManager.oceanBiomes.contains(biome);
+    }
+
+    /**
+     * Use {@link IOceanBiome#getShallowOcean(Biome)} instead.
+     * @since 1.0.0
+     */
+    @Deprecated
+    static boolean isShallowOcean(final int biomeId) {
+        return isShallowOcean(Biome.getBiomeForId(biomeId));
+    }
+
+    /**
+     * Use {@link IOceanBiome#getShallowOcean(Biome)} instead.
+     * @since 1.0.0
+     */
+    @Deprecated
+    static boolean isShallowOcean(@Nullable final Biome biome) {
+        if(biome != null && getShallowOcean(biome) == biome) return true;
+        else return biome != Biomes.DEEP_OCEAN && !(biome instanceof IOceanBiome) && isOcean(biome);
     }
 }

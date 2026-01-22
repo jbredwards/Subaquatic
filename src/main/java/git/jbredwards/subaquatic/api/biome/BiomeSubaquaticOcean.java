@@ -10,10 +10,10 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeOcean;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 /**
- * Default implementation of IOceanBiome
+ * Default implementation of {@link IOceanBiome}.
  *
  * @since 1.0.0
  * @author jbred
@@ -21,17 +21,16 @@ import javax.annotation.Nullable;
  */
 public class BiomeSubaquaticOcean extends BiomeOcean implements IOceanBiome
 {
-    @Nonnull
-    protected IBlockState surfaceBlock;
+    @Nonnull protected IBlockState surfaceBlock;
+    @Nonnull private final Supplier<Biome> shallowOcean, deepOcean;
 
-    @Nullable protected final Biome deepOceanBiome; // null if this itself is a deep ocean biome
-    @Nullable protected OceanType oceanType; // null if this biome's generation should be handled manually
-    protected int deepOceanBiomeIdCache;
-
-    public BiomeSubaquaticOcean(@Nullable Biome deepOceanBiomeIn, @Nonnull BiomeProperties propertiesIn) {
+    public BiomeSubaquaticOcean(@Nonnull final BiomeProperties propertiesIn,
+                                @Nonnull final Supplier<Biome> deepOceanIn,
+                                @Nonnull final Supplier<Biome> shallowOceanIn) {
         super(propertiesIn);
         surfaceBlock = GRAVEL;
-        deepOceanBiome = deepOceanBiomeIn;
+        deepOcean = deepOceanIn;
+        shallowOcean = shallowOceanIn;
     }
 
     @Nonnull
@@ -42,14 +41,11 @@ public class BiomeSubaquaticOcean extends BiomeOcean implements IOceanBiome
     @Override
     public Biome getMixOceanBiome() { return this; }
 
-    @Nullable
+    @Nonnull
     @Override
-    public OceanType getOceanType() { return oceanType; }
-    public void setOceanType(@Nullable final OceanType type) { oceanType = type; }
+    public Biome getAsDeepOcean() { return deepOcean.get(); }
 
+    @Nonnull
     @Override
-    public int getDeepOceanBiomeId() {
-        if(deepOceanBiomeIdCache != 0) return deepOceanBiomeIdCache;
-        else return deepOceanBiomeIdCache = deepOceanBiome != null ? getIdForBiome(deepOceanBiome) : -1;
-    }
+    public Biome getAsShallowOcean() { return shallowOcean.get(); }
 }

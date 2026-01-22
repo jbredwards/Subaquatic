@@ -10,7 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.Biome;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 /**
  *
@@ -19,8 +19,10 @@ import javax.annotation.Nullable;
  */
 public class BiomeSandOcean extends BiomeSubaquaticOcean
 {
-    public BiomeSandOcean(@Nullable Biome deepOceanBiomeIn, @Nonnull BiomeProperties propertiesIn) {
-        super(deepOceanBiomeIn, propertiesIn);
+    public BiomeSandOcean(@Nonnull final BiomeProperties propertiesIn,
+                          @Nonnull final Supplier<Biome> deepOceanIn,
+                          @Nonnull final Supplier<Biome> shallowOceanIn) {
+        super(propertiesIn, deepOceanIn, shallowOceanIn);
         surfaceBlock = Blocks.SAND.getDefaultState();
     }
 }

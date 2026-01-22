@@ -9,7 +9,6 @@ import git.jbredwards.subaquatic.api.biome.IOceanBiome;
 import git.jbredwards.subaquatic.api.biome.OceanType;
 import git.jbredwards.subaquatic.api.event.GetOceanForGenEvent;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
-import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.world.gen.NoiseGeneratorOceans;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
@@ -32,10 +31,6 @@ import java.util.Random;
  */
 public final class GenLayerOceanBiomes extends GenLayer
 {
-    static final int OCEAN = Biome.getIdForBiome(Biomes.OCEAN);
-    static final int DEEP_OCEAN = Biome.getIdForBiome(Biomes.DEEP_OCEAN);
-    static final int DEEP_FROZEN_OCEAN = Biome.getIdForBiome(SubaquaticBiomes.DEEP_FROZEN_OCEAN);
-
     @Nonnull
     private final GenLayer wrapped;
     private NoiseGeneratorOceans temperatureGenerator;
@@ -48,6 +43,8 @@ public final class GenLayerOceanBiomes extends GenLayer
     @Nonnull
     @Override
     public int[] getInts(final int areaX, final int areaZ, final int areaWidth, final int areaHeight) {
+        final int ocean = Biome.getIdForBiome(Biomes.OCEAN);
+        final int deepOcean = Biome.getIdForBiome(Biomes.DEEP_OCEAN);
         final int[] biomeInts = wrapped.getInts(areaX-1, areaZ-1, areaWidth+2, areaHeight+2).clone();
         IntCache.resetIntCache();
         //create separate ocean biomes layer
@@ -62,9 +59,9 @@ public final class GenLayerOceanBiomes extends GenLayer
             for(int z = 0; z < areaHeight; z++) {
                 final int biomeId = biomeInts[x + 1 + (z + 1) * (areaWidth + 2)];
                 //convert ocean biomes to deep ocean ones if necessary
-                if(biomeId == DEEP_OCEAN) out[x + z * areaWidth] = handleDeepOceanGen(Biome.getBiomeForId(out[x + z * areaWidth]));
+                if(biomeId == deepOcean) out[x + z * areaWidth] = handleDeepOceanGen(Biome.getBiomeForId(out[x + z * areaWidth]), deepOcean);
                 //re-apply old layer data to the main layer
-                else if(biomeId != OCEAN) out[x + z * areaWidth] = biomeId;
+                else if(biomeId != ocean) out[x + z * areaWidth] = biomeId;
             }
         }
 
@@ -78,15 +75,8 @@ public final class GenLayerOceanBiomes extends GenLayer
         temperatureGenerator = new NoiseGeneratorOceans(new Random(seed));
     }
 
-    static int handleDeepOceanGen(@Nullable final Biome shallowOcean) {
-        //modded ocean biomes
-        if(shallowOcean instanceof IOceanBiome) {
-            final int deepOcean = ((IOceanBiome)shallowOcean).getDeepOceanBiomeId();
-            if(deepOcean != -1) return deepOcean;
-        }
-
-        //vanilla ocean biomes
-        return shallowOcean == Biomes.FROZEN_OCEAN ? DEEP_FROZEN_OCEAN : DEEP_OCEAN;
+    static int handleDeepOceanGen(@Nullable final Biome ocean, final int deepOcean) {
+        return ocean instanceof IOceanBiome ? Biome.getIdForBiome(((IOceanBiome)ocean).getAsDeepOcean()) : deepOcean;
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

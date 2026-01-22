@@ -7,12 +7,10 @@ package git.jbredwards.subaquatic.mod.common.init;
 
 import git.jbredwards.subaquatic.api.biome.OceanType;
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.world.biome.BiomeFrozenOcean;
-import git.jbredwards.subaquatic.mod.common.world.biome.BiomeSandOcean;
-import git.jbredwards.subaquatic.mod.common.world.biome.BiomeWarmOcean;
+import git.jbredwards.subaquatic.mod.common.world.biome.*;
+import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeManager;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
@@ -31,26 +29,26 @@ public final class SubaquaticBiomes
 
     // Deep Biomes
     @Nonnull public static final BiomeWarmOcean DEEP_WARM_OCEAN = register("deep_warm_ocean",
-            new BiomeWarmOcean(null, new Biome.BiomeProperties("Deep Warm Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
+            new BiomeWarmOcean(new Biome.BiomeProperties("Deep Warm Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
 
     @Nonnull public static final BiomeSandOcean DEEP_LUKEWARM_OCEAN = register("deep_lukewarm_ocean",
-            new BiomeSandOcean(null, new Biome.BiomeProperties("Deep Lukewarm Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
+            new BiomeLukewarmOcean(new Biome.BiomeProperties("Deep Lukewarm Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
 
     @Nonnull public static final BiomeSandOcean DEEP_COLD_OCEAN = register("deep_cold_ocean",
-            new BiomeSandOcean(null, new Biome.BiomeProperties("Deep Cold Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
+            new BiomeColdOcean(new Biome.BiomeProperties("Deep Cold Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
 
     @Nonnull public static final BiomeFrozenOcean DEEP_FROZEN_OCEAN = register("deep_frozen_ocean",
             new BiomeFrozenOcean(new Biome.BiomeProperties("Deep Frozen Ocean").setBaseHeight(-1.8f).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f).setSnowEnabled()));
 
     // Shallow Biomes
     @Nonnull public static final BiomeWarmOcean WARM_OCEAN = register("warm_ocean",
-            new BiomeWarmOcean(DEEP_WARM_OCEAN, new Biome.BiomeProperties("Warm Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
+            new BiomeWarmOcean(new Biome.BiomeProperties("Warm Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
 
     @Nonnull public static final BiomeSandOcean LUKEWARM_OCEAN = register("lukewarm_ocean",
-            new BiomeSandOcean(DEEP_LUKEWARM_OCEAN, new Biome.BiomeProperties("Lukewarm Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)), biome -> biome.setOceanType(OceanType.LUKEWARM));
+            new BiomeLukewarmOcean(new Biome.BiomeProperties("Lukewarm Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
 
     @Nonnull public static final BiomeSandOcean COLD_OCEAN = register("cold_ocean",
-            new BiomeSandOcean(DEEP_COLD_OCEAN, new Biome.BiomeProperties("Cold Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)), biome -> biome.setOceanType(OceanType.COLD));
+            new BiomeColdOcean(new Biome.BiomeProperties("Cold Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
 
     // Biome Dictionary
     static void registerBiomeDictionary() {
@@ -61,6 +59,11 @@ public final class SubaquaticBiomes
         BiomeDictionary.addTypes(WARM_OCEAN, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OCEAN);
         BiomeDictionary.addTypes(LUKEWARM_OCEAN, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OCEAN);
         BiomeDictionary.addTypes(COLD_OCEAN, BiomeDictionary.Type.COLD, BiomeDictionary.Type.OCEAN);
+        OceanType.DEFAULT.registerBiome(Biomes.OCEAN, OceanType.DEFAULT_WEIGHT);
+        OceanType.FROZEN.registerBiome(Biomes.FROZEN_OCEAN, OceanType.DEFAULT_WEIGHT);
+        OceanType.WARM.registerBiome(WARM_OCEAN, OceanType.DEFAULT_WEIGHT);
+        OceanType.COLD.registerBiome(COLD_OCEAN, OceanType.DEFAULT_WEIGHT);
+        OceanType.LUKEWARM.registerBiome(LUKEWARM_OCEAN, OceanType.DEFAULT_WEIGHT);
     }
 
     //registry
