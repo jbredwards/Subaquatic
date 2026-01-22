@@ -212,9 +212,6 @@ public final class SubaquaticConfigHandler
         public static Entity entity;
         public static final class Entity
         {
-            @Config.LangKey("config.subaquatic.server.entity.babyZombiesBurnInDaylight")
-            public static boolean babyZombiesBurnInDaylight = true;
-
             @Config.LangKey("config.subaquatic.server.entity.villagerMarineBiologist")
             public static boolean villagerMarineBiologist = false;
 

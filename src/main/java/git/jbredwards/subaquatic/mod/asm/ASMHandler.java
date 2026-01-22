@@ -58,7 +58,6 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityItemMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.mixin.EntityLivingBaseMixin", new PluginAquaAcrobatics());
             plugins.put("com.fuzs.aquaacrobatics.core.thaumcraft.mixin.client.TileCrucibleRendererMixin", new PluginAquaAcrobatics());
-            plugins.put("com.sewef.burnbabyburn.MainMod", new PluginBurnBabyBurn()); //Remove duplicate mod functionality
             plugins.put("com.teammetallurgy.aquaculture.items.ItemAdminFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
             plugins.put("com.teammetallurgy.aquaculture.items.ItemAquacultureFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
             plugins.put("exterminatorjeff.undergroundbiomes.common.block.IgneousGravel", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
@@ -87,7 +86,6 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("thaumcraft.client.renderers.tile.TileCrucibleRenderer", new PluginThaumcraft()); //Use old water texture
             plugins.put("thebetweenlands.common.world.biome.BiomeBetweenlands", new PluginBetweenlands()); //Preserve betweenlands biome colors
             plugins.put("vazkii.botania.client.render.tile.RenderTileAltar", new PluginBotania()); //Water inside petal apothecaries have their biome colors applied
-            plugins.put("vazkii.quark.tweaks.feature.BabyZombiesBurn", new PluginQuark()); //Remove duplicate mod functionality
             plugins.put("vibrantjourneys.entities.renderer.RenderPVJBoat", new PluginRenderBoat(false)); //Render bubble column boat rocking
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
@@ -110,7 +108,6 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("net.minecraft.entity.item.EntityBoat", new PluginEntityBoat()); //Bubble columns rock boats
             plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
             plugins.put("net.minecraft.entity.item.EntityXPOrb", new PluginEntityXPOrb()); //XP orbs float while in water
-            plugins.put("net.minecraft.entity.monster.EntityZombie", new PluginEntityZombie()); //Baby zombies burn in daylight if enabled
             plugins.put("net.minecraft.entity.player.EntityPlayerMP", new PluginEntityPlayerMP()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.EntityLivingBase", new PluginEntityLivingBase()); //Backport new oxygen replenish system & add IOxygenSupplier
