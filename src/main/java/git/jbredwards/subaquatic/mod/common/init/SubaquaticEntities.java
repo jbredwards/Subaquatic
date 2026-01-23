@@ -12,12 +12,10 @@ import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.*;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -102,9 +100,6 @@ public final class SubaquaticEntities
         ForgeRegistries.BIOMES.forEach(biome -> biome.getSpawnableList(EnumCreatureType.WATER_CREATURE).forEach(entry -> {
             if(entry.entityClass == EntitySquid.class) { entry.minGroupCount = 1; entry.itemWeight = 2; }
         }));
-
-        // remove vanilla skeleton spawns from swamps
-        BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.getSpawnableList(EnumCreatureType.MONSTER).removeIf(entry -> entry.entityClass == EntitySkeleton.class));
 
         // register this mod's entity bucket handlers
         AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":fish", EntityBucketHandlerFish::new);
