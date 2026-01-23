@@ -67,6 +67,7 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundEvent AMBIENT_UNDERWATER_LOOP_ADDITIONS_RARE = register("ambient.underwater.loop.additions.rare");
     @Nonnull public static final SoundEvent AMBIENT_UNDERWATER_LOOP_ADDITIONS_ULTRARARE = register("ambient.underwater.loop.additions.ultrarare");
     @Nonnull public static final SoundEvent BUCKET_FILL_FISH = register("items.bucket.fill.fish");
+    @Nonnull public static final SoundEvent GUI_BUBBLE_POP = register("gui.bubble_pop");
     @Nonnull public static final SoundEvent UNDERWATER_MUSIC = register("music.underwater");
 
     //sound types

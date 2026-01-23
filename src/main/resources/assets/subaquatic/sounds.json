@@ -120,15 +120,8 @@
     "blocks.bubble_column.bubble_pop":{
         "sounds":[
             {
-                "name":"subaquatic:blocks/bubble_column/bubble1",
-                "volume":0.1
-            },
-            {
-                "name":"subaquatic:blocks/bubble_column/bubble2",
-                "volume":0.1
-            },
-            {
-                "name":"subaquatic:blocks/bubble_column/bubble3",
+                "type":"event",
+                "name":"subaquatic:gui.bubble_pop",
                 "volume":0.1
             }
         ],
@@ -1691,6 +1684,13 @@
             "subaquatic:items/bucket/fill_fish3"
         ],
         "subtitle":"subtitles.subaquatic.items.bucket.fill.fish"
+    },
+    "gui.bubble_pop":{
+        "sounds":[
+            "subaquatic:blocks/bubble_column/bubble1",
+            "subaquatic:blocks/bubble_column/bubble2",
+            "subaquatic:blocks/bubble_column/bubble3"
+        ]
     },
     "music.underwater":{
         "sounds":[

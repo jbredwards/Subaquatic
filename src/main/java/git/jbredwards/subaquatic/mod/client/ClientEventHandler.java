@@ -12,6 +12,7 @@ import git.jbredwards.subaquatic.mod.client.item.model.BakedEntityBucketModel;
 import git.jbredwards.subaquatic.mod.client.item.model.ModelContainerBoat;
 import git.jbredwards.subaquatic.mod.client.particle.ParticleBubblePop;
 import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
+import git.jbredwards.subaquatic.mod.common.compat.rpghud.RPGHudHandler;
 import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticWaterColorConfig;
@@ -20,21 +21,16 @@ import git.jbredwards.subaquatic.mod.common.init.SubaquaticItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.BiomeColorHelper;
-import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -154,28 +150,11 @@ public final class ClientEventHandler
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
     @SubscribeEvent(priority = EventPriority.HIGH)
     static void handleAirGuiOverlay(@Nonnull RenderGameOverlayEvent.Pre event) {
-        if(event.getType() == RenderGameOverlayEvent.ElementType.AIR) {
+        if(event.getType() == RenderGameOverlayEvent.ElementType.AIR && (!Subaquatic.isRPGHudInstalled || RPGHudHandler.shouldRenderVanilla())) {
             Minecraft.getMinecraft().profiler.startSection("air");
-
-            final Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
-            final int air = entity.getAir();
-            if(air < 300 || entity.isInsideOfMaterial(Material.WATER)) {
-                GlStateManager.enableBlend();
-                final int left = event.getResolution().getScaledWidth() / 2 + 91;
-                final int top = event.getResolution().getScaledHeight() - GuiIngameForge.right_height;
-
-                final int full = MathHelper.ceil((air - 2) * 10f / 300);
-                final int partial = MathHelper.ceil(air * 10f / 300) - full;
-
-                final GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
-                for(int i = 0; i < full + partial; ++i) gui.drawTexturedModalRect(left - i * 8 - 9, top, (i < full ? 16 : 25), 18, 9, 9);
-                GuiIngameForge.right_height += 10;
-                GlStateManager.disableBlend();
-            }
-
+            AirBubbleRenderer.renderAirBubbles(event.getResolution(), Minecraft.getMinecraft());
             Minecraft.getMinecraft().profiler.endSection();
             event.setCanceled(true);
 

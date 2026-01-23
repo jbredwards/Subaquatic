@@ -100,6 +100,7 @@ public final class Subaquatic
 
     public static final boolean isInspirationsInstalled = Loader.isModLoaded("inspirations");
     public static final boolean isJERInstalled = Loader.isModLoaded("jeresources");
+    public static final boolean isRPGHudInstalled = Loader.isModLoaded("rpghud");
 
     @Mod.EventHandler
     @SideOnly(Side.CLIENT)
