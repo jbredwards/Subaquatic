@@ -89,10 +89,9 @@ public final class SubaquaticEntities
     public static final EntityEntry FISH = register("fish",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityFish.class).factory(EntityFish::new).egg(0x6b9f93, 0xadbedb));
 
-    @Nonnull
-    public static final EntityEntry BOGGED = register("bogged",
-            EntityEntryBuilder.create().tracker(128, 3, true).entity(EntityBogged.class).factory(EntityBogged::new).egg(9084018, 3231003)
-                    .spawn(EnumCreatureType.MONSTER, 50, 4, 4, BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP)));
+    // =======
+    // Utility
+    // =======
 
     static void handleAdditionalEntityData() {
         // fix the spawning mechanics of this mod's water creatures

@@ -10,7 +10,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
-import git.jbredwards.subaquatic.api.biome.OceanType;
 import git.jbredwards.subaquatic.mod.client.entity.renderer.*;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
@@ -40,7 +39,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.init.Biomes;
 import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.item.IItemPropertyGetter;
@@ -170,7 +168,6 @@ public final class Subaquatic
     @SideOnly(Side.CLIENT)
     static void preInitClient(@Nonnull FMLPreInitializationEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(AbstractBoatContainer.class, RenderBoatContainer::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityBogged.class, RenderBogged::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCod.class, RenderCod::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFish.class, RenderFish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPufferfish.class, RenderPufferfish::new);
