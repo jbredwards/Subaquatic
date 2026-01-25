@@ -16,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,7 +57,10 @@ public final class SubaquaticBoatTypesConfig
     }
 
     static void parseBoatTypes(@Nonnull Reader reader) {
-        final JsonObject configFile = new JsonParser().parse(reader).getAsJsonObject();
+        final JsonObject configFile;
+        try { configFile = new JsonParser().parse(reader).getAsJsonObject(); }
+        finally { IOUtils.closeQuietly(reader); }
+
         configFile.entrySet().forEach(element -> {
             if(element.getValue().isJsonObject()) {
                 final Item item = Item.getByNameOrId(element.getKey());
@@ -90,7 +94,10 @@ public final class SubaquaticBoatTypesConfig
         return item != null ? getTypeFrom(item, nbt.getInteger("meta")) : null;
     }
 
-    public static int getIndex(@Nonnull Item item, int meta) { return Item.getIdFromItem(item) << 16 | meta; }
+    /**
+     * {@link net.minecraft.client.renderer.ItemModelMesher#getIndex(Item, int)}.
+     */
+    public static int getIndex(@Nonnull Item item, int meta) { return Item.getIdFromItem(item) << 16 | (meta & 65535); }
 
     @Nonnull
     public static final String defaultConfigValues =

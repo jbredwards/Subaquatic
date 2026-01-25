@@ -14,6 +14,7 @@ import git.jbredwards.subaquatic.mod.common.item.ItemBoatContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -56,7 +57,29 @@ public interface IBoatType
     @SubscribeEvent
     static void attachItem(@Nonnull AttachCapabilitiesEvent<ItemStack> event) {
         if(event.getObject().getItem() instanceof ItemBoatContainer)
-            event.addCapability(CAPABILITY_ID, new CapabilityProvider<>(CAPABILITY));
+            event.addCapability(CAPABILITY_ID, new CapabilityProvider<>(CAPABILITY, new ImplStack(event.getObject())));
+    }
+
+    class ImplStack implements IBoatType
+    {
+        @Nonnull
+        public static final String NBT_KEY = CAPABILITY_ID.toString();
+
+        @Nonnull
+        protected final ItemStack stack;
+        public ImplStack(@Nonnull final ItemStack stackIn) { stack = stackIn; }
+
+        @Nonnull
+        @Override
+        public BoatType getType() {
+            @Nullable final NBTTagCompound nbt = stack.getSubCompound(NBT_KEY);
+            @Nullable final BoatType type = nbt != null ? SubaquaticBoatTypesConfig.getTypeFrom(nbt) : null;
+
+            return type != null ? type : BoatType.DEFAULT;
+        }
+
+        @Override
+        public void setType(@Nonnull BoatType typeIn) { stack.setTagInfo(NBT_KEY, typeIn.serializeNBT()); }
     }
 
     class Impl implements IBoatType
@@ -79,7 +102,7 @@ public interface IBoatType
         @Nonnull
         @Override
         public NBTBase writeNBT(@Nonnull Capability<IBoatType> capability, @Nonnull IBoatType instance, @Nullable EnumFacing side) {
-            return instance.getType().serializeNBT();
+            return instance instanceof ImplStack ? new NBTTagByte((byte)0) : instance.getType().serializeNBT();
         }
 
         @Override
