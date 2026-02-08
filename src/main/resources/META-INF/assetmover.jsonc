@@ -310,8 +310,10 @@
     //item textures
     ["1.18.2", "assets/minecraft/textures/item/cod.png", "assets/subaquatic/textures/items/fish_cod_raw.png"],
     ["1.13.2", "assets/minecraft/textures/item/cooked_cod.png", "assets/subaquatic/textures/items/fish_cod_cooked.png"],
+    ["1.18.2", "assets/minecraft/textures/item/heart_of_the_sea.png", "assets/subaquatic/textures/items/heart_of_the_sea.png"],
     ["1.18.2", "assets/minecraft/textures/item/kelp.png", "assets/subaquatic/textures/items/kelp.png"],
     ["1.18.2", "assets/minecraft/textures/item/nautilus_shell.png", "assets/subaquatic/textures/items/nautilus_shell.png"],
+    ["1.18.2", "assets/minecraft/textures/item/scute.png", "assets/subaquatic/textures/items/turtle_scute.png"],
     ["1.18.2", "assets/minecraft/textures/item/sea_pickle.png", "assets/subaquatic/textures/items/sea_pickle.png"],
     ["1.18.2", "assets/minecraft/textures/item/seagrass.png", "assets/subaquatic/textures/items/seagrass.png"],
 

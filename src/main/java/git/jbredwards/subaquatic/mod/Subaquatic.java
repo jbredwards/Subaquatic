@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.api.biome.IOceanBiome;
+import git.jbredwards.subaquatic.api.entity.bucketable.IBucketableEntity;
 import git.jbredwards.subaquatic.mod.client.entity.renderer.*;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
@@ -89,7 +90,7 @@ import java.util.jar.JarFile;
  */
 @Mod(modid = Subaquatic.MODID, version = "1.2.1", useMetadata = true,
 updateJSON = "https://api.modrinth.com/updates/subaquatic/forge_updates.json",
-dependencies = "required-after:fluidlogged_api@[3.1.0,);required-client:assetmover@[2.5,);")
+dependencies = "required-after:fluidlogged_api@[3.2.0,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -126,11 +127,13 @@ public final class Subaquatic
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         CapabilityManager.INSTANCE.register(IBoatType.class, IBoatType.Storage.INSTANCE, IBoatType.Impl::new);
         CapabilityManager.INSTANCE.register(ICompactFishing.class, ICompactFishing.Storage.INSTANCE, ICompactFishing.Impl::new);
-        CapabilityManager.INSTANCE.register(IEntityBucket.class, IEntityBucket.Storage.INSTANCE, IEntityBucket.Impl::new);
+        CapabilityManager.INSTANCE.register(IEntityBucket.class, IEntityBucket.Storage.INSTANCE, () -> { throw new UnsupportedOperationException(); });
+        CapabilityManager.INSTANCE.register(IBucketableEntity.class, IEntityBucket.StorageBucketable.INSTANCE, IEntityBucket.StorageBucketable.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         MinecraftForge.EVENT_BUS.register(IBoatType.class);
         MinecraftForge.EVENT_BUS.register(ICompactFishing.class);
         MinecraftForge.EVENT_BUS.register(IEntityBucket.class);
+        MinecraftForge.EVENT_BUS.register(IEntityBucket.StorageBucketable.class);
 
         //message registries
         WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);

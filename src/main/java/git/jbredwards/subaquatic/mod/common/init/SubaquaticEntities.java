@@ -5,17 +5,24 @@
 
 package git.jbredwards.subaquatic.mod.common.init;
 
+import com.google.common.collect.ImmutableList;
+import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityRegistry;
 import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.entity.item.*;
 import git.jbredwards.subaquatic.mod.common.entity.living.*;
-import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.*;
+import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.init.Biomes;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -23,6 +30,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.OptionalInt;
 
 /**
  *
@@ -102,11 +110,46 @@ public final class SubaquaticEntities
         }));
 
         // register this mod's entity bucket handlers
-        AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":fish", EntityBucketHandlerFish::new);
-        AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":cod", EntityBucketHandlerCod::new);
-        AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":salmon", EntityBucketHandlerSalmon::new);
-        AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":pufferfish", EntityBucketHandlerPufferfish::new);
-        AbstractEntityBucketHandler.BUCKET_HANDLERS.put(Subaquatic.MODID + ":tropical_fish", EntityBucketHandlerTropicalFish::new);
+        @Nonnull final ResourceLocation path = new ResourceLocation(Subaquatic.MODID, "fish_bucket_overlays");
+        BucketableEntityRegistry.builder(EntityFish.class).bucketSize(6).overlayModel(new ModelResourceLocation(path, "fish"))
+                .sound(SubaquaticSounds.BUCKET_FILL_FISH)
+                .register();
+        BucketableEntityRegistry.builder(EntityCod.class).bucketSize(6).overlayModel(new ModelResourceLocation(path, "cod"))
+                .sound(SubaquaticSounds.BUCKET_FILL_FISH)
+                .register();
+        BucketableEntityRegistry.builder(EntitySalmon.class).bucketSize(6).overlayModel(new ModelResourceLocation(path, "salmon"))
+                .sound(SubaquaticSounds.BUCKET_FILL_FISH)
+                .register();
+        BucketableEntityRegistry.builder(EntityPufferfish.class).bucketSize(8).overlayModel(new ModelResourceLocation(path, "pufferfish"))
+                .sound(SubaquaticSounds.BUCKET_FILL_FISH)
+                .read((fish, compound) -> fish.setPuffState(0))
+                .register();
+        BucketableEntityRegistry.builder(EntityTropicalFish.class).bucketSize(6).overlayModel(new ModelResourceLocation(path, "tropical_fish"))
+                .sound(SubaquaticSounds.BUCKET_FILL_FISH)
+                .read((fish, compound) -> fish.setVariant(compound.hasKey("Variant", Constants.NBT.TAG_INT) ? TropicalFishData.deserialize(compound.getInteger("Variant")) : fish.getRandomVariant()))
+                .write((fish, compound) -> compound.setInteger("Variant", fish.getVariant().serialize()))
+                .subtypes(entityId -> SubaquaticTropicalFishConfig.DEFAULT_TYPES.stream()
+                        .map(data -> {
+                            @Nonnull final NBTTagCompound compound = BucketableEntityRegistry.createRootTag(entityId);
+                            compound.setInteger("Variant", data.serialize());
+                            return compound;
+                        })
+                        .collect(ImmutableList.toImmutableList()))
+                .tooltip((compound, advanced) -> {
+                    @Nonnull final ImmutableList.Builder<String> builder = ImmutableList.builder();
+                    @Nonnull final TropicalFishData data = TropicalFishData.deserialize(compound.getInteger("Variant"));
+                    builder.add(I18n.format("tooltip.subaquatic.fish_bucket", I18n.format("entity.subaquatic.tropical_fish.name")));
+
+                    if(data.hasTranslation(I18n::hasKey)) builder.add(data.getTranslatedName(I18n::format));
+                    else builder.add(data.getTranslatedShape(I18n::format), data.getTranslatedColor(I18n::format));
+                    return builder.build();
+                })
+                .overlayColor((compound, tintIndex) -> {
+                    if(tintIndex != 0 && tintIndex != 1 || !compound.hasKey("Variant", Constants.NBT.TAG_INT)) return OptionalInt.empty();
+                    @Nonnull final TropicalFishData data = TropicalFishData.deserialize(compound.getInteger("Variant"));
+                    return OptionalInt.of(tintIndex == 0 ? data.primaryColor.getColorValue() : data.secondaryColor.getColorValue());
+                })
+                .register();
     }
 
     //helper method that saves me from having to retype the same stuff for each entity

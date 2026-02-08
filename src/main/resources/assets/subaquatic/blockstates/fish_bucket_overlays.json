@@ -1,0 +1,41 @@
+{
+    "forge_marker": 1,
+    "variants": {
+        "fish": [{
+            "model": "subaquatic:builtin/fish_bucket_overlay",
+            "custom": {
+                "textures": [
+                    "subaquatic:items/fish_bucket_overlays/fish"
+                ]
+            }
+        }],
+        "cod": [{
+            "model": "subaquatic:builtin/fish_bucket_overlay",
+            "custom": {
+                "textures": [
+                    "subaquatic:items/fish_bucket_overlays/cod"
+                ]
+            }
+        }],
+        "salmon": [{
+            "model": "subaquatic:builtin/fish_bucket_overlay",
+            "custom": {
+                "textures": [
+                    "subaquatic:items/fish_bucket_overlays/salmon"
+                ]
+            }
+        }],
+        "pufferfish": [{
+            "model": "subaquatic:builtin/fish_bucket_overlay",
+            "custom": {
+                "textures": [
+                    "subaquatic:items/fish_bucket_overlays/pufferfish"
+                ]
+            }
+        }],
+        "tropical_fish": [{
+            "#comment": "Handled through code.",
+            "model": "subaquatic:builtin/tropical_fish_bucket_overlay"
+        }]
+    }
+}

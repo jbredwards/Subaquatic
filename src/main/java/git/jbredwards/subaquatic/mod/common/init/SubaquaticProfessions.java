@@ -61,6 +61,7 @@ public final class SubaquaticProfessions
 
     //add additional trades
     static void handleAdditionalTrades() {
+        TradeForEntityBucket.populate();
         //new fisherman trade for ink sacs
         VillagerRegistry.FARMER.getCareer(1).addTrade(2, TradeUtil.newTrade(Items.DYE, 12, 24, Items.EMERALD, 1, 1));
     }

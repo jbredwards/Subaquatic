@@ -51,6 +51,7 @@ final class SubaquaticRecipes
         registerCrafting(registry, "dried_kelp", new ShapelessOreRecipe(null, new ItemStack(SubaquaticItems.DRIED_KELP, 9), SubaquaticBlocks.DRIED_KELP_BLOCK));
         registerCrafting(registry, "dried_kelp_block", new ShapedOreRecipe(null, SubaquaticItems.DRIED_KELP_BLOCK, "###", "###", "###", '#', "foodDriedKelp"));
         registerCrafting(registry, "ender_chest_minecart", new ShapedOreRecipe(null, SubaquaticItems.ENDER_CHEST_MINECART, "A", "B", 'A', Blocks.ENDER_CHEST, 'B', Items.MINECART));
+        registerCrafting(registry, "muddy_mangrove_roots", new ShapelessOreRecipe(null, new ItemStack(SubaquaticItems.MANGROVE_ROOTS, 1, 1), SubaquaticItems.MUD, new ItemStack(SubaquaticItems.MANGROVE_ROOTS)));
         registerCrafting(registry, "packed_ice", new ShapedOreRecipe(null, Blocks.PACKED_ICE, "###", "###", "###", '#', Blocks.ICE));
         registerCrafting(registry, "packed_mud", new ShapelessOreRecipe(null, SubaquaticItems.PACKED_MUD, "mud", "cropWheat"));
         registerCrafting(registry, "packed_mud_bricks", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.PACKED_MUD_BRICKS, 4), "##", "##", '#', SubaquaticItems.PACKED_MUD));

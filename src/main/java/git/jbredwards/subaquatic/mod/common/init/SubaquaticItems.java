@@ -5,6 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common.init;
 
+import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityRegistry;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.block.*;
 import git.jbredwards.subaquatic.mod.common.entity.item.*;
@@ -12,13 +13,15 @@ import git.jbredwards.subaquatic.mod.common.item.*;
 import git.jbredwards.subaquatic.mod.common.item.block.*;
 import git.jbredwards.subaquatic.mod.common.item.tab.SubaquaticCreativeTab;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.*;
+import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Optional;
 
 /**
  * stores all of this mod's items
@@ -57,7 +60,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlockMeta FROGLIGHT = register("froglight", new ItemBlockMeta(SubaquaticBlocks.FROGLIGHT, true, BlockFroglight.TYPE));
     @Nonnull public static final ItemBlock ROOTED_DIRT = register("rooted_dirt", new ItemBlock(SubaquaticBlocks.ROOTED_DIRT));
     @Nonnull public static final ItemBlock HANGING_ROOTS = register("hanging_roots", new ItemBlock(SubaquaticBlocks.HANGING_ROOTS));
-    //@Nonnull public static final ItemBlockMeta MANGROVE_ROOTS = register("mangrove_roots", new ItemBlockMeta(SubaquaticBlocks.MANGROVE_ROOTS, true, BlockMangroveRoots.HAS_MUD));
+    @Nonnull public static final ItemBlockMeta MANGROVE_ROOTS = register("mangrove_roots", new ItemBlockMeta(SubaquaticBlocks.MANGROVE_ROOTS, false, BlockMangroveRoots.HAS_MUD.getName(), "false", "true"));
     @Nonnull public static final ItemBlock MUD = register("mud", new ItemBlock(SubaquaticBlocks.MUD));
     @Nonnull public static final ItemBlock PACKED_MUD = register("packed_mud", new ItemBlock(SubaquaticBlocks.PACKED_MUD));
     //@Nonnull public static final ItemBlock COLORED_PACKED_MUD = register("colored_packed_mud", new ItemBlockMeta(SubaquaticBlocks.COLORED_PACKED_MUD, false, BlockColored.COLOR));
@@ -81,9 +84,10 @@ public final class SubaquaticItems
     @Nonnull public static final ItemSlab SMOOTH_LAPIS_BLOCK_SLAB = register("smooth_lapis_block_slab", new ItemSlab(SubaquaticBlocks.SMOOTH_LAPIS_BLOCK_SLAB, SubaquaticBlocks.SMOOTH_LAPIS_BLOCK_SLAB, SubaquaticBlocks.SMOOTH_LAPIS_BLOCK_SLAB_DOUBLE));
 
     // Items
-    @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false), item -> item.itemUseDuration = 16);
-    @Nonnull public static final ItemFood COD = register("cod", new ItemDurationFood(2, 0.1f, false));
-    @Nonnull public static final ItemFood COOKED_COD = register("cooked_cod", new ItemDurationFood(6, 0.8f, false));
+    @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false).setMaxItemUseDuration(16));
+    @Nonnull public static final ItemFood COD = register("cod", new ItemDurationFood(ItemFishFood.FishType.COD.getUncookedHealAmount(), ItemFishFood.FishType.COD.getUncookedSaturationModifier(), false));
+    @Nonnull public static final ItemFood COOKED_COD = register("cooked_cod", new ItemDurationFood(ItemFishFood.FishType.COD.getCookedHealAmount(), ItemFishFood.FishType.COD.getCookedSaturationModifier(), false));
+    @Nonnull public static final ItemMaterial MATERIAL = register("materials", new ItemMaterial("heart_of_the_sea", "turtle_scute"));
     //TODO @Nonnull public static final ItemAquaticBoneMeal AQUATIC_BONE_MEAL = register("aquatic_bone_meal", new ItemAquaticBoneMeal(1, 0, false));
 
     // Minecarts
@@ -96,36 +100,38 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBoatContainer CRAFTING_TABLE_BOAT = register("crafting_table_boat", new ItemBoatContainer(EntityBoatWorkbench::new));
     @Nonnull public static final ItemBoatContainer FURNACE_BOAT = register("furnace_boat", new ItemBoatContainer(EntityBoatFurnace::new));
 
-    //ore dict registration
     static void postRegistry() {
+        //ore dict registration
         OreDictionary.registerOre("blockLapis", SMOOTH_LAPIS_BLOCK);
         OreDictionary.registerOre("blockQuartz", SMOOTH_QUARTZ_BLOCK);
         OreDictionary.registerOre("cropPumpkin", PUMPKIN);
         OreDictionary.registerOre("cropPumpkin", Blocks.PUMPKIN);
         OreDictionary.registerOre("cropKelp", KELP);
+        OreDictionary.registerOre("cropSeagrass", SEAGRASS);
         OreDictionary.registerOre("cropSeaPickle", SEA_PICKLE);
         OreDictionary.registerOre("foodDriedKelp", DRIED_KELP);
         OreDictionary.registerOre("froglight", new ItemStack(FROGLIGHT, 1, OreDictionary.WILDCARD_VALUE));
+        OreDictionary.registerOre("gemHeartOfTheSea", MATERIAL);
         OreDictionary.registerOre("mud", MUD);
+        OreDictionary.registerOre("mud", new ItemStack(MANGROVE_ROOTS, 1, 1));
         //OreDictionary.registerOre("mudPacked", new ItemStack(COLORED_PACKED_MUD, 1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("mudPacked", PACKED_MUD);
         OreDictionary.registerOre("mudPacked", PACKED_MUD_BRICKS);
         OreDictionary.registerOre("sandstone", SMOOTH_RED_SANDSTONE);
         OreDictionary.registerOre("sandstone", SMOOTH_SANDSTONE);
+        OreDictionary.registerOre("scuteTurtle", new ItemStack(MATERIAL, 1, 1));
         OreDictionary.registerOre("shellNautilus", NAUTILUS_SHELL);
         OreDictionary.registerOre("stone", SMOOTH_STONE);
         OreDictionary.registerOre("stoneSmooth", SMOOTH_STONE);
+        //bucket registration
+        BucketableEntityRegistry.BUCKET_REGISTRY.put(Items.WATER_BUCKET, 8);
+        BucketableEntityRegistry.BUCKET_REGISTRY.put(Items.LAVA_BUCKET, 8);
+        Optional.ofNullable(ForgeModContainer.getInstance().universalBucket).ifPresent(bucket -> BucketableEntityRegistry.BUCKET_REGISTRY.put(bucket, 8));
     }
 
     @Nonnull
     static <I extends Item> I register(@Nonnull String name, @Nonnull I item) {
         INIT.add(item.setRegistryName(Subaquatic.MODID, name).setTranslationKey(Subaquatic.MODID + "." + name).setCreativeTab(SubaquaticCreativeTab.INSTANCE));
         return item;
-    }
-
-    @Nonnull
-    static <I extends Item> I register(@Nonnull String name, @Nonnull I item, @Nonnull Consumer<I> consumer) {
-        consumer.accept(item);
-        return register(name, item);
     }
 }

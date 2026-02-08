@@ -5,11 +5,13 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.util;
 
+import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import net.minecraft.item.EnumDyeColor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -72,5 +74,18 @@ public final class TropicalFishData implements Comparable<TropicalFishData>
     }
 
     @Override
-    public int compareTo(@Nonnull TropicalFishData o) { return Integer.compare(o.serialize(), serialize()); }
+    public int compareTo(@Nonnull TropicalFishData o) {
+        return Integer.compare(o.serialize(), serialize());
+    }
+
+    @Override
+    public int hashCode() {
+        return serialize();
+    }
+
+    @Nonnull
+    public static TropicalFishData random(@Nonnull final Random random, final boolean unbound) {
+        if(unbound) return new TropicalFishData(random.nextInt(2), EnumDyeColor.byMetadata(random.nextInt(16)), random.nextInt(6), EnumDyeColor.byMetadata(random.nextInt(16)));
+        return SubaquaticTropicalFishConfig.DEFAULT_TYPES.isEmpty() ? DEFAULT : SubaquaticTropicalFishConfig.DEFAULT_TYPES.get(random.nextInt(SubaquaticTropicalFishConfig.DEFAULT_TYPES.size()));
+    }
 }

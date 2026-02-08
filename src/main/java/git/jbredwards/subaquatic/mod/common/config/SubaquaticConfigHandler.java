@@ -11,7 +11,6 @@ import git.jbredwards.subaquatic.mod.common.config.util.ConfigUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -496,7 +495,7 @@ public final class SubaquaticConfigHandler
             @Nullable Fluid fluid = FluidloggedUtils.getFluidFromBlock(Block.getBlockFromName(id));
             if(fluid == null) fluid = FluidRegistry.getFluid(id);
 
-            if(fluid != null && fluid.canBePlacedInWorld() && fluid.getBlock().getDefaultState().getMaterial() == Material.WATER)
+            if(fluid != null && fluid.canBePlacedInWorld())
                 FISH_BUCKET_FLUID_BLACKLIST.add(fluid); //only add to the blacklist if the fluid would normally be able to hold fish
         }
 

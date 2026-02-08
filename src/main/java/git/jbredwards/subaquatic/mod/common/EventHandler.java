@@ -5,6 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common;
 
+import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityRegistry;
 import git.jbredwards.subaquatic.api.event.OnGetEntityFromFishingEvent;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
@@ -19,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
@@ -27,6 +29,7 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -102,6 +105,14 @@ public final class EventHandler
             final IBoatType cap = IBoatType.get(event.getTarget());
             if(cap != null) Subaquatic.WRAPPER.sendTo(
                     new SMessageBoatType(cap.getType(), event.getTarget()), (EntityPlayerMP)event.getEntityPlayer());
+        }
+    }
+
+    @SubscribeEvent
+    static void tryStoreBucketable(@Nonnull final PlayerInteractEvent.EntityInteract event) {
+        if(BucketableEntityRegistry.tryCaptureBucketableEntity(event.getEntityPlayer(), event.getHand(), event.getTarget())) {
+            event.setCancellationResult(EnumActionResult.SUCCESS);
+            event.setCanceled(true);
         }
     }
 

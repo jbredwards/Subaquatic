@@ -110,9 +110,11 @@ public final class ModelContainerBoat implements IModel
                 public IBakedModel handleItemState(@Nonnull IBakedModel originalModel, @Nonnull ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
                     final IBoatType cap = IBoatType.get(stack);
                     if(cap != null) return cache.computeIfAbsent(cap.getType(), type -> {
-                        final IBakedModel boatModel = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(type.boat, 1, type.boatMeta));
+                        @Nonnull final ItemStack boat = new ItemStack(type.boat, 1, type.boatMeta);
+
+                        final IBakedModel boatModel = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(boat);
                         final ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
-                        builder.addAll(boatModel.getQuads(null, null, 0));
+                        builder.addAll(boatModel.getOverrides().handleItemState(boatModel, boat, world, entity).getQuads(null, null, 0));
                         builder.addAll(quads);
 
                         return new BakedItemModel(builder.build(), boatModel.getParticleTexture(), transforms, boatModel.getOverrides(), transform.isIdentity());

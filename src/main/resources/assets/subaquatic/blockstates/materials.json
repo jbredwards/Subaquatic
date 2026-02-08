@@ -1,0 +1,19 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-item",
+        "model": "builtin/generated"
+    },
+    "variants": {
+        "heart_of_the_sea": [{
+            "textures": {
+                "layer0":"subaquatic:items/heart_of_the_sea"
+            }
+        }],
+        "turtle_scute": [{
+            "textures": {
+                "layer0":"subaquatic:items/turtle_scute"
+            }
+        }]
+    }
+}

@@ -6,8 +6,6 @@
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
-import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.EntityBucketHandlerSalmon;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -48,13 +46,4 @@ public class EntitySalmon extends AbstractGroupFish
     @Nonnull
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource source) { return SubaquaticSounds.ENTITY_SALMON_HURT; }
-
-    @Nonnull
-    @Override
-    public AbstractEntityBucketHandler createFishBucketHandler() {
-        if(getClass() != EntitySalmon.class)
-            throw new IllegalStateException("No bucket handler defined for entity class: " + getClass());
-
-        return new EntityBucketHandlerSalmon();
-    }
 }

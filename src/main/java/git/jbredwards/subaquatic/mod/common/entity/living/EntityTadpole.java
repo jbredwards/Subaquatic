@@ -7,9 +7,9 @@ package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntitySwimLookHelper;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntitySwimMoveHelper;
-import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
-import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.EntityBucketHandlerTadpole;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
 import net.minecraft.util.DamageSource;
@@ -30,6 +30,7 @@ public class EntityTadpole extends AbstractFish
         super(worldIn);
         moveHelper = new EntitySwimMoveHelper(this, 85, 10, 0.02f, 0.1f, true);
         lookHelper = new EntitySwimLookHelper(this, 10);
+        experienceValue = 0;
     }
 
     @Nonnull
@@ -38,7 +39,8 @@ public class EntityTadpole extends AbstractFish
 
     @Override
     protected void initEntityAI() {
-        super.initEntityAI();
+        tasks.addTask(0, new EntityAIPanic(this, 2));
+        tasks.addTask(1, new EntityAILookIdle(this));
     }
 
     @Override
@@ -62,12 +64,6 @@ public class EntityTadpole extends AbstractFish
 
     @Nonnull
     @Override
-    public SoundEvent getBucketFillSound() {
-        return super.getBucketFillSound();
-    }
-
-    @Nonnull
-    @Override
     protected SoundEvent getDeathSound() {
         return super.getDeathSound();
     }
@@ -82,14 +78,5 @@ public class EntityTadpole extends AbstractFish
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource damageSourceIn) {
         return super.getHurtSound(damageSourceIn);
-    }
-
-    @Nonnull
-    @Override
-    public AbstractEntityBucketHandler createFishBucketHandler() {
-        if(getClass() != EntityTadpole.class)
-            throw new IllegalStateException("No bucket handler defined for entity class: " + getClass());
-
-        return new EntityBucketHandlerTadpole();
     }
 }

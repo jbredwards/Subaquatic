@@ -11,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -44,6 +43,8 @@ public class BlockMud extends Block
     @Override
     public boolean canSustainPlant(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing direction, @Nonnull IPlantable plantable) {
         if(plantable instanceof PluginBlockBush.Accessor && ((PluginBlockBush.Accessor)plantable).canSustainBush_Public(state)) return true;
+        else if(!isMud(state)) return false;
+
         final EnumPlantType plant = plantable.getPlantType(world, pos.offset(direction));
         return plant == EnumPlantType.Plains || plant == EnumPlantType.Beach && (
                    FluidloggedUtils.getFluidOrReal(world, pos.east()).getMaterial() == Material.WATER
@@ -55,4 +56,5 @@ public class BlockMud extends Block
 
     @Override
     public void onPlantGrow(@Nonnull IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockPos source) {}
+    public boolean isMud(@Nonnull IBlockState state) { return true; }
 }

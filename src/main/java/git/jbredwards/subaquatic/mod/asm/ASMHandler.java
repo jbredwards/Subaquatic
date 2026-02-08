@@ -12,8 +12,7 @@ import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.entity.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.item.*;
-import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.network.*;
-import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.potion.PluginPotionUtils;
+import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.potion.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world.*;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
@@ -36,7 +35,6 @@ public final class ASMHandler implements IFMLLoadingPlugin
     {
         public Transformer() {
             //forge
-            plugins.put("net.minecraftforge.common.util.PacketUtil", new PluginPacketUtil()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
             plugins.put("net.minecraftforge.fluids.FluidRegistry", new PluginFluidRegistry()); //Changes the water textures to allow for better coloring
             plugins.put("net.minecraftforge.fluids.FluidUtil", new PluginFluidUtil()); //Place fish contained within bucket
             plugins.put("net.minecraftforge.fml.common.registry.VillagerRegistry", new PluginVillagerRegistry()); //Add IConditionalProfession functionality
@@ -72,7 +70,6 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("exterminatorjeff.undergroundbiomes.common.block.SedimentaryOvergrown", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
             plugins.put("exterminatorjeff.undergroundbiomes.common.block.SedimentaryOvergrownSnowed", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
             plugins.put("exterminatorjeff.undergroundbiomes.common.block.SedimentarySand", new PluginUndergroundBiomes()); //The Underground Biomes mod accounts for modded BlockBush instances
-            plugins.put("git.jbredwards.fluidlogged_api.mod.common.EventHandler", new PluginFluidloggedAPI()); //Place any fish contained within the bucket when fluidlogging, and yes I'm asm-ing my own mod XD
             plugins.put("hellfirepvp.astralsorcery.common.item.crystal.base.ItemRockCrystalBase", new PluginNoItemBobbing()); //Rock crystals don't bob at the surface
             plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalSword", new PluginNoItemBobbing()); //Crystal swords don't bob at the surface
             plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalToolBase", new PluginNoItemBobbing()); //Crystal tools don't bob at the surface
@@ -112,12 +109,11 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("net.minecraft.entity.Entity", new PluginEntity()); //Check for no collision instead of air when falling on a block (MC-1691)
             plugins.put("net.minecraft.entity.EntityLivingBase", new PluginEntityLivingBase()); //Backport new oxygen replenish system & add IOxygenSupplier
             plugins.put("net.minecraft.item.Item", new PluginItem()); //Custom ItemBlock implementation for mushroom blocks to allow for new metadata properties
-            plugins.put("net.minecraft.item.ItemBucket", new PluginItemBucket()); //Place fish contained within bucket
             plugins.put("net.minecraft.item.ItemDye", new PluginItemDye()); //Fix multiple issues with bonemeal particles
             plugins.put("net.minecraft.item.ItemExpBottle", new PluginItemExpBottle()); //Add new config option to toggle the exp bottle enchantment glint
             plugins.put("net.minecraft.item.ItemFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
             plugins.put("net.minecraft.item.ItemPotion", new PluginItemPotion()); //Add new config option to toggle the potion enchantment glint
-            plugins.put("net.minecraft.network.PacketBuffer", new PluginPacketBuffer()); //Fix ItemStack capabilities being lost when sending an ItemStack to the client
+            plugins.put("net.minecraft.item.ItemStack", new PluginItemStack()); //Temporarily cache active player
             plugins.put("net.minecraft.potion.PotionUtils", new PluginPotionUtils()); //Use new water fluid color
             plugins.put("net.minecraft.tileentity.TileEntityBeacon", new PluginTileEntityBeacon()); //Backport the vanilla 1.13+ beacon sounds
             plugins.put("net.minecraft.tileentity.TileEntityChest", new PluginTileEntityChest()); //Add bubble particles for chests when they open underwater
@@ -127,7 +123,6 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("net.minecraft.world.gen.feature.WorldGenBigTree", new PluginWorldGenBigTree()); //Fix bug where the block under tall trees is not converted to dirt
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.feature.WorldGenShrub", new PluginWorldGenShrub()); //Fix bug where the block under the log of a shrub is not converted to dirt
-            plugins.put("net.minecraft.world.gen.layer.GenLayer", new PluginGenLayer()); //Optimize GenLayer::isBiomeOceanic
         }
 
         @Nonnull

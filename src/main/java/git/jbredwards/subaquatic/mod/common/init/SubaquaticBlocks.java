@@ -72,6 +72,7 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockFroglight FROGLIGHT = register("froglight", new BlockFroglight(FROGLIGHT_MATERIAL), block -> block.setSoundType(SubaquaticSounds.FROGLIGHT).setLightLevel(1).setHardness(0.3f).setResistance(0.5f));
     @Nonnull public static final BlockRootedDirt ROOTED_DIRT = register("rooted_dirt", new BlockRootedDirt(Material.GROUND), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.ROOTED_DIRT));
     @Nonnull public static final BlockHangingRoots HANGING_ROOTS = register("hanging_roots", new BlockHangingRoots(Material.VINE, MapColor.DIRT), block -> block.setSoundType(SubaquaticSounds.HANGING_ROOTS));
+    @Nonnull public static final BlockMangroveRoots MANGROVE_ROOTS = register("mangrove_roots", new BlockMangroveRoots(Material.GROUND, MapColor.CYAN_STAINED_HARDENED_CLAY), block -> block.setHardness(0.7f));
     @Nonnull public static final BlockMud MUD = register("mud", new BlockMud(Material.GROUND, MapColor.CYAN_STAINED_HARDENED_CLAY), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.MUD));
     @Nonnull public static final Block PACKED_MUD = register("packed_mud", new Block(Material.GROUND), Blocks.DIRT, block -> block.setSoundType(SubaquaticSounds.PACKED_MUD).setHardness(1).setResistance(5));
     //@Nonnull public static final BlockColored COLORED_PACKED_MUD = register("colored_packed_mud", new BlockColored(Material.GROUND), PACKED_MUD);

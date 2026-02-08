@@ -14,6 +14,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
@@ -60,6 +61,10 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerItems(@Nonnull RegistryEvent.Register<Item> event) {
         SubaquaticItems.INIT.forEach(event.getRegistry()::register);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    static void registerItemPost(@Nonnull RegistryEvent.Register<Item> event) {
         SubaquaticItems.postRegistry();
     }
 

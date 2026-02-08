@@ -29,6 +29,12 @@ public class ItemDurationFood extends ItemFood
     public ItemDurationFood(int amount, boolean isWolfFood) { super(amount, isWolfFood); }
     public ItemDurationFood(int amount, float saturation, boolean isWolfFood) { super(amount, saturation, isWolfFood); }
 
+    @Nonnull
+    public ItemDurationFood setMaxItemUseDuration(final int maxItemUseDuration) {
+        itemUseDuration = maxItemUseDuration;
+        return this;
+    }
+
     @Override
     protected void onFoodEaten(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull EntityPlayer player) {
         if(!worldIn.isRemote) for(Pair<PotionEffect, Float> pair : effects)

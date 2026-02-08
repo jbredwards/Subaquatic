@@ -6,10 +6,10 @@
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.api.entity.bucketable.IBucketableEntity;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIFishSwim;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntityFishMoveHelper;
 import git.jbredwards.subaquatic.mod.common.entity.ai.pathfinding.PathNavigateFish;
-import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.IBucketableEntity;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -145,11 +145,6 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
         super.onLivingUpdate();
     }
 
-    @Override
-    protected boolean processInteract(@Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
-        return tryCaptureEntity(player, hand) || super.processInteract(player, hand);
-    }
-
     @Nonnull
     @Override
     protected SoundEvent getSwimSound() { return SubaquaticSounds.ENTITY_FISH_SWIM; }
@@ -161,9 +156,6 @@ public abstract class AbstractFish extends EntityWaterCreature implements IBucke
     @Nonnull
     protected abstract SoundEvent getFlopSound();
     public boolean hasNoGroup() { return true; }
-
-    @Override
-    public boolean canBucket() { return true; }
 
     @Override
     public void fall(float distance, float damageMultiplier) {}

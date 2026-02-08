@@ -6,15 +6,11 @@
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
-import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.AbstractEntityBucketHandler;
-import git.jbredwards.subaquatic.mod.common.entity.util.fish_bucket.EntityBucketHandlerTropicalFish;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticDataSerializers;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -56,11 +52,7 @@ public class EntityTropicalFish extends AbstractGroupFish
 
     @Nonnull
     public TropicalFishData getRandomVariant() {
-        //generate random variant
-        if(rand.nextFloat() < 0.1) return TropicalFishData.deserialize(rand.nextInt(2) | rand.nextInt(6) << 8 | rand.nextInt(15) << 16 | rand.nextInt(15) << 24);
-        //get from config
-        return SubaquaticTropicalFishConfig.DEFAULT_TYPES.isEmpty() ? TropicalFishData.DEFAULT
-                : SubaquaticTropicalFishConfig.DEFAULT_TYPES.get(rand.nextInt(SubaquaticTropicalFishConfig.DEFAULT_TYPES.size()));
+        return TropicalFishData.random(rand, rand.nextFloat() < 0.1);
     }
 
     @Override
@@ -83,26 +75,6 @@ public class EntityTropicalFish extends AbstractGroupFish
         }
 
         else setVariant(TropicalFishData.deserialize(compound.getInteger("Variant")));
-    }
-
-    @Nonnull
-    @Override
-    public AbstractEntityBucketHandler createFishBucketHandler() {
-        if(getClass() != EntityTropicalFish.class)
-            throw new IllegalStateException("No bucket handler defined for entity class: " + getClass());
-
-        return new EntityBucketHandlerTropicalFish();
-    }
-
-    @Override
-    public void postSetHandlerEntityNBT(@Nonnull AbstractEntityBucketHandler handler) {
-        ((EntityBucketHandlerTropicalFish)handler).fishData = getVariant();
-    }
-
-    @Override
-    public void onCreatedByBucket(@Nonnull ItemStack bucket, @Nonnull AbstractEntityBucketHandler handler) {
-        final TropicalFishData bucketData = ((EntityBucketHandlerTropicalFish)handler).fishData;
-        setVariant(bucketData == null ? getRandomVariant() : bucketData);
     }
 
     @Nonnull

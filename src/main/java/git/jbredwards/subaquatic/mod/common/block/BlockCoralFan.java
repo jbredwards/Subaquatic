@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  *
@@ -49,7 +50,9 @@ public class BlockCoralFan extends BlockCoralFin
 
     @Nonnull
     @Override
-    protected BlockStateContainer createBlockState() { return new BlockStateContainer(this, ALIVE, SIDE); }
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, ALIVE, SIDE);
+    }
 
     @Override
     public int getMetaFromState(@Nonnull IBlockState state) {
@@ -59,8 +62,9 @@ public class BlockCoralFan extends BlockCoralFin
     @Nonnull
     @Override
     public IBlockState getStateFromMeta(int meta) {
+        EnumFacing side = EnumFacing.byIndex(meta >> 1);
         return getDefaultState()
-                .withProperty(SIDE, EnumFacing.byIndex(meta >> 1))
+                .withProperty(SIDE, side != EnumFacing.DOWN ? side : EnumFacing.UP)
                 .withProperty(ALIVE, (meta & 1) == 0);
     }
 
@@ -74,38 +78,34 @@ public class BlockCoralFan extends BlockCoralFin
     @Override
     public IBlockState getStateForPlacement(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer) {
         final IBlockState state = getDefaultState().withProperty(ALIVE, (meta & 1) == 0);
-        if(canPlaceBlockOnSide(worldIn, pos, facing)) return state.withProperty(SIDE, facing);
-        //search for valid side
-        for(EnumFacing side : EnumFacing.values()) {
-            if(side != EnumFacing.DOWN && canPlaceBlockOnSide(worldIn, pos, side))
-                return state.withProperty(SIDE, side);
-        }
+        final EnumFacing validSide = getSideForPlacement(worldIn, pos, facing);
+        if(validSide != null) return state.withProperty(SIDE, validSide);
 
         //should never pass
-        throw new IllegalStateException("Could not place coral fan on illegal side");
+        return state;
+    }
+
+    @Nullable
+    protected EnumFacing getSideForPlacement(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
+        if(canPlaceOnSide(worldIn, pos, side)) return side;
+        //search for valid side
+        for(EnumFacing fallback : EnumFacing.values()) if(canPlaceOnSide(worldIn, pos, fallback)) return fallback;
+        return null;
     }
 
     @Override
     public boolean canPlaceBlockAt(@Nonnull World worldIn, @Nonnull BlockPos pos) {
-        for(EnumFacing side : EnumFacing.values())
-            if(side != EnumFacing.DOWN && canPlaceOnSide(worldIn, pos, side))
-                return true;
-
+        for(EnumFacing side : EnumFacing.values()) if(canPlaceOnSide(worldIn, pos, side)) return true;
         return false;
     }
 
-    @Override
-    public boolean canPlaceBlockOnSide(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
-        return side == EnumFacing.DOWN ? canPlaceBlockAt(worldIn, pos) : canPlaceOnSide(worldIn, pos, side);
-    }
-
     protected boolean canPlaceOnSide(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
-        return worldIn.isSideSolid(pos.offset(side.getOpposite()), side);
+        return side != EnumFacing.DOWN && worldIn.isSideSolid(pos.offset(side.getOpposite()), side);
     }
 
     @Override
     public void neighborChanged(@Nonnull IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Block blockIn, @Nonnull BlockPos fromPos) {
-        if(!canPlaceBlockOnSide(worldIn, pos, state.getValue(SIDE))) worldIn.destroyBlock(pos, true);
+        if(!canPlaceOnSide(worldIn, pos, state.getValue(SIDE))) worldIn.destroyBlock(pos, true);
     }
 
     @Override
