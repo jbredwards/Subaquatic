@@ -110,12 +110,6 @@ public final class SubaquaticConfigHandler
         public static World world;
         public static final class World
         {
-            @SuppressWarnings("unused") //used through asm
-            @Config.SlidingOption
-            @Config.RangeInt(min = 0, max = 15)
-            @Config.LangKey("config.subaquatic.client.world.biomeColorBlendRadius")
-            public static int biomeColorBlendRadius = 5;
-
             @Config.Ignore //wip, currently crashes with nothirium
             @Config.LangKey("config.subaquatic.client.world.coloredRain")
             public static boolean coloredRain = true;

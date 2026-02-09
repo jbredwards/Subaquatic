@@ -119,7 +119,6 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("net.minecraft.tileentity.TileEntityChest", new PluginTileEntityChest()); //Add bubble particles for chests when they open underwater
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
             plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
-            plugins.put("net.minecraft.world.biome.BiomeColorHelper", new PluginBiomeColorHelper()); //Get the biome colors from the radius specified in the config
             plugins.put("net.minecraft.world.gen.feature.WorldGenBigTree", new PluginWorldGenBigTree()); //Fix bug where the block under tall trees is not converted to dirt
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.feature.WorldGenShrub", new PluginWorldGenShrub()); //Fix bug where the block under the log of a shrub is not converted to dirt
