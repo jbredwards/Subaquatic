@@ -38,6 +38,7 @@ public final class SubaquaticProfessions
                     TradeForEntityBucket.FISH_BUCKET,
                     TradeUtil.newTrade(Items.EMERALD, 1, 1, SubaquaticItems.KELP, 1, 3),
                     TradeUtil.newTrade(Items.EMERALD, 1, 1, SubaquaticItems.GLOW_LICHEN, 2, 3),
+                    TradeUtil.newTrade(Items.EMERALD, 3, 5, SubaquaticItems.MANGROVE_SAPLING, 1, 1),
                     TradeUtil.newTrade(SubaquaticItems.DRIED_KELP_BLOCK, 3, 5, Items.EMERALD, 1, 1),
                     TradeUtil.newTrade(Items.EMERALD, 1, 1, new ItemStack(Blocks.WATERLILY), 1, 3),
                     TradeUtil.newTrade(Items.EMERALD, 1, 1, SubaquaticItems.SEAGRASS, 3, 5))//,

@@ -37,6 +37,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock DRIED_KELP_BLOCK = register("dried_kelp_block", new ItemBlock(SubaquaticBlocks.DRIED_KELP_BLOCK));
     @Nonnull public static final ItemBlock BLUE_ICE = register("blue_ice", new ItemBlock(SubaquaticBlocks.BLUE_ICE));
     @Nonnull public static final ItemBlock PUMPKIN = register("pumpkin", new ItemBlock(SubaquaticBlocks.PUMPKIN));
+
     @Nonnull public static final ItemBlockMeta TUBE_CORAL_BLOCK = register("tube_coral_block", new ItemBlockMeta(SubaquaticBlocks.TUBE_CORAL_BLOCK, false, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlockMeta BRAIN_CORAL_BLOCK = register("brain_coral_block", new ItemBlockMeta(SubaquaticBlocks.BRAIN_CORAL_BLOCK, false, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlockMeta BUBBLE_CORAL_BLOCK = register("bubble_coral_block", new ItemBlockMeta(SubaquaticBlocks.BUBBLE_CORAL_BLOCK, false, AbstractBlockCoral.ALIVE));
@@ -52,12 +53,15 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlockMeta BUBBLE_CORAL_FIN = register("bubble_coral_fin", new ItemBlockMeta(SubaquaticBlocks.BUBBLE_CORAL_FIN, true, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlockMeta FIRE_CORAL_FIN = register("fire_coral_fin", new ItemBlockMeta(SubaquaticBlocks.FIRE_CORAL_FIN, true, AbstractBlockCoral.ALIVE));
     @Nonnull public static final ItemBlockMeta HORN_CORAL_FIN = register("horn_coral_fin", new ItemBlockMeta(SubaquaticBlocks.HORN_CORAL_FIN, true, AbstractBlockCoral.ALIVE));
+
+    @Nonnull public static final ItemBlock MANGROVE_SAPLING = register("mangrove_sapling", new ItemBlock(SubaquaticBlocks.MANGROVE_SAPLING));
     @Nonnull public static final ItemBlockCluster SEA_PICKLE = register("sea_pickle", new ItemBlockCluster(SubaquaticBlocks.SEA_PICKLE));
     @Nonnull public static final ItemBlockSeagrass SEAGRASS = register("seagrass", new ItemBlockSeagrass(SubaquaticBlocks.SEAGRASS));
-    @Nonnull public static final ItemBlockNautilusShell NAUTILUS_SHELL = register("nautilus_shell", new ItemBlockNautilusShell(SubaquaticBlocks.NAUTILUS_SHELL));
     @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(SubaquaticBlocks.KELP));
+
     @Nonnull public static final ItemBlockCluster GLOW_LICHEN = register("glow_lichen", new ItemBlockCluster(SubaquaticBlocks.GLOW_LICHEN));
     @Nonnull public static final ItemBlockMeta FROGLIGHT = register("froglight", new ItemBlockMeta(SubaquaticBlocks.FROGLIGHT, true, BlockFroglight.TYPE));
+
     @Nonnull public static final ItemBlock ROOTED_DIRT = register("rooted_dirt", new ItemBlock(SubaquaticBlocks.ROOTED_DIRT));
     @Nonnull public static final ItemBlock HANGING_ROOTS = register("hanging_roots", new ItemBlock(SubaquaticBlocks.HANGING_ROOTS));
     @Nonnull public static final ItemBlockMeta MANGROVE_ROOTS = register("mangrove_roots", new ItemBlockMeta(SubaquaticBlocks.MANGROVE_ROOTS, false, BlockMangroveRoots.HAS_MUD.getName(), "false", "true"));
@@ -68,6 +72,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock PACKED_MUD_BRICKS_STAIRS = register("packed_mud_bricks_stairs", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS_STAIRS));
     @Nonnull public static final ItemSlab PACKED_MUD_BRICKS_SLAB = register("packed_mud_bricks_slab", new ItemSlab(SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB, SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB, SubaquaticBlocks.PACKED_MUD_BRICKS_SLAB_DOUBLE));
     @Nonnull public static final ItemBlock PACKED_MUD_BRICKS_WALL = register("packed_mud_bricks_wall", new ItemBlock(SubaquaticBlocks.PACKED_MUD_BRICKS_WALL));
+
     @Nonnull public static final ItemBlock SMOOTH_STONE = register("smooth_stone", new ItemBlock(SubaquaticBlocks.SMOOTH_STONE));
     @Nonnull public static final ItemBlock SMOOTH_STONE_STAIRS = register("smooth_stone_stairs", new ItemBlock(SubaquaticBlocks.SMOOTH_STONE_STAIRS));
     @Nonnull public static final ItemBlock SMOOTH_SANDSTONE = register("smooth_sandstone", new ItemBlock(SubaquaticBlocks.SMOOTH_SANDSTONE));
@@ -87,6 +92,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemFood DRIED_KELP = register("dried_kelp", new ItemDurationFood(1, false).setMaxItemUseDuration(16));
     @Nonnull public static final ItemFood COD = register("cod", new ItemDurationFood(ItemFishFood.FishType.COD.getUncookedHealAmount(), ItemFishFood.FishType.COD.getUncookedSaturationModifier(), false));
     @Nonnull public static final ItemFood COOKED_COD = register("cooked_cod", new ItemDurationFood(ItemFishFood.FishType.COD.getCookedHealAmount(), ItemFishFood.FishType.COD.getCookedSaturationModifier(), false));
+    @Nonnull public static final ItemBlockNautilusShell NAUTILUS_SHELL = register("nautilus_shell", new ItemBlockNautilusShell(SubaquaticBlocks.NAUTILUS_SHELL));
     @Nonnull public static final ItemMaterial MATERIAL = register("materials", new ItemMaterial("heart_of_the_sea", "turtle_scute"));
     //TODO @Nonnull public static final ItemAquaticBoneMeal AQUATIC_BONE_MEAL = register("aquatic_bone_meal", new ItemAquaticBoneMeal(1, 0, false));
 
@@ -123,6 +129,7 @@ public final class SubaquaticItems
         OreDictionary.registerOre("shellNautilus", NAUTILUS_SHELL);
         OreDictionary.registerOre("stone", SMOOTH_STONE);
         OreDictionary.registerOre("stoneSmooth", SMOOTH_STONE);
+        OreDictionary.registerOre("treeSapling", MANGROVE_SAPLING);
         //bucket registration
         BucketableEntityRegistry.BUCKET_REGISTRY.put(Items.WATER_BUCKET, 8);
         BucketableEntityRegistry.BUCKET_REGISTRY.put(Items.LAVA_BUCKET, 8);

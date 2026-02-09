@@ -1,0 +1,46 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "propagule": "subaquatic:blocks/mangrove_sapling_hanging"
+        }
+    },
+    "variants": {
+        "inventory": [
+            {
+                "transform": "forge:default-item",
+                "model": "builtin/generated",
+                "textures": {
+                    "layer0": "subaquatic:items/mangrove_sapling"
+                }
+            }
+        ],
+        "property":{
+            "0": {
+                "model": "subaquatic:mangrove_propagule",
+                "textures": {
+                    "sapling": "subaquatic:blocks/mangrove_sapling"
+                }
+            },
+            "1": {
+                "model": "subaquatic:mangrove_propagule_hanging_0"
+            },
+            "2": {
+                "model": "subaquatic:mangrove_propagule_hanging_1"
+            },
+            "3": {
+                "model": "subaquatic:mangrove_propagule_hanging_2"
+            },
+            "4": {
+                "model": "subaquatic:mangrove_propagule_hanging_3"
+            },
+            "5": {
+                "model": "subaquatic:mangrove_propagule_hanging_4"
+            }
+        },
+        "stage": {
+            "0": {},
+            "1": {}
+        }
+    }
+}

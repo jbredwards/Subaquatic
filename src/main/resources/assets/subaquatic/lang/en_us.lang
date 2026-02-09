@@ -17,6 +17,7 @@ tile.subaquatic.kelp.name=Kelp
 tile.subaquatic.mangrove_roots.name=Mangrove Roots
 tile.subaquatic.mangrove_roots.has_mud.false.name=Mangrove Roots
 tile.subaquatic.mangrove_roots.has_mud.true.name=Muddy Mangrove Roots
+tile.subaquatic.mangrove_sapling.name=Mangrove Propagule
 tile.subaquatic.mud.name=Mud
 tile.subaquatic.nautilus_shell.name=Nautilus Shell
 tile.subaquatic.packed_mud.name=Packed Mud
