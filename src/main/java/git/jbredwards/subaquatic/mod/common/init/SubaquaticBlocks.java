@@ -99,7 +99,9 @@ public final class SubaquaticBlocks
     @Nonnull public static final BlockStairs SMOOTH_LAPIS_BLOCK_STAIRS = register("smooth_lapis_block_stairs", new BlockStairs(SMOOTH_LAPIS_BLOCK.getDefaultState()), SMOOTH_LAPIS_BLOCK);
     @Nonnull public static final BlockSlabTypeless SMOOTH_LAPIS_BLOCK_SLAB = register("smooth_lapis_block_slab", new BlockSlabTypeless.Single(Material.ROCK, MapColor.LAPIS, () -> SubaquaticItems.SMOOTH_LAPIS_BLOCK_SLAB), SMOOTH_LAPIS_BLOCK);
     @Nonnull public static final BlockSlabTypeless SMOOTH_LAPIS_BLOCK_SLAB_DOUBLE = register("smooth_lapis_block_slab_double", new BlockSlabTypeless.Double(Material.ROCK, MapColor.LAPIS, () -> SubaquaticItems.SMOOTH_LAPIS_BLOCK_SLAB), SMOOTH_LAPIS_BLOCK);
+
     @Nonnull public static final BlockMangroveSapling MANGROVE_SAPLING = register("mangrove_sapling", new BlockMangroveSapling(Material.PLANTS), block -> block.setSoundType(SoundType.PLANT));
+    @Nonnull public static final BlockTurtleEgg TURTLE_EGG = register("turtle_egg", new BlockTurtleEgg(Material.DRAGON_EGG, MapColor.SAND), block -> block.setHardness(0.5f).setSoundType(SubaquaticSounds.TURTLE_EGG));
     
     //register burnables & tile entities
     static void postRegistry() {

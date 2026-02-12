@@ -6,10 +6,10 @@
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.subaquatic.api.entity.IWaterAnimals;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public abstract class EntityWaterCreature extends EntityCreature implements IAnimals
+public abstract class EntityWaterCreature extends EntityCreature implements IWaterAnimals
 {
     public EntityWaterCreature(World worldIn) {
         super(worldIn);

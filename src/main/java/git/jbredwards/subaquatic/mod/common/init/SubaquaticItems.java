@@ -60,6 +60,7 @@ public final class SubaquaticItems
     @Nonnull public static final ItemBlock KELP = register("kelp", new ItemBlock(SubaquaticBlocks.KELP));
 
     @Nonnull public static final ItemBlockCluster GLOW_LICHEN = register("glow_lichen", new ItemBlockCluster(SubaquaticBlocks.GLOW_LICHEN));
+    @Nonnull public static final ItemBlockCluster TURTLE_EGG = register("turtle_egg", new ItemBlockCluster(SubaquaticBlocks.TURTLE_EGG));
     @Nonnull public static final ItemBlockMeta FROGLIGHT = register("froglight", new ItemBlockMeta(SubaquaticBlocks.FROGLIGHT, true, BlockFroglight.TYPE));
 
     @Nonnull public static final ItemBlock ROOTED_DIRT = register("rooted_dirt", new ItemBlock(SubaquaticBlocks.ROOTED_DIRT));
@@ -115,6 +116,7 @@ public final class SubaquaticItems
         OreDictionary.registerOre("cropKelp", KELP);
         OreDictionary.registerOre("cropSeagrass", SEAGRASS);
         OreDictionary.registerOre("cropSeaPickle", SEA_PICKLE);
+        OreDictionary.registerOre("egg", TURTLE_EGG);
         OreDictionary.registerOre("foodDriedKelp", DRIED_KELP);
         OreDictionary.registerOre("froglight", new ItemStack(FROGLIGHT, 1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("gemHeartOfTheSea", MATERIAL);

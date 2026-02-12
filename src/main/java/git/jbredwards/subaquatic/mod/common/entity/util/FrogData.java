@@ -22,6 +22,7 @@ public class FrogData implements Comparable<FrogData>
 {
     @Nonnull
     public static final LinkedList<FrogData> VARIANTS = new LinkedList<>();
+    static { VARIANTS.add(new FrogData("", new ResourceLocation("", ""), new HashSet<>())); } // TODO
 
     @Nonnull public final String name;
     @Nonnull public final ResourceLocation texture;

@@ -5,9 +5,9 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
-import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticDataSerializers;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticLootTables;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.item.EnumDyeColor;
@@ -33,7 +33,6 @@ public class EntityTropicalFish extends AbstractGroupFish
 {
     @Nonnull
     private static final DataParameter<TropicalFishData> VARIANT = EntityDataManager.createKey(EntityTropicalFish.class, SubaquaticDataSerializers.TROPICAL_FISH_DATA);
-    public static final ResourceLocation LOOT = new ResourceLocation(Subaquatic.MODID, "entities/tropical_fish");
 
     public EntityTropicalFish(@Nonnull World worldIn) {
         super(worldIn);
@@ -79,7 +78,7 @@ public class EntityTropicalFish extends AbstractGroupFish
 
     @Nonnull
     @Override
-    protected ResourceLocation getLootTable() { return LOOT; }
+    protected ResourceLocation getLootTable() { return SubaquaticLootTables.ENTITIES_TROPICAL_FISH; }
 
     @Nonnull
     @Override

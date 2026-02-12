@@ -69,7 +69,7 @@ public final class PluginTileEntityChest implements IASMPlugin
                 final double x = tile.getPos().getX();
                 final double y = tile.getPos().getY();
                 final double z = tile.getPos().getZ();
-                tile.getWorld().playSound(x + 0.5, y + 0.5, z + 0.5, SubaquaticSounds.CHEST_OPEN_UNDERWATER, SoundCategory.BLOCKS, 0.5f, 1, false);
+                tile.getWorld().playSound(x + 0.5, y + 0.5, z + 0.5, SubaquaticSounds.BLOCK_CHEST_OPEN_UNDERWATER, SoundCategory.BLOCKS, 0.5f, 1, false);
 
                 while(remainingParticles --> 0) {
                     final double posY = y + rand.nextDouble() * 0.5 + 0.4;

@@ -5,7 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
-import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIFishSwimGroup;
+import git.jbredwards.subaquatic.mod.common.entity.ai.task.EntityAIFishSwimGroup;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;

@@ -199,10 +199,10 @@ public class BlockBubbleColumn extends Block implements IFluidloggable, ICustomM
     }
 
     @Nonnull
-    public SoundEvent getAmbientSound() { return isDown ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_AMBIENT : SubaquaticSounds.BUBBLE_COLUMN_UP_AMBIENT; }
+    public SoundEvent getAmbientSound() { return isDown ? SubaquaticSounds.BLOCK_BUBBLE_COLUMN_DOWN_AMBIENT : SubaquaticSounds.BLOCK_BUBBLE_COLUMN_UP_AMBIENT; }
 
     @Nonnull
-    public SoundEvent getInsideSound() { return isDown ? SubaquaticSounds.BUBBLE_COLUMN_DOWN_INSIDE : SubaquaticSounds.BUBBLE_COLUMN_UP_INSIDE; }
+    public SoundEvent getInsideSound() { return isDown ? SubaquaticSounds.BLOCK_BUBBLE_COLUMN_DOWN_INSIDE : SubaquaticSounds.BLOCK_BUBBLE_COLUMN_UP_INSIDE; }
 
     @SubscribeEvent
     static void generateBubbleColumns(@Nonnull BlockEvent.NeighborNotifyEvent event) {

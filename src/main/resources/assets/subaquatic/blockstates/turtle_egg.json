@@ -1,0 +1,45 @@
+{
+    "forge_marker": 1,
+    "variants": {
+        "inventory": [
+            {
+                "transform": "forge:default-item",
+                "model": "builtin/generated",
+                "textures": {
+                    "layer0": "subaquatic:items/turtle_egg"
+                }
+            }
+        ],
+        "eggs": {
+            "0": {
+                "model": "subaquatic:turtle_egg_1"
+            },
+            "1": {
+                "model": "subaquatic:turtle_egg_2"
+            },
+            "2": {
+                "model": "subaquatic:turtle_egg_3"
+            },
+            "3": {
+                "model": "subaquatic:turtle_egg_4"
+            }
+        },
+        "hatch": {
+            "0": {
+                "textures": {
+                    "all": "subaquatic:blocks/turtle_egg"
+                }
+            },
+            "1": {
+                "textures": {
+                    "all": "subaquatic:blocks/turtle_egg_slightly_cracked"
+                }
+            },
+            "2": {
+                "textures": {
+                    "all": "subaquatic:blocks/turtle_egg_very_cracked"
+                }
+            }
+        }
+    }
+}

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2024. jbredwards
+ * Copyright (c) 2024-2026. jbredwards
  * All rights reserved.
  */
 
-package git.jbredwards.subaquatic.mod.common.entity.ai;
+package git.jbredwards.subaquatic.mod.common.entity.ai.task;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIWander;

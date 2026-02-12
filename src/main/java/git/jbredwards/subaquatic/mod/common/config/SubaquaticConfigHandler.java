@@ -141,6 +141,9 @@ public final class SubaquaticConfigHandler
             @Config.LangKey("config.subaquatic.common.entity.itemsFloat")
             public static boolean itemsFloat = true;
 
+            @Config.LangKey("config.subaquatic.common.entity.leashableTurtles")
+            public static boolean leashableTurtles = false;
+
             @Config.LangKey("config.subaquatic.common.entity.xpOrbsFloat")
             public static boolean xpOrbsFloat = true;
         }

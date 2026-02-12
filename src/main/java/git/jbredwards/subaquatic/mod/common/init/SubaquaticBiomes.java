@@ -11,6 +11,7 @@ import git.jbredwards.subaquatic.mod.common.world.biome.*;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeManager;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
@@ -50,6 +51,10 @@ public final class SubaquaticBiomes
     @Nonnull public static final BiomeSandOcean COLD_OCEAN = register("cold_ocean",
             new BiomeColdOcean(new Biome.BiomeProperties("Cold Ocean").setBaseHeight(-1).setHeightVariation(0.1f).setTemperature(0.5f).setRainfall(0.5f)));
 
+    // Mangrove Swamp
+    @Nonnull public static final BiomeMangroveSwamp MANGROVE_SWAMP = register("mangrove_swamp",
+            new BiomeMangroveSwamp(new Biome.BiomeProperties("Mangrove Swamp").setBaseHeight(-0.2f).setHeightVariation(0.1f).setTemperature(0.8f).setRainfall(0.9f).setWaterColor(3832426)));
+
     // Biome Dictionary
     static void registerBiomeDictionary() {
         BiomeDictionary.addTypes(DEEP_WARM_OCEAN, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OCEAN);
@@ -59,6 +64,8 @@ public final class SubaquaticBiomes
         BiomeDictionary.addTypes(WARM_OCEAN, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OCEAN);
         BiomeDictionary.addTypes(LUKEWARM_OCEAN, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OCEAN);
         BiomeDictionary.addTypes(COLD_OCEAN, BiomeDictionary.Type.COLD, BiomeDictionary.Type.OCEAN);
+        BiomeDictionary.addTypes(MANGROVE_SWAMP, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WET);
+        BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(MANGROVE_SWAMP, 10));
         OceanType.DEFAULT.registerBiome(Biomes.OCEAN, OceanType.DEFAULT_WEIGHT);
         OceanType.FROZEN.registerBiome(Biomes.FROZEN_OCEAN, OceanType.DEFAULT_WEIGHT);
         OceanType.WARM.registerBiome(WARM_OCEAN, OceanType.DEFAULT_WEIGHT);

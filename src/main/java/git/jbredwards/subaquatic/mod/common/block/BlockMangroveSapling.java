@@ -8,7 +8,7 @@ package git.jbredwards.subaquatic.mod.common.block;
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable;
 import git.jbredwards.fluidlogged_api.api.util.FluidState;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
-import git.jbredwards.subaquatic.mod.common.world.gen.feature.tree.WorldGenMangroveTree;
+import git.jbredwards.subaquatic.mod.common.world.gen.feature.mangrove.WorldGenMangroveTree;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.IGrowable;
@@ -18,7 +18,6 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -40,6 +39,8 @@ import java.util.Random;
  */
 public class BlockMangroveSapling extends BlockBush implements IFluidloggable, IGrowable
 {
+    public static double TALL_CHANCE = 0.85;
+
     @Nonnull public static final PropertyInteger PROPERTY = PropertyInteger.create("property", 0, 5);
     @Nonnull public static final AxisAlignedBB[] AABB = new AxisAlignedBB[] {
             new AxisAlignedBB(0.4375, 0.8125, 0.4375, 0.5625, 1, 0.5625),
@@ -141,8 +142,6 @@ public class BlockMangroveSapling extends BlockBush implements IFluidloggable, I
         return !isHanging(state) || canHangingGrow(state);
     }
 
-    EntityVillager
-
     @Override
     public boolean canUseBonemeal(@Nonnull final World worldIn, @Nonnull final Random rand, @Nonnull final BlockPos pos, @Nonnull final IBlockState state) {
         return isHanging(state) ? canHangingGrow(state) : rand.nextFloat() < 0.45;
@@ -152,6 +151,6 @@ public class BlockMangroveSapling extends BlockBush implements IFluidloggable, I
     public void grow(@Nonnull final World worldIn, @Nonnull final Random rand, @Nonnull final BlockPos pos, @Nonnull final IBlockState state) {
         if(isHanging(state)) { if(canHangingGrow(state)) worldIn.setBlockState(pos, state.cycleProperty(PROPERTY), Constants.BlockFlags.SEND_TO_CLIENTS); }
         else if(state.getValue(BlockSapling.STAGE) == 0) worldIn.setBlockState(pos, state.cycleProperty(BlockSapling.STAGE), Constants.BlockFlags.NO_RERENDER);
-        else if(TerrainGen.saplingGrowTree(worldIn, rand, pos)) new WorldGenMangroveTree(true).generate(worldIn, rand, pos);
+        else if(TerrainGen.saplingGrowTree(worldIn, rand, pos)) new WorldGenMangroveTree(true, rand.nextDouble() < TALL_CHANCE).generate(worldIn, rand, pos);
     }
 }

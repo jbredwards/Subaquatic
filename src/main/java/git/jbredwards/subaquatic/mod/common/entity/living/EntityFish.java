@@ -5,7 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
-import git.jbredwards.subaquatic.mod.Subaquatic;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticLootTables;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -21,8 +21,6 @@ import javax.annotation.Nonnull;
  */
 public class EntityFish extends AbstractGroupFish
 {
-    public static final ResourceLocation LOOT = new ResourceLocation(Subaquatic.MODID, "entities/fish");
-
     public EntityFish(@Nonnull World worldIn) {
         super(worldIn);
         setSize(0.5f, 0.3f);
@@ -30,7 +28,7 @@ public class EntityFish extends AbstractGroupFish
 
     @Nonnull
     @Override
-    protected ResourceLocation getLootTable() { return LOOT; }
+    protected ResourceLocation getLootTable() { return SubaquaticLootTables.ENTITIES_FISH; }
 
     @Nonnull
     @Override

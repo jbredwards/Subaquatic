@@ -5,8 +5,9 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
-import git.jbredwards.subaquatic.mod.Subaquatic;
-import git.jbredwards.subaquatic.mod.common.entity.ai.EntityAIPuff;
+import git.jbredwards.subaquatic.api.entity.IWaterAnimals;
+import git.jbredwards.subaquatic.mod.common.entity.ai.task.EntityAIPuff;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticLootTables;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,7 +37,7 @@ public class EntityPufferfish extends AbstractFish
 {
     @Nonnull
     private static final DataParameter<Integer> PUFF_STATE = EntityDataManager.createKey(EntityPufferfish.class, DataSerializers.VARINT);
-    public static final ResourceLocation LOOT = new ResourceLocation(Subaquatic.MODID, "entities/pufferfish");
+
     protected float originalWidth = -1;
     protected float originalHeight;
     public int deflateTimer;
@@ -84,7 +85,7 @@ public class EntityPufferfish extends AbstractFish
 
     protected void updateSize(float size) { super.setSize(originalWidth * size, originalHeight * size); }
     public boolean canAttackEntity(@Nonnull EntityLivingBase entity) {
-        return (!(entity instanceof EntityWaterCreature || entity instanceof EntityWaterMob || entity instanceof EntityGuardian)
+        return (!(entity instanceof IWaterAnimals || entity instanceof EntityWaterMob || entity instanceof EntityGuardian)
                 || ((EntityLiving)entity).getAttackTarget() == this)
                 && EntitySelectors.CAN_AI_TARGET.apply(entity);
     }
@@ -175,7 +176,7 @@ public class EntityPufferfish extends AbstractFish
 
     @Nonnull
     @Override
-    protected ResourceLocation getLootTable() { return LOOT; }
+    protected ResourceLocation getLootTable() { return SubaquaticLootTables.ENTITIES_PUFFERFISH; }
 
     @Nonnull
     @Override

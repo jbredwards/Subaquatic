@@ -50,7 +50,7 @@ public final class PluginBlockBeacon implements IASMPlugin
             if(!world.isRemote) {
                 final TileEntity tile = world.getTileEntity(pos);
                 if(tile instanceof TileEntityBeacon && ((TileEntityBeacon)tile).isComplete)
-                    world.playSound(null, pos, SubaquaticSounds.BEACON_DEACTIVATE, SoundCategory.BLOCKS, 1, 1);
+                    world.playSound(null, pos, SubaquaticSounds.BLOCK_BEACON_DEACTIVATE, SoundCategory.BLOCKS, 1, 1);
             }
 
             world.removeTileEntity(pos);

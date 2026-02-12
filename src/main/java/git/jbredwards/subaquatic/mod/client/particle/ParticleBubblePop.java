@@ -39,7 +39,7 @@ public class ParticleBubblePop extends Particle
         setAlphaF(parent.particleAlpha); //compat with dynamic surroundings' translucent air bubbles
 
         if((SubaquaticConfigHandler.Client.Particle.playBubblePopSound || parent instanceof IParticleBubbleColumn) && Minecraft.getMinecraft().player.getPositionEyes(1).squareDistanceTo(posX, posY, posZ) < 8)
-            world.playSound(posX, posY, posZ, SubaquaticSounds.BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 0.5f, Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f), false);
+            world.playSound(posX, posY, posZ, SubaquaticSounds.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.BLOCKS, 0.5f, Math.max(0, 2 - (parent.particleScale * 2 - 1) - 0.5f), false);
     }
 
     @Override

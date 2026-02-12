@@ -22,6 +22,7 @@ import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.init.Biomes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
@@ -85,7 +86,7 @@ public final class SubaquaticEntities
     @Nonnull
     public static final EntityEntry TROPICAL_FISH = register("tropical_fish",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityTropicalFish.class).factory(EntityTropicalFish::new).egg(15690005, 16775663)
-                    .spawn(EnumCreatureType.WATER_CREATURE, 25, 8, 8, SubaquaticBiomes.LUKEWARM_OCEAN, SubaquaticBiomes.DEEP_LUKEWARM_OCEAN, SubaquaticBiomes.WARM_OCEAN, SubaquaticBiomes.DEEP_WARM_OCEAN));
+                    .spawn(EnumCreatureType.WATER_CREATURE, 25, 8, 8, SubaquaticBiomes.LUKEWARM_OCEAN, SubaquaticBiomes.DEEP_LUKEWARM_OCEAN, SubaquaticBiomes.WARM_OCEAN, SubaquaticBiomes.DEEP_WARM_OCEAN, SubaquaticBiomes.MANGROVE_SWAMP));
     @Nonnull
     public static final EntityEntry PUFFERFISH = register("pufferfish",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityPufferfish.class).factory(EntityPufferfish::new).egg(16167425, 3654642)
@@ -94,6 +95,19 @@ public final class SubaquaticEntities
     @Nonnull
     public static final EntityEntry FISH = register("fish",
             EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityFish.class).factory(EntityFish::new).egg(0x6b9f93, 0xadbedb));
+
+    @Nonnull
+    public static final EntityEntry TADPOLE = register("tadpole",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityTadpole.class).factory(EntityTadpole::new).egg(7164733, 1444352));
+
+    @Nonnull
+    public static final EntityEntry FROG = register("frog",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityFrog.class).factory(EntityFrog::new).egg(13661252, 16762748)
+                    /*.spawn(EnumCreatureType.CREATURE, 10, 2, 5, BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP))*/);
+    @Nonnull
+    public static final EntityEntry TURTLE = register("turtle",
+            EntityEntryBuilder.create().tracker(80, 3, true).entity(EntityTurtle.class).factory(EntityTurtle::new).egg(15198183, 44975)
+                    .spawn(EnumCreatureType.CREATURE, 5, 2, 5, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
 
     // =======
     // Utility
@@ -149,6 +163,9 @@ public final class SubaquaticEntities
                     @Nonnull final TropicalFishData data = TropicalFishData.deserialize(compound.getInteger("Variant"));
                     return OptionalInt.of(tintIndex == 0 ? data.primaryColor.getColorValue() : data.secondaryColor.getColorValue());
                 })
+                .register();
+        BucketableEntityRegistry.builder(EntityTadpole.class).bucketSize(4).overlayModel(new ModelResourceLocation(path, "tadpole"))
+                .sound(SubaquaticSounds.BUCKET_FILL_FISH)
                 .register();
     }
 

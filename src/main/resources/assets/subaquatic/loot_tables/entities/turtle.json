@@ -1,0 +1,30 @@
+{
+    "pools":[
+        {
+            "entries":[
+                {
+                    "functions":[
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 0,
+                                "max": 2
+                            }
+                        },
+                        {
+                            "function": "looting_enchant",
+                            "count": {
+                                "min": 0,
+                                "max": 1
+                            }
+                        }
+                    ],
+                    "name": "subaquatic:seagrass",
+                    "type": "item"
+                }
+            ],
+            "name": "main",
+            "rolls": 1
+        }
+    ]
+}

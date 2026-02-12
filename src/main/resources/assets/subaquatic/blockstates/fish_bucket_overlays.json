@@ -33,6 +33,14 @@
                 ]
             }
         }],
+        "tadpole": [{
+            "model": "subaquatic:builtin/fish_bucket_overlay",
+            "custom": {
+                "textures": [
+                    "subaquatic:items/fish_bucket_overlays/tadpole"
+                ]
+            }
+        }],
         "tropical_fish": [{
             "#comment": "Handled through code.",
             "model": "subaquatic:builtin/tropical_fish_bucket_overlay"

@@ -25,18 +25,18 @@ public final class SubaquaticSounds
     @Nonnull public static final List<SoundEvent> INIT = new LinkedList<>();
 
     //block sounds
-    @Nonnull public static final SoundEvent BEACON_ACTIVATE = register("blocks.beacon.activate");
-    @Nonnull public static final SoundEvent BEACON_AMBIENT = register("blocks.beacon.ambient");
-    @Nonnull public static final SoundEvent BEACON_DEACTIVATE = register("blocks.beacon.deactivate");
-    @Nonnull public static final SoundEvent BEACON_POWER_SELECT = register("blocks.beacon.power_select");
-    @Nonnull public static final SoundEvent BUBBLE_COLUMN_BUBBLE_POP = register("blocks.bubble_column.bubble_pop");
-    @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_AMBIENT = register("blocks.bubble_column.down.ambient");
-    @Nonnull public static final SoundEvent BUBBLE_COLUMN_DOWN_INSIDE = register("blocks.bubble_column.down.inside");
-    @Nonnull public static final SoundEvent BUBBLE_COLUMN_UP_AMBIENT = register("blocks.bubble_column.up.ambient");
-    @Nonnull public static final SoundEvent BUBBLE_COLUMN_UP_INSIDE = register("blocks.bubble_column.up.inside");
-    @Nonnull public static final SoundEvent CHEST_OPEN_UNDERWATER = register("blocks.chest.open_underwater");
-    @Nonnull public static final SoundEvent FROGSPAWN_HATCH = register("blocks.frogspawn.hatch");
-    @Nonnull public static final SoundEvent PUMPKIN_CARVE = register("blocks.pumpkin.carve");
+    @Nonnull public static final SoundEvent BLOCK_BEACON_ACTIVATE = register("blocks.beacon.activate");
+    @Nonnull public static final SoundEvent BLOCK_BEACON_AMBIENT = register("blocks.beacon.ambient");
+    @Nonnull public static final SoundEvent BLOCK_BEACON_DEACTIVATE = register("blocks.beacon.deactivate");
+    @Nonnull public static final SoundEvent BLOCK_BEACON_POWER_SELECT = register("blocks.beacon.power_select");
+    @Nonnull public static final SoundEvent BLOCK_BUBBLE_COLUMN_BUBBLE_POP = register("blocks.bubble_column.bubble_pop");
+    @Nonnull public static final SoundEvent BLOCK_BUBBLE_COLUMN_DOWN_AMBIENT = register("blocks.bubble_column.down.ambient");
+    @Nonnull public static final SoundEvent BLOCK_BUBBLE_COLUMN_DOWN_INSIDE = register("blocks.bubble_column.down.inside");
+    @Nonnull public static final SoundEvent BLOCK_BUBBLE_COLUMN_UP_AMBIENT = register("blocks.bubble_column.up.ambient");
+    @Nonnull public static final SoundEvent BLOCK_BUBBLE_COLUMN_UP_INSIDE = register("blocks.bubble_column.up.inside");
+    @Nonnull public static final SoundEvent BLOCK_CHEST_OPEN_UNDERWATER = register("blocks.chest.open_underwater");
+    @Nonnull public static final SoundEvent BLOCK_FROGSPAWN_HATCH = register("blocks.frogspawn.hatch");
+    @Nonnull public static final SoundEvent BLOCK_PUMPKIN_CARVE = register("blocks.pumpkin.carve");
 
     //entity sounds
     @Nonnull public static final SoundEvent ENTITY_COD_DEATH = register("entity.cod.death");
@@ -58,6 +58,19 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundEvent ENTITY_TROPICAL_FISH_DEATH = register("entity.tropical_fish.death");
     @Nonnull public static final SoundEvent ENTITY_TROPICAL_FISH_FLOP = register("entity.tropical_fish.flop");
     @Nonnull public static final SoundEvent ENTITY_TROPICAL_FISH_HURT = register("entity.tropical_fish.hurt");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_BABY_DEATH = register("entity.turtle.baby.death");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_BABY_HURT = register("entity.turtle.baby.hurt");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_BABY_STEP = register("entity.turtle.baby.step");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_AMBIENT = register("entity.turtle.ambient");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_DEATH = register("entity.turtle.death");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_EGG_BREAK = register("entity.turtle.egg_break");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_EGG_CRACK = register("entity.turtle.egg_crack");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_EGG_HATCH = register("entity.turtle.egg_hatch");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_HURT = register("entity.turtle.hurt");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_LAY_EGG = register("entity.turtle.lay_egg");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_STEP = register("entity.turtle.step");
+    @Nonnull public static final SoundEvent ENTITY_TURTLE_SWIM = register("entity.turtle.swim");
+    @Nonnull public static final SoundEvent ENTITY_ZOMBIE_DESTROY_EGG = register("entity.zombie.destroy_egg");
 
     //misc sounds
     @Nonnull public static final SoundEvent AMBIENT_UNDERWATER_ENTER = register("ambient.underwater.enter");
@@ -81,6 +94,7 @@ public final class SubaquaticSounds
     @Nonnull public static final SoundType PACKED_MUD = registerType("packed_mud", 1, 1);
     @Nonnull public static final SoundType PACKED_MUD_BRICKS = registerType("packed_mud_bricks", 1, 1);
     @Nonnull public static final SoundType ROOTED_DIRT = registerType("rooted_dirt", 1, 1);
+    @Nonnull public static final SoundType TURTLE_EGG = registerType("turtle_egg", 1, 1);
     @Nonnull public static final SoundType WET_GRASS = registerType("wet_grass", 1, 1);
 
     //parrot imitate sounds

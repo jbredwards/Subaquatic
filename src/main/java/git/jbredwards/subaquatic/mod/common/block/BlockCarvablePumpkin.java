@@ -46,7 +46,7 @@ public class BlockCarvablePumpkin extends Block
             if(!worldIn.isRemote) {
                 final EnumFacing pumpkinFacing = facing.getAxis().isVertical() ? playerIn.getHorizontalFacing().getOpposite() : facing;
                 worldIn.setBlockState(pos, Blocks.PUMPKIN.getDefaultState().withProperty(BlockPumpkin.FACING, pumpkinFacing));
-                worldIn.playSound(null, pos, SubaquaticSounds.PUMPKIN_CARVE, SoundCategory.BLOCKS, 1, 1);
+                worldIn.playSound(null, pos, SubaquaticSounds.BLOCK_PUMPKIN_CARVE, SoundCategory.BLOCKS, 1, 1);
 
                 final EntityItem item = new EntityItem(worldIn,
                         pos.getX() + pumpkinFacing.getXOffset() * 0.65 + 0.5,

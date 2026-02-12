@@ -177,6 +177,7 @@ public final class Subaquatic
         RenderingRegistry.registerEntityRenderingHandler(EntityPufferfish.class, RenderPufferfish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySalmon.class, RenderSalmon::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTropicalFish.class, RenderTropicalFish::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTurtle.class, RenderTurtle::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityXPOrb.class, RenderTranslucentXPOrb::new);
 
         //inspirations compat

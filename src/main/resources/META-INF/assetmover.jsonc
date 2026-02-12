@@ -221,6 +221,9 @@
     ["1.18.2", "assets/minecraft/models/block/coral_fan.json", "assets/subaquatic/models/block/coral_fan.json"],
     ["1.18.2", "assets/minecraft/models/block/coral_wall_fan.json", "assets/subaquatic/models/block/coral_fan_wall.json"],
     ["1.18.2", "assets/minecraft/models/block/template_seagrass.json", "assets/subaquatic/models/block/seagrass.json"],
+    ["1.18.2", "assets/minecraft/models/block/template_three_turtle_eggs.json", "assets/subaquatic/models/block/turtle_egg_3.json"],
+    ["1.18.2", "assets/minecraft/models/block/template_turtle_egg.json", "assets/subaquatic/models/block/turtle_egg_1.json"],
+    ["1.18.2", "assets/minecraft/models/block/template_two_turtle_eggs.json", "assets/subaquatic/models/block/turtle_egg_2.json"],
 
     //block textures
     ["1.18.2", "assets/minecraft/textures/block/blue_ice.png", "assets/subaquatic/textures/blocks/blue_ice.png"],
@@ -281,6 +284,9 @@
     ["1.18.2", "assets/minecraft/textures/block/seagrass.png.mcmeta", "assets/subaquatic/textures/blocks/seagrass_single.png.mcmeta"],
     ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_bottom.png", "assets/subaquatic/textures/blocks/seagrass_bottom.png"],
     ["1.18.2", "assets/minecraft/textures/block/tall_seagrass_bottom.png.mcmeta", "assets/subaquatic/textures/blocks/seagrass_bottom.png.mcmeta"],
+    ["1.18.2", "assets/minecraft/textures/block/turtle_egg.png", "assets/subaquatic/textures/blocks/turtle_egg.png"],
+    ["1.18.2", "assets/minecraft/textures/block/turtle_egg_slightly_cracked.png", "assets/subaquatic/textures/blocks/turtle_egg_slightly_cracked.png"],
+    ["1.18.2", "assets/minecraft/textures/block/turtle_egg_very_cracked.png", "assets/subaquatic/textures/blocks/turtle_egg_very_cracked.png"],
     ["1.18.2", "assets/minecraft/textures/block/tube_coral_block.png", "assets/subaquatic/textures/blocks/tube_coral_block.png"],
     ["1.18.2", "assets/minecraft/textures/block/tube_coral_fan.png", "assets/subaquatic/textures/blocks/tube_coral_fan.png"],
     ["1.18.2", "assets/minecraft/textures/block/tube_coral.png", "assets/subaquatic/textures/blocks/tube_coral_fin.png"],
@@ -308,6 +314,7 @@
     ["1.18.2", "assets/minecraft/textures/entity/fish/tropical_b_pattern_4.png", "assets/subaquatic/textures/entity/fish/tropical_1_pattern_3.png"],
     ["1.18.2", "assets/minecraft/textures/entity/fish/tropical_b_pattern_5.png", "assets/subaquatic/textures/entity/fish/tropical_1_pattern_4.png"],
     ["1.18.2", "assets/minecraft/textures/entity/fish/tropical_b_pattern_6.png", "assets/subaquatic/textures/entity/fish/tropical_1_pattern_5.png"],
+    ["1.18.2", "assets/minecraft/textures/entity/turtle/big_sea_turtle.png", "assets/subaquatic/textures/entity/turtle.png"],
 
     //item textures
     ["1.18.2", "assets/minecraft/textures/item/cod.png", "assets/subaquatic/textures/items/fish_cod_raw.png"],
@@ -319,10 +326,14 @@
     ["1.18.2", "assets/minecraft/textures/item/scute.png", "assets/subaquatic/textures/items/turtle_scute.png"],
     ["1.18.2", "assets/minecraft/textures/item/sea_pickle.png", "assets/subaquatic/textures/items/sea_pickle.png"],
     ["1.18.2", "assets/minecraft/textures/item/seagrass.png", "assets/subaquatic/textures/items/seagrass.png"],
+    ["1.18.2", "assets/minecraft/textures/item/turtle_egg.png", "assets/subaquatic/textures/items/turtle_egg.png"],
 
     //vanilla overrides
     ["1.18.2", "assets/minecraft/textures/item/pufferfish.png", "assets/subaquatic/textures/items/fish_pufferfish_raw.png"],
     ["1.21.4", "assets/minecraft/textures/gui/sprites/hud/air.png", "assets/subaquatic/textures/gui/hud/air_bubble.png"],
     ["1.21.4", "assets/minecraft/textures/gui/sprites/hud/air_bursting.png", "assets/subaquatic/textures/gui/hud/air_bubble_pop.png"],
-    ["1.21.4", "assets/minecraft/textures/gui/sprites/hud/air_empty.png", "assets/subaquatic/textures/gui/hud/air_bubble_empty.png"]
+    ["1.21.4", "assets/minecraft/textures/gui/sprites/hud/air_empty.png", "assets/subaquatic/textures/gui/hud/air_bubble_empty.png"],
+
+    //fallback textures
+    ["1.18.2", "assets/minecraft/textures/item/cooked_cod.png", "assets/subaquatic/textures/items/fish_cod_cooked.png"]
 ]

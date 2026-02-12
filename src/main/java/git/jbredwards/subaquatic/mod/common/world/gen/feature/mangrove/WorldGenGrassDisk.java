@@ -3,11 +3,11 @@
  * All rights reserved.
  */
 
-package git.jbredwards.subaquatic.mod.common.world.gen.feature.tree;
+package git.jbredwards.subaquatic.mod.common.world.gen.feature.mangrove;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.gen.feature.WorldGenerator;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -17,15 +17,10 @@ import java.util.Random;
  * @author jbred
  *
  */
-public class WorldGenMangroveTree extends WorldGenAbstractTree
+public class WorldGenGrassDisk extends WorldGenerator
 {
-    public WorldGenMangroveTree(final boolean notify) {
-        super(notify);
-    }
-
     @Override
     public boolean generate(@Nonnull final World worldIn, @Nonnull final Random rand, @Nonnull final BlockPos position) {
-        // TODO
         return false;
     }
 }

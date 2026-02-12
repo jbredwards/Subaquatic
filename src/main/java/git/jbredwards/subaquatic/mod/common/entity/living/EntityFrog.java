@@ -74,6 +74,7 @@ public class EntityFrog extends EntityAnimal
 
     @Override
     protected void entityInit() {
+        super.entityInit();
         dataManager.register(TONGUE_TARGET_ID, OptionalInt.empty());
         dataManager.register(FROG_DATA, FrogData.VARIANTS.getFirst());
     }

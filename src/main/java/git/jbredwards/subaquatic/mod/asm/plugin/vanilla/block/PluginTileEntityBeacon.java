@@ -117,17 +117,17 @@ public final class PluginTileEntityBeacon implements IASMPlugin
     {
         public static void playAmbientSound(@Nonnull TileEntity tile, boolean isComplete) {
             if(isComplete && !tile.getWorld().isRemote)
-                tile.getWorld().playSound(null, tile.getPos(), SubaquaticSounds.BEACON_AMBIENT, SoundCategory.BLOCKS, 1, 1);
+                tile.getWorld().playSound(null, tile.getPos(), SubaquaticSounds.BLOCK_BEACON_AMBIENT, SoundCategory.BLOCKS, 1, 1);
         }
 
         public static void playPowerSelectSound(@Nonnull TileEntity tile, boolean isComplete) {
             if(isComplete && !tile.getWorld().isRemote)
-                tile.getWorld().playSound(null, tile.getPos(), SubaquaticSounds.BEACON_POWER_SELECT, SoundCategory.BLOCKS, 1, 1);
+                tile.getWorld().playSound(null, tile.getPos(), SubaquaticSounds.BLOCK_BEACON_POWER_SELECT, SoundCategory.BLOCKS, 1, 1);
         }
 
         public static void playUpdateSound(@Nonnull TileEntity tile, boolean isComplete, boolean prevIsComplete) {
             if(isComplete != prevIsComplete && !tile.getWorld().isRemote)
-                tile.getWorld().playSound(null, tile.getPos(), isComplete ? SubaquaticSounds.BEACON_ACTIVATE : SubaquaticSounds.BEACON_DEACTIVATE, SoundCategory.BLOCKS, 1, 1);
+                tile.getWorld().playSound(null, tile.getPos(), isComplete ? SubaquaticSounds.BLOCK_BEACON_ACTIVATE : SubaquaticSounds.BLOCK_BEACON_DEACTIVATE, SoundCategory.BLOCKS, 1, 1);
         }
     }
 }
