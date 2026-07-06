@@ -90,7 +90,7 @@ import java.util.jar.JarFile;
  */
 @Mod(modid = Subaquatic.MODID, version = "1.2.1", useMetadata = true,
 updateJSON = "https://api.modrinth.com/updates/subaquatic/forge_updates.json",
-dependencies = "required-after:fluidlogged_api@[3.2.0,);required-client:assetmover@[2.5,);")
+dependencies = "required-after:fluidlogged_api@[3.3.0,);required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
