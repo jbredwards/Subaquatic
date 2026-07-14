@@ -5,6 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
+import git.jbredwards.ocean_api.api.entity.AbstractGroupFish;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticLootTables;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.util.DamageSource;
@@ -39,7 +40,11 @@ public class EntitySalmon extends AbstractGroupFish
 
     @Nonnull
     @Override
-    protected SoundEvent getFlopSound() { return SubaquaticSounds.ENTITY_SALMON_FLOP; }
+    public SoundEvent getFlopSound() { return SubaquaticSounds.ENTITY_SALMON_FLOP; }
+
+    @Nonnull
+    @Override
+    protected SoundEvent getSwimSound() { return SubaquaticSounds.ENTITY_FISH_SWIM; }
 
     @Nonnull
     @Override

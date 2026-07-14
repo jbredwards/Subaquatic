@@ -6,17 +6,13 @@
 package git.jbredwards.subaquatic.mod;
 
 import com.cleanroommc.assetmover.AssetMoverAPI;
-import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
-import git.jbredwards.subaquatic.api.biome.IOceanBiome;
-import git.jbredwards.subaquatic.api.entity.bucketable.IBucketableEntity;
 import git.jbredwards.subaquatic.mod.client.entity.renderer.*;
 import git.jbredwards.subaquatic.mod.client.particle.factory.ParticleFactoryColorize;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.capability.IBubbleColumn;
 import git.jbredwards.subaquatic.mod.common.capability.ICompactFishing;
-import git.jbredwards.subaquatic.mod.common.capability.IEntityBucket;
 import git.jbredwards.subaquatic.mod.common.compat.inspirations.InspirationsHandler;
 import git.jbredwards.subaquatic.mod.common.compat.jer.SubaquaticJERPlugin;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticBlockSoakRecipesConfig;
@@ -30,7 +26,6 @@ import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import git.jbredwards.subaquatic.mod.common.message.*;
 import git.jbredwards.subaquatic.mod.common.recipe.BlockSoakRecipe;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.*;
-import git.jbredwards.subaquatic.mod.common.world.gen.layer.GenLayerOceanBiomes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
@@ -38,26 +33,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.init.Items;
-import net.minecraft.init.PotionTypes;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionUtils;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColorHelper;
-import net.minecraft.world.gen.structure.StructureOceanMonument;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -68,7 +53,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -76,7 +60,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -90,7 +73,7 @@ import java.util.jar.JarFile;
  */
 @Mod(modid = Subaquatic.MODID, version = "1.2.1", useMetadata = true,
 updateJSON = "https://api.modrinth.com/updates/subaquatic/forge_updates.json",
-dependencies = "required-after:fluidlogged_api@[3.3.0,);required-client:assetmover@[2.5,);")
+dependencies = "required-after:fluidlogged_api@[3.3.0,);required-after:ocean_api;required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {
     @Nonnull public static final String MODID = "subaquatic", NAME = "Subaquatic";
@@ -98,6 +81,7 @@ public final class Subaquatic
 
     @SuppressWarnings("NotNullFieldNotInitialized")
     @Nonnull public static SimpleNetworkWrapper WRAPPER;
+    @Nonnull public static final PathNodeType WATER_BORDER = Objects.requireNonNull(EnumHelper.addEnum(PathNodeType.class, MODID + "_water_border", new Class<?>[] {float.class}, 8f));
 
     public static final boolean isInspirationsInstalled = Loader.isModLoaded("inspirations");
     public static final boolean isJERInstalled = Loader.isModLoaded("jeresources");
@@ -122,18 +106,15 @@ public final class Subaquatic
     static void preInit(@Nonnull FMLPreInitializationEvent event) throws IOException {
         //handle tropical fish types
         SubaquaticTropicalFishConfig.buildFishTypes();
+        SubaquaticWaterColorConfig.generateLegacyConfigFile();
 
         //capabilities
         CapabilityManager.INSTANCE.register(IBubbleColumn.class, IBubbleColumn.Storage.INSTANCE, IBubbleColumn.Impl::new);
         CapabilityManager.INSTANCE.register(IBoatType.class, IBoatType.Storage.INSTANCE, IBoatType.Impl::new);
         CapabilityManager.INSTANCE.register(ICompactFishing.class, ICompactFishing.Storage.INSTANCE, ICompactFishing.Impl::new);
-        CapabilityManager.INSTANCE.register(IEntityBucket.class, IEntityBucket.Storage.INSTANCE, () -> { throw new UnsupportedOperationException(); });
-        CapabilityManager.INSTANCE.register(IBucketableEntity.class, IEntityBucket.StorageBucketable.INSTANCE, IEntityBucket.StorageBucketable.Impl::new);
         MinecraftForge.EVENT_BUS.register(IBubbleColumn.class);
         MinecraftForge.EVENT_BUS.register(IBoatType.class);
         MinecraftForge.EVENT_BUS.register(ICompactFishing.class);
-        MinecraftForge.EVENT_BUS.register(IEntityBucket.class);
-        MinecraftForge.EVENT_BUS.register(IEntityBucket.StorageBucketable.class);
 
         //message registries
         WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
@@ -150,22 +131,6 @@ public final class Subaquatic
         GameRegistry.registerWorldGenerator(GeneratorSeagrass.INSTANCE, 5);
         GameRegistry.registerWorldGenerator(GeneratorSeaPickle.INSTANCE, 6);
         GameRegistry.registerWorldGenerator(GeneratorGlowLichen.INSTANCE, 6);
-
-        //new water bottle property
-        final IItemPropertyGetter waterProperty = new IItemPropertyGetter() {
-            @SideOnly(Side.CLIENT)
-            @Override
-            public float apply(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
-                return SubaquaticConfigHandler.Client.Item.translucentWaterBottles
-                        && PotionUtils.getPotionFromItem(stack) != PotionTypes.EMPTY
-                        && PotionUtils.getEffectsFromStack(stack).isEmpty() ? 1 : 0;
-            }
-        };
-
-        //items to apply the override
-        Items.POTIONITEM.addPropertyOverride(new ResourceLocation(MODID, "isWater"), waterProperty);
-        Items.SPLASH_POTION.addPropertyOverride(new ResourceLocation(MODID, "isWater"), waterProperty);
-        Items.LINGERING_POTION.addPropertyOverride(new ResourceLocation(MODID, "isWater"), waterProperty);
     }
 
     @Mod.EventHandler
@@ -179,51 +144,21 @@ public final class Subaquatic
         RenderingRegistry.registerEntityRenderingHandler(EntityTropicalFish.class, RenderTropicalFish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTurtle.class, RenderTurtle::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityXPOrb.class, RenderTranslucentXPOrb::new);
-
-        //inspirations compat
-        if(isInspirationsInstalled) MinecraftForge.EVENT_BUS.register(InspirationsHandler.class);
     }
 
     @Mod.EventHandler
     static void init(@Nonnull FMLInitializationEvent event) {
-        MinecraftForge.TERRAIN_GEN_BUS.register(GenLayerOceanBiomes.class);
         //entity data fixers
         AbstractBoatContainer.registerFixer(FMLCommonHandler.instance().getDataFixer());
         MultiPartAbstractInventoryPart.registerFixer(FMLCommonHandler.instance().getDataFixer());
-
-        //automatically add all IOceanBiome instances to the Forge ocean biomes list
-        ForgeRegistries.BIOMES.forEach(biome -> { if(biome instanceof IOceanBiome && !BiomeManager.oceanBiomes.contains(biome)) BiomeManager.oceanBiomes.add(biome); });
-
-        //automatically update valid ocean monument spawn biomes
-        StructureOceanMonument.SPAWN_BIOMES = new ArrayList<>(ImmutableSet.<Biome>builder()
-                .addAll(StructureOceanMonument.SPAWN_BIOMES)
-                .add(BiomeManager.oceanBiomes.stream().filter(biome -> biome instanceof IOceanBiome && ((IOceanBiome)biome).generatesOceanMonument()).toArray(Biome[]::new))
-                .build());
-
-        //automatically update valid ocean monument neighbor biomes
-        StructureOceanMonument.WATER_BIOMES = new ArrayList<>(ImmutableSet.<Biome>builder()
-                .addAll(StructureOceanMonument.WATER_BIOMES)
-                .addAll(BiomeManager.oceanBiomes)
-                .addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER))
-                .build());
-
         //add block soak recipe functionality to dispensers
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.POTIONITEM, BlockSoakRecipe.getDispenserHandler());
-    }
-
-    @Mod.EventHandler
-    @SideOnly(Side.SERVER)
-    static void initServer(@Nonnull FMLInitializationEvent event) {
-        //ensure that the server has the water color fix as well, for correct particle color sync
-        //client handles this differently via ClientEventHandler, as to fix an F3+T bug
-        FluidRegistry.WATER.setColor(0xFF3f97e4);
     }
 
     @Mod.EventHandler
     static void postInit(@Nonnull FMLPostInitializationEvent event) throws IOException {
         //config stuff
         SubaquaticConfigHandler.init();
-        SubaquaticWaterColorConfig.buildWaterColors();
         SubaquaticBlockSoakRecipesConfig.buildRecipes();
         //improve certain modded block sounds
         Optional.ofNullable(Block.getBlockFromName("biomesoplenty:waterlily")).ifPresent(block -> block.setSoundType(SubaquaticSounds.WET_GRASS));

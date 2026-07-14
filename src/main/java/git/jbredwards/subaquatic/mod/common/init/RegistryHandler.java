@@ -5,6 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common.init;
 
+import git.jbredwards.ocean_api.api.BucketableEntityBehavior;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
@@ -33,6 +34,10 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerBiomes(@Nonnull RegistryEvent.Register<Biome> event) {
         SubaquaticBiomes.INIT.forEach(event.getRegistry()::register);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    static void registerBiomesPost(@Nonnull RegistryEvent.Register<Biome> event) {
         SubaquaticBiomes.registerBiomeDictionary();
     }
 
@@ -40,6 +45,11 @@ final class RegistryHandler
     static void registerBlocks(@Nonnull RegistryEvent.Register<Block> event) {
         SubaquaticBlocks.INIT.forEach(event.getRegistry()::register);
         SubaquaticBlocks.postRegistry();
+    }
+
+    @SubscribeEvent
+    static void registerBucketableBehaviors(@Nonnull RegistryEvent.Register<BucketableEntityBehavior> event) {
+        SubaquaticEntities.handleAdditionalEntityData();
     }
 
     @SubscribeEvent
@@ -55,7 +65,6 @@ final class RegistryHandler
     @SubscribeEvent
     static void registerEntities(@Nonnull RegistryEvent.Register<EntityEntry> event) {
         SubaquaticEntities.INIT.forEach(event.getRegistry()::register);
-        SubaquaticEntities.handleAdditionalEntityData();
     }
 
     @SubscribeEvent

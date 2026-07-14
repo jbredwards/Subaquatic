@@ -1679,9 +1679,10 @@
     },
     "items.bucket.fill.fish":{
         "sounds":[
-            "subaquatic:items/bucket/fill_fish1",
-            "subaquatic:items/bucket/fill_fish2",
-            "subaquatic:items/bucket/fill_fish3"
+            {
+                "type":"event",
+                "name":"ocean_api:generic_bucketable_pickup"
+            }
         ],
         "subtitle":"subtitles.subaquatic.items.bucket.fill.fish"
     },

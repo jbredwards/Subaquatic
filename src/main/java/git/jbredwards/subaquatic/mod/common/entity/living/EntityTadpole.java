@@ -5,8 +5,10 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
+import git.jbredwards.ocean_api.api.entity.AbstractFish;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntitySwimLookHelper;
 import git.jbredwards.subaquatic.mod.common.entity.ai.EntitySwimMoveHelper;
+import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -70,9 +72,13 @@ public class EntityTadpole extends AbstractFish
 
     @Nonnull
     @Override
-    protected SoundEvent getFlopSound() {
+    public SoundEvent getFlopSound() {
         return null;
     }
+
+    @Nonnull
+    @Override
+    protected SoundEvent getSwimSound() { return SubaquaticSounds.ENTITY_FISH_SWIM; }
 
     @Nonnull
     @Override

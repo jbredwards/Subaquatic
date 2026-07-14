@@ -5,7 +5,6 @@
 
 package git.jbredwards.subaquatic.mod.common.compat.jei;
 
-import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityRegistry;
 import git.jbredwards.subaquatic.mod.common.capability.IBoatType;
 import git.jbredwards.subaquatic.mod.common.compat.jei.category.BlockSoakJEICategory;
 import git.jbredwards.subaquatic.mod.common.compat.jei.recipe.BlockSoakJEIRecipeWrapper;
@@ -44,18 +43,6 @@ public final class SubaquaticJEIPlugin implements IModPlugin
                 @Nullable final IBoatType cap = IBoatType.get(stack);
                 return cap != null ? cap.getType().serializeNBT().toString() : ISubtypeRegistry.ISubtypeInterpreter.NONE;
             }
-        },
-        BUCKET_CONTAINER {
-            @Nonnull
-            @Override
-            public String apply(@Nonnull final ItemStack stack) {
-                @Nonnull final NBTTagCompound root = stack.getOrCreateSubCompound(BucketableEntityRegistry.NBT_ROOT).copy();
-                root.removeTag(BucketableEntityRegistry.NBT_ENTITY_TAGS);
-                if(!root.isEmpty()) return root.toString();
-
-                @Nullable final FluidStack fluidStack = FluidUtil.getFluidContained(stack);
-                return fluidStack != null ? fluidStack.getFluid().getName() : ISubtypeRegistry.ISubtypeInterpreter.NONE;
-            }
         }
     }
 
@@ -65,7 +52,6 @@ public final class SubaquaticJEIPlugin implements IModPlugin
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.ENDER_CHEST_BOAT, Interpreters.BOAT_CONTAINER);
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.CRAFTING_TABLE_BOAT, Interpreters.BOAT_CONTAINER);
         subtypeRegistry.registerSubtypeInterpreter(SubaquaticItems.FURNACE_BOAT, Interpreters.BOAT_CONTAINER);
-        for(@Nonnull final Item bucket : BucketableEntityRegistry.BUCKET_REGISTRY.keySet()) subtypeRegistry.registerSubtypeInterpreter(bucket, Interpreters.BUCKET_CONTAINER);
     }
 
     @Override

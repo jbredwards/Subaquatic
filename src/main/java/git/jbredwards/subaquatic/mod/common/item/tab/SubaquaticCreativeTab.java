@@ -5,8 +5,8 @@
 
 package git.jbredwards.subaquatic.mod.common.item.tab;
 
-import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityHandler;
-import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityRegistry;
+import com.google.common.collect.ImmutableList;
+import git.jbredwards.ocean_api.api.BucketableEntityBehavior;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEnchantments;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
@@ -19,23 +19,17 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -79,34 +73,28 @@ public final class SubaquaticCreativeTab extends CreativeTabs
 
     @Nonnull
     public static List<ItemStack> generateEntityBuckets() {
-        @Nonnull final List<BucketableEntityHandler<?>> sortedHandlers = BucketableEntityRegistry.REGISTRY.values().stream()
-                .sorted(Comparator.comparingInt(BucketableEntityHandler::creationId))
-                .collect(Collectors.toList());
-
-        return BucketableEntityRegistry.BUCKET_REGISTRY.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> Item.getIdFromItem(entry.getKey())))
-                .flatMap(entry -> {
+        return BucketableEntityBehavior.Util.getBaseItems().stream()
+                .flatMap(item -> {
                     @Nonnull final NonNullList<ItemStack> items = NonNullList.create();
-                    entry.getKey().getSubItems(CreativeTabs.SEARCH, items);
-
+                    item.getSubItems(SEARCH, items);
+                    return items.stream();
+                })
+                .flatMap(stack -> {
                     @Nonnull final Stream.Builder<ItemStack> builder = Stream.builder();
-                    for(@Nonnull final ItemStack container : items) {
-                        @Nullable final FluidStack fluid = FluidUtil.getFluidContained(container);
-                        if(fluid != null) for(@Nonnull final BucketableEntityHandler<?> handler : sortedHandlers) {
-                            if(handler.bucketSize() <= entry.getValue() && handler.breathable(fluid)) {
-                                for(@Nonnull final NBTTagCompound subType : handler.subtypes()) {
-                                    @Nonnull final ItemStack bucket = container.copy();
-
-                                    bucket.setTagInfo(BucketableEntityRegistry.NBT_ROOT, subType);
-                                    builder.accept(bucket);
-                                }
+                    for(@Nonnull final BucketableEntityBehavior behavior : BucketableEntityBehavior.REGISTRY) {
+                        if(Subaquatic.MODID.equals(behavior.getRegistryName().getNamespace())
+                        && BucketableEntityBehavior.Util.canHoldBehavior(stack, behavior)) {
+                            for(@Nonnull final NBTTagCompound compound : behavior.subtypes()) {
+                                @Nonnull final ItemStack copy = stack.copy();
+                                copy.setTagInfo(BucketableEntityBehavior.Util.NBT_KEY, compound);
+                                builder.accept(copy);
                             }
                         }
                     }
 
                     return builder.build();
                 })
-                .collect(Collectors.toList());
+                .collect(ImmutableList.toImmutableList());
     }
 
     @Override

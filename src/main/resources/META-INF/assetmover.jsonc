@@ -179,11 +179,6 @@
     ["1.18.2", "assets/minecraft/sounds/entity/pufferfish/sting1.ogg", "assets/subaquatic/sounds/entity/pufferfish/sting1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/entity/pufferfish/sting2.ogg", "assets/subaquatic/sounds/entity/pufferfish/sting2.ogg"],
 
-    //item sounds
-    ["1.18.2", "assets/minecraft/sounds/item/bucket/fill_fish1.ogg", "assets/subaquatic/sounds/items/bucket/fill_fish1.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/item/bucket/fill_fish2.ogg", "assets/subaquatic/sounds/items/bucket/fill_fish2.ogg"],
-    ["1.18.2", "assets/minecraft/sounds/item/bucket/fill_fish3.ogg", "assets/subaquatic/sounds/items/bucket/fill_fish3.ogg"],
-
     //misc sounds
     ["1.18.2", "assets/minecraft/sounds/ambient/underwater/additions/animal1.ogg", "assets/subaquatic/sounds/ambient/underwater/additions/animal1.ogg"],
     ["1.18.2", "assets/minecraft/sounds/ambient/underwater/additions/animal2.ogg", "assets/subaquatic/sounds/ambient/underwater/additions/animal2.ogg"],
@@ -290,11 +285,6 @@
     ["1.18.2", "assets/minecraft/textures/block/tube_coral_block.png", "assets/subaquatic/textures/blocks/tube_coral_block.png"],
     ["1.18.2", "assets/minecraft/textures/block/tube_coral_fan.png", "assets/subaquatic/textures/blocks/tube_coral_fan.png"],
     ["1.18.2", "assets/minecraft/textures/block/tube_coral.png", "assets/subaquatic/textures/blocks/tube_coral_fin.png"],
-    ["1.18.2", "assets/minecraft/textures/block/water_still.png", "assets/subaquatic/textures/blocks/water_still.png"],
-    ["1.18.2", "assets/minecraft/textures/block/water_still.png.mcmeta", "assets/subaquatic/textures/blocks/water_still.png.mcmeta"],
-    ["1.18.2", "assets/minecraft/textures/block/water_flow.png", "assets/subaquatic/textures/blocks/water_flow.png"],
-    ["1.18.2", "assets/minecraft/textures/block/water_flow.png.mcmeta", "assets/subaquatic/textures/blocks/water_flow.png.mcmeta"],
-    ["1.18.2", "assets/minecraft/textures/block/water_overlay.png", "assets/subaquatic/textures/blocks/water_overlay.png"],
 
     //entity textures
     ["1.18.2", "assets/minecraft/textures/entity/fish/cod.png", "assets/subaquatic/textures/entity/fish/cod.png"],

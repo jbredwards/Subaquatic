@@ -29,6 +29,11 @@
         "Surface":"0x45ADF2",
         "Fog":"0x45ADF2"
     },
+    //Coral Reef (Deep)
+    "ocean_api:deep_coral_reef":{
+        "Surface":"0x45ADF2",
+        "Fog":"0x45ADF2"
+    },
     //Dead Forest
     "biomesoplenty:dead_forest":{
         "Surface":"0xBAAD64",
@@ -41,6 +46,11 @@
     },
     //Kelp Forest
     "biomesoplenty:kelp_forest":{
+        "Surface":"0x1787D4",
+        "Fog":"0x1165B0"
+    },
+    //Kelp Forest (Deep)
+    "ocean_api:deep_kelp_forest":{
         "Surface":"0x1787D4",
         "Fog":"0x1165B0"
     },

@@ -19,12 +19,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.EnumHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
-import java.util.Objects;
 
 /**
  *
@@ -33,9 +31,6 @@ import java.util.Objects;
  */
 public class WalkAndSwimNodeProcessor extends WalkNodeProcessor
 {
-    @Nonnull
-    public static final PathNodeType WATER_BORDER = Objects.requireNonNull(EnumHelper.addEnum(PathNodeType.class, Subaquatic.MODID + "_water_border", new Class<?>[] {float.class}, 8f));
-
     protected final boolean prefersShallowSwimming;
     protected float avoidsWalking, avoidsWaterBorder;
 
@@ -51,14 +46,14 @@ public class WalkAndSwimNodeProcessor extends WalkNodeProcessor
         avoidsWalking = mob.getPathPriority(PathNodeType.WALKABLE);
         mob.setPathPriority(PathNodeType.WALKABLE, 6);
 
-        avoidsWaterBorder = mob.getPathPriority(WATER_BORDER);
-        mob.setPathPriority(WATER_BORDER, 4);
+        avoidsWaterBorder = mob.getPathPriority(Subaquatic.WATER_BORDER);
+        mob.setPathPriority(Subaquatic.WATER_BORDER, 4);
     }
 
     @Override
     public void postProcess() {
         entity.setPathPriority(PathNodeType.WALKABLE, avoidsWalking);
-        entity.setPathPriority(WATER_BORDER, avoidsWaterBorder);
+        entity.setPathPriority(Subaquatic.WATER_BORDER, avoidsWaterBorder);
         super.postProcess();
     }
 
@@ -225,7 +220,7 @@ public class WalkAndSwimNodeProcessor extends WalkNodeProcessor
         if(pathType == PathNodeType.WATER) {
             for(EnumFacing enumfacing : EnumFacing.values()) {
                 @Nonnull final PathNodeType offsetPathType = getPathNodeTypeRaw(world, x + enumfacing.getXOffset(), y + enumfacing.getYOffset(), z + enumfacing.getZOffset());
-                if(offsetPathType == PathNodeType.BLOCKED) return WATER_BORDER;
+                if(offsetPathType == PathNodeType.BLOCKED) return Subaquatic.WATER_BORDER;
             }
 
             return PathNodeType.WATER;

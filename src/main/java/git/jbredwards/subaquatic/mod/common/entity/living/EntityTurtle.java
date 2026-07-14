@@ -7,7 +7,6 @@ package git.jbredwards.subaquatic.mod.common.entity.living;
 
 import com.google.common.base.Predicate;
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
-import git.jbredwards.subaquatic.api.entity.IWaterAnimals;
 import git.jbredwards.subaquatic.mod.common.block.BlockTurtleEgg;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticConfigHandler;
 import git.jbredwards.subaquatic.mod.common.entity.ai.task.*;
@@ -25,6 +24,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -53,8 +53,7 @@ import javax.annotation.Nullable;
  * @author jbred
  *
  */
-public class EntityTurtle extends EntityAnimal implements IWaterAnimals
-{
+public class EntityTurtle extends EntityAnimal implements IAnimals {
     @SuppressWarnings("Guava")
     @Nonnull public static final Predicate<EntityTurtle> CAN_AI_TARGET = turtle -> !turtle.isInWater() && turtle.isChild() && !turtle.isInvisible();
     @Nonnull protected static final DataParameter<Byte> TURTLE_FLAGS = EntityDataManager.createKey(EntityTurtle.class, DataSerializers.BYTE);

@@ -6,6 +6,7 @@
 package git.jbredwards.subaquatic.mod.common.entity.ai.pathfinding;
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
+import git.jbredwards.ocean_api.api.entity.ai.PathNavigateSwimmerImproved;
 import git.jbredwards.subaquatic.mod.common.entity.living.EntityTurtle;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
@@ -20,7 +21,7 @@ import javax.annotation.Nonnull;
  * @author jbred
  *
  */
-public class PathNavigateTurtle extends PathNavigateFish
+public class PathNavigateTurtle extends PathNavigateSwimmerImproved
 {
     public PathNavigateTurtle(@Nonnull final EntityLiving entity, @Nonnull final World worldIn) {
         super(entity, worldIn);

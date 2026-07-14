@@ -5,7 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.util.villager.career;
 
-import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityRegistry;
+import git.jbredwards.ocean_api.api.BucketableEntityBehavior;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticEntities;
 import net.minecraft.entity.IMerchant;
@@ -13,6 +13,7 @@ import net.minecraft.entity.passive.EntityVillager.ITradeList;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.storage.loot.RandomValueRange;
@@ -53,17 +54,17 @@ public enum TradeForEntityBucket implements ITradeList
     @Nonnull
     public static ItemStack createFilledBucket(@Nonnull final EntityEntry entity) {
         @Nonnull final ItemStack bucket = new ItemStack(Items.WATER_BUCKET);
-        bucket.setTagInfo(BucketableEntityRegistry.NBT_ROOT, BucketableEntityRegistry.createRootTag(entity.delegate.name()));
+        bucket.setTagInfo(BucketableEntityBehavior.Util.NBT_KEY, createRootTag(entity.delegate.name()));
         return bucket;
     }
 
     @Nonnull
     public static ItemStack createTropicalBucket(@Nonnull final TropicalFishData fishData) {
         @Nonnull final ItemStack bucket = new ItemStack(Items.WATER_BUCKET);
-        @Nonnull final NBTTagCompound root = BucketableEntityRegistry.createRootTag(SubaquaticEntities.TROPICAL_FISH.delegate.name());
+        @Nonnull final NBTTagCompound root = createRootTag(SubaquaticEntities.TROPICAL_FISH.delegate.name());
 
         root.setInteger("Variant", fishData.serialize());
-        bucket.setTagInfo(BucketableEntityRegistry.NBT_ROOT, root);
+        bucket.setTagInfo(BucketableEntityBehavior.Util.NBT_KEY, root);
         return bucket;
     }
 
@@ -71,5 +72,12 @@ public enum TradeForEntityBucket implements ITradeList
     public void addMerchantRecipe(@Nonnull final IMerchant merchant, @Nonnull final MerchantRecipeList recipeList, @Nonnull final Random random) {
         if(trades.isEmpty()) throw new IllegalStateException("Could not find any bucketable entities for trade type: " + name());
         else recipeList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, cost.generateInt(random)), trades.get(random.nextInt(trades.size())).apply(random)));
+    }
+
+    @Nonnull
+    private static NBTTagCompound createRootTag(@Nonnull final ResourceLocation id) {
+        @Nonnull final NBTTagCompound compound = new NBTTagCompound();
+        compound.setString("id", id.toString());
+        return compound;
     }
 }

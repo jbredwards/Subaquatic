@@ -5,8 +5,6 @@
 
 package git.jbredwards.subaquatic.mod.common.world.biome;
 
-import git.jbredwards.subaquatic.api.biome.BiomeSubaquaticOcean;
-import git.jbredwards.subaquatic.mod.common.init.SubaquaticBiomes;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.WorldGenBlueIce;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.WorldGenIceberg;
@@ -15,25 +13,24 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityStray;
-import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
+import net.minecraft.world.biome.BiomeOcean;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Supplier;
 
 /**
  *
  * @author jbred
  *
  */
-public class BiomeFrozenOcean extends BiomeSubaquaticOcean
+public class BiomeFrozenOcean extends BiomeOcean
 {
     @Nonnull
     protected static final NoiseGeneratorPerlin NOISE = new NoiseGeneratorPerlin(new Random(3456), 3);
@@ -41,21 +38,11 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
     protected long prevSeed;
 
     public BiomeFrozenOcean(@Nonnull final BiomeProperties propertiesIn) {
-        this(propertiesIn, () -> SubaquaticBiomes.DEEP_FROZEN_OCEAN, () -> Biomes.FROZEN_OCEAN);
-    }
-
-    public BiomeFrozenOcean(@Nonnull final BiomeProperties propertiesIn,
-                            @Nonnull final Supplier<Biome> deepOceanIn,
-                            @Nonnull final Supplier<Biome> shallowOceanIn) {
-        super(propertiesIn, deepOceanIn, shallowOceanIn);
+        super(propertiesIn);
         spawnableMonsterList.removeIf(entry -> entry.entityClass == EntitySkeleton.class);
         spawnableMonsterList.add(new SpawnListEntry(EntityStray.class, 100, 4, 4));
         spawnableCreatureList.add(new SpawnListEntry(EntityPolarBear.class, 1, 1, 2));
     }
-
-    @Nonnull
-    @Override
-    public Biome getMixOceanBiome() { return SubaquaticBiomes.COLD_OCEAN; }
 
     @Nonnull
     @Override
@@ -211,7 +198,4 @@ public class BiomeFrozenOcean extends BiomeSubaquaticOcean
 
         return defaultTemp;
     }
-
-    @Override
-    public boolean generatesOceanMonument() { return false; }
 }

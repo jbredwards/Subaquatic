@@ -5,7 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common.world.biome;
 
-import git.jbredwards.subaquatic.api.biome.IWaterColorProvider;
+import git.jbredwards.ocean_api.api.OceanAPI;
 import git.jbredwards.subaquatic.mod.common.block.BlockMangroveSapling;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticBlocks;
 import git.jbredwards.subaquatic.mod.common.world.gen.feature.mangrove.WorldGenGrassDisk;
@@ -30,12 +30,13 @@ import java.util.Random;
  * @author jbred
  *
  */
-public class BiomeMangroveSwamp extends Biome implements IWaterColorProvider
+public class BiomeMangroveSwamp extends Biome
 {
     @Nonnull
     public static WorldGenAbstractTree TREE = new WorldGenMangroveTree(false, false), TALL_TREE = new WorldGenMangroveTree(false, true);
     public BiomeMangroveSwamp(@Nonnull final BiomeProperties properties) {
         super(properties);
+        OceanAPI.registerWaterFogColor(this, 5077600);
         spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 1, 1, 1));
         // handled via entity init: spawnableWaterCreatureList.add(new SpawnListEntry(EntityTropicalFish.class, 25, 8, 8));
         // handled via entity init: spawnableCreatureList.add(new SpawnListEntry(EntityFrog.class, 10, 2, 5));
@@ -66,11 +67,6 @@ public class BiomeMangroveSwamp extends Biome implements IWaterColorProvider
     @Override
     public WorldGenAbstractTree getRandomTreeFeature(@Nonnull final Random rand) {
         return rand.nextDouble() < BlockMangroveSapling.TALL_CHANCE ? TALL_TREE : TREE;
-    }
-
-    @Override
-    public int getWaterFogColor() {
-        return 5077600;
     }
 
     @SideOnly(Side.CLIENT)

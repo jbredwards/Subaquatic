@@ -5,7 +5,6 @@
 
 package git.jbredwards.subaquatic.mod.common.init;
 
-import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityRegistry;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.block.*;
 import git.jbredwards.subaquatic.mod.common.entity.item.*;
@@ -13,15 +12,12 @@ import git.jbredwards.subaquatic.mod.common.item.*;
 import git.jbredwards.subaquatic.mod.common.item.block.*;
 import git.jbredwards.subaquatic.mod.common.item.tab.SubaquaticCreativeTab;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.*;
-import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * stores all of this mod's items
@@ -132,10 +128,6 @@ public final class SubaquaticItems
         OreDictionary.registerOre("stone", SMOOTH_STONE);
         OreDictionary.registerOre("stoneSmooth", SMOOTH_STONE);
         OreDictionary.registerOre("treeSapling", MANGROVE_SAPLING);
-        //bucket registration
-        BucketableEntityRegistry.BUCKET_REGISTRY.put(Items.WATER_BUCKET, 8);
-        BucketableEntityRegistry.BUCKET_REGISTRY.put(Items.LAVA_BUCKET, 8);
-        Optional.ofNullable(ForgeModContainer.getInstance().universalBucket).ifPresent(bucket -> BucketableEntityRegistry.BUCKET_REGISTRY.put(bucket, 8));
     }
 
     @Nonnull

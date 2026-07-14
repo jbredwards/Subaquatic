@@ -5,7 +5,7 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'com.anatawa12.forge:ForgeGradle:2.3-1.0.+'
         classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
     }
 }
@@ -30,6 +30,7 @@ dependencies {
     //required
     deobfCompile "com.cleanroommc:assetmover:${assetmover_version}"
     deobfCompile "curse.maven:fluidlogged-api-485654:${fluidlogged_api_version}"
+    deobfCompile "curse.maven:ocean-api-1553824:${ocean_api_version}"
 
     //optional
     deobfCompile "mezz.jei:jei_1.12.2:${jei_version}"

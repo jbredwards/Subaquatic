@@ -7,34 +7,17 @@ package git.jbredwards.subaquatic.mod.client.item.model;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import git.jbredwards.ocean_api.mod.client.model.ModelBucketableEntityOverlay;
 import git.jbredwards.subaquatic.mod.Subaquatic;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ItemOverrideList;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.client.model.BakedItemModel;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.PerspectiveMapWrapper;
-import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.lang3.mutable.MutableInt;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.function.Function;
 
 /**
  *
@@ -42,37 +25,23 @@ import java.util.function.Function;
  *
  */
 @SideOnly(Side.CLIENT)
-public final class ModelFishBucketOverlay extends ModelEntityBucketOverlay
+public class ModelFishBucketOverlay extends ModelBucketableEntityOverlay
 {
     @Nonnull
     public static final ModelFishBucketOverlay INSTANCE = new ModelFishBucketOverlay(ImmutableList.of());
-    private ModelFishBucketOverlay(@Nonnull final ImmutableList<ResourceLocation> texturesIn) { super(texturesIn); }
-
-    @Nonnull
-    @Override
-    public IBakedModel bake(@Nonnull final IModelState state, @Nonnull final VertexFormat format, @Nonnull final Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-        @Nonnull final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms = PerspectiveMapWrapper.getTransforms(state);
-        return new BakedItemModel(ImmutableList.of(), bakedTextureGetter.apply(TextureMap.LOCATION_MISSING_TEXTURE), transforms, new ItemOverrideList(ImmutableList.of()) {
-            @Nonnull
-            @Override
-            public IBakedModel handleItemState(@Nonnull final IBakedModel originalModel, @Nonnull final ItemStack stack, @Nullable final World world, @Nullable final EntityLivingBase entity) {
-                return stack.isEmpty() ? originalModel : new BakedItemModel(new CacheKeyBuilder(stack).apply(textures), originalModel.getParticleTexture(), transforms, this, false);
-            }
-        }, false);
-    }
+    protected ModelFishBucketOverlay(@Nonnull final ImmutableList<ResourceLocation> texturesIn) { super(texturesIn); }
 
     @Nonnull
     @Override
     public IModel process(@Nonnull final ImmutableMap<String, String> customData) {
-        if(!customData.containsKey("textures")) return this;
+        return new ModelFishBucketOverlay((ImmutableList<ResourceLocation>)super.process(customData).getTextures());
+    }
 
-        @Nonnull final MutableInt index = new MutableInt();
-        @Nonnull final ImmutableList.Builder<ResourceLocation> textures = ImmutableList.builder();
-        for(@Nonnull final JsonElement texture : JsonUtils.getJsonArray(new JsonParser().parse(customData.get("textures")), "textures")) {
-            textures.add(new ResourceLocation(JsonUtils.getString(texture, "textures[" + index.getAndIncrement() + ']')));
-        }
-
-        return new ModelFishBucketOverlay(textures.build());
+    @SideOnly(Side.CLIENT)
+    @Override
+    public float getYOffset(@Nonnull final Item bucket) {
+        // Add a hardcoded offset for the Subaquatic fish bucket textures, so I don't have to change them.
+        return super.getYOffset(bucket) - 0.5f;
     }
 
     public enum Loader implements ICustomModelLoader

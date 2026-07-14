@@ -5,9 +5,9 @@
 
 package git.jbredwards.subaquatic.mod.client.entity.renderer;
 
+import git.jbredwards.ocean_api.api.entity.AbstractFish;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.entity.model.ModelCod;
-import git.jbredwards.subaquatic.mod.common.entity.living.AbstractFish;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;

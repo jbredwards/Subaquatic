@@ -7,7 +7,7 @@ package git.jbredwards.subaquatic.mod.client.item.model;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import git.jbredwards.subaquatic.api.entity.bucketable.BucketableEntityRegistry;
+import git.jbredwards.ocean_api.api.BucketableEntityBehavior;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.client.texture.MaskTextureAtlasSprite;
 import git.jbredwards.subaquatic.mod.common.config.SubaquaticTropicalFishConfig;
@@ -17,9 +17,7 @@ import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -29,8 +27,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.BakedItemModel;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.PerspectiveMapWrapper;
-import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
@@ -39,7 +35,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.function.Function;
 
 /**
  *
@@ -47,7 +42,7 @@ import java.util.function.Function;
  *
  */
 @SideOnly(Side.CLIENT)
-public final class ModelTropicalFishBucketOverlay extends ModelEntityBucketOverlay
+public final class ModelTropicalFishBucketOverlay extends ModelFishBucketOverlay
 {
     @Nonnull public static final ResourceLocation MISSING = new ResourceLocation(Subaquatic.MODID, "items/fish_bucket_overlays/missing");
     @Nonnull public static final ModelTropicalFishBucketOverlay INSTANCE = new ModelTropicalFishBucketOverlay();
@@ -79,14 +74,19 @@ public final class ModelTropicalFishBucketOverlay extends ModelEntityBucketOverl
 
     @Nonnull
     @Override
-    public IBakedModel bake(@Nonnull final IModelState state, @Nonnull final VertexFormat format, @Nonnull final Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-        @Nonnull final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms = PerspectiveMapWrapper.getTransforms(state);
-        return new BakedItemModel(ImmutableList.of(), bakedTextureGetter.apply(TextureMap.LOCATION_MISSING_TEXTURE), transforms, new ItemOverrideList(ImmutableList.of()) {
+    public IModel process(@Nonnull final ImmutableMap<String, String> customData) {
+        return this;
+    }
+
+    @Nonnull
+    @Override
+    protected ItemOverrideList getOverrides(@Nonnull final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms) {
+        return new ItemOverrideList(ImmutableList.of()) {
             @Nonnull
             @Override
             public IBakedModel handleItemState(@Nonnull final IBakedModel originalModel, @Nonnull final ItemStack stack, @Nullable final World world, @Nullable final EntityLivingBase entity) {
                 if(stack.isEmpty()) return originalModel;
-                @Nullable final NBTTagCompound root = stack.getSubCompound(BucketableEntityRegistry.NBT_ROOT);
+                @Nullable final NBTTagCompound root = stack.getSubCompound(BucketableEntityBehavior.Util.NBT_KEY);
                 @Nonnull final CacheKeyBuilder builder = new CacheKeyBuilder(stack, true, root);
 
                 // Change textures based on tropical fish type.
@@ -99,9 +99,8 @@ public final class ModelTropicalFishBucketOverlay extends ModelEntityBucketOverl
                 }
 
                 return new BakedItemModel(builder.apply(layers), originalModel.getParticleTexture(), transforms, this, false);
-
             }
-        }, false);
+        };
     }
 
     public enum Loader implements ICustomModelLoader

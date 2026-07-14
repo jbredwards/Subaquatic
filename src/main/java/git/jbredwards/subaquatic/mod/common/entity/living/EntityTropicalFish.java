@@ -5,6 +5,7 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
+import git.jbredwards.ocean_api.api.entity.AbstractGroupFish;
 import git.jbredwards.subaquatic.mod.common.entity.util.TropicalFishData;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticDataSerializers;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticLootTables;
@@ -86,7 +87,11 @@ public class EntityTropicalFish extends AbstractGroupFish
 
     @Nonnull
     @Override
-    protected SoundEvent getFlopSound() { return SubaquaticSounds.ENTITY_TROPICAL_FISH_FLOP; }
+    public SoundEvent getFlopSound() { return SubaquaticSounds.ENTITY_TROPICAL_FISH_FLOP; }
+
+    @Nonnull
+    @Override
+    protected SoundEvent getSwimSound() { return SubaquaticSounds.ENTITY_FISH_SWIM; }
 
     @Nonnull
     @Override
@@ -101,19 +106,18 @@ public class EntityTropicalFish extends AbstractGroupFish
         if(livingdata instanceof GroupData) tropicalFishData = ((GroupData)livingdata).data;
         else {
             tropicalFishData = getRandomVariant();
-            livingdata = new GroupData(this, tropicalFishData);
+            livingdata = new GroupData(tropicalFishData);
         }
 
         setVariant(tropicalFishData);
         return livingdata;
     }
 
-    public static class GroupData extends AbstractGroupFish.GroupData
+    public class GroupData extends AbstractGroupFish.GroupData
     {
         @Nonnull
         public final TropicalFishData data;
-        public GroupData(@Nonnull AbstractGroupFish fishIn, @Nonnull TropicalFishData dataIn) {
-            super(fishIn);
+        public GroupData(@Nonnull TropicalFishData dataIn) {
             data = dataIn;
         }
     }

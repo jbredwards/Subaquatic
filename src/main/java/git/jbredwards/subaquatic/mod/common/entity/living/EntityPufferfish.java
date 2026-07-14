@@ -5,14 +5,14 @@
 
 package git.jbredwards.subaquatic.mod.common.entity.living;
 
-import git.jbredwards.subaquatic.api.entity.IWaterAnimals;
+import git.jbredwards.ocean_api.api.entity.AbstractFish;
 import git.jbredwards.subaquatic.mod.common.entity.ai.task.EntityAIPuff;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticLootTables;
 import git.jbredwards.subaquatic.mod.common.init.SubaquaticSounds;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityGuardian;
-import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
@@ -85,7 +85,7 @@ public class EntityPufferfish extends AbstractFish
 
     protected void updateSize(float size) { super.setSize(originalWidth * size, originalHeight * size); }
     public boolean canAttackEntity(@Nonnull EntityLivingBase entity) {
-        return (!(entity instanceof IWaterAnimals || entity instanceof EntityWaterMob || entity instanceof EntityGuardian)
+        return (!(entity.isCreatureType(EnumCreatureType.WATER_CREATURE, false) || entity instanceof EntityGuardian)
                 || ((EntityLiving)entity).getAttackTarget() == this)
                 && EntitySelectors.CAN_AI_TARGET.apply(entity);
     }
@@ -184,12 +184,13 @@ public class EntityPufferfish extends AbstractFish
 
     @Nonnull
     @Override
-    protected SoundEvent getFlopSound() { return SubaquaticSounds.ENTITY_PUFFERFISH_FLOP; }
+    public SoundEvent getFlopSound() { return SubaquaticSounds.ENTITY_PUFFERFISH_FLOP; }
+
+    @Nonnull
+    @Override
+    protected SoundEvent getSwimSound() { return SubaquaticSounds.ENTITY_FISH_SWIM; }
 
     @Nonnull
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource source) { return SubaquaticSounds.ENTITY_PUFFERFISH_HURT; }
-
-    @Override
-    public boolean hasNoGroup() { return true; }
 }

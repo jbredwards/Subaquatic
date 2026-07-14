@@ -12,7 +12,6 @@ import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.block.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.client.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.entity.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.item.*;
-import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.potion.*;
 import git.jbredwards.subaquatic.mod.asm.plugin.vanilla.world.*;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
@@ -35,13 +34,10 @@ public final class ASMHandler implements IFMLLoadingPlugin
     {
         public Transformer() {
             //forge
-            plugins.put("net.minecraftforge.fluids.FluidRegistry", new PluginFluidRegistry()); //Changes the water textures to allow for better coloring
-            plugins.put("net.minecraftforge.fluids.FluidUtil", new PluginFluidUtil()); //Place fish contained within bucket
             plugins.put("net.minecraftforge.fml.common.registry.VillagerRegistry", new PluginVillagerRegistry()); //Add IConditionalProfession functionality
             //modded
             plugins.put("appeng.api.implementations.items.IGrowableCrystal", new PluginNoItemBobbing()); //Crystal seeds don't bob at the surface
             plugins.put("biomesoplenty.common.entities.item.RenderBOPBoat", new PluginRenderBoat(false)); //Render bubble column boat rocking
-            plugins.put("biomesoplenty.common.handler.FogEventHandler", new PluginBiomesOPlenty()); //Don't change the underwater fog color while this mod is installed
             plugins.put("com.blamejared.clumps.proxy.ClientProxy", new PluginClumps()); //Remove Clumps mod XP orb render override
             plugins.put("com.blamejared.clumps.entities.EntityXPOrbBig", new PluginClumps()); //Clumps mod XP orbs float while in water
             plugins.put("com.fuzs.aquaacrobatics.block.BlockBubbleColumn", new PluginAquaAcrobatics()); //AA bubble columns implement IOxygenSupplier
@@ -74,20 +70,13 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalSword", new PluginNoItemBobbing()); //Crystal swords don't bob at the surface
             plugins.put("hellfirepvp.astralsorcery.common.item.tool.ItemCrystalToolBase", new PluginNoItemBobbing()); //Crystal tools don't bob at the surface
             plugins.put("hellfirepvp.astralsorcery.common.item.ItemCraftingComponent", new PluginAstralSorcery()); //Stardust don't bob at the surface
-            plugins.put("knightminer.inspirations.recipes.tileentity.TileCauldron", new PluginInspirations()); //Place fish contained within bucket
             plugins.put("mod.acgaming.extrasounds.mixin.TileEntityBeaconMixin", new PluginExtraSoundsLegacy()); //Remove duplicate mod functionality
             plugins.put("net.optifine.CustomColors", new PluginOptifine()); //Fix possible Optifine NPE with bubble particles
             plugins.put("org.orecruncher.dsurround.client.fx.particle.ParticleDripOverride", new PluginDynamicSurroundings()); //Water droplet particles keep the color set by this mod, and account for FluidStates when creating steam
-            plugins.put("org.orecruncher.lib.chunk.DirectChunkCache", new PluginOreLib(true)); //Allow OreLib's IBlockAccessEx to read FluidStates
-            plugins.put("org.orecruncher.lib.chunk.PassThroughChunkCache", new PluginOreLib(false)); //Allow OreLib's IBlockAccessEx to read FluidStates
-            plugins.put("thaumcraft.client.renderers.tile.TileCrucibleRenderer", new PluginThaumcraft()); //Use old water texture
-            plugins.put("thebetweenlands.common.world.biome.BiomeBetweenlands", new PluginBetweenlands()); //Preserve betweenlands biome colors
-            plugins.put("vazkii.botania.client.render.tile.RenderTileAltar", new PluginBotania()); //Water inside petal apothecaries have their biome colors applied
             plugins.put("vibrantjourneys.entities.renderer.RenderPVJBoat", new PluginRenderBoat(false)); //Render bubble column boat rocking
             //vanilla
             plugins.put("net.minecraft.block.Block", new PluginBlock()); //Remove hardcoded values for biome fog color
             plugins.put("net.minecraft.block.BlockBeacon", new PluginBlockBeacon()); //Destroying an active beacon block plays the deactivation sound
-            plugins.put("net.minecraft.block.BlockCauldron", new PluginBlockCauldron()); //Allows cauldrons to both have translucent water & to have water collision
             plugins.put("net.minecraft.block.BlockHugeMushroom", new PluginBlockHugeMushroom()); //Allow the huge mushroom item blocks to be more accessible & useful outside just commands
             plugins.put("net.minecraft.block.BlockLever", new PluginBlockLever()); //Add lever redstone particles
             plugins.put("net.minecraft.block.BlockPumpkin", new PluginBlockPumpkin()); //Allow pumpkins to be placed anywhere
@@ -100,7 +89,6 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("net.minecraft.client.renderer.entity.RenderBoat", new PluginRenderBoat(true)); //Render bubble column boat rocking
             plugins.put("net.minecraft.client.renderer.entity.RenderEntityItem", new PluginRenderEntityItem()); //Don't render item bobbing while in water
             //plugins.put("net.minecraft.client.renderer.EntityRenderer", new PluginEntityRenderer()); //Colors rain according to biome color
-            plugins.put("net.minecraft.client.renderer.ItemRenderer", new PluginItemRenderer()); //Apply biome colors to underwater overlay
             plugins.put("net.minecraft.client.Minecraft", new PluginMinecraft()); //Allow underwater music to be played
             plugins.put("net.minecraft.entity.item.EntityBoat", new PluginEntityBoat()); //Bubble columns rock boats
             plugins.put("net.minecraft.entity.item.EntityItem", new PluginEntityItem()); //Items float while in water
@@ -113,12 +101,9 @@ public final class ASMHandler implements IFMLLoadingPlugin
             plugins.put("net.minecraft.item.ItemExpBottle", new PluginItemExpBottle()); //Add new config option to toggle the exp bottle enchantment glint
             plugins.put("net.minecraft.item.ItemFishingRod", new PluginItemFishingRod()); //Transfer modded fishing rod enchantments to the fishing hook entity
             plugins.put("net.minecraft.item.ItemPotion", new PluginItemPotion()); //Add new config option to toggle the potion enchantment glint
-            plugins.put("net.minecraft.item.ItemStack", new PluginItemStack()); //Temporarily cache active player
-            plugins.put("net.minecraft.potion.PotionUtils", new PluginPotionUtils()); //Use new water fluid color
             plugins.put("net.minecraft.tileentity.TileEntityBeacon", new PluginTileEntityBeacon()); //Backport the vanilla 1.13+ beacon sounds
             plugins.put("net.minecraft.tileentity.TileEntityChest", new PluginTileEntityChest()); //Add bubble particles for chests when they open underwater
             plugins.put("net.minecraft.world.biome.Biome", new PluginBiome()); //Allow modded ocean biomes to have custom surface blocks
-            plugins.put("net.minecraft.world.biome.BiomeBeach", new PluginBiomeBeach()); //Generate sand instead of gravel below sea level
             plugins.put("net.minecraft.world.gen.feature.WorldGenBigTree", new PluginWorldGenBigTree()); //Fix bug where the block under tall trees is not converted to dirt
             plugins.put("net.minecraft.world.gen.feature.WorldGenPumpkin", new PluginWorldGenPumpkin()); //Generate non-carved pumpkins instead of carved ones
             plugins.put("net.minecraft.world.gen.feature.WorldGenShrub", new PluginWorldGenShrub()); //Fix bug where the block under the log of a shrub is not converted to dirt
