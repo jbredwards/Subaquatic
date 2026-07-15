@@ -73,6 +73,7 @@ import java.util.jar.JarFile;
  */
 @Mod(modid = Subaquatic.MODID, version = "1.2.1", useMetadata = true,
 updateJSON = "https://api.modrinth.com/updates/subaquatic/forge_updates.json",
+guiFactory = "git.jbredwards.subaquatic.mod.client.config.SubaquaticGuiFactory",
 dependencies = "required-after:fluidlogged_api@[3.3.0,);required-after:ocean_api;required-client:assetmover@[2.5,);")
 public final class Subaquatic
 {

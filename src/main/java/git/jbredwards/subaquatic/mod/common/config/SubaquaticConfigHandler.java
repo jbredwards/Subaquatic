@@ -5,12 +5,10 @@
 
 package git.jbredwards.subaquatic.mod.common.config;
 
-import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils;
 import git.jbredwards.subaquatic.mod.Subaquatic;
 import git.jbredwards.subaquatic.mod.common.config.util.ConfigUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -21,8 +19,6 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -31,7 +27,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -78,9 +73,6 @@ public final class SubaquaticConfigHandler
 
             @Config.LangKey("config.subaquatic.client.item.potionEnchantGlint")
             public static boolean potionEnchantGlint = false;
-
-            @Config.LangKey("config.subaquatic.client.item.translucentWaterBottles")
-            public static boolean translucentWaterBottles = true;
         }
 
         @Config.LangKey("config.subaquatic.client.particle")
@@ -124,9 +116,6 @@ public final class SubaquaticConfigHandler
         public static Block block;
         public static final class Block
         {
-            @Config.LangKey("config.subaquatic.common.block.cauldronFluidPhysics")
-            public static boolean cauldronFluidPhysics = true;
-
             @Config.LangKey("config.subaquatic.common.block.deadCoralBonemeal")
             public static boolean deadCoralBonemeal = true;
         }
@@ -158,10 +147,6 @@ public final class SubaquaticConfigHandler
 
             @Config.LangKey("config.subaquatic.common.item.compactFishingMending")
             public static boolean compactFishingMending = false;
-
-            @Nonnull
-            @Config.LangKey("config.subaquatic.common.item.fishBucketFluidBlacklist")
-            public static String[] fishBucketFluidBlacklist = new String[] {"biomesoplenty:honey","biomesoplenty:poison","biomesoplenty:sand"};
 
             @Config.LangKey("config.subaquatic.common.item.placeableNautilusShell")
             public static boolean placeableNautilusShell = true;
@@ -460,10 +445,6 @@ public final class SubaquaticConfigHandler
     @Config.Ignore
     public static final Set<IBlockState> BUBBLE_COLUMN_SOIL_UP = new HashSet<>();
 
-    @Nonnull
-    @Config.Ignore
-    public static final Set<Fluid> FISH_BUCKET_FLUID_BLACKLIST = new HashSet<>();
-
     //internal
     public static void init() {
         //downward bubble column source blocks
@@ -484,16 +465,6 @@ public final class SubaquaticConfigHandler
                 if(soil.getBlock() != Blocks.AIR) BUBBLE_COLUMN_SOIL_UP.add(soil);
             }
             catch(NBTException e) { e.printStackTrace(); }
-        }
-
-        //fish bucket fluid blacklist
-        FISH_BUCKET_FLUID_BLACKLIST.clear();
-        for(String id : Common.Item.fishBucketFluidBlacklist) {
-            @Nullable Fluid fluid = FluidloggedUtils.getFluidFromBlock(Block.getBlockFromName(id));
-            if(fluid == null) fluid = FluidRegistry.getFluid(id);
-
-            if(fluid != null && fluid.canBePlacedInWorld())
-                FISH_BUCKET_FLUID_BLACKLIST.add(fluid); //only add to the blacklist if the fluid would normally be able to hold fish
         }
 
         //sea pickle cluster gen weights
