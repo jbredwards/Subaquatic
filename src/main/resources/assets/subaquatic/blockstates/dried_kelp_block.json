@@ -1,34 +1,36 @@
 {
-    "forge_marker":1,
-    "defaults":{
-        "model":"cube_bottom_top",
-        "textures":{
-            "bottom":"subaquatic:blocks/dried_kelp_bottom",
-            "side":"subaquatic:blocks/dried_kelp_side",
-            "top":"subaquatic:blocks/dried_kelp_top"
-        }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_bottom_top"
     },
-    "variants":{
-        "axis=x":[
-            {
-                "x":90,
-                "y":90
+    "variants": {
+        "dried": {
+            "true": {
+                "textures": {
+                    "bottom": "subaquatic:blocks/dried_kelp_bottom",
+                    "side": "subaquatic:blocks/dried_kelp_side",
+                    "top": "subaquatic:blocks/dried_kelp_top"
+                }
+            },
+            "false": {
+                "textures": {
+                    "bottom": "subaquatic:blocks/raw_kelp_bottom",
+                    "side": "subaquatic:blocks/raw_kelp_side",
+                    "top": "subaquatic:blocks/raw_kelp_top"
+                }
             }
-        ],
-        "axis=y":[
-            {
-                
+        },
+        "axis": {
+            "x": {
+                "x": 90,
+                "y": 90
+            },
+            "y": {
+
+            },
+            "z": {
+                "x": 90
             }
-        ],
-        "axis=z":[
-            {
-                "x":90
-            }
-        ],
-        "inventory":[
-            {
-                
-            }
-        ]
+        }
     }
 }

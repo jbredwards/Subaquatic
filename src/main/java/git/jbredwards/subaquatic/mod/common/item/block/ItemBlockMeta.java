@@ -9,6 +9,7 @@ import git.jbredwards.subaquatic.mod.client.item.ICustomModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -64,8 +67,20 @@ public class ItemBlockMeta extends ItemBlock implements ICustomModel
     @Override
     public void registerModels() {
         for(int meta = 0; meta < variants.length; meta++) {
-            ModelLoader.setCustomModelResourceLocation(this, meta, new ModelResourceLocation(delegate.name(),
-                    String.format(hasUniqueModel ? "inventory:%s=%s" : "%s=%s", property, variants[meta])));
+            ModelLoader.setCustomModelResourceLocation(this, meta, new ModelResourceLocation(delegate.name(), getVariant(meta)));
         }
+    }
+
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    protected String getVariant(final int meta) {
+        if(hasUniqueModel) return String.format("inventory:%s=%s", property, variants[meta]);
+        else if(block.getBlockState().getProperties().size() <= 1) return String.format("%s=%s", property, variants[meta]);
+
+        @Nonnull final Map<IProperty<?>, Comparable<?>> properties = new HashMap<>(block.getDefaultState().getProperties());
+        @Nonnull final IProperty<?> stateProp = block.getBlockState().getProperty(property);
+
+        properties.put(stateProp, stateProp.parseValue(variants[meta]).orNull());
+        return new DefaultStateMapper().getPropertyString(properties);
     }
 }

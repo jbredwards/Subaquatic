@@ -48,9 +48,11 @@ final class SubaquaticRecipes
         registerCrafting(registry, "brown_mushroom_hyphae", new ShapedOreRecipe(null, new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 3, 2), "##", "##", '#', new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 1, 1)));
         registerCrafting(registry, "brown_mushroom_stem", new ShapedOreRecipe(null, new ItemStack(Blocks.BROWN_MUSHROOM_BLOCK, 1, 1), "##", "##", "##", '#', Blocks.BROWN_MUSHROOM));
         registerCrafting(registry, "crafting_table_minecart", new ShapedOreRecipe(null, SubaquaticItems.CRAFTING_TABLE_MINECART, "A", "B", 'A', Blocks.CRAFTING_TABLE, 'B', Items.MINECART));
-        registerCrafting(registry, "dried_kelp", new ShapelessOreRecipe(null, new ItemStack(SubaquaticItems.DRIED_KELP, 9), SubaquaticBlocks.DRIED_KELP_BLOCK));
+        registerCrafting(registry, "dried_kelp", new ShapelessOreRecipe(null, new ItemStack(SubaquaticItems.DRIED_KELP, 9), new ItemStack(SubaquaticItems.DRIED_KELP_BLOCK)));
         registerCrafting(registry, "dried_kelp_block", new ShapedOreRecipe(null, SubaquaticItems.DRIED_KELP_BLOCK, "###", "###", "###", '#', "foodDriedKelp"));
         registerCrafting(registry, "ender_chest_minecart", new ShapedOreRecipe(null, SubaquaticItems.ENDER_CHEST_MINECART, "A", "B", 'A', Blocks.ENDER_CHEST, 'B', Items.MINECART));
+        registerCrafting(registry, "kelp", new ShapelessOreRecipe(null, new ItemStack(SubaquaticItems.KELP, 9), new ItemStack(SubaquaticItems.DRIED_KELP_BLOCK, 1, 1)));
+        registerCrafting(registry, "kelp_block", new ShapedOreRecipe(null, new ItemStack(SubaquaticItems.DRIED_KELP_BLOCK, 1, 1), "###", "###", "###", '#', "cropKelp"));
         registerCrafting(registry, "muddy_mangrove_roots", new ShapelessOreRecipe(null, new ItemStack(SubaquaticItems.MANGROVE_ROOTS, 1, 1), SubaquaticItems.MUD, new ItemStack(SubaquaticItems.MANGROVE_ROOTS)));
         registerCrafting(registry, "packed_ice", new ShapedOreRecipe(null, Blocks.PACKED_ICE, "###", "###", "###", '#', Blocks.ICE));
         registerCrafting(registry, "packed_mud", new ShapelessOreRecipe(null, SubaquaticItems.PACKED_MUD, "mud", "cropWheat"));
@@ -112,12 +114,13 @@ final class SubaquaticRecipes
 
     @SubscribeEvent
     static void registerFuels(@Nonnull FurnaceFuelBurnTimeEvent event) {
-        if(event.getItemStack().getItem() == SubaquaticItems.DRIED_KELP_BLOCK) event.setBurnTime(4000);
+        if(event.getItemStack().getItem() == SubaquaticItems.DRIED_KELP_BLOCK && event.getItemStack().getMetadata() == 0) event.setBurnTime(4000);
     }
 
     static void registerSmelting() {
         GameRegistry.addSmelting(SubaquaticItems.COD, new ItemStack(SubaquaticItems.COOKED_COD), 0.35f);
         GameRegistry.addSmelting(SubaquaticItems.KELP, new ItemStack(SubaquaticItems.DRIED_KELP), 0.1f);
+        GameRegistry.addSmelting(new ItemStack(SubaquaticItems.DRIED_KELP_BLOCK, 1, 1), new ItemStack(SubaquaticItems.DRIED_KELP_BLOCK), 0.9f);
         GameRegistry.addSmelting(SubaquaticItems.SEA_PICKLE, new ItemStack(Items.DYE, 1, 10), 0.1f);
         GameRegistry.addSmelting(Blocks.LAPIS_BLOCK, new ItemStack(SubaquaticItems.SMOOTH_LAPIS_BLOCK, 1, 0), 0.1f);
         GameRegistry.addSmelting(Blocks.QUARTZ_BLOCK, new ItemStack(SubaquaticItems.SMOOTH_QUARTZ_BLOCK, 1, 0), 0.1f);

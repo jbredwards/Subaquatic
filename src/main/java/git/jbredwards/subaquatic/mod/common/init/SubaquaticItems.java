@@ -30,7 +30,7 @@ public final class SubaquaticItems
     @Nonnull public static final List<Item> INIT = new LinkedList<>();
 
     // Item blocks
-    @Nonnull public static final ItemBlock DRIED_KELP_BLOCK = register("dried_kelp_block", new ItemBlock(SubaquaticBlocks.DRIED_KELP_BLOCK));
+    @Nonnull public static final ItemBlock DRIED_KELP_BLOCK = register("dried_kelp_block", new ItemBlockMeta(SubaquaticBlocks.DRIED_KELP_BLOCK, false, BlockDriedKelp.DRIED));
     @Nonnull public static final ItemBlock BLUE_ICE = register("blue_ice", new ItemBlock(SubaquaticBlocks.BLUE_ICE));
     @Nonnull public static final ItemBlock PUMPKIN = register("pumpkin", new ItemBlock(SubaquaticBlocks.PUMPKIN));
 

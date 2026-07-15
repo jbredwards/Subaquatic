@@ -84,7 +84,6 @@ public final class SubaquaticBiomes
         OceanAPI.registerOceanMonumentSpawnBiome(DEEP_WARM_OCEAN);
         OceanAPI.registerOceanMonumentSpawnBiome(DEEP_LUKEWARM_OCEAN);
         OceanAPI.registerOceanMonumentSpawnBiome(DEEP_COLD_OCEAN);
-        OceanAPI.registerOceanMonumentSpawnBiome(DEEP_FROZEN_OCEAN);
         // Make beach biomes have a sand ocean floor.
         for(@Nonnull final Biome biome : Biome.REGISTRY) if(biome instanceof BiomeBeach) OceanAPI.setOceanFloorBlock(biome, biome.topBlock);
     }
